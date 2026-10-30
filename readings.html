@@ -2,8 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>الخريطة التفاعلية للجغرافيا الطبيعية - الصف الثالث الإعدادي</title>
+  <title>مركز المستكشف الرقمي - جامعة أسوان</title>
   
   <!-- خط القاهرة العربي الرسمي -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -68,47 +67,91 @@
 
   <!-- ==================== الهيدر والشعارات ==================== -->
   <header class="w-full bg-white border-b border-slate-100 shadow-sm sticky top-0 z-40">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-2 sm:gap-4">
       
-      <!-- شعار مديرية التربية والتعليم -->
-      <div class="flex items-center gap-3">
-        <div class="w-11 h-11 rounded-full border-2 border-emerald-500/30 bg-emerald-50/50 p-1 flex items-center justify-center shadow-xs">
-          <svg viewBox="0 0 100 100" class="w-9 h-9">
-            <circle cx="50" cy="50" r="46" fill="#F0FDF4" stroke="#059669" stroke-width="3" />
-            <circle cx="50" cy="40" r="14" fill="#F59E0B" />
-            <path d="M15 65 Q 32 58, 50 65 T 85 65" fill="none" stroke="#0284C7" stroke-width="4" />
-            <path d="M15 73 Q 32 66, 50 73 T 85 73" fill="none" stroke="#38BDF8" stroke-width="3" />
-            <path d="M48 38 L68 56 L48 56 Z" fill="#FFFFFF" stroke="#0F172A" stroke-width="1.5" />
-            <path d="M40 57 L62 57 L58 63 L44 63 Z" fill="#D97706" />
-          </svg>
+      <!-- اليمين: شعار كلية التربية وشعار جامعة أسوان -->
+      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+        <div class="flex items-center -space-x-2 sm:space-x-2 sm:space-x-reverse">
+          <!-- شعار جامعة أسوان -->
+          <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-amber-500/40 bg-sky-950 p-0.5 flex items-center justify-center shadow-md shrink-0">
+            <svg viewBox="0 0 100 100" class="w-full h-full">
+              <circle cx="50" cy="50" r="48" fill="#082f49" stroke="#f59e0b" stroke-width="2.5" />
+              <circle cx="50" cy="50" r="44" fill="#0c4a6e" stroke="#38bdf8" stroke-width="1" />
+              <circle cx="50" cy="30" r="11" fill="#fbbf24" />
+              <g stroke="#f59e0b" stroke-width="2" stroke-linecap="round">
+                <line x1="50" y1="13" x2="50" y2="17" />
+                <line x1="50" y1="43" x2="50" y2="47" />
+                <line x1="33" y1="30" x2="37" y2="30" />
+                <line x1="63" y1="30" x2="67" y2="30" />
+                <line x1="38" y1="18" x2="41" y2="21" />
+                <line x1="62" y1="42" x2="59" y2="39" />
+                <line x1="38" y1="42" x2="41" y2="39" />
+                <line x1="62" y1="18" x2="59" y2="21" />
+              </g>
+              <path d="M 50 18 L 53 24 L 47 24 Z" fill="#f59e0b" />
+              <path d="M 28 58 L 38 46 L 62 46 L 72 58 Z" fill="#334155" stroke="#94a3b8" stroke-width="1" />
+              <line x1="43" y1="48" x2="43" y2="57" stroke="#64748b" stroke-width="1" />
+              <line x1="50" y1="48" x2="50" y2="57" stroke="#64748b" stroke-width="1" />
+              <line x1="57" y1="48" x2="57" y2="57" stroke="#64748b" stroke-width="1" />
+              <path d="M 16 66 Q 33 60, 50 66 T 84 66 L 84 82 C 74 88, 26 88, 16 82 Z" fill="#0284c7" />
+              <path d="M 22 72 Q 36 66, 50 72 T 78 72" fill="none" stroke="#e0f2fe" stroke-width="2" stroke-linecap="round" />
+              <path d="M 32 76 Q 50 70, 50 80 Q 50 70, 68 76 L 68 83 Q 50 78, 50 87 Q 50 78, 32 83 Z" fill="#ffffff" stroke="#b45309" stroke-width="1.2" />
+            </svg>
+          </div>
+          <!-- شعار كلية التربية -->
+          <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-emerald-500/40 bg-emerald-950 p-0.5 flex items-center justify-center shadow-md shrink-0">
+            <svg viewBox="0 0 100 100" class="w-full h-full">
+              <circle cx="50" cy="50" r="48" fill="#064e3b" stroke="#f59e0b" stroke-width="2.5" />
+              <circle cx="50" cy="50" r="44" fill="#047857" stroke="#6ee7b7" stroke-width="1" />
+              <path d="M 22 55 C 20 36, 32 22, 50 22 C 68 22, 80 36, 78 55" fill="none" stroke="#a7f3d0" stroke-width="2.2" stroke-dasharray="3 3" />
+              <path d="M 45 42 L 55 42 L 53 66 L 47 66 Z" fill="#b45309" stroke="#78350f" stroke-width="1" />
+              <path d="M 43 42 L 57 42 L 54 38 L 46 38 Z" fill="#d97706" />
+              <path d="M 50 18 C 57 25, 59 31, 50 38 C 41 31, 43 25, 50 18 Z" fill="#ef4444" />
+              <path d="M 50 23 C 54 27, 55 31, 50 35 C 45 31, 46 27, 50 23 Z" fill="#fbbf24" />
+              <path d="M 26 62 Q 50 54, 50 67 Q 50 54, 74 62 L 74 79 Q 50 73, 50 85 Q 50 73, 26 79 Z" fill="#ffffff" stroke="#065f46" stroke-width="2" />
+              <line x1="50" y1="67" x2="50" y2="85" stroke="#065f46" stroke-width="2" />
+              <path d="M 32 68 L 44 66 M 32 72 L 44 70 M 56 66 L 68 68 M 56 70 L 68 72" stroke="#10b981" stroke-width="1.2" stroke-linecap="round" />
+            </svg>
+          </div>
         </div>
         <div class="hidden sm:block text-right">
-          <p class="text-[10px] font-bold text-slate-400 leading-tight">جمهورية مصر العربية</p>
-          <p class="text-xs font-extrabold text-slate-700">مديرية التربية والتعليم</p>
+          <p class="text-[11px] font-bold text-slate-400 leading-tight">جامعة أسوان</p>
+          <p class="text-xs font-black text-slate-800">كلية التربية</p>
         </div>
       </div>
 
-      <!-- العنوان الرئيسي للمنصة -->
-      <div class="text-center flex-1 mx-2">
+      <!-- المركز: مركز المستكشف الرقمي -->
+      <div class="text-center flex-1 px-1 sm:px-2">
         <h1 class="text-lg sm:text-2xl font-black text-slate-900 tracking-tight leading-tight">
           مركز المستكشف الرقمي
         </h1>
         <p class="text-blue-600 font-bold text-xs sm:text-sm mt-0.5">
-          الصف الثالث الإعدادي · الخريطة التفاعلية الذكية
+          جامعة أسوان · الخرائط التفاعلية الجغرافية والمناخية الذكية
         </p>
       </div>
 
-      <!-- شعار وزارة التربية والتعليم -->
-      <div class="flex items-center gap-3">
+      <!-- الشمال: شعار كلية التربية النوعية -->
+      <div class="flex items-center gap-2 sm:gap-3 shrink-0">
         <div class="hidden sm:block text-left">
-          <p class="text-[10px] font-bold text-slate-400 leading-tight">وزارة التربية والتعليم</p>
-          <p class="text-xs font-extrabold text-slate-700">مكتب مستشار الدراسات</p>
+          <p class="text-[11px] font-bold text-slate-400 leading-tight">جامعة أسوان</p>
+          <p class="text-xs font-black text-slate-800">كلية التربية النوعية</p>
         </div>
-        <div class="w-11 h-11 rounded-full border-2 border-amber-500/30 bg-amber-50/50 p-1 flex items-center justify-center shadow-xs">
-          <svg viewBox="0 0 100 100" class="w-9 h-9">
-            <circle cx="50" cy="50" r="46" fill="#FFFBEB" stroke="#D97706" stroke-width="3" />
-            <path d="M50 22 L55 35 L68 35 L58 43 L62 56 L50 48 L38 56 L42 43 L32 35 L45 35 Z" fill="#F59E0B" />
-            <path d="M30 62 Q 50 56, 50 68 Q 50 56, 70 62 L70 76 Q 50 70, 50 82 Q 50 70, 30 76 Z" fill="#FFFFFF" stroke="#B45309" stroke-width="2" />
+        <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-purple-500/40 bg-purple-950 p-0.5 flex items-center justify-center shadow-md shrink-0">
+          <svg viewBox="0 0 100 100" class="w-full h-full">
+            <circle cx="50" cy="50" r="48" fill="#3b0764" stroke="#f59e0b" stroke-width="2.5" />
+            <circle cx="50" cy="50" r="44" fill="#581c87" stroke="#c084fc" stroke-width="1" />
+            <path d="M 33 37 C 29 25, 57 23, 65 31 C 73 39, 71 55, 61 59 C 55 61, 53 53, 47 55 C 41 57, 43 65, 37 63 C 29 61, 27 45, 33 37 Z" fill="#faf5ff" stroke="#7e22ce" stroke-width="1.8" />
+            <circle cx="41" cy="32" r="3" fill="#ef4444" />
+            <circle cx="52" cy="29" r="3" fill="#3b82f6" />
+            <circle cx="62" cy="35" r="3" fill="#10b981" />
+            <circle cx="62" cy="45" r="3" fill="#f59e0b" />
+            <circle cx="43" cy="51" r="3.2" fill="#581c87" />
+            <rect x="35" y="65" width="30" height="19" rx="2.5" fill="#0f172a" stroke="#38bdf8" stroke-width="1.5" />
+            <rect x="38" y="68" width="24" height="13" rx="1" fill="#0284c7" />
+            <path d="M 40 77 L 44 73 L 48 75 L 53 71 L 58 74" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <line x1="50" y1="84" x2="50" y2="88" stroke="#94a3b8" stroke-width="2" />
+            <line x1="44" y1="88" x2="56" y2="88" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+            <path d="M 50 35 Q 53 31, 51 27 Q 49 23, 46 27 Q 44 32, 51 38 Q 54 41, 51 46 Q 48 50, 45 47" fill="none" stroke="#f59e0b" stroke-width="1.8" stroke-linecap="round" />
           </svg>
         </div>
       </div>
@@ -278,56 +321,8 @@
             <!-- طبقة مسارات دول وقارات العالم الواقعية -->
             <g id="earth-countries-layer"></g>
 
-          <!-- طبقة الأقاليم المناخية الـ 9 ملونة بألوان مستقلة -->
-          <g id="climates-overlay" opacity="0.65" class="hidden">
-            <!-- 1. الاستوائي وشبه الاستوائي (#15803D أخضر غابي) -->
-            <path d="M 270 290 Q 310 280, 340 310 Q 320 335, 270 320 Z" fill="#15803D" class="climate-zone" onmouseenter="showClimateTip('الإقليم الاستوائي وشبه الاستوائي', 'حوض الأمازون بأمريكا الجنوبية - حرارة ومطر طوال العام، غابات استوائية (مطاط وماهوجني)', '#15803D', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 500 280 Q 550 270, 560 315 Q 520 330, 490 300 Z" fill="#15803D" class="climate-zone" onmouseenter="showClimateTip('الإقليم الاستوائي وشبه الاستوائي', 'حوض الكونغو بإفريقيا - حرارة ومطر طوال العام، غابات استوائية كثيفة وزواحف وقرود', '#15803D', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 730 295 Q 780 290, 810 315 Q 770 330, 725 310 Z" fill="#15803D" class="climate-zone" onmouseenter="showClimateTip('الإقليم الاستوائي وشبه الاستوائي', 'جزر إندونيسيا بآسيا - غابات استوائية ممطرة طوال العام على خط الاستواء', '#15803D', event)" onmouseleave="hideClimateTip()"/>
-
-            <!-- 2. المداري الحار السوداني (#EA580C برتقالي ساطع) -->
-            <path d="M 260 260 Q 330 250, 360 275 Q 330 285, 260 275 Z" fill="#EA580C" class="climate-zone" onmouseenter="showClimateTip('الإقليم المداري الحار (السوداني)', 'شمال وجنوب حوض الأمازون - صيف حار ممطر وشتاء جاف، حشائش السافانا', '#EA580C', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 270 330 Q 340 325, 365 350 Q 310 365, 270 345 Z" fill="#EA580C" class="climate-zone" onmouseenter="showClimateTip('الإقليم المداري الحار (السوداني)', 'هضبة البرازيل وجنوب الأمازون - صيف حار ممطر وشتاء جاف وحشائش السافانا', '#EA580C', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 460 255 Q 550 250, 570 270 Q 510 280, 460 270 Z" fill="#EA580C" class="climate-zone" onmouseenter="showClimateTip('الإقليم المداري الحار (السوداني)', 'نطاق السافانا الإفريقي شمال الكونغو - صيف حار ممطر وشتاء جاف', '#EA580C', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 480 325 Q 560 320, 575 350 Q 510 360, 480 340 Z" fill="#EA580C" class="climate-zone" onmouseenter="showClimateTip('الإقليم المداري الحار (السوداني)', 'جنوب حوض الكونغو بإفريقيا - حشائش السافانا المتدرجة وحديقة حيوان طبيعية', '#EA580C', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 740 325 Q 800 315, 835 335 Q 790 350, 740 340 Z" fill="#EA580C" class="climate-zone" onmouseenter="showClimateTip('الإقليم المداري الحار (السوداني)', 'شمال قارة أستراليا - صيف حار ممطر وشتاء جاف', '#EA580C', event)" onmouseleave="hideClimateTip()"/>
-
-            <!-- 3. الموسمي (#9333EA بنفسجي أرجواني) -->
-            <path d="M 645 230 Q 720 220, 750 270 Q 700 290, 650 260 Z" fill="#9333EA" class="climate-zone" onmouseenter="showClimateTip('الإقليم الموسمي', 'شبه القارة الهندية وشبه جزيرة الهند الصينية - أمطار صيفية غزيرة وجفاف شتاءً، أشجار جوز الهند', '#9333EA', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 550 265 Q 580 255, 585 290 Q 560 300, 550 280 Z" fill="#9333EA" class="climate-zone" onmouseenter="showClimateTip('الإقليم الموسمي', 'هضبة إثيوبيا بإفريقيا - أمطار صيفية غزيرة تغذي نهر النيل الموسمي بنسبة 84%', '#9333EA', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 585 340 Q 605 330, 605 380 Q 585 385, 580 355 Z" fill="#9333EA" class="climate-zone" onmouseenter="showClimateTip('الإقليم الموسمي', 'جزيرة مدغشقر بإفريقيا - أمطار صيفية غزيرة وأشجار جوز الهند والسافانا', '#9333EA', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 760 315 Q 815 310, 830 328 Q 785 335, 760 325 Z" fill="#9333EA" class="climate-zone" onmouseenter="showClimateTip('الإقليم الموسمي', 'أقصى شمال أستراليا - أمطار صيفية غزيرة وتنمو به حشائش السافانا', '#9333EA', event)" onmouseleave="hideClimateTip()"/>
-
-            <!-- 4. البحر المتوسط (#0284C7 أزرق سماوي ناصع) -->
-            <path d="M 450 185 Q 530 180, 560 205 Q 510 220, 450 200 Z" fill="#0284C7" class="climate-zone" onmouseenter="showClimateTip('إقليم البحر المتوسط (غرب القارات 30°-45°)', 'سواحل شمال إفريقيا وجنوب أوروبا والشام - حار جاف صيفاً، دافئ ممطر شتاءً. أشجار الزيتون والاستبس', '#0284C7', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 185 195 Q 210 190, 215 225 Q 195 230, 185 205 Z" fill="#0284C7" class="climate-zone" onmouseenter="showClimateTip('إقليم البحر المتوسط (غرب القارات 30°-45°)', 'ولاية كاليفورنيا بالولايات المتحدة - حار جاف صيفاً دافئ ممطر شتاءً، حشائش البراري', '#0284C7', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 268 360 Q 285 355, 285 390 Q 268 395, 265 370 Z" fill="#0284C7" class="climate-zone" onmouseenter="showClimateTip('إقليم البحر المتوسط (غرب القارات 30°-45°)', 'الساحل الأوسط في تشيلي بأمريكا الجنوبية - حار جاف صيفاً دافئ ممطر شتاءً وأشجار الزيتون', '#0284C7', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 505 385 Q 535 380, 535 410 Q 505 410, 500 395 Z" fill="#0284C7" class="climate-zone" onmouseenter="showClimateTip('إقليم البحر المتوسط (غرب القارات 30°-45°)', 'جنوب غرب وجنوب إفريقيا - دافئ ممطر شتاءً وحار جاف صيفاً', '#0284C7', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 720 380 Q 750 375, 750 405 Q 720 405, 715 390 Z" fill="#0284C7" class="climate-zone" onmouseenter="showClimateTip('إقليم البحر المتوسط (غرب القارات 30°-45°)', 'جنوب غرب وجنوب أستراليا - حار جاف صيفاً دافئ ممطر شتاءً', '#0284C7', event)" onmouseleave="hideClimateTip()"/>
-
-            <!-- 5. الصيني المعتدل الدافئ (#0D9488 تركواز زمردي) -->
-            <path d="M 720 205 Q 770 200, 780 245 Q 730 250, 715 220 Z" fill="#0D9488" class="climate-zone" onmouseenter="showClimateTip('الإقليم الصيني (المعتدل الدافئ شرق القارات 30°-45°)', 'شرق الصين بآسيا - حار صيفاً دافئ شتاءً، أمطار طوال العام تزداد صيفاً، وعواصف التيفون وأشجار الصفصاف والبلوط', '#0D9488', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 235 210 Q 280 205, 285 240 Q 240 245, 230 225 Z" fill="#0D9488" class="climate-zone" onmouseenter="showClimateTip('الإقليم الصيني (المعتدل الدافئ شرق القارات 30°-45°)', 'جنوب شرق الولايات المتحدة الأمريكية - أمطار طوال العام تزداد صيفاً، أشجار دائمة الخضرة', '#0D9488', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 315 350 Q 355 345, 360 385 Q 320 390, 310 365 Z" fill="#0D9488" class="climate-zone" onmouseenter="showClimateTip('الإقليم الصيني (المعتدل الدافئ شرق القارات 30°-45°)', 'جنوب شرق البرازيل والأرجنتين (البمباس) - أمطار طوال العام وحشائش الاستبس الغنية بالرعي', '#0D9488', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 800 375 Q 835 370, 840 405 Q 805 410, 795 385 Z" fill="#0D9488" class="climate-zone" onmouseenter="showClimateTip('الإقليم الصيني (المعتدل الدافئ شرق القارات 30°-45°)', 'جنوب شرق أستراليا - أمطار طوال العام تزداد صيفاً وأشجار دائمة الخضرة', '#0D9488', event)" onmouseleave="hideClimateTip()"/>
-
-            <!-- 6. غرب أوروبا (#4338CA كحلي نيلي عميق) -->
-            <path d="M 455 120 Q 520 110, 525 165 Q 460 170, 450 140 Z" fill="#4338CA" class="climate-zone" onmouseenter="showClimateTip('إقليم غرب أوروبا (غرب القارات 45°-60°)', 'شمال غرب أوروبا (بريطانيا وفرنسا والنرويج) - دافئ صيفاً بارد شتاءً، أمطار طوال العام تزداد شتاءً وخريفاً، غابات نفضية (الزان)', '#4338CA', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 155 130 Q 195 125, 200 170 Q 160 175, 150 145 Z" fill="#4338CA" class="climate-zone" onmouseenter="showClimateTip('إقليم غرب أوروبا (غرب القارات 45°-60°)', 'أقصى شمال غرب أمريكا الشمالية - أمطار طوال العام وتنمو به الغابات النفضية', '#4338CA', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 265 410 Q 285 405, 285 450 Q 265 455, 260 425 Z" fill="#4338CA" class="climate-zone" onmouseenter="showClimateTip('إقليم غرب أوروبا (غرب القارات 45°-60°)', 'أقصى جنوب غرب تشيلي - بارد رطب طوال العام وأشجار الزان النفضية', '#4338CA', event)" onmouseleave="hideClimateTip()"/>
-
-            <!-- 7. اللورنسي المعتدل البارد (#C026D3 ماجنتا فوشيا) -->
-            <path d="M 725 150 Q 790 145, 810 195 Q 745 200, 720 175 Z" fill="#C026D3" class="climate-zone" onmouseenter="showClimateTip('الإقليم اللورنسي (المعتدل البارد شرق القارات 45°-60°)', 'شمال شرق الصين وشمال اليابان - معتدل صيفاً بارد شتاءً، أمطار طوال العام تزداد صيفاً، غابات مخروطية (صنوبر وشربين والدب القطبي)', '#C026D3', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 265 145 Q 330 140, 340 190 Q 275 195, 255 170 Z" fill="#C026D3" class="climate-zone" onmouseenter="showClimateTip('الإقليم اللورنسي (المعتدل البارد شرق القارات 45°-60°)', 'شمال شرق أمريكا الشمالية وهضبة لبرادور - أمطار صيفية وثلوج شتاءً وغابات مخروطية وحيوان الدب القطبي', '#C026D3', event)" onmouseleave="hideClimateTip()"/>
-
-            <!-- 8. إقليم التندرا شديد البرودة (#38BDF8 أزرق جليدي فاتح) -->
-            <rect x="70" y="45" width="860" height="40" rx="6" fill="#38BDF8" class="climate-zone" onmouseenter="showClimateTip('إقليم التندرا (القطبي شديد البرودة 60°-90°)', 'سواحل شمال آسيا (سيبيريا) وشمال كندا وألاسكا وغرينلاند وأنتاركتيكا - صيف قصير بارد قليل المطر، شتاء طويل شديد البرودة تتساقط فيه الثلوج، طحالب سريعة وحيوان الرنة', '#38BDF8', event)" onmouseleave="hideClimateTip()"/>
-
-            <!-- 9. الإقليم الجبلي (#78350F بني قمم كستنائي) -->
-            <path d="M 660 215 Q 710 210, 725 225 Q 685 235, 655 225 Z" fill="#78350F" class="climate-zone" onmouseenter="showClimateTip('الإقليم الجبلي (المرتفعات الشاهقة)', 'سلاسل جبال الهيمالايا بآسيا - شديد البرودة وتغطي قممه الثلوج طوال العام وتتنوع الحياة النباتية حسب الارتفاع والمطر', '#78350F', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 255 270 Q 268 265, 275 430 Q 260 435, 250 290 Z" fill="#78350F" class="climate-zone" onmouseenter="showClimateTip('الإقليم الجبلي (المرتفعات الشاهقة)', 'سلاسل جبال الأنديز بأمريكا الجنوبية - قمم مغطاة بالثلوج وتنوع مناخي نباتي حسب الارتفاع', '#78350F', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 180 135 Q 195 130, 205 210 Q 185 215, 175 150 Z" fill="#78350F" class="climate-zone" onmouseenter="showClimateTip('الإقليم الجبلي (المرتفعات الشاهقة)', 'سلاسل جبال الروكي بأمريكا الشمالية - مغطاة بالجليد شتاءً وتتنوع نباتاتها حسب الارتفاع', '#78350F', event)" onmouseleave="hideClimateTip()"/>
-          </g>
+            <!-- طبقة الأقاليم المناخية الـ 9 ملونة بألوان واقعية واحترافية تسير على تضاريس القارات -->
+            <g id="climates-overlay" class="hidden transition-all duration-300"></g>
 
           <!-- مسارات الأنهار الكبرى الدقيقة جغرافياً (تظهر فقط في قسم الأنهار) -->
           <g id="rivers-layer" opacity="0.95" class="hidden pointer-events-none"></g>
@@ -368,25 +363,17 @@
 
       </div>
 
-      <!-- ================= مفتاح الأقاليم المناخية الـ 9 الملون ================= -->
-      <div id="climates-legend-bar" class="hidden bg-emerald-50/70 border-t border-emerald-200/80 px-6 py-3.5">
-        <div class="flex items-center justify-between mb-2">
+      <!-- ================= مفتاح الأقاليم المناخية الـ 9 الملون التفاعلي ================= -->
+      <div id="climates-legend-bar" class="hidden bg-emerald-50/70 border-t border-emerald-200/80 px-4 sm:px-6 py-3.5">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-2.5">
           <h4 class="text-xs font-black text-emerald-950 flex items-center gap-1.5">
-            <span>🌦️</span> <span>مفتاح ألوان الأقاليم المناخية المقررة بالشهادة الإعدادية (9 أقاليم مختلفة الألوان):</span>
+            <span>🌦️</span> <span>مفتاح ألوان الأقاليم المناخية الـ 9 المقررة (اضغط على أي إقليم لعزله واكتشافه):</span>
           </h4>
-          <span class="text-[11px] text-emerald-700 font-bold bg-white px-2 py-0.5 rounded border border-emerald-200">مرر الماوس على أي إقليم ملون لمعرفة خصائصه</span>
+          <button id="btn-clear-climate" onclick="clearSelectedClimate()" class="hidden text-[11px] text-blue-700 font-bold bg-white px-2.5 py-0.5 rounded-md border border-blue-300 hover:bg-blue-50 transition-colors">
+            إعادة إظهار جميع الأقاليم ✕
+          </button>
         </div>
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 text-[11px] font-bold text-slate-700">
-          <div class="flex items-center gap-1.5 p-1 rounded bg-white/80 border border-emerald-100"><span class="w-3.5 h-3.5 rounded shrink-0 bg-[#15803D]"></span><span>الاستوائي (غابات مطيرة)</span></div>
-          <div class="flex items-center gap-1.5 p-1 rounded bg-white/80 border border-orange-100"><span class="w-3.5 h-3.5 rounded shrink-0 bg-[#EA580C]"></span><span>المداري الحار (السوداني)</span></div>
-          <div class="flex items-center gap-1.5 p-1 rounded bg-white/80 border border-purple-100"><span class="w-3.5 h-3.5 rounded shrink-0 bg-[#9333EA]"></span><span>الموسمي (أمطار صيفية)</span></div>
-          <div class="flex items-center gap-1.5 p-1 rounded bg-white/80 border border-sky-100"><span class="w-3.5 h-3.5 rounded shrink-0 bg-[#0284C7]"></span><span>البحر المتوسط (غرب القارات)</span></div>
-          <div class="flex items-center gap-1.5 p-1 rounded bg-white/80 border border-teal-100"><span class="w-3.5 h-3.5 rounded shrink-0 bg-[#0D9488]"></span><span>الصيني (شرق القارات)</span></div>
-          <div class="flex items-center gap-1.5 p-1 rounded bg-white/80 border border-indigo-100"><span class="w-3.5 h-3.5 rounded shrink-0 bg-[#4338CA]"></span><span>غرب أوروبا (غابات نفضية)</span></div>
-          <div class="flex items-center gap-1.5 p-1 rounded bg-white/80 border border-pink-100"><span class="w-3.5 h-3.5 rounded shrink-0 bg-[#C026D3]"></span><span>اللورنسي (غابات مخروطية)</span></div>
-          <div class="flex items-center gap-1.5 p-1 rounded bg-white/80 border border-cyan-100"><span class="w-3.5 h-3.5 rounded shrink-0 bg-[#38BDF8]"></span><span>التندرا (شديد البرودة)</span></div>
-          <div class="flex items-center gap-1.5 p-1 rounded bg-white/80 border border-amber-900/20"><span class="w-3.5 h-3.5 rounded shrink-0 bg-[#78350F]"></span><span>الجبلي (قمم جليدية دائماً)</span></div>
-        </div>
+        <div id="climates-buttons-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 text-[11px] font-bold"></div>
       </div>
 
       <!-- ================= شريط الإرشادات والمفتاح ================= -->
@@ -434,6 +421,71 @@
       </div>
 
       <p id="card-country-desc" class="text-sm font-semibold text-slate-700 leading-relaxed"></p>
+    </div>
+
+    <!-- ==================== بطاقة استكشاف الإقليم المناخي التفصيلية ==================== -->
+    <div id="climate-detail-card" class="hidden bg-white rounded-[26px] border-2 border-emerald-500 shadow-md p-6 sm:p-8 space-y-5 animate-fadeIn">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+        <div class="flex items-center gap-3">
+          <span id="card-clim-dot" class="w-5 h-5 rounded-lg shadow-sm shrink-0"></span>
+          <div>
+            <div class="flex items-center gap-2 mb-0.5">
+              <span id="card-clim-group" class="px-2.5 py-0.5 rounded-full text-xs font-black bg-emerald-100 text-emerald-800"></span>
+              <span id="card-clim-lat" class="text-xs font-bold text-slate-500"></span>
+            </div>
+            <h3 id="card-clim-name" class="text-2xl font-black text-slate-900 tracking-tight"></h3>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="clearSelectedClimate()" class="text-xs font-bold px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-600 transition-colors">
+            عرض جميع الأقاليم ✕
+          </button>
+          <button onclick="readClimateAloud()" class="text-xs font-bold px-3 py-1.5 rounded-xl border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 flex items-center gap-1.5 transition-colors">
+            <span>🔊 استمع للشرح</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-medium">
+        <div class="p-3.5 rounded-2xl bg-slate-50 border border-slate-100 space-y-1.5">
+          <span class="font-black text-slate-900 block flex items-center gap-1.5 text-sm">
+            <span>🌍</span> <span>التوزيع الجغرافي بالقارات:</span>
+          </span>
+          <p id="card-clim-locations" class="text-slate-600 leading-relaxed font-semibold"></p>
+        </div>
+
+        <div class="p-3.5 rounded-2xl bg-amber-50/50 border border-amber-100 space-y-1.5">
+          <span class="font-black text-amber-950 block flex items-center gap-1.5 text-sm">
+            <span>☀️</span> <span>الخصائص المناخية (الحرارة والمطر):</span>
+          </span>
+          <p class="text-slate-700 leading-relaxed font-semibold">
+            <strong>الحرارة:</strong> <span id="card-clim-temp"></span>
+          </p>
+          <p class="text-slate-700 leading-relaxed font-semibold">
+            <strong>الأمطار:</strong> <span id="card-clim-rain"></span>
+          </p>
+        </div>
+
+        <div class="p-3.5 rounded-2xl bg-emerald-50/50 border border-emerald-100 space-y-1.5">
+          <span class="font-black text-emerald-950 block flex items-center gap-1.5 text-sm">
+            <span>🌿</span> <span>النبات الطبيعي والحيوانات:</span>
+          </span>
+          <p class="text-slate-700 leading-relaxed font-semibold">
+            <strong>النبات والأشجار:</strong> <span id="card-clim-flora"></span>
+          </p>
+          <p class="text-slate-700 leading-relaxed font-semibold">
+            <strong>الحيوانات:</strong> <span id="card-clim-fauna"></span>
+          </p>
+        </div>
+      </div>
+
+      <div class="p-3.5 rounded-2xl bg-blue-50/80 border border-blue-200/90 flex items-start gap-3 text-xs font-bold text-blue-950">
+        <span class="text-base">💡</span>
+        <div>
+          <span class="font-black text-blue-900 block mb-0.5">ملاحظة امتحانية وتوجيه للمذاكرة:</span>
+          <span id="card-clim-exam" class="font-semibold text-blue-900/90 leading-relaxed"></span>
+        </div>
+      </div>
     </div>
 
     <!-- بطاقة تفاصيل المعلم الجغرافي المحدد -->
@@ -560,8 +612,9 @@
 
   <!-- ==================== الفوتر ==================== -->
   <footer class="bg-white border-t border-slate-200 mt-12 py-8 text-center text-xs font-semibold text-slate-500 space-y-1">
-    <p>منصة مركز تعلم الدراسات الاجتماعية · الصف الثالث الإعدادي</p>
-    <p class="text-[11px] text-slate-400">تصميم خرائط كارتوغرافية تفاعلية واقعية متوافقة مع منهج وزارة التربية والتعليم المصرية</p>
+    <p class="font-extrabold text-slate-800 text-sm">مركز المستكشف الرقمي · جامعة أسوان</p>
+    <p class="text-xs text-slate-500">كلية التربية · كلية التربية النوعية — الخرائط الجغرافية والمناخية التفاعلية</p>
+    <p class="text-[11px] text-slate-400">جميع الحقوق محفوظة © جامعة أسوان</p>
   </footer>
 
   <!-- ==================== كود الجافاسكريبت والبيانات الكاملة ==================== -->
