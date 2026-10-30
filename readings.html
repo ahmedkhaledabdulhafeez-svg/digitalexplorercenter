@@ -3,16 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>الخرائط التفاعلية للجغرافيا - الصف الثالث الإعدادي</title>
+  <title>الخريطة التفاعلية للجغرافيا - الصف الثالث الإعدادي</title>
   
   <!-- خط القاهرة العربي الرسمي -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   
-  <!-- مكتبات التصميم والتفاعل المباشرة -->
+  <!-- مكتبات التصميم والكارتوغرافيا الواقعية -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://unpkg.com/topojson-client@3"></script>
 
   <style>
     body {
@@ -21,23 +22,15 @@
     }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    @keyframes pulsePin {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-    }
-    .pin-active {
-      animation: pulsePin 1.5s infinite;
-    }
     @media print {
       body { background: white !important; }
-      header, nav, .no-print, button { display: none !important; }
-      .print-only { display: block !important; }
+      header, nav, button, .no-print { display: none !important; }
     }
   </style>
 </head>
 <body class="text-slate-800 antialiased selection:bg-blue-600 selection:text-white">
 
-  <!-- ==================== الهيدر العلوي وشعارات المنصة ==================== -->
+  <!-- ==================== الهيدر العلوي والشعارات ==================== -->
   <header class="w-full bg-white border-b border-slate-100 shadow-sm sticky top-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
       
@@ -65,7 +58,7 @@
           مركز تعلم الدراسات الاجتماعية
         </h1>
         <p class="text-blue-600 font-bold text-xs sm:text-sm mt-0.5">
-          الصف الثالث الإعدادي · الخرائط التفاعلية للجغرافيا
+          الصف الثالث الإعدادي · الخريطة التفاعلية للجغرافيا الطبيعية
         </p>
       </div>
 
@@ -86,21 +79,18 @@
 
     </div>
 
-    <!-- شريط التنقل الفرعي -->
+    <!-- شريط التنقل السريع -->
     <div class="bg-slate-50 border-t border-slate-200/70 px-4 sm:px-6 lg:px-8">
       <div class="max-w-7xl mx-auto flex items-center justify-between py-2 overflow-x-auto no-scrollbar gap-2 sm:gap-4">
         <nav class="flex items-center gap-2 shrink-0 text-xs sm:text-sm font-bold">
           <a href="#map-section" class="px-3.5 py-1.5 rounded-lg bg-blue-600 text-white shadow-xs">
-            🗺️ خريطة العالم التفاعلية
+            🗺️ الخريطة التفاعلية
           </a>
           <a href="#continents-section" class="px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-200/60 transition-colors">
             🏔️ تضاريس القارات
           </a>
           <a href="#climates-section" class="px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-200/60 transition-colors">
             🌦️ الأقاليم المناخية
-          </a>
-          <a href="#quiz-section" class="px-3.5 py-1.5 rounded-lg text-emerald-700 bg-emerald-50 hover:bg-emerald-100 transition-colors">
-            🎯 اختبر معلوماتك
           </a>
         </nav>
         <button onclick="window.print()" class="px-3 py-1.5 text-xs font-semibold text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors whitespace-nowrap">
@@ -111,7 +101,7 @@
   </header>
 
   <!-- ==================== المحتوى الرئيسي ==================== -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-10">
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8">
 
     <!-- البانر الترحيبي (Hero Banner) -->
     <section class="relative overflow-hidden rounded-[26px] bg-gradient-to-r from-[#1c194e] via-[#272368] to-[#1c194e] text-white shadow-xl p-6 sm:p-10 flex flex-col-reverse lg:flex-row items-center justify-between gap-8 border border-indigo-900/40">
@@ -132,17 +122,17 @@
       <!-- نصوص البانر وشريط البحث -->
       <div class="flex-1 text-center lg:text-right space-y-3 max-w-2xl">
         <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-semibold text-indigo-100">
-          <span>🚀 منصة تعليمية تفاعلية</span>
+          <span>🚀 الخريطة الجغرافية الطبيعية الرسمية</span>
         </div>
         <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight">
           اكتشف العالم من حولك <br class="hidden sm:inline">
-          <span class="text-transparent bg-clip-text bg-gradient-to-l from-sky-300 to-white">بطريقة مبتكرة!</span>
+          <span class="text-transparent bg-clip-text bg-gradient-to-l from-sky-300 to-white">بدقة واقعية واحترافية!</span>
         </h2>
         <p class="text-indigo-100/90 text-xs sm:text-sm leading-relaxed font-normal">
-          تعلم الجغرافيا بطريقة ممتعة: استكشف تضاريس القارات، الجبال، الهضاب، الأنهار، والمضايق والأقاليم المناخية المقررة على الصف الثالث الإعدادي مع أسئلة الامتحانات الرسمية.
+          خريطة جغرافية مرسومة بإسقاط ناتشورال إيرث الواقعي الحقيقي (Natural Earth): استكشف تضاريس القارات، الجبال، الهضاب، الأنهار، والمضايق والأقاليم المناخية المقررة على الصف الثالث الإعدادي.
         </p>
 
-        <!-- بحث سريع -->
+        <!-- بحث فوري -->
         <div class="pt-2">
           <input
             type="text"
@@ -155,100 +145,65 @@
       </div>
     </section>
 
-    <!-- البطاقتان الرئيسيتان المأخوذتان من الموقع الأصلي -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-      <div class="bg-white rounded-[26px] p-6 border border-slate-200/80 shadow-sm flex flex-col justify-between">
-        <div>
-          <div class="flex items-center justify-between mb-4">
-            <span class="text-xs font-bold px-3 py-1 rounded-full bg-blue-50 text-blue-700">قسم الجغرافيا</span>
-            <div class="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl">🌍</div>
-          </div>
-          <h3 class="text-xl font-black text-slate-900 mb-2">قارات العالم</h3>
-          <p class="text-xs sm:text-sm font-semibold text-slate-500 leading-relaxed mb-4">
-            تعرف على القارات ومواقعها الجغرافية والتضاريس والمناخ من خلال الخرائط والشروحات التفاعلية.
-          </p>
-        </div>
-        <a href="#continents-section" class="text-xs font-extrabold text-blue-700 hover:text-blue-900 pt-3 border-t border-slate-100 flex items-center gap-1">
-          <span>دخول قسم الجغرافيا</span>
-          <span>←</span>
-        </a>
-      </div>
-
-      <div class="bg-white rounded-[26px] p-6 border-2 border-emerald-500/20 shadow-sm flex flex-col justify-between relative overflow-hidden">
-        <div class="absolute top-0 left-0 w-2 h-full bg-emerald-500"></div>
-        <div>
-          <div class="flex items-center justify-between mb-4">
-            <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700">خرائط تفاعلية</span>
-            <div class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl">🗺️</div>
-          </div>
-          <h3 class="text-xl font-black text-emerald-950 mb-2">الخرائط الجغرافية الذكية</h3>
-          <p class="text-xs sm:text-sm font-semibold text-slate-500 leading-relaxed mb-4">
-            استكشف الخرائط الرقمية والتفاعلية لمعرفة مواقع القارات والتضاريس والدول بطريقة مرئية ممتعة.
-          </p>
-        </div>
-        <a href="#map-section" class="text-xs font-extrabold text-emerald-700 hover:text-emerald-900 pt-3 border-t border-slate-100 flex items-center gap-2">
-          <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs">←</span>
-          <span>استكشف الخرائط التفاعلية</span>
-        </a>
-      </div>
-    </div>
-
-    <!-- ==================== خريطة العالم التفاعلية ==================== -->
-    <section id="map-section" class="bg-white rounded-3xl border border-slate-200 shadow-md overflow-hidden scroll-mt-24">
+    <!-- ==================== الخريطة التفاعلية الواقعية ==================== -->
+    <section id="map-section" class="bg-white rounded-3xl border border-slate-200 shadow-lg overflow-hidden scroll-mt-24 space-y-0">
       
-      <!-- أزرار القارات والمرشحات -->
+      <!-- شريط تحكم الخريطة -->
       <div class="bg-slate-50 p-4 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3">
-        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
-          <button onclick="filterContinent('all')" id="tab-all" class="continent-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white">العالم كاملاً</button>
-          <button onclick="filterContinent('asia')" id="tab-asia" class="continent-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200">آسيا</button>
-          <button onclick="filterContinent('africa')" id="tab-africa" class="continent-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200">أفريقيا</button>
-          <button onclick="filterContinent('europe')" id="tab-europe" class="continent-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200">أوروبا</button>
-          <button onclick="filterContinent('north_america')" id="tab-north_america" class="continent-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200">أمريكا الشمالية</button>
-          <button onclick="filterContinent('south_america')" id="tab-south_america" class="continent-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200">أمريكا الجنوبية</button>
-          <button onclick="filterContinent('australia')" id="tab-australia" class="continent-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200">أستراليا</button>
+        <!-- أزرار القارات -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 no-scrollbar">
+          <button onclick="setContinent('all')" id="btn-all" class="cont-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-xs">🌍 خريطة العالم كاملاً</button>
+          <button onclick="setContinent('asia')" id="btn-asia" class="cont-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200">آسيا</button>
+          <button onclick="setContinent('africa')" id="btn-africa" class="cont-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200">أفريقيا</button>
+          <button onclick="setContinent('europe')" id="btn-europe" class="cont-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200">أوروبا</button>
+          <button onclick="setContinent('north_america')" id="btn-north_america" class="cont-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200">أمريكا الشمالية</button>
+          <button onclick="setContinent('south_america')" id="btn-south_america" class="cont-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200">أمريكا الجنوبية</button>
+          <button onclick="setContinent('australia')" id="btn-australia" class="cont-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200">أستراليا</button>
         </div>
 
         <div class="text-blue-700 font-bold bg-blue-50 px-3 py-1 rounded-lg border border-blue-200 text-xs">
-          💡 انقر على أي نقطة على الخريطة لعرض تفاصيلها وسؤال الامتحان
+          💡 انقر على أي نقطة على الخريطة لعرض تفاصيلها الكاملة في لوحة البيانات أدناه
         </div>
       </div>
 
-      <!-- مساحة خريطة الـ SVG التفاعلية -->
-      <div class="relative bg-[#EBF4FA] min-h-[460px] sm:min-h-[520px] flex items-center justify-center p-4">
+      <!-- مساحة الـ SVG الواقعية -->
+      <div class="relative bg-[#E8F4F8] min-h-[480px] sm:min-h-[540px] flex items-center justify-center p-4 overflow-hidden">
         
-        <!-- أسماء المحيطات في الخلفية -->
+        <!-- خطوط الطول ودوائر العرض الكارتوغرافية -->
+        <div class="absolute top-[50%] left-0 right-0 h-[1px] border-b border-red-400/40 border-dashed pointer-events-none flex justify-end px-4">
+          <span class="text-[10px] text-red-600/80 font-bold -mt-3.5 bg-white/80 px-1 rounded">خط الاستواء (0°)</span>
+        </div>
+        <div class="absolute top-[37%] left-0 right-0 h-[1px] border-b border-amber-500/35 border-dotted pointer-events-none flex justify-end px-4">
+          <span class="text-[10px] text-amber-700/80 font-bold -mt-3.5 bg-white/80 px-1 rounded">مدار السرطان (23.5° ش)</span>
+        </div>
+        <div class="absolute top-[63%] left-0 right-0 h-[1px] border-b border-amber-500/35 border-dotted pointer-events-none flex justify-end px-4">
+          <span class="text-[10px] text-amber-700/80 font-bold -mt-3.5 bg-white/80 px-1 rounded">مدار الجدي (23.5° ج)</span>
+        </div>
+
+        <!-- أسماء المحيطات -->
         <div class="absolute top-[30%] left-[8%] text-sky-800/40 font-black text-xs sm:text-sm pointer-events-none select-none">المحيط الهادي</div>
         <div class="absolute top-[38%] left-[38%] text-sky-800/40 font-black text-xs sm:text-sm pointer-events-none select-none">المحيط الأطلنطي</div>
-        <div class="absolute top-[55%] left-[64%] text-sky-800/40 font-black text-xs sm:text-sm pointer-events-none select-none">المحيط الهندي</div>
-        <div class="absolute top-[5%] left-[45%] text-sky-800/40 font-black text-xs sm:text-sm pointer-events-none select-none">المحيط القطبي الشمالي</div>
+        <div class="absolute top-[56%] left-[64%] text-sky-800/40 font-black text-xs sm:text-sm pointer-events-none select-none">المحيط الهندي</div>
+        <div class="absolute top-[6%] left-[45%] text-sky-800/40 font-black text-xs sm:text-sm pointer-events-none select-none">المحيط القطبي الشمالي</div>
 
-        <svg id="worldMapSvg" viewBox="0 0 1000 520" class="w-full h-auto max-h-[560px] transition-all duration-700">
-          
-          <!-- مسارات القارات -->
-          <g id="continents-shapes">
-            <!-- أمريكا الشمالية -->
-            <path id="cont-na" d="M 90 70 C 110 50, 160 40, 200 45 C 250 50, 280 65, 310 80 C 320 95, 310 120, 290 140 C 300 150, 310 170, 295 190 C 285 200, 275 220, 260 220 C 255 205, 230 205, 220 225 C 215 240, 200 250, 205 270 C 195 260, 185 240, 190 220 C 180 200, 160 170, 150 150 C 130 140, 110 110, 90 70 Z" fill="#dcfce7" stroke="#86efac" stroke-width="2" onclick="filterContinent('north_america')" class="cursor-pointer hover:fill-emerald-200 transition-colors"/>
-            <!-- أمريكا الجنوبية -->
-            <path id="cont-sa" d="M 215 270 C 240 270, 270 275, 300 290 C 330 310, 350 330, 360 360 C 365 390, 340 430, 320 460 C 305 480, 290 500, 275 510 C 265 510, 260 490, 265 470 C 255 430, 245 370, 230 330 C 215 300, 210 280, 215 270 Z" fill="#dcfce7" stroke="#86efac" stroke-width="2" onclick="filterContinent('south_america')" class="cursor-pointer hover:fill-emerald-200 transition-colors"/>
-            <!-- أوروبا -->
-            <path id="cont-eu" d="M 440 100 C 470 90, 520 85, 560 90 C 590 100, 600 130, 580 150 C 560 160, 540 170, 520 180 C 490 190, 460 190, 445 170 C 435 150, 420 130, 440 100 Z" fill="#fef9c3" stroke="#fde047" stroke-width="2" onclick="filterContinent('europe')" class="cursor-pointer hover:fill-amber-200 transition-colors"/>
-            <!-- إفريقيا -->
-            <path id="cont-af" d="M 445 185 C 480 180, 530 185, 555 200 C 575 220, 585 250, 580 280 C 570 310, 550 350, 540 380 C 530 420, 510 450, 485 450 C 470 440, 455 390, 450 360 C 440 330, 410 290, 415 270 C 420 240, 430 200, 445 185 Z" fill="#ffedd5" stroke="#fdba74" stroke-width="2" onclick="filterContinent('africa')" class="cursor-pointer hover:fill-orange-200 transition-colors"/>
-            <!-- آسيا -->
-            <path id="cont-as" d="M 560 90 C 620 70, 720 65, 820 80 C 860 100, 870 140, 850 170 C 830 190, 810 230, 790 260 C 760 270, 730 250, 710 230 C 690 240, 670 270, 640 260 C 620 240, 590 230, 580 200 C 570 170, 550 130, 560 90 Z" fill="#ffedd5" stroke="#fdba74" stroke-width="2" onclick="filterContinent('asia')" class="cursor-pointer hover:fill-orange-200 transition-colors"/>
-            <!-- أستراليا -->
-            <path id="cont-au" d="M 760 350 C 800 335, 840 345, 860 370 C 870 400, 860 430, 830 445 C 800 450, 765 440, 745 410 C 740 380, 745 360, 760 350 Z" fill="#ffedd5" stroke="#fdba74" stroke-width="2" onclick="filterContinent('australia')" class="cursor-pointer hover:fill-orange-200 transition-colors"/>
-          </g>
+        <svg id="realWorldSvg" viewBox="0 0 1000 520" class="w-full h-auto max-h-[580px] transition-all duration-700 ease-out">
+          <!-- طبقة مسارات دول وقارات العالم الواقعية -->
+          <g id="earth-countries-layer"></g>
 
-          <!-- مسارات أنهار رئيسية -->
-          <g id="rivers" opacity="0.8">
+          <!-- مسارات أنهار كبرى -->
+          <g id="rivers-layer" opacity="0.85">
+            <!-- نهر النيل -->
             <path d="M 545 320 Q 538 270, 532 205" fill="none" stroke="#0284C7" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- نهر الأمازون -->
             <path d="M 255 315 Q 295 320, 335 315" fill="none" stroke="#0284C7" stroke-width="3" stroke-linecap="round"/>
+            <!-- نهر الميسيسيبي -->
             <path d="M 230 150 Q 240 185, 245 225" fill="none" stroke="#0284C7" stroke-width="2.5" stroke-linecap="round"/>
+            <!-- نهر الفولجا -->
+            <path d="M 550 120 Q 575 145, 575 175" fill="none" stroke="#0284C7" stroke-width="2" stroke-linecap="round"/>
           </g>
 
-          <!-- النقاط التفاعلية للتضاريس والمضايق -->
-          <g id="map-pins"></g>
+          <!-- النقاط التفاعلية -->
+          <g id="interactive-pins-layer"></g>
         </svg>
 
       </div>
@@ -256,171 +211,135 @@
       <!-- مفتاح الخريطة -->
       <div class="bg-slate-50 border-t border-slate-200 px-6 py-3 flex flex-wrap items-center justify-between gap-4 text-xs font-semibold text-slate-600">
         <div class="flex flex-wrap items-center gap-4">
-          <span class="text-slate-400 font-bold">مفتاح الخريطة:</span>
-          <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-red-600"></span><span>جبال كبرى (هيمالايا، ألب، أنديز، روكي)</span></div>
+          <span class="text-slate-400 font-bold">مفتاح المعالم:</span>
+          <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-red-600"></span><span>جبال شاهقة (هيمالايا، ألب، أنديز، روكي)</span></div>
           <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-600"></span><span>هضاب (التبت، الدكن، الميزيتا، البرازيل)</span></div>
           <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-sky-600"></span><span>أنهار وسهول فيضية (النيل، الأمازون، سيبيريا)</span></div>
-          <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-purple-600"></span><span>مضايق (جبل طارق، باب المندب، بيرنغ)</span></div>
+          <div class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-purple-600"></span><span>مضايق وبحار (جبل طارق، باب المندب، بيرنغ، قزوين)</span></div>
         </div>
       </div>
-
-      <!-- بطاقة التفاصيل عند النقر على أي معلم -->
-      <div id="feature-detail-card" class="hidden p-6 bg-gradient-to-r from-blue-50/80 via-white to-sky-50/80 border-t-2 border-blue-500 transition-all">
-        <div class="flex flex-col md:flex-row items-start justify-between gap-6">
-          <div class="flex-1 space-y-2">
-            <div class="flex items-center gap-2">
-              <span id="feat-cat-badge" class="px-3 py-0.5 rounded-full text-xs font-extrabold bg-blue-600 text-white"></span>
-              <button onclick="readAloud()" class="text-xs font-bold px-2 py-0.5 rounded border border-slate-300 bg-white hover:bg-slate-100 flex items-center gap-1">
-                🔊 استمع للشرح
-              </button>
-            </div>
-            <h3 id="feat-title" class="text-xl font-black text-slate-900"></h3>
-            <p id="feat-desc" class="text-xs sm:text-sm font-semibold text-slate-700 leading-relaxed"></p>
-          </div>
-
-          <!-- بطاقة سؤال الامتحان الذهبية -->
-          <div class="w-full md:w-96 bg-amber-50 rounded-2xl p-4 border border-amber-200 shadow-xs space-y-2 shrink-0">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-black text-amber-900">✨ سؤال امتحان متكرر في الشهادة الإعدادية</span>
-              <span class="text-[10px] font-bold bg-amber-200 text-amber-900 px-2 py-0.5 rounded-full">مهم جداً</span>
-            </div>
-            <p id="feat-exam-q" class="text-xs font-bold text-slate-800 leading-snug"></p>
-            <div class="bg-white p-2.5 rounded-xl border border-amber-200 text-xs font-semibold text-emerald-800">
-              <span class="font-bold block text-emerald-900 mb-0.5">الإجابة النموذجية المعتمدة:</span>
-              <span id="feat-exam-a"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </section>
 
-    <!-- ==================== تضاريس القارات ==================== -->
-    <section id="continents-section" class="bg-white rounded-[26px] border border-slate-200/80 shadow-md p-6 sm:p-8 space-y-6 scroll-mt-24">
-      <div class="text-center max-w-xl mx-auto">
-        <h3 class="text-2xl font-black text-slate-900">تضاريس قارات العالم المقررة</h3>
-        <p class="text-xs sm:text-sm font-semibold text-slate-500 mt-1">
-          الجبال والهضاب والسهول الفيضية والساحلية لكل قارة مع أهم الأسئلة الامتحانية
-        </p>
+    <!-- ==================== جميع التفاصيل والأقاليم والتضاريس تحت الخريطة ==================== -->
+
+    <!-- 1. بطاقة تفاصيل المعلم المحدد -->
+    <div id="feature-detail-card" class="hidden bg-white rounded-[26px] border-2 border-blue-500 shadow-md p-6 sm:p-8 space-y-4">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b pb-4">
+        <div>
+          <div class="flex items-center gap-2 mb-1">
+            <span id="feat-cat-badge" class="px-3 py-0.5 rounded-full text-xs font-extrabold bg-blue-600 text-white"></span>
+            <span id="feat-continent-text" class="text-xs font-bold text-slate-400"></span>
+          </div>
+          <h3 id="feat-title" class="text-2xl font-black text-slate-900 tracking-tight"></h3>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="readAloud()" class="text-xs font-bold px-3 py-1.5 rounded-xl border border-slate-300 bg-slate-50 hover:bg-slate-100 flex items-center gap-1.5">
+            🔊 استمع للشرح الصوتي
+          </button>
+          <button onclick="closeFeatureCard()" class="text-xs font-bold text-slate-400 hover:text-slate-700 px-3 py-1.5 rounded-xl hover:bg-slate-100">
+            إغلاق ✕
+          </button>
+        </div>
+      </div>
+      <p id="feat-desc" class="text-sm font-semibold text-slate-700 leading-relaxed"></p>
+      <div id="feat-details-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2"></div>
+    </div>
+
+    <!-- 2. تضاريس قارات العالم المقررة -->
+    <section id="continents-section" class="bg-white rounded-[26px] border border-slate-200 shadow-md p-6 sm:p-8 space-y-6 scroll-mt-24">
+      <div class="border-b pb-4">
+        <span class="text-xs font-bold px-3 py-1 rounded-full bg-blue-50 text-blue-700 mb-1 inline-block">الوحدة الأولى: الجغرافيا الطبيعية للعالم</span>
+        <h3 class="text-2xl font-black text-slate-900">تضاريس قارات العالم (الجبال، الهضاب، السهول والأنهار)</h3>
+        <p class="text-xs sm:text-sm font-semibold text-slate-500 mt-1">تفاصيل منهج الشهادة الإعدادية لجميع قارات العالم</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs font-semibold">
-        <!-- آسيا -->
+        <!-- قارة آسيا -->
         <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
           <span class="font-black text-sm text-slate-900 block border-b pb-1">🌏 قارة آسيا (44.2 مليون كم²)</span>
-          <p><strong>الجبال:</strong> الهيمالايا (قمة إيفرست 8848م)، زاجروس، طوروس، اليابان.</p>
-          <p><strong>الهضاب:</strong> التبت (سقف العالم)، الدكن، شبه الجزيرة العربية.</p>
-          <p><strong>السهول والأنهار:</strong> سهول سيبيريا (أوب، ينسي، لينا - تتجمد شتاءً فتفقد قيمتها)، سهل شرق الصين (اليانجتسي).</p>
+          <p><strong class="text-red-700">الجبال:</strong> الهيمالايا (قمة إيفرست 8848م)، زاجروس، طوروس، اليابان.</p>
+          <p><strong class="text-amber-700">الهضاب:</strong> التبت (سقف العالم لارتفاعها عن قمم الجبال)، الدكن، شبه الجزيرة العربية.</p>
+          <p><strong class="text-sky-700">السهول والأنهار:</strong> سهول سيبيريا (أوب، ينسي، لينا - تتجمد شتاءً فتفقد قيمتها)، سهل شرق الصين (اليانجتسي).</p>
         </div>
 
-        <!-- إفريقيا -->
+        <!-- قارة أفريقيا -->
         <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
           <span class="font-black text-sm text-slate-900 block border-b pb-1">🌍 قارة أفريقيا (30.3 مليون كم²)</span>
-          <p><strong>الجبال:</strong> أطلس (تحصر هضبة الشطوط)، البحر الأحمر، كينيا، كليمنجارو، دراكنزبرج.</p>
-          <p><strong>الهضاب:</strong> هضبة إثيوبيا والبحيرات الاستوائية (منابع نهر النيل)، الصحراء الكبرى.</p>
-          <p><strong>السهول والأنهار:</strong> حوض النيل (يصب في المتوسط)، الكونغو، النيجر.</p>
+          <p><strong class="text-red-700">الجبال:</strong> أطلس (تحصر هضبة الشطوط)، البحر الأحمر، كينيا، كليمنجارو، دراكنزبرج.</p>
+          <p><strong class="text-amber-700">الهضاب:</strong> هضبة إثيوبيا والبحيرات الاستوائية (منابع نهر النيل)، الصحراء الكبرى، جنوب إفريقيا.</p>
+          <p><strong class="text-sky-700">السهول والأنهار:</strong> حوض النيل (يصب في المتوسط)، حوض الكونغو (يصب في الأطلنطي)، النيجر.</p>
         </div>
 
-        <!-- أوروبا -->
+        <!-- قارة أوروبا -->
         <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
           <span class="font-black text-sm text-slate-900 block border-b pb-1">🏰 قارة أوروبا (10.5 مليون كم²)</span>
-          <p><strong>الجبال:</strong> جبال الألب، البرانس (في إسبانيا)، الألب الدينارية (البلقان).</p>
-          <p><strong>الهضاب:</strong> الميزيتا (تشغل معظم إسبانيا)، فرنسا الوسطى.</p>
-          <p><strong>السهول والأنهار:</strong> السهل الأوروبي العظيم (باريس، برلين)، نهر الفولجا (أطول أنهارها ويصب في بحر قزوين).</p>
+          <p><strong class="text-red-700">الجبال:</strong> سلاسل جبال الألب، البرانس (في إسبانيا)، الألب الدينارية (البلقان).</p>
+          <p><strong class="text-amber-700">الهضاب:</strong> الميزيتا (تشغل معظم إسبانيا)، فرنسا الوسطى.</p>
+          <p><strong class="text-sky-700">السهول والأنهار:</strong> السهل الأوروبي العظيم (باريس، برلين)، نهر الفولجا (أطول أنهارها ويصب في قزوين).</p>
         </div>
 
-        <!-- أمريكا الشمالية -->
+        <!-- قارة أمريكا الشمالية -->
         <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
           <span class="font-black text-sm text-slate-900 block border-b pb-1">🗽 قارة أمريكا الشمالية (24.2 مليون كم²)</span>
-          <p><strong>الجبال:</strong> جبال الروكي في الغرب (أعلى جبالها)، جبال الأبلاش في الشرق.</p>
-          <p><strong>الهضاب:</strong> هضبة لبرادور في الشمال الشرقي، هضبة المكسيك في الجنوب.</p>
-          <p><strong>السهول والأنهار:</strong> نهر الميسيسيبي (يصب في خليج المكسيك)، سانت لورنس، نلسن.</p>
+          <p><strong class="text-red-700">الجبال:</strong> جبال الروكي في الغرب (أعلى جبالها)، جبال الأبلاش في الشرق.</p>
+          <p><strong class="text-amber-700">الهضاب:</strong> هضبة لبرادور في الشمال الشرقي، هضبة المكسيك في الجنوب.</p>
+          <p><strong class="text-sky-700">السهول والأنهار:</strong> نهر الميسيسيبي (يصب في خليج المكسيك)، سانت لورنس، نلسن.</p>
         </div>
 
-        <!-- أمريكا الجنوبية -->
+        <!-- قارة أمريكا الجنوبية -->
         <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
           <span class="font-black text-sm text-slate-900 block border-b pb-1">🌴 قارة أمريكا الجنوبية (17.8 مليون كم²)</span>
-          <p><strong>الجبال:</strong> جبال الأنديز في الغرب ممتدة من الشمال إلى الجنوب.</p>
-          <p><strong>الهضاب:</strong> هضبة البرازيل (أكبرها وأعلاها)، هضبة بتاجونيا (أصغرها في الجنوب)، جيانا.</p>
-          <p><strong>السهول والأنهار:</strong> حوض نهر الأمازون (أوسع سهول فيضية بالعالم)، سهول لابلاتا (البمباس).</p>
+          <p><strong class="text-red-700">الجبال:</strong> جبال الأنديز في الغرب ممتدة من الشمال إلى أقصى الجنوب.</p>
+          <p><strong class="text-amber-700">الهضاب:</strong> هضبة البرازيل (أكبرها وأعلاها)، هضبة بتاجونيا (أصغرها في الجنوب)، جيانا.</p>
+          <p><strong class="text-sky-700">السهول والأنهار:</strong> حوض نهر الأمازون (أوسع سهول فيضية بالعالم)، سهول لابلاتا (البمباس).</p>
         </div>
 
-        <!-- أستراليا -->
+        <!-- قارة أستراليا -->
         <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
           <span class="font-black text-sm text-slate-900 block border-b pb-1">🦘 قارة أستراليا (7.8 مليون كم²)</span>
-          <p><strong>الجبال:</strong> جبال الحاجز الكبير (الألب الأسترالية) في الشرق.</p>
-          <p><strong>الهضاب:</strong> الهضبة الغربية (تشغل نصف مساحة القارة وتشبه تضاريس إفريقيا).</p>
-          <p><strong>السهول والأنهار:</strong> سهول نهري مري ودارلنج (يصبان في الخليج الأسترالي الكبير).</p>
+          <p><strong class="text-red-700">الجبال:</strong> جبال الحاجز الكبير (الألب الأسترالية) في الشرق مسببة ضيق السهول الشرقية.</p>
+          <p><strong class="text-amber-700">الهضاب:</strong> الهضبة الغربية (تشغل نصف مساحة القارة وتشبه تضاريس إفريقيا).</p>
+          <p><strong class="text-sky-700">السهول والأنهار:</strong> سهول نهري مري ودارلنج (يصبان في الخليج الأسترالي الكبير).</p>
         </div>
       </div>
     </section>
 
-    <!-- ==================== الأقاليم المناخية ==================== -->
-    <section id="climates-section" class="bg-white rounded-[26px] border border-slate-200/80 shadow-md p-6 sm:p-8 space-y-6 scroll-mt-24">
-      <div class="text-center max-w-xl mx-auto">
-        <h3 class="text-2xl font-black text-slate-900">الأقاليم المناخية والنبات الطبيعي</h3>
-        <p class="text-xs sm:text-sm font-semibold text-slate-500 mt-1">
-          المقارنات الأكثر تكراراً في امتحانات الشهادة الإعدادية
-        </p>
+    <!-- 3. الأقاليم المناخية والنبات الطبيعي -->
+    <section id="climates-section" class="bg-white rounded-[26px] border border-slate-200 shadow-md p-6 sm:p-8 space-y-6 scroll-mt-24">
+      <div class="border-b pb-4">
+        <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 mb-1 inline-block">الدرس الثالث: المناخ والنبات الطبيعي</span>
+        <h3 class="text-2xl font-black text-slate-900">الأقاليم المناخية والنبات الطبيعي وتوزيعها في العالم</h3>
+        <p class="text-xs sm:text-sm font-semibold text-slate-500 mt-1">الخصائص المناخية (الحرارة والمطر) وأهم الأشجار والحياة النباتية</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-semibold">
-        <!-- البحر المتوسط vs الصيني -->
-        <div class="p-4 rounded-2xl bg-blue-50/60 border border-blue-200 space-y-2">
-          <span class="font-extrabold text-blue-900 block text-sm">🌊 إقليم البحر المتوسط (غرب القارات 30-45)</span>
-          <p><strong>المناخ:</strong> حار جاف صيفاً، دافئ ممطر شتاءً.</p>
-          <p><strong>النبات:</strong> غابات البحر المتوسط دائمة الخضرة (الزيتون)، وحشائش الاستبس (البراري).</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-semibold">
+        <!-- حارة -->
+        <div class="p-4 rounded-2xl bg-amber-50/60 border border-amber-200 space-y-2.5">
+          <span class="font-black text-sm text-amber-900 block border-b pb-1">🔥 الأقاليم الحارة (0°-30°)</span>
+          <p><strong>الاستوائي:</strong> حرارة ومطر طوال العام، غابات استوائية (المطاط والماهوجني)، زواحف وقرود.</p>
+          <p><strong>المداري الحار:</strong> صيف حار ممطر وشتاء جاف، حشائش السافانا (حديقة حيوان طبيعية).</p>
+          <p><strong>الموسمي:</strong> أمطار صيفية غزيرة وجفاف شتاءً، أشجار جوز الهند والسافانا (الهند وإثيوبيا).</p>
         </div>
 
-        <div class="p-4 rounded-2xl bg-teal-50/60 border border-teal-200 space-y-2">
-          <span class="font-extrabold text-teal-900 block text-sm">🎋 الإقليم المعتدل الدافئ الصيني (شرق القارات 30-45)</span>
-          <p><strong>المناخ:</strong> حار صيفاً دافئ شتاءً، أمطار طوال العام تزداد صيفاً، وعواصف التيفون.</p>
-          <p><strong>النبات:</strong> غابات دائمة الخضرة (الصفصاف والبلوط).</p>
+        <!-- معتدلة دفيئة -->
+        <div class="p-4 rounded-2xl bg-blue-50/60 border border-blue-200 space-y-2.5">
+          <span class="font-black text-sm text-blue-900 block border-b pb-1">🌊 المعتدلة الدفيئة (30°-45°)</span>
+          <p><strong>البحر المتوسط (غرب القارات):</strong> حار جاف صيفاً، دافئ ممطر شتاءً. أشجار دائمة الخضرة كالزيتون، واستبس (البراري).</p>
+          <p><strong>الصيني (شرق القارات):</strong> حار صيفاً دافئ شتاءً، أمطار طوال العام تزداد صيفاً، بلوط وصفصاف وعواصف التيفون.</p>
         </div>
 
-        <!-- غرب أوروبا vs اللورنسي -->
-        <div class="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-200 space-y-2">
-          <span class="font-extrabold text-indigo-900 block text-sm">🌲 إقليم غرب أوروبا (غرب القارات 45-60)</span>
-          <p><strong>المناخ:</strong> دافئ صيفاً بارد شتاءً، أمطار طوال العام تزداد في الشتاء والخريف.</p>
-          <p><strong>النبات:</strong> الغابات النفضية (تنفض أوراقها شتاءً لشدة البرودة وأهم أشجارها الزان).</p>
+        <!-- معتدلة باردة -->
+        <div class="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-200 space-y-2.5">
+          <span class="font-black text-sm text-indigo-900 block border-b pb-1">🌲 المعتدلة الباردة (45°-60°)</span>
+          <p><strong>غرب أوروبا (غرب القارات):</strong> دافئ صيفاً بارد شتاءً، أمطار طوال العام تزداد شتاءً وخريفاً، غابات نفضية (الزان).</p>
+          <p><strong>اللورنسي (شرق القارات):</strong> معتدل صيفاً بارد شتاءً، أمطار طوال العام تزداد صيفاً، غابات مخروطية (الصنوبر والشربين، والدب القطبي).</p>
         </div>
 
-        <div class="p-4 rounded-2xl bg-purple-50/60 border border-purple-200 space-y-2">
-          <span class="font-extrabold text-purple-900 block text-sm">❄️ الإقليم اللورنسي (شرق القارات 45-60)</span>
-          <p><strong>المناخ:</strong> معتدل صيفاً بارد شتاءً، أمطار طوال العام تزداد صيفاً.</p>
-          <p><strong>النبات:</strong> الغابات المخروطية (الصنوبر والشربين، وحيوان الدب القطبي).</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== اختبر معلوماتك (Quiz) ==================== -->
-    <section id="quiz-section" class="bg-white rounded-[26px] border border-slate-200/80 shadow-md p-6 sm:p-8 space-y-6 scroll-mt-24">
-      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b pb-4">
-        <div>
-          <span class="px-3 py-1 rounded-full text-xs font-black bg-emerald-100 text-emerald-800">تحدي الخرائط الصماء</span>
-          <h3 class="text-2xl font-black text-slate-900 tracking-tight mt-1">اختبر معلوماتك في سؤال الخريطة</h3>
-        </div>
-        <div class="flex items-center gap-3">
-          <div class="bg-amber-50 border border-amber-200 px-3 py-1 rounded-xl text-xs font-extrabold text-amber-900">
-            النقاط: <span id="quizScore">0</span>
-          </div>
-        </div>
-      </div>
-
-      <div id="quiz-box" class="space-y-4">
-        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
-          <span class="text-xs font-bold text-slate-400 block mb-1">السؤال الحالي:</span>
-          <h4 id="quiz-question-text" class="text-base sm:text-lg font-black text-slate-900"></h4>
-        </div>
-
-        <div id="quiz-options-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
-
-        <div id="quiz-feedback" class="hidden p-4 rounded-2xl border text-xs sm:text-sm font-semibold"></div>
-
-        <div class="flex justify-end pt-2">
-          <button id="quiz-next-btn" onclick="nextQuestion()" class="hidden px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm">
-            السؤال التالي ←
-          </button>
+        <!-- باردة -->
+        <div class="p-4 rounded-2xl bg-slate-100 border border-slate-300 space-y-2.5">
+          <span class="font-black text-sm text-slate-900 block border-b pb-1">❄️ الأقاليم الباردة (60°-90° والجبال)</span>
+          <p><strong>التندرا:</strong> شتاء طويل شديد البرودة تسقط فيه الثلوج، صيف قصير بارد. طحالب وحيوان الرنة (سيبيريا وكندا).</p>
+          <p><strong>الجبلي:</strong> يسود القمم والمنحدرات العليا، شديد البرودة وتغطى القمم بالجليد طوال العام (الهيمالايا والألب والأنديز).</p>
         </div>
       </div>
     </section>
@@ -430,88 +349,169 @@
   <!-- ==================== الفوتر ==================== -->
   <footer class="bg-white border-t border-slate-200 mt-16 py-8 text-center text-xs font-semibold text-slate-500">
     <p>مركز تعلم الدراسات الاجتماعية · الصف الثالث الإعدادي (جمهورية مصر العربية)</p>
-    <p class="mt-1">تصميم مخصص للإضافة المباشرة في منصة Google Sites</p>
+    <p class="mt-1">خريطة الجغرافيا الطبيعية التفاعلية الواقعية</p>
   </footer>
 
-  <!-- ==================== منطق الجافاسكربت والتفاعل ==================== -->
+  <!-- ==================== منطق الجافاسكربت والكارتوغرافيا ==================== -->
   <script>
-    // قاعدة بيانات معالم المنهج
+    const width = 1000;
+    const height = 520;
+
+    const projection = d3.geoNaturalEarth1()
+      .scale(168)
+      .translate([width / 2, height / 2 + 10]);
+
+    const path = d3.geoPath().projection(projection);
+
     const FEATURES = [
-      { id: 'himalayas', name: 'جبال الهيمالايا (قمة إيفرست 8848م)', cat: 'جبال', cont: 'asia', x: 680, y: 218, color: '#DC2626', desc: 'أعلى جبال العالم في وسط آسيا وتضم أعلى قمة جبلية بالعالم.', examQ: 'س: ما هي أعلى قمة في العالم؟', examA: 'قمة إيفرست (8848م) بجبال الهيمالايا بوسط قارة آسيا.' },
-      { id: 'tibet', name: 'هضبة التبت (سقف العالم)', cat: 'هضبة', cont: 'asia', x: 690, y: 197, color: '#D97706', desc: 'أعلى هضاب العالم وتقع في وسط آسيا شمال الهيمالايا.', examQ: 'س: بم تفسر: تعرف هضبة التبت بسقف العالم؟', examA: 'لارتفاعها الشاهق عن قمم الجبال المجاورة المحيطة بها.' },
-      { id: 'nile', name: 'نهر النيل (أفريقيا)', cat: 'نهر', cont: 'africa', x: 530, y: 228, color: '#0284C7', desc: 'أطول أنهار العالم (6670 كم) ينبع من هضبة إثيوبيا والبحيرات الاستوائية ويصب في البحر المتوسط.', examQ: 'س: بم تفسر: أهمية هضبتي إثيوبيا والبحيرات لمصر؟', examA: 'لأن جميع روافد نهر النيل تنبع منهما.' },
-      { id: 'gibraltar', name: 'مضيق جبل طارق', cat: 'مضيق', cont: 'africa', x: 460, y: 182, color: '#7C3AED', desc: 'يفصل بين قارة أفريقيا (المغرب) وقارة أوروبا (إسبانيا) ويصل البحر المتوسط بالمحيط الأطلنطي.', examQ: 'س: ما المضيق الذي يفصل أوروبا عن أفريقيا؟', examA: 'مضيق جبل طارق.' },
-      { id: 'rockies', name: 'جبال الروكي (أمريكا الشمالية)', cat: 'جبال', cont: 'north_america', x: 210, y: 140, color: '#DC2626', desc: 'أعلى جبال قارة أمريكا الشمالية وتقع في غرب القارة وتغطيها الثلوج شتاءً.', examQ: 'س: أين تقع أعلى جبال أمريكا الشمالية؟', examA: 'جبال الروكي وتقع في غرب القارة.' },
-      { id: 'andes', name: 'جبال الأنديز (أمريكا الجنوبية)', cat: 'جبال', cont: 'south_america', x: 290, y: 338, color: '#DC2626', desc: 'سلسلة جبلية متصلة تمتد غرب أمريكا الجنوبية بمحاذاة المحيط الهادي من الشمال للجنوب.', examQ: 'س: بم تفسر: ضيق السهول الساحلية غرب أمريكا الجنوبية؟', examA: 'بسبب اقتراب حافات جبال الأنديز الشاهقة من ساحل المحيط الهادي.' },
-      { id: 'amazon', name: 'نهر الأمازون (أمريكا الجنوبية)', cat: 'نهر', cont: 'south_america', x: 330, y: 275, color: '#0284C7', desc: 'أوسع سهول فيضية في العالم وتسودها الغابات الاستوائية المطيرة.', examQ: 'س: ما النتائج المترتبة على: اتساع حوض الأمازون؟', examA: 'جعله أوسع سهول فيضية في العالم وغابات استوائية كثيفة.' },
-      { id: 'volga', name: 'نهر الفولجا (أوروبا)', cat: 'نهر', cont: 'europe', x: 575, y: 145, color: '#0284C7', desc: 'أطول أنهار قارة أوروبا ينحدر جنوباً ويصب في أكبر بحر مغلق في العالم (بحر قزوين).', examQ: 'س: أطول أنهار قارة أوروبا هو نهر ...... ويصب في ......', examA: 'نهر الفولجا ويصب في بحر قزوين.' },
-      { id: 'western_plateau', name: 'الهضبة الغربية (أستراليا)', cat: 'هضبة', cont: 'australia', x: 775, y: 385, color: '#D97706', desc: 'تشغل نصف مساحة قارة أستراليا ويتميز سطحها بالاستواء وتشبه تضاريس قارة إفريقيا.', examQ: 'س: دلل جغرافياً: تتشابه تضاريس إفريقيا وأستراليا؟', examA: 'لأن المظهر الهضبي يسودهما (الهضبة الغربية نصف أستراليا، والهضاب تشغل معظم إفريقيا).' },
-      { id: 'bering', name: 'مضيق بيرنغ', cat: 'مضيق', cont: 'asia', x: 880, y: 100, color: '#7C3AED', desc: 'يفصل أقصى شمال شرق آسيا عن ألاسكا في أمريكا الشمالية ويصل المحيط الهادي بالقطبي الشمالي.', examQ: 'س: تقترب قارة آسيا من أمريكا الشمالية عند مضيق ......', examA: 'مضيق بيرنغ.' }
+      { id: 'himalayas', name: 'جبال الهيمالايا (قمة إيفرست 8848م)', cat: 'جبال', cont: 'asia', lon: 86.92, lat: 27.98, color: '#DC2626', desc: 'أعلى سلاسل الجبال في العالم، تقع في وسط قارة آسيا وبها أعلى قمة جبلية بالعالم قمة إيفرست (8848م).', details: ['تفصل شبه القارة الهندية عن هضبة التبت', 'تغطي قممها الثلوج الدائمة طوال العام'] },
+      { id: 'tibet', name: 'هضبة التبت (سقف العالم)', cat: 'هضبة', cont: 'asia', lon: 88.5, lat: 32.5, color: '#D97706', desc: 'أعلى هضاب العالم وتقع في وسط آسيا شمال الهيمالايا، وتعرف بسقف العالم لارتفاعها عن قمم الجبال المجاورة.', details: ['تنبع منها أنهار آسيوية كبرى كاليانجتسي', 'مناخها شديد البرودة وجاف لارتفاعها الشاهق'] },
+      { id: 'deccan', name: 'هضبة الدكن', cat: 'هضبة', cont: 'asia', lon: 77.5, lat: 17.5, color: '#D97706', desc: 'هضبة مثلثة الشكل تشغل وسط وجنوب شبه القارة الهندية.', details: ['تحدها سلاسل جبال الغات الشرقية والغربية', 'تنحدر أرضها نحو الشرق وتصب أنهارها بخليج البنغال'] },
+      { id: 'nile', name: 'نهر النيل (أفريقيا)', cat: 'نهر', cont: 'africa', lon: 31.2, lat: 26.5, color: '#0284C7', desc: 'أطول أنهار العالم (6670 كم) ينبع من هضبة إثيوبيا وهضبة البحيرات الاستوائية ويصب في البحر المتوسط.', details: ['ينتهي بفرعي دمياط ورشيد عند مصبه شمالاً', 'تربته فيضية صالحة للزراعة قامت عليها الحضارة المصرية'] },
+      { id: 'atlas', name: 'جبال أطلس', cat: 'جبال', cont: 'africa', lon: -5.0, lat: 32.0, color: '#DC2626', desc: 'تمتد في أقصى شمال غرب قارة أفريقيا في المغرب والجزائر وتونس وتحصر بينها هضبة الشطوط.', details: ['تحصر بين سلاسلها هضبة الشطوط بالجزائر', 'تنتمي سفوحها الشمالية لمناخ البحر المتوسط'] },
+      { id: 'ethiopia_plat', name: 'هضبة إثيوبيا (الحبشة)', cat: 'هضبة', cont: 'africa', lon: 39.0, lat: 9.5, color: '#D97706', desc: 'هضبة بركانية شاهقة في شرق أفريقيا تمثل المنبع الموسمي الصيفي الرئيسي لنهر النيل.', details: ['تسقط عليها أمطار موسمية صيفية غزيرة تغذي نهر النيل بنحو 84% من مياهه'] },
+      { id: 'gibraltar', name: 'مضيق جبل طارق', cat: 'مضيق', cont: 'africa', lon: -5.6, lat: 35.95, color: '#7C3AED', desc: 'المضيق الذي يفصل بين قارة أفريقيا وقارة أوروبا ويصل البحر المتوسط بالمحيط الأطلنطي.', details: ['يفصل بين المغرب وإسبانيا', 'المنفذ الغربي الوحيد للبحر المتوسط'] },
+      { id: 'alps', name: 'جبال الألب الأوروبية', cat: 'جبال', cont: 'europe', lon: 10.0, lat: 46.5, color: '#DC2626', desc: 'تمتد من الغرب للشرق في وسط أوروبا (البرانس في إسبانيا، والألب الدينارية في البلقان).', details: ['تقطعها أودية نهرية تجري بها أنهار مثل الراين والدانوب', 'تغطي قممها الثلوج وتستغل في رياضة التزلج'] },
+      { id: 'meseta', name: 'هضبة الميزيتا', cat: 'هضبة', cont: 'europe', lon: -4.0, lat: 40.0, color: '#D97706', desc: 'هضبة واسعة تشغل الجزء الأكبر من مساحة دولة إسبانيا.', details: ['تنحدر أرضها غرباً نحو المحيط الأطلنطي'] },
+      { id: 'volga', name: 'نهر الفولجا (أطول أنهار أوروبا)', cat: 'نهر', cont: 'europe', lon: 48.0, lat: 53.0, color: '#0284C7', desc: 'أطول أنهار أوروبا (3530 كم) ينحدر جنوباً ويصب في أكبر بحر مغلق في العالم وهو بحر قزوين.', details: ['شريان مائي وصناعي حيوي في روسيا'] },
+      { id: 'rockies', name: 'جبال الروكي (أمريكا الشمالية)', cat: 'جبال', cont: 'north_america', lon: -110.0, lat: 44.0, color: '#DC2626', desc: 'أعلى سلاسل الجبال في أمريكا الشمالية وتقع في الغرب وتغطي قممها الثلوج شتاءً.', details: ['تمتد بمحاذاة الساحل الغربي', 'تسبب ضيق السهول الساحلية المطلة على المحيط الهادي'] },
+      { id: 'mississippi', name: 'نهر الميسيسيبي', cat: 'نهر', cont: 'north_america', lon: -90.5, lat: 33.0, color: '#0284C7', desc: 'أطول أنهار أمريكا الشمالية يجري في السهول الوسطى ويصب في خليج المكسيك جنوباً.', details: ['تنتشر حوله أخصب الأراضي الزراعية في أمريكا الشمالية'] },
+      { id: 'andes', name: 'جبال الأنديز (أمريكا الجنوبية)', cat: 'جبال', cont: 'south_america', lon: -71.0, lat: -18.0, color: '#DC2626', desc: 'أطول سلسلة جبال قارية في العالم تمتد غرب أمريكا الجنوبية بمحاذاة المحيط الهادي.', details: ['أدت لضيق شديد في السهول الساحلية الغربية', 'تمتد من أقصى الشمال حتى أقصى الجنوب'] },
+      { id: 'amazon', name: 'نهر الأمازون', cat: 'نهر', cont: 'south_america', lon: -60.0, lat: -3.0, color: '#0284C7', desc: 'أوسع حوض نهري وسهول فيضية في العالم، يغطى بغابات استوائية مطيرة ويصب في المحيط الأطلنطي.', details: ['أغزر نهر في العالم من حيث كمية المياه المتدفقة', 'تسوده الغابات الاستوائية الكثيفة ويقل فيه السكان'] },
+      { id: 'brazil_plat', name: 'هضبة البرازيل', cat: 'هضبة', cont: 'south_america', lon: -48.0, lat: -15.0, color: '#D97706', desc: 'أكبر وأعلى هضاب قارة أمريكا الجنوبية تقع في شرق القارة وتشغل مساحة شاسعة.', details: ['ينحدر سطحها نحو الشمال والغرب'] },
+      { id: 'great_dividing', name: 'جبال الحاجز الكبير (أستراليا)', cat: 'جبال', cont: 'australia', lon: 149.0, lat: -30.0, color: '#DC2626', desc: 'سلاسل جبلية تمتد على طول الساحل الشرقي لأستراليا مسببة ضيق السهول الشرقية المطلة على الهادي.', details: ['تعرف بالألب الأسترالية وتقسم لشمالية وجنوبية'] },
+      { id: 'western_plat', name: 'الهضبة الغربية بأستراليا', cat: 'هضبة', cont: 'australia', lon: 123.0, lat: -24.0, color: '#D97706', desc: 'تشغل نصف مساحة قارة أستراليا ويتميز سطحها بالاستواء وتشبه تضاريس إفريقيا في سيادة المظهر الهضبي.', details: ['يسود معظمها المناخ الصحراوي الجاف'] },
+      { id: 'murray_darling', name: 'نهرا مري ودارلنج', cat: 'نهر', cont: 'australia', lon: 143.0, lat: -34.0, color: '#0284C7', desc: 'أهم أنهار قارة أستراليا يجريان في السهول الفيضية بالجنوب الشرقي ويصبان في الخليج الأسترالي الكبير.', details: ['أخصب المناطق الزراعية ومصدر تركز السكان في أستراليا'] },
+      { id: 'bering', name: 'مضيق بيرنغ', cat: 'مضيق', cont: 'asia', lon: -169.0, lat: 65.7, color: '#7C3AED', desc: 'يفصل أقصى شمال شرق قارة آسيا عن ألاسكا في أمريكا الشمالية.', details: ['يصل بين المحيط الهادي والمحيط القطبي الشمالي'] },
+      { id: 'bab_el_mandeb', name: 'مضيق باب المندب', cat: 'مضيق', cont: 'asia', lon: 43.3, lat: 12.6, color: '#7C3AED', desc: 'مضيق عربي استراتيجي يفصل آسيا عن إفريقيا ويصل البحر الأحمر بخليج عدن والمحيط الهندي.', details: ['تشرف عليه اليمن وجيبوتي'] }
     ];
 
-    // رسم النقاط في الـ SVG
-    function renderPins(items) {
-      const g = document.getElementById('map-pins');
-      g.innerHTML = '';
-      items.forEach(item => {
-        const pin = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        pin.setAttribute('class', 'cursor-pointer');
-        pin.setAttribute('onclick', `selectFeature('${item.id}')`);
-        pin.innerHTML = `
-          <circle cx="${item.x}" cy="${item.y}" r="8.5" fill="${item.color}" stroke="#FFFFFF" stroke-width="2.5" class="hover:scale-125 transition-transform" />
-          <circle cx="${item.x}" cy="${item.y}" r="2.5" fill="#FFFFFF" />
-          <text x="${item.x}" y="${item.y - 12}" text-anchor="middle" font-size="9.5" font-family="Cairo" font-weight="bold" fill="#0F172A">${item.name.split('(')[0]}</text>
-        `;
-        g.appendChild(pin);
-      });
-    }
+    d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(world => {
+      const countries = topojson.feature(world, world.objects.countries).features;
+      const g = d3.select('#earth-countries-layer');
+      
+      g.selectAll('path')
+        .data(countries)
+        .enter()
+        .append('path')
+        .attr('d', path)
+        .attr('fill', '#F1EDE4')
+        .attr('stroke', '#CBD5E1')
+        .attr('stroke-width', 0.8)
+        .attr('class', 'hover:fill-[#E4DDD0] transition-colors cursor-pointer');
 
-    renderPins(FEATURES);
+      renderPins(FEATURES);
+    }).catch(err => {
+      renderPins(FEATURES);
+    });
 
     let currentSelected = null;
 
-    function selectFeature(id) {
-      const feat = FEATURES.find(f => f.id === id);
-      if (!feat) return;
+    function renderPins(items) {
+      const g = d3.select('#interactive-pins-layer');
+      g.selectAll('*').remove();
+
+      items.forEach(item => {
+        const coords = projection([item.lon, item.lat]);
+        if (!coords) return;
+        const [x, y] = coords;
+
+        const pinGroup = g.append('g')
+          .attr('class', 'cursor-pointer group')
+          .on('click', () => selectFeature(item));
+
+        pinGroup.append('circle')
+          .attr('cx', x)
+          .attr('cy', y)
+          .attr('r', 7.5)
+          .attr('fill', item.color)
+          .attr('stroke', '#FFFFFF')
+          .attr('stroke-width', 2.5)
+          .attr('class', 'group-hover:scale-125 transition-transform drop-shadow-md');
+
+        pinGroup.append('circle')
+          .attr('cx', x)
+          .attr('cy', y)
+          .attr('r', 2.5)
+          .attr('fill', '#FFFFFF');
+
+        const label = pinGroup.append('g')
+          .attr('class', 'opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none');
+
+        label.append('rect')
+          .attr('x', x - 55)
+          .attr('y', y - 24)
+          .attr('width', 110)
+          .attr('height', 20)
+          .attr('rx', 6)
+          .attr('fill', '#0F172A')
+          .attr('opacity', 0.9);
+
+        label.append('text')
+          .attr('x', x)
+          .attr('y', y - 10)
+          .attr('text-anchor', 'middle')
+          .attr('font-size', '9.5')
+          .attr('font-family', 'Cairo')
+          .attr('font-weight', 'bold')
+          .attr('fill', '#FFFFFF')
+          .text(item.name.split('(')[0]);
+      });
+    }
+
+    function selectFeature(feat) {
       currentSelected = feat;
       const card = document.getElementById('feature-detail-card');
       card.classList.remove('hidden');
+
       document.getElementById('feat-cat-badge').innerText = feat.cat;
+      document.getElementById('feat-continent-text').innerText = feat.cont;
       document.getElementById('feat-title').innerText = feat.name;
       document.getElementById('feat-desc').innerText = feat.desc;
-      document.getElementById('feat-exam-q').innerText = feat.examQ;
-      document.getElementById('feat-exam-a').innerText = feat.examA;
+
+      const detailsList = document.getElementById('feat-details-list');
+      detailsList.innerHTML = '';
+      feat.details.forEach(d => {
+        const div = document.createElement('div');
+        div.className = 'p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs font-semibold text-slate-700 flex items-start gap-2';
+        div.innerHTML = '<span class="text-emerald-600 font-bold">✓</span> <span>' + d + '</span>';
+        detailsList.appendChild(div);
+      });
+
       card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      if (window.confetti) confetti({ particleCount: 30, spread: 60, origin: { y: 0.8 } });
     }
 
-    // تصفية القارات
-    function filterContinent(contId) {
-      document.querySelectorAll('.continent-tab').forEach(b => {
-        b.className = 'continent-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200';
-      });
-      const activeBtn = document.getElementById('tab-' + contId);
-      if (activeBtn) activeBtn.className = 'continent-tab px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white';
+    function closeFeatureCard() {
+      document.getElementById('feature-detail-card').classList.add('hidden');
+    }
 
-      const svg = document.getElementById('worldMapSvg');
+    function setContinent(contId) {
+      document.querySelectorAll('.cont-btn').forEach(b => {
+        b.className = 'cont-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-white text-slate-700 border border-slate-200';
+      });
+      const activeBtn = document.getElementById('btn-' + contId);
+      if (activeBtn) activeBtn.className = 'cont-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white shadow-xs';
+
+      const svg = document.getElementById('realWorldSvg');
+      const viewBoxes = {
+        all: '0 0 1000 520',
+        asia: '450 40 460 380',
+        africa: '380 160 320 360',
+        europe: '380 40 280 260',
+        north_america: '80 30 360 320',
+        south_america: '200 240 260 360',
+        australia: '700 280 250 260'
+      };
+
+      svg.setAttribute('viewBox', viewBoxes[contId] || '0 0 1000 520');
+
       if (contId === 'all') {
-        svg.setAttribute('viewBox', '0 0 1000 520');
         renderPins(FEATURES);
       } else {
-        const viewBoxes = {
-          asia: '450 40 460 380',
-          africa: '380 160 320 360',
-          europe: '380 40 280 260',
-          north_america: '80 30 360 320',
-          south_america: '200 240 260 360',
-          australia: '700 280 250 260'
-        };
-        svg.setAttribute('viewBox', viewBoxes[contId] || '0 0 1000 520');
         renderPins(FEATURES.filter(f => f.cont === contId));
       }
     }
 
-    // البحث السريع
     function searchFeatures() {
       const q = document.getElementById('searchInput').value.trim().toLowerCase();
       if (!q) {
@@ -520,10 +520,9 @@
       }
       const filtered = FEATURES.filter(f => f.name.toLowerCase().includes(q) || f.desc.toLowerCase().includes(q));
       renderPins(filtered);
-      if (filtered.length > 0) selectFeature(filtered[0].id);
+      if (filtered.length > 0) selectFeature(filtered[0]);
     }
 
-    // القراءة الصوتية باللغة العربية
     function readAloud() {
       if (!currentSelected || !('speechSynthesis' in window)) return;
       window.speechSynthesis.cancel();
@@ -531,75 +530,6 @@
       u.lang = 'ar-SA';
       window.speechSynthesis.speak(u);
     }
-
-    // أسئلة الاختبار التفاعلي
-    const QUIZ_DATA = [
-      { q: 'أين تقع جبال الهيمالايا التي تضم أعلى قمة جبلية في العالم (إيفرست 8848م)؟', a: 'وسط قارة آسيا', options: ['وسط قارة آسيا', 'غرب أمريكا الجنوبية', 'شرق أستراليا', 'شمال أفريقيا'], exp: 'الهيمالايا تقع بوسط آسيا وبها قمة إيفرست 8848 متراً.' },
-      { q: 'ما هي الهضبة المعروفة بلقب "سقف العالم" لشدة ارتفاعها؟', a: 'هضبة التبت', options: ['هضبة التبت', 'هضبة الدكن', 'هضبة الميزيتا', 'هضبة البرازيل'], exp: 'تعرف التبت بسقف العالم لارتفاعها عن قمم الجبال المجاورة.' },
-      { q: 'أطول أنهار قارة أوروبا ينحدر جنوباً ويصب في بحر قزوين هو نهر:', a: 'نهر الفولجا', options: ['نهر الفولجا', 'نهر الدانوب', 'نهر الراين', 'نهر السين'], exp: 'نهر الفولجا هو أطول أنهار أوروبا ويصب في أكبر بحر مغلق بالعالم (قزوين).' },
-      { q: 'أعلى سلاسل الجبال في قارة أمريكا الشمالية وتغطيها الثلوج شتاءً:', a: 'جبال الروكي', options: ['جبال الروكي', 'جبال الأبلاش', 'جبال الأنديز', 'جبال الأطلس'], exp: 'جبال الروكي في الغرب هي أعلى جبال أمريكا الشمالية.' }
-    ];
-
-    let qIdx = 0;
-    let qScore = 0;
-
-    function loadQuestion() {
-      const q = QUIZ_DATA[qIdx];
-      document.getElementById('quiz-question-text').innerText = (qIdx + 1) + '. ' + q.q;
-      const optContainer = document.getElementById('quiz-options-container');
-      optContainer.innerHTML = '';
-      document.getElementById('quiz-feedback').className = 'hidden';
-      document.getElementById('quiz-next-btn').className = 'hidden';
-
-      q.options.forEach(opt => {
-        const btn = document.createElement('button');
-        btn.className = 'p-3.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-right font-bold text-xs sm:text-sm text-slate-800 transition-all';
-        btn.innerText = opt;
-        btn.onclick = () => answerQuestion(opt, btn);
-        optContainer.appendChild(btn);
-      });
-    }
-
-    function answerQuestion(selected, btn) {
-      const q = QUIZ_DATA[qIdx];
-      const isCorrect = selected === q.a;
-      const fb = document.getElementById('quiz-feedback');
-      fb.classList.remove('hidden');
-
-      if (isCorrect) {
-        qScore += 10;
-        document.getElementById('quizScore').innerText = qScore;
-        btn.className = 'p-3.5 rounded-xl border border-emerald-500 bg-emerald-50 text-emerald-950 font-bold text-xs sm:text-sm text-right';
-        fb.className = 'p-4 rounded-2xl border border-emerald-200 bg-emerald-50 text-emerald-950 text-xs sm:text-sm font-semibold';
-        fb.innerHTML = '🎉 إجابة صحيحة ممتازة! ' + q.exp;
-        if (window.confetti) confetti({ particleCount: 50, spread: 60, origin: { y: 0.7 } });
-      } else {
-        btn.className = 'p-3.5 rounded-xl border border-rose-500 bg-rose-50 text-rose-950 font-bold text-xs sm:text-sm text-right line-through';
-        fb.className = 'p-4 rounded-2xl border border-rose-200 bg-rose-50 text-rose-950 text-xs sm:text-sm font-semibold';
-        fb.innerHTML = '❌ إجابة غير دقيقة. الإجابة الصحيحة هي: ' + q.a + '. ' + q.exp;
-      }
-
-      document.getElementById('quiz-next-btn').classList.remove('hidden');
-    }
-
-    function nextQuestion() {
-      qIdx++;
-      if (qIdx < QUIZ_DATA.length) {
-        loadQuestion();
-      } else {
-        document.getElementById('quiz-box').innerHTML = `
-          <div class="text-center py-6 space-y-3">
-            <div class="text-4xl">🏆</div>
-            <h4 class="text-2xl font-black text-slate-900">أحسنت! أتممت بنجاح اختبار الخرائط</h4>
-            <p class="text-sm font-bold text-blue-600">النتيجة النهائية: ${qScore} من ${QUIZ_DATA.length * 10} نقطة</p>
-            <p class="text-xs text-slate-500">تهانينا لطلاب الشهادة الإعدادية المتميزين</p>
-          </div>
-        `;
-        if (window.confetti) confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
-      }
-    }
-
-    loadQuestion();
   </script>
 </body>
 </html>
