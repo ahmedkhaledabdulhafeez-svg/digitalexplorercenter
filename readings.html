@@ -3,67 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>الخريطة التفاعلية للجغرافيا الطبيعية - الصف الثالث الإعدادي</title>
-  
-  <!-- خط القاهرة العربي الرسمي -->
+  <title>الخريطة التفاعلية | مركز المستكشف الرقمي</title>
+  <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  
-  <!-- مكتبات التصميم والكارتوغرافيا الواقعية -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  <script src="https://unpkg.com/topojson-client@3"></script>
-
   <style>
-    body {
-      font-family: 'Cairo', sans-serif;
-      background-color: #F4F7FB;
-    }
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    @media print {
-      body { background: white !important; }
-      header, nav, button, .no-print { display: none !important; }
-    }
-    .climate-zone {
-      transition: opacity 0.2s, stroke-width 0.2s;
-    }
-    .climate-zone:hover {
-      opacity: 0.85 !important;
-      stroke: #ffffff;
-      stroke-width: 2px;
-      cursor: pointer;
-    }
-    .country-path {
-      transition: fill 0.15s, stroke 0.15s, stroke-width 0.15s;
-    }
-    /* تحسين تجربة الموبايل: الخريطة تأخذ الارتفاع الكامل بالطول وإلغاء الفقاعة المنبثقة */
-    @media (max-width: 768px) {
-      #mapWrapper {
-        min-height: 72vh !important;
-        height: 75vh !important;
-      }
-      #realWorldSvg {
-        height: 100% !important;
-        width: 100% !important;
-        max-height: 100% !important;
-        object-fit: cover !important;
-        touch-action: none;
-      }
-      #mapWrapper:fullscreen, #mapWrapper:-webkit-full-screen {
-        height: 100dvh !important;
-        width: 100dvw !important;
-        min-height: 100dvh !important;
-        max-height: 100dvh !important;
-        padding: 0 !important;
-      }
-      #country-popover {
-        display: none !important;
-      }
-    }
+    * { font-family: 'Cairo', sans-serif; box-sizing: border-box; }
+    body { background-color: #F4F7FE; margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; }
+    .figma-card { transition: all 0.3s ease; box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05); }
+    .figma-card:hover { transform: translateY(-4px); box-shadow: 0 15px 30px -10px rgba(79,70,229,0.12); }
+    .hero-gradient { background: linear-gradient(105deg, #0F172A 0%, #1E1B4B 50%, #312E81 100%); }
+    .rotate-180 { transform: rotate(180deg); }
   </style>
 </head>
+
+<body class="text-slate-800">
+
+  <!-- Header Section -->
+  <header class="bg-white/90 backdrop-blur-md border-b border-slate-100 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <!-- شعار جامعة أسوان -->
+      <img src="https://i.postimg.cc/0jsKwhSc/321.png" alt="شعار جامعة أسوان" class="w-12 h-12 md:w-14 md:h-14 object-contain">
+      
+      <div class="text-center flex-1">
+        <h1 class="text-base md:text-xl font-extrabold text-slate-900">الخرائط التفاعلية الذكية</h1>
+        <p class="text-xs md:text-sm text-indigo-600 font-semibold mt-0.5">مركز المستكشف الرقمي - الصف الثالث الإعدادي</p>
+      </div>
 <body class="text-slate-800 antialiased selection:bg-blue-600 selection:text-white">
 
   <!-- ==================== الهيدر والشعارات ==================== -->
