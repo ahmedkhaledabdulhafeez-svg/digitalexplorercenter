@@ -38,6 +38,30 @@
     .country-path {
       transition: fill 0.15s, stroke 0.15s, stroke-width 0.15s;
     }
+    /* تحسين تجربة الموبايل: الخريطة تأخذ الارتفاع الكامل بالطول وإلغاء الفقاعة المنبثقة */
+    @media (max-width: 768px) {
+      #mapWrapper {
+        min-height: 72vh !important;
+        height: 75vh !important;
+      }
+      #realWorldSvg {
+        height: 100% !important;
+        width: 100% !important;
+        max-height: 100% !important;
+        object-fit: cover !important;
+        touch-action: none;
+      }
+      #mapWrapper:fullscreen, #mapWrapper:-webkit-full-screen {
+        height: 100dvh !important;
+        width: 100dvw !important;
+        min-height: 100dvh !important;
+        max-height: 100dvh !important;
+        padding: 0 !important;
+      }
+      #country-popover {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body class="text-slate-800 antialiased selection:bg-blue-600 selection:text-white">
@@ -239,14 +263,18 @@
           </button>
         </div>
 
-        <!-- أسماء المحيطات الكبرى -->
-        <div class="absolute top-[30%] left-[8%] text-sky-800/40 font-black text-xs sm:text-sm pointer-events-none select-none">المحيط الهادي</div>
-        <div class="absolute top-[38%] left-[38%] text-sky-800/40 font-black text-xs sm:text-sm pointer-events-none select-none">المحيط الأطلنطي</div>
-        <div class="absolute top-[56%] left-[64%] text-sky-800/40 font-black text-xs sm:text-sm pointer-events-none select-none">المحيط الهندي</div>
-        <div class="absolute top-[6%] left-[45%] text-sky-800/40 font-black text-xs sm:text-sm pointer-events-none select-none">المحيط القطبي الشمالي</div>
-
         <svg id="realWorldSvg" viewBox="0 0 1000 520" class="w-full h-auto max-h-[620px] transition-all duration-300 ease-out cursor-grab active:cursor-grabbing">
           <g id="zoomable-map-group">
+            <!-- أسماء المحيطات الكبرى مثبتة داخل الخريطة لتتحرك وتكبر وتصغر معها جغرافياً -->
+            <g id="ocean-labels-layer" class="pointer-events-none select-none">
+              <text x="120" y="260" text-anchor="middle" fill="#0369A1" opacity="0.45" font-size="13" font-family="Cairo, sans-serif" font-weight="900" letter-spacing="2">المحيط الهادي</text>
+              <text x="910" y="300" text-anchor="middle" fill="#0369A1" opacity="0.45" font-size="13" font-family="Cairo, sans-serif" font-weight="900" letter-spacing="2">المحيط الهادي</text>
+              <text x="410" y="235" text-anchor="middle" fill="#0369A1" opacity="0.45" font-size="14" font-family="Cairo, sans-serif" font-weight="900" letter-spacing="2">المحيط الأطلنطي</text>
+              <text x="670" y="340" text-anchor="middle" fill="#0369A1" opacity="0.45" font-size="14" font-family="Cairo, sans-serif" font-weight="900" letter-spacing="2">المحيط الهندي</text>
+              <text x="500" y="55" text-anchor="middle" fill="#0369A1" opacity="0.45" font-size="13" font-family="Cairo, sans-serif" font-weight="900" letter-spacing="2">المحيط القطبي الشمالي</text>
+              <text x="500" y="490" text-anchor="middle" fill="#0369A1" opacity="0.45" font-size="12" font-family="Cairo, sans-serif" font-weight="900" letter-spacing="2">المحيط المتجمد الجنوبي</text>
+            </g>
+
             <!-- طبقة مسارات دول وقارات العالم الواقعية -->
             <g id="earth-countries-layer"></g>
 
@@ -378,7 +406,7 @@
     </section>
 
     <!-- ==================== بطاقة تفاصيل الدولة التفاعلية وخرائط جوجل ==================== -->
-    <div id="country-detail-card" class="hidden bg-white rounded-[26px] border-2 border-blue-600 shadow-xl p-6 sm:p-8 space-y-4 animate-fadeIn">
+    <div id="country-detail-card" class="hidden fixed md:relative bottom-0 md:bottom-auto inset-x-0 md:inset-x-auto z-40 md:z-auto max-h-[50vh] md:max-h-none overflow-y-auto md:overflow-visible bg-white rounded-t-3xl md:rounded-[26px] border-t-4 md:border-2 border-blue-600 shadow-2xl md:shadow-xl p-5 sm:p-8 space-y-4 animate-fadeIn">
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b pb-4">
         <div class="flex items-center gap-4">
           <img id="card-flag-img" src="" alt="علم" class="w-16 h-11 object-cover rounded-lg shadow border border-slate-200" />
@@ -936,10 +964,8 @@
         })
         .on('touchstart', function(event, d) {
           if (currentTab !== 'blank') return;
-          if (event.touches && event.touches[0]) {
-            showCountryPopover(d.id, event.touches[0]);
-            selectCountry(d.id);
-          }
+          hideCountryPopover();
+          selectCountry(d.id);
         });
 
       renderAccurateRivers();
@@ -1093,6 +1119,10 @@
     }
 
     function showCountryPopover(countryId, event) {
+      if (window.innerWidth < 768) {
+        hideCountryPopover();
+        return;
+      }
       const padded = String(countryId).padStart(3, '0');
       let data = COUNTRIES_DICT[padded] || COUNTRIES_DICT[String(countryId)];
       
