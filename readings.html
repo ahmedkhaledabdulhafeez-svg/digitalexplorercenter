@@ -108,9 +108,6 @@
             🌦️ الأقاليم المناخية
           </button>
         </nav>
-        <button onclick="window.print()" class="px-3 py-1.5 text-xs font-semibold text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-100 transition-colors whitespace-nowrap">
-          🖨️ طباعة الملخص
-        </button>
       </div>
     </div>
   </header>
@@ -121,35 +118,30 @@
     <!-- البانر الترحيبي -->
     <section class="relative overflow-hidden rounded-[26px] bg-gradient-to-r from-[#1c194e] via-[#272368] to-[#1c194e] text-white shadow-xl p-6 sm:p-8 flex flex-col-reverse lg:flex-row items-center justify-between gap-6 border border-indigo-900/40">
       
+      <!-- شعار المنصة الدائري -->
       <div class="w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-gradient-to-b from-[#2e2a77] via-[#211e59] to-[#16143f] border-2 border-indigo-400/30 shadow-2xl flex flex-col items-center justify-center p-3 text-center shrink-0">
         <div class="w-16 h-16 rounded-full bg-blue-600/30 border border-blue-400/60 relative flex items-center justify-center shadow-inner mb-1 text-2xl">
           🌍
         </div>
-        <p class="text-xs font-bold text-slate-100 leading-snug">مركز تعلم الدراسات الاجتماعية</p>
-        <p class="text-[10px] font-semibold text-blue-300 mt-0.5">الصف الثالث الإعدادي</p>
+        <p class="text-xs font-bold text-slate-100 leading-snug">
+          مركز تعلم الدراسات الاجتماعية
+        </p>
+        <p class="text-[10px] font-semibold text-blue-300 mt-0.5">
+          الصف الثالث الإعدادي
+        </p>
       </div>
 
+      <!-- نصوص البانر -->
       <div class="flex-1 text-center lg:text-right space-y-2.5 max-w-2xl">
         <div class="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-white/10 border border-white/15 text-xs font-semibold text-indigo-100">
-          <span>🚀 خريطة جغرافية كارتوغرافية ذكية</span>
+          <span>🚀 خريطة جغرافية كارتوغرافية تفاعلية</span>
         </div>
         <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-tight">
           استكشف العالم بدقة واقعية واحترافية!
         </h2>
         <p class="text-indigo-100/90 text-xs sm:text-sm leading-relaxed font-normal">
-          تنقل بين <strong>الخريطة الصماء</strong> بدون أي زحام، أو تفقد <strong>الجبال والهضاب</strong>، <strong>الأنهار والمضايق</strong>، و<strong>الأقاليم المناخية</strong>. اضغط على أي دولة لفتح حدودها وموقعها المباشر على Google Maps و Google Earth.
+          تنقل بين <strong>الخريطة الصماء</strong> بدون أي زحام لاكتشاف دول العالم، أو تفقد <strong>الجبال والهضاب</strong>، <strong>الأنهار والمضايق</strong>، و<strong>الأقاليم المناخية</strong>. يمكنك التكبير والتحريك بالفأرة وملء الشاشة بسهولة.
         </p>
-
-        <!-- بحث فوري -->
-        <div class="pt-1">
-          <input
-            type="text"
-            id="searchInput"
-            oninput="searchFeatures()"
-            placeholder="ابحث عن دولة أو معلم: مصر، جبال الهيمالايا، نهر النيل، البرازيل، مضيق باب المندب..."
-            class="w-full max-w-md bg-white/15 hover:bg-white/20 focus:bg-white text-white focus:text-slate-900 placeholder:text-indigo-200 focus:placeholder:text-slate-400 px-4 py-2.5 rounded-xl border border-white/20 text-xs sm:text-sm font-semibold outline-none transition-all"
-          />
-        </div>
       </div>
     </section>
 
@@ -178,7 +170,7 @@
 
         <!-- أزرار تركيز القارات -->
         <div class="flex items-center gap-1 overflow-x-auto no-scrollbar">
-          <button onclick="setContinent('all')" id="btn-all" class="cont-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white/25 text-white shadow-xs">🌍 العالم</button>
+          <button onclick="setContinent('all')" id="btn-all" class="cont-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-white/10 text-white hover:bg-white/20">🌍 العالم</button>
           <button onclick="setContinent('asia')" id="btn-asia" class="cont-btn px-2 py-1 rounded-lg text-xs font-bold bg-white/5 text-slate-300 hover:bg-white/20">آسيا</button>
           <button onclick="setContinent('africa')" id="btn-africa" class="cont-btn px-2 py-1 rounded-lg text-xs font-bold bg-white/5 text-slate-300 hover:bg-white/20">أفريقيا</button>
           <button onclick="setContinent('europe')" id="btn-europe" class="cont-btn px-2 py-1 rounded-lg text-xs font-bold bg-white/5 text-slate-300 hover:bg-white/20">أوروبا</button>
@@ -188,10 +180,13 @@
         </div>
       </div>
 
+      <!-- أشرطة أزرار المعالم الخاصة بكل قسم (تظهر حسب القسم المختار) -->
+      
       <!-- 1. أزرار قسم الجبال والهضاب -->
       <div id="mountains-toolbar" class="hidden bg-amber-50/70 border-b border-amber-200/80 p-3 overflow-x-auto no-scrollbar">
         <div class="flex items-center gap-1.5 text-xs font-bold min-w-max">
           <span class="text-amber-950 font-extrabold ml-1">⛰️ اختر معلماً للتركيز:</span>
+          <!-- الجبال -->
           <button onclick="focusOnFeature('himalayas')" class="px-2.5 py-1 rounded-lg bg-red-600 text-white shadow-2xs hover:bg-red-700">جبال الهيمالايا</button>
           <button onclick="focusOnFeature('alps')" class="px-2.5 py-1 rounded-lg bg-red-600 text-white shadow-2xs hover:bg-red-700">جبال الألب</button>
           <button onclick="focusOnFeature('andes')" class="px-2.5 py-1 rounded-lg bg-red-600 text-white shadow-2xs hover:bg-red-700">جبال الأنديز</button>
@@ -199,6 +194,7 @@
           <button onclick="focusOnFeature('atlas')" class="px-2.5 py-1 rounded-lg bg-red-600 text-white shadow-2xs hover:bg-red-700">جبال أطلس</button>
           <button onclick="focusOnFeature('great_dividing')" class="px-2.5 py-1 rounded-lg bg-red-600 text-white shadow-2xs hover:bg-red-700">جبال الحاجز الكبير</button>
           <span class="text-slate-300 mx-1">|</span>
+          <!-- الهضاب -->
           <button onclick="focusOnFeature('tibet')" class="px-2.5 py-1 rounded-lg bg-amber-600 text-white shadow-2xs hover:bg-amber-700">هضبة التبت</button>
           <button onclick="focusOnFeature('deccan')" class="px-2.5 py-1 rounded-lg bg-amber-600 text-white shadow-2xs hover:bg-amber-700">هضبة الدكن</button>
           <button onclick="focusOnFeature('ethiopia_plat')" class="px-2.5 py-1 rounded-lg bg-amber-600 text-white shadow-2xs hover:bg-amber-700">هضبة إثيوبيا</button>
@@ -227,17 +223,34 @@
       <!-- مساحة الخريطة الكارتوغرافية -->
       <div id="mapWrapper" class="relative bg-[#E8F4F8] min-h-[480px] sm:min-h-[580px] flex items-center justify-center p-4 overflow-hidden select-none">
         
+        <!-- أزرار التكبير والتصغير وملء الشاشة -->
+        <div class="absolute top-4 left-4 z-30 flex flex-col gap-1.5 bg-white/95 backdrop-blur-md p-1.5 rounded-2xl shadow-lg border border-slate-200">
+          <button onclick="zoomIn()" title="تكبير (+)" class="w-9 h-9 flex items-center justify-center rounded-xl bg-white hover:bg-slate-100 text-slate-800 font-black text-lg transition-colors border border-slate-200/80 shadow-2xs">
+            +
+          </button>
+          <button onclick="zoomOut()" title="تصغير (-)" class="w-9 h-9 flex items-center justify-center rounded-xl bg-white hover:bg-slate-100 text-slate-800 font-black text-lg transition-colors border border-slate-200/80 shadow-2xs">
+            −
+          </button>
+          <button onclick="resetZoom()" title="إعادة ضبط الرؤية" class="w-9 h-9 flex items-center justify-center rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs transition-colors border border-slate-200/80 shadow-2xs">
+            🔄
+          </button>
+          <button onclick="toggleFullscreen()" id="btn-fullscreen" title="ملء الشاشة" class="w-9 h-9 flex items-center justify-center rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm transition-colors shadow-xs">
+            ⛶
+          </button>
+        </div>
+
         <!-- أسماء المحيطات الكبرى -->
         <div class="absolute top-[30%] left-[8%] text-sky-800/40 font-black text-xs sm:text-sm pointer-events-none select-none">المحيط الهادي</div>
         <div class="absolute top-[38%] left-[38%] text-sky-800/40 font-black text-xs sm:text-sm pointer-events-none select-none">المحيط الأطلنطي</div>
         <div class="absolute top-[56%] left-[64%] text-sky-800/40 font-black text-xs sm:text-sm pointer-events-none select-none">المحيط الهندي</div>
         <div class="absolute top-[6%] left-[45%] text-sky-800/40 font-black text-xs sm:text-sm pointer-events-none select-none">المحيط القطبي الشمالي</div>
 
-        <svg id="realWorldSvg" viewBox="0 0 1000 520" class="w-full h-auto max-h-[620px] transition-all duration-700 ease-out">
-          <!-- مسارات الدول الواقعية -->
-          <g id="earth-countries-layer"></g>
+        <svg id="realWorldSvg" viewBox="0 0 1000 520" class="w-full h-auto max-h-[620px] transition-all duration-300 ease-out cursor-grab active:cursor-grabbing">
+          <g id="zoomable-map-group">
+            <!-- طبقة مسارات دول وقارات العالم الواقعية -->
+            <g id="earth-countries-layer"></g>
 
-          <!-- الأقاليم المناخية الـ 9 بالألوان المميزة -->
+          <!-- طبقة الأقاليم المناخية الـ 9 ملونة بألوان مستقلة -->
           <g id="climates-overlay" opacity="0.65" class="hidden">
             <!-- 1. الاستوائي وشبه الاستوائي (#15803D أخضر غابي) -->
             <path d="M 270 290 Q 310 280, 340 310 Q 320 335, 270 320 Z" fill="#15803D" class="climate-zone" onmouseenter="showClimateTip('الإقليم الاستوائي وشبه الاستوائي', 'حوض الأمازون بأمريكا الجنوبية - حرارة ومطر طوال العام، غابات استوائية (مطاط وماهوجني)', '#15803D', event)" onmouseleave="hideClimateTip()"/>
@@ -252,35 +265,35 @@
             <path d="M 740 325 Q 800 315, 835 335 Q 790 350, 740 340 Z" fill="#EA580C" class="climate-zone" onmouseenter="showClimateTip('الإقليم المداري الحار (السوداني)', 'شمال قارة أستراليا - صيف حار ممطر وشتاء جاف', '#EA580C', event)" onmouseleave="hideClimateTip()"/>
 
             <!-- 3. الموسمي (#9333EA بنفسجي أرجواني) -->
-            <path d="M 645 230 Q 720 220, 750 270 Q 700 290, 650 260 Z" fill="#9333EA" class="climate-zone" onmouseenter="showClimateTip('الإقليم الموسمي', 'شبه القارة الهندية وجنوب شرق آسيا - أمطار صيفية غزيرة وجفاف شتاءً، أشجار جوز الهند', '#9333EA', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 550 265 Q 580 255, 585 290 Q 560 300, 550 280 Z" fill="#9333EA" class="climate-zone" onmouseenter="showClimateTip('الإقليم الموسمي', 'هضبة إثيوبيا بإفريقيا - أمطار صيفية غزيرة تغذي نهر النيل', '#9333EA', event)" onmouseleave="hideClimateTip()"/>
+            <path d="M 645 230 Q 720 220, 750 270 Q 700 290, 650 260 Z" fill="#9333EA" class="climate-zone" onmouseenter="showClimateTip('الإقليم الموسمي', 'شبه القارة الهندية وشبه جزيرة الهند الصينية - أمطار صيفية غزيرة وجفاف شتاءً، أشجار جوز الهند', '#9333EA', event)" onmouseleave="hideClimateTip()"/>
+            <path d="M 550 265 Q 580 255, 585 290 Q 560 300, 550 280 Z" fill="#9333EA" class="climate-zone" onmouseenter="showClimateTip('الإقليم الموسمي', 'هضبة إثيوبيا بإفريقيا - أمطار صيفية غزيرة تغذي نهر النيل الموسمي بنسبة 84%', '#9333EA', event)" onmouseleave="hideClimateTip()"/>
             <path d="M 585 340 Q 605 330, 605 380 Q 585 385, 580 355 Z" fill="#9333EA" class="climate-zone" onmouseenter="showClimateTip('الإقليم الموسمي', 'جزيرة مدغشقر بإفريقيا - أمطار صيفية غزيرة وأشجار جوز الهند والسافانا', '#9333EA', event)" onmouseleave="hideClimateTip()"/>
             <path d="M 760 315 Q 815 310, 830 328 Q 785 335, 760 325 Z" fill="#9333EA" class="climate-zone" onmouseenter="showClimateTip('الإقليم الموسمي', 'أقصى شمال أستراليا - أمطار صيفية غزيرة وتنمو به حشائش السافانا', '#9333EA', event)" onmouseleave="hideClimateTip()"/>
 
             <!-- 4. البحر المتوسط (#0284C7 أزرق سماوي ناصع) -->
             <path d="M 450 185 Q 530 180, 560 205 Q 510 220, 450 200 Z" fill="#0284C7" class="climate-zone" onmouseenter="showClimateTip('إقليم البحر المتوسط (غرب القارات 30°-45°)', 'سواحل شمال إفريقيا وجنوب أوروبا والشام - حار جاف صيفاً، دافئ ممطر شتاءً. أشجار الزيتون والاستبس', '#0284C7', event)" onmouseleave="hideClimateTip()"/>
             <path d="M 185 195 Q 210 190, 215 225 Q 195 230, 185 205 Z" fill="#0284C7" class="climate-zone" onmouseenter="showClimateTip('إقليم البحر المتوسط (غرب القارات 30°-45°)', 'ولاية كاليفورنيا بالولايات المتحدة - حار جاف صيفاً دافئ ممطر شتاءً، حشائش البراري', '#0284C7', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 268 360 Q 285 355, 285 390 Q 268 395, 265 370 Z" fill="#0284C7" class="climate-zone" onmouseenter="showClimateTip('إقليم البحر المتوسط (غرب القارات 30°-45°)', 'الساحل الأوسط في تشيلي - حار جاف صيفاً دافئ ممطر شتاءً وأشجار الزيتون', '#0284C7', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 505 385 Q 535 380, 535 410 Q 505 410, 500 395 Z" fill="#0284C7" class="climate-zone" onmouseenter="showClimateTip('إقليم البحر المتوسط (غرب القارات 30°-45°)', 'جنوب غرب إفريقيا - دافئ ممطر شتاءً وحار جاف صيفاً', '#0284C7', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 720 380 Q 750 375, 750 405 Q 720 405, 715 390 Z" fill="#0284C7" class="climate-zone" onmouseenter="showClimateTip('إقليم البحر المتوسط (غرب القارات 30°-45°)', 'جنوب غرب أستراليا - حار جاف صيفاً دافئ ممطر شتاءً', '#0284C7', event)" onmouseleave="hideClimateTip()"/>
+            <path d="M 268 360 Q 285 355, 285 390 Q 268 395, 265 370 Z" fill="#0284C7" class="climate-zone" onmouseenter="showClimateTip('إقليم البحر المتوسط (غرب القارات 30°-45°)', 'الساحل الأوسط في تشيلي بأمريكا الجنوبية - حار جاف صيفاً دافئ ممطر شتاءً وأشجار الزيتون', '#0284C7', event)" onmouseleave="hideClimateTip()"/>
+            <path d="M 505 385 Q 535 380, 535 410 Q 505 410, 500 395 Z" fill="#0284C7" class="climate-zone" onmouseenter="showClimateTip('إقليم البحر المتوسط (غرب القارات 30°-45°)', 'جنوب غرب وجنوب إفريقيا - دافئ ممطر شتاءً وحار جاف صيفاً', '#0284C7', event)" onmouseleave="hideClimateTip()"/>
+            <path d="M 720 380 Q 750 375, 750 405 Q 720 405, 715 390 Z" fill="#0284C7" class="climate-zone" onmouseenter="showClimateTip('إقليم البحر المتوسط (غرب القارات 30°-45°)', 'جنوب غرب وجنوب أستراليا - حار جاف صيفاً دافئ ممطر شتاءً', '#0284C7', event)" onmouseleave="hideClimateTip()"/>
 
             <!-- 5. الصيني المعتدل الدافئ (#0D9488 تركواز زمردي) -->
-            <path d="M 720 205 Q 770 200, 780 245 Q 730 250, 715 220 Z" fill="#0D9488" class="climate-zone" onmouseenter="showClimateTip('الإقليم الصيني (شرق القارات 30°-45°)', 'شرق الصين بآسيا - أمطار طوال العام تزداد صيفاً، عواصف التيفون وأشجار الصفصاف والبلوط', '#0D9488', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 235 210 Q 280 205, 285 240 Q 240 245, 230 225 Z" fill="#0D9488" class="climate-zone" onmouseenter="showClimateTip('الإقليم الصيني (شرق القارات 30°-45°)', 'جنوب شرق الولايات المتحدة - أمطار طوال العام تزداد صيفاً، أشجار دائمة الخضرة', '#0D9488', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 315 350 Q 355 345, 360 385 Q 320 390, 310 365 Z" fill="#0D9488" class="climate-zone" onmouseenter="showClimateTip('الإقليم الصيني (شرق القارات 30°-45°)', 'جنوب شرق البرازيل والأرجنتين - أمطار طوال العام وحشائش الاستبس الغنية بالرعي', '#0D9488', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 800 375 Q 835 370, 840 405 Q 805 410, 795 385 Z" fill="#0D9488" class="climate-zone" onmouseenter="showClimateTip('الإقليم الصيني (شرق القارات 30°-45°)', 'جنوب شرق أستراليا - أمطار طوال العام تزداد صيفاً وأشجار دائمة الخضرة', '#0D9488', event)" onmouseleave="hideClimateTip()"/>
+            <path d="M 720 205 Q 770 200, 780 245 Q 730 250, 715 220 Z" fill="#0D9488" class="climate-zone" onmouseenter="showClimateTip('الإقليم الصيني (المعتدل الدافئ شرق القارات 30°-45°)', 'شرق الصين بآسيا - حار صيفاً دافئ شتاءً، أمطار طوال العام تزداد صيفاً، وعواصف التيفون وأشجار الصفصاف والبلوط', '#0D9488', event)" onmouseleave="hideClimateTip()"/>
+            <path d="M 235 210 Q 280 205, 285 240 Q 240 245, 230 225 Z" fill="#0D9488" class="climate-zone" onmouseenter="showClimateTip('الإقليم الصيني (المعتدل الدافئ شرق القارات 30°-45°)', 'جنوب شرق الولايات المتحدة الأمريكية - أمطار طوال العام تزداد صيفاً، أشجار دائمة الخضرة', '#0D9488', event)" onmouseleave="hideClimateTip()"/>
+            <path d="M 315 350 Q 355 345, 360 385 Q 320 390, 310 365 Z" fill="#0D9488" class="climate-zone" onmouseenter="showClimateTip('الإقليم الصيني (المعتدل الدافئ شرق القارات 30°-45°)', 'جنوب شرق البرازيل والأرجنتين (البمباس) - أمطار طوال العام وحشائش الاستبس الغنية بالرعي', '#0D9488', event)" onmouseleave="hideClimateTip()"/>
+            <path d="M 800 375 Q 835 370, 840 405 Q 805 410, 795 385 Z" fill="#0D9488" class="climate-zone" onmouseenter="showClimateTip('الإقليم الصيني (المعتدل الدافئ شرق القارات 30°-45°)', 'جنوب شرق أستراليا - أمطار طوال العام تزداد صيفاً وأشجار دائمة الخضرة', '#0D9488', event)" onmouseleave="hideClimateTip()"/>
 
             <!-- 6. غرب أوروبا (#4338CA كحلي نيلي عميق) -->
-            <path d="M 455 120 Q 520 110, 525 165 Q 460 170, 450 140 Z" fill="#4338CA" class="climate-zone" onmouseenter="showClimateTip('إقليم غرب أوروبا (غرب القارات 45°-60°)', 'شمال غرب أوروبا (بريطانيا وفرنسا والنرويج) - دافئ صيفاً بارد شتاءً، أمطار طوال العام، غابات نفضية (الزان)', '#4338CA', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 155 130 Q 195 125, 200 170 Q 160 175, 150 145 Z" fill="#4338CA" class="climate-zone" onmouseenter="showClimateTip('إقليم غرب أوروبا (غرب القارات 45°-60°)', 'شمال غرب أمريكا الشمالية - أمطار طوال العام وتنمو به الغابات النفضية', '#4338CA', event)" onmouseleave="hideClimateTip()"/>
+            <path d="M 455 120 Q 520 110, 525 165 Q 460 170, 450 140 Z" fill="#4338CA" class="climate-zone" onmouseenter="showClimateTip('إقليم غرب أوروبا (غرب القارات 45°-60°)', 'شمال غرب أوروبا (بريطانيا وفرنسا والنرويج) - دافئ صيفاً بارد شتاءً، أمطار طوال العام تزداد شتاءً وخريفاً، غابات نفضية (الزان)', '#4338CA', event)" onmouseleave="hideClimateTip()"/>
+            <path d="M 155 130 Q 195 125, 200 170 Q 160 175, 150 145 Z" fill="#4338CA" class="climate-zone" onmouseenter="showClimateTip('إقليم غرب أوروبا (غرب القارات 45°-60°)', 'أقصى شمال غرب أمريكا الشمالية - أمطار طوال العام وتنمو به الغابات النفضية', '#4338CA', event)" onmouseleave="hideClimateTip()"/>
             <path d="M 265 410 Q 285 405, 285 450 Q 265 455, 260 425 Z" fill="#4338CA" class="climate-zone" onmouseenter="showClimateTip('إقليم غرب أوروبا (غرب القارات 45°-60°)', 'أقصى جنوب غرب تشيلي - بارد رطب طوال العام وأشجار الزان النفضية', '#4338CA', event)" onmouseleave="hideClimateTip()"/>
 
             <!-- 7. اللورنسي المعتدل البارد (#C026D3 ماجنتا فوشيا) -->
-            <path d="M 725 150 Q 790 145, 810 195 Q 745 200, 720 175 Z" fill="#C026D3" class="climate-zone" onmouseenter="showClimateTip('الإقليم اللورنسي (شرق القارات 45°-60°)', 'شمال شرق الصين وشمال اليابان - معتدل صيفاً بارد شتاءً، أمطار طوال العام تزداد صيفاً، غابات مخروطية (صنوبر وشربين والدب القطبي)', '#C026D3', event)" onmouseleave="hideClimateTip()"/>
-            <path d="M 265 145 Q 330 140, 340 190 Q 275 195, 255 170 Z" fill="#C026D3" class="climate-zone" onmouseenter="showClimateTip('الإقليم اللورنسي (شرق القارات 45°-60°)', 'شمال شرق أمريكا الشمالية وهضبة لبرادور - أمطار صيفية وثلوج شتاءً وغابات مخروطية وحيوان الدب القطبي', '#C026D3', event)" onmouseleave="hideClimateTip()"/>
+            <path d="M 725 150 Q 790 145, 810 195 Q 745 200, 720 175 Z" fill="#C026D3" class="climate-zone" onmouseenter="showClimateTip('الإقليم اللورنسي (المعتدل البارد شرق القارات 45°-60°)', 'شمال شرق الصين وشمال اليابان - معتدل صيفاً بارد شتاءً، أمطار طوال العام تزداد صيفاً، غابات مخروطية (صنوبر وشربين والدب القطبي)', '#C026D3', event)" onmouseleave="hideClimateTip()"/>
+            <path d="M 265 145 Q 330 140, 340 190 Q 275 195, 255 170 Z" fill="#C026D3" class="climate-zone" onmouseenter="showClimateTip('الإقليم اللورنسي (المعتدل البارد شرق القارات 45°-60°)', 'شمال شرق أمريكا الشمالية وهضبة لبرادور - أمطار صيفية وثلوج شتاءً وغابات مخروطية وحيوان الدب القطبي', '#C026D3', event)" onmouseleave="hideClimateTip()"/>
 
             <!-- 8. إقليم التندرا شديد البرودة (#38BDF8 أزرق جليدي فاتح) -->
-            <rect x="70" y="45" width="860" height="40" rx="6" fill="#38BDF8" class="climate-zone" onmouseenter="showClimateTip('إقليم التندرا (القطبي 60°-90°)', 'سواحل شمال آسيا (سيبيريا) وشمال كندا وألاسكا وأنتاركتيكا - صيف قصير بارد، شتاء طويل شديد البرودة تتساقط فيه الثلوج وطحالب وحيوان الرنة', '#38BDF8', event)" onmouseleave="hideClimateTip()"/>
+            <rect x="70" y="45" width="860" height="40" rx="6" fill="#38BDF8" class="climate-zone" onmouseenter="showClimateTip('إقليم التندرا (القطبي شديد البرودة 60°-90°)', 'سواحل شمال آسيا (سيبيريا) وشمال كندا وألاسكا وغرينلاند وأنتاركتيكا - صيف قصير بارد قليل المطر، شتاء طويل شديد البرودة تتساقط فيه الثلوج، طحالب سريعة وحيوان الرنة', '#38BDF8', event)" onmouseleave="hideClimateTip()"/>
 
             <!-- 9. الإقليم الجبلي (#78350F بني قمم كستنائي) -->
             <path d="M 660 215 Q 710 210, 725 225 Q 685 235, 655 225 Z" fill="#78350F" class="climate-zone" onmouseenter="showClimateTip('الإقليم الجبلي (المرتفعات الشاهقة)', 'سلاسل جبال الهيمالايا بآسيا - شديد البرودة وتغطي قممه الثلوج طوال العام وتتنوع الحياة النباتية حسب الارتفاع والمطر', '#78350F', event)" onmouseleave="hideClimateTip()"/>
@@ -288,19 +301,15 @@
             <path d="M 180 135 Q 195 130, 205 210 Q 185 215, 175 150 Z" fill="#78350F" class="climate-zone" onmouseenter="showClimateTip('الإقليم الجبلي (المرتفعات الشاهقة)', 'سلاسل جبال الروكي بأمريكا الشمالية - مغطاة بالجليد شتاءً وتتنوع نباتاتها حسب الارتفاع', '#78350F', event)" onmouseleave="hideClimateTip()"/>
           </g>
 
-          <!-- مسارات الأنهار الكبرى -->
-          <g id="rivers-layer" opacity="0.9" class="hidden pointer-events-none">
-            <path d="M 545 320 Q 538 270, 532 205" fill="none" stroke="#0284C7" stroke-width="2.8" stroke-linecap="round"/>
-            <path d="M 255 315 Q 295 320, 335 315" fill="none" stroke="#0284C7" stroke-width="3.2" stroke-linecap="round"/>
-            <path d="M 230 150 Q 240 185, 245 225" fill="none" stroke="#0284C7" stroke-width="2.6" stroke-linecap="round"/>
-            <path d="M 550 120 Q 575 145, 575 175" fill="none" stroke="#0284C7" stroke-width="2.2" stroke-linecap="round"/>
-          </g>
+          <!-- مسارات الأنهار الكبرى الدقيقة جغرافياً (تظهر فقط في قسم الأنهار) -->
+          <g id="rivers-layer" opacity="0.95" class="hidden pointer-events-none"></g>
 
-          <!-- النقاط التفاعلية -->
+          <!-- النقاط التفاعلية (مخفية في وضع الخريطة الصماء) -->
           <g id="interactive-pins-layer"></g>
-        </svg>
+        </g>
+      </svg>
 
-        <!-- نافذة اسم الدولة وعلمها عند التحويم -->
+        <!-- نافذة اسم الدولة وعلمها ومعلوماتها عند التحويم أو اللمس -->
         <div id="country-popover" class="hidden absolute z-30 pointer-events-none w-72 bg-white/95 backdrop-blur-md rounded-2xl p-3.5 shadow-2xl border border-blue-500/30 text-right transition-all duration-75">
           <div class="flex items-center gap-2.5 mb-2 pb-2 border-b border-slate-100">
             <img id="pop-flag-img" src="" alt="علم الدولة" class="w-10 h-7 object-cover rounded shadow-xs border border-slate-200 shrink-0" onerror="this.style.display='none'; document.getElementById('pop-flag-fallback').classList.remove('hidden');" />
@@ -331,7 +340,7 @@
 
       </div>
 
-      <!-- مفتاح الأقاليم المناخية الـ 9 الملون -->
+      <!-- ================= مفتاح الأقاليم المناخية الـ 9 الملون ================= -->
       <div id="climates-legend-bar" class="hidden bg-emerald-50/70 border-t border-emerald-200/80 px-6 py-3.5">
         <div class="flex items-center justify-between mb-2">
           <h4 class="text-xs font-black text-emerald-950 flex items-center gap-1.5">
@@ -352,7 +361,7 @@
         </div>
       </div>
 
-      <!-- شريط الإرشادات والمفتاح العام -->
+      <!-- ================= شريط الإرشادات والمفتاح ================= -->
       <div class="bg-slate-50 border-t border-slate-200 px-6 py-3 flex flex-wrap items-center justify-between gap-4 text-xs font-semibold text-slate-700">
         <div id="general-legend" class="flex flex-wrap items-center gap-4">
           <span class="text-slate-900 font-extrabold flex items-center gap-1">🧭 مفتاح المعالم:</span>
@@ -368,7 +377,7 @@
       </div>
     </section>
 
-    <!-- بطاقة تفاصيل الدولة وأزرار خرائط جوجل وإيرث -->
+    <!-- ==================== بطاقة تفاصيل الدولة التفاعلية وخرائط جوجل ==================== -->
     <div id="country-detail-card" class="hidden bg-white rounded-[26px] border-2 border-blue-600 shadow-xl p-6 sm:p-8 space-y-4 animate-fadeIn">
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b pb-4">
         <div class="flex items-center gap-4">
@@ -382,6 +391,7 @@
           </div>
         </div>
 
+        <!-- أزرار فتح خرائط جوجل وجوجل إيرث -->
         <div class="flex flex-wrap items-center gap-2">
           <a id="btn-google-maps" href="#" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs transition-colors">
             <span>🗺️ فتح في Google Maps</span>
@@ -421,7 +431,9 @@
       <div id="feat-details-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2"></div>
     </div>
 
-    <!-- تضاريس قارات العالم المقررة بالكامل -->
+    <!-- ==================== تفاصيل المنهج بالكامل تحت الخريطة ==================== -->
+
+    <!-- تضاريس قارات العالم المقررة -->
     <section id="continents-section" class="bg-white rounded-[26px] border border-slate-200 shadow-md p-6 sm:p-8 space-y-6">
       <div class="border-b pb-4">
         <span class="text-xs font-bold px-3 py-1 rounded-full bg-blue-50 text-blue-700 mb-1 inline-block">الوحدة الأولى: الجغرافيا الطبيعية للعالم</span>
@@ -434,7 +446,7 @@
         <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
           <span class="font-black text-sm text-slate-900 block border-b pb-1">🌏 قارة آسيا (44.2 مليون كم²)</span>
           <p><strong class="text-red-700">الجبال:</strong> الهيمالايا (قمة إيفرست 8848م)، زاجروس، طوروس، اليابان.</p>
-          <p><strong class="text-amber-700">الهضاب:</strong> التبت (سقف العالم)، الدكن، شبه الجزيرة العربية.</p>
+          <p><strong class="text-amber-700">الهضاب:</strong> التبت (سقف العالم لارتفاعها عن قمم الجبال)، الدكن، شبه الجزيرة العربية.</p>
           <p><strong class="text-sky-700">السهول والأنهار:</strong> سهول سيبيريا (أوب، ينسي، لينا - تتجمد شتاءً فتفقد قيمتها)، سهل شرق الصين (اليانجتسي).</p>
         </div>
 
@@ -518,12 +530,13 @@
 
   </main>
 
+  <!-- ==================== الفوتر ==================== -->
   <footer class="bg-white border-t border-slate-200 mt-12 py-8 text-center text-xs font-semibold text-slate-500 space-y-1">
     <p>منصة مركز تعلم الدراسات الاجتماعية · الصف الثالث الإعدادي</p>
     <p class="text-[11px] text-slate-400">تصميم خرائط كارتوغرافية تفاعلية واقعية متوافقة مع منهج وزارة التربية والتعليم المصرية</p>
   </footer>
 
-  <!-- ==================== كود الجافاسكريبت والبيانات ==================== -->
+  <!-- ==================== كود الجافاسكريبت والبيانات الكاملة ==================== -->
   <script>
     const width = 1000;
     const height = 520;
@@ -533,7 +546,7 @@
 
     const path = d3.geoPath().projection(projection);
 
-    // قاموس جميع دول العالم مع أكواد ISO لصور الأعلام الرسمية HD وروابط الخرائط
+    // قاعدة بيانات شاملة لجميع دول العالم مع كود ISO لتوليد الأعلام الحقيقية وروابط جوجل ماب
     const COUNTRIES_DICT = {
       "004": { iso2: "af", name: "أفغانستان", cont: "قارة آسيا", cap: "كابول", desc: "دولة جبلية غير ساحلية في وسط وجنوب آسيا، تشتهر بسلاسل جبال هندوكوش." },
       "008": { iso2: "al", name: "ألبانيا", cont: "قارة أوروبا", cap: "تيرانا", desc: "تقع في شبه جزيرة البلقان بجنوب شرق أوروبا وتطل على البحر الأدرياتيكي." },
@@ -591,6 +604,7 @@
       "242": { iso2: "fj", name: "فيجي", cont: "قارة أوقيانوسيا", cap: "سوفا", desc: "دولة جزرية تتكون من أكثر من 300 جزيرة بركانية ومرجانية في جنوب المحيط الهادي." },
       "246": { iso2: "fi", name: "فنلندا", cont: "قارة أوروبا", cap: "هلسنكي", desc: "بلد آلاف البحيرات في شمال أوروبا، تغطيها الغابات الصنوبرية وتصل أراضيها الشمالية لإقليم التندرا." },
       "250": { iso2: "fr", name: "فرنسا", cont: "قارة أوروبا", cap: "باريس", desc: "تقع غرب أوروبا، تضم هضبة فرنسا الوسطى ونهر السين والسهل الأوروبي العظيم وجبال الألب والبرانس." },
+      "260": { iso2: "tf", name: "الأراضي الفرنسية الجنوبية", cont: "القارة القطبية", cap: "بورت أو فرانسيه", desc: "جزر بركانية غير مأهولة في جنوب المحيط الهندي." },
       "262": { iso2: "dj", name: "جيبوتي", cont: "قارة أفريقيا", cap: "جيبوتي", desc: "دولة عربية تشرف على المدخل الجنوبي لمضيق باب المندب وخليج عدن." },
       "266": { iso2: "ga", name: "الغابون", cont: "قارة أفريقيا", cap: "ليبرفيل", desc: "تقع على خط الاستواء في وسط غرب إفريقيا وتغطيها الغابات الاستوائية المطيرة بنسبة 85%." },
       "268": { iso2: "ge", name: "جورجيا", cont: "قارة آسيا", cap: "تبليسي", desc: "تقع في منطقة القوقاز على الساحل الشرقي للبحر الأسود." },
@@ -608,11 +622,12 @@
       "348": { iso2: "hu", name: "المجر (هنغاريا)", cont: "قارة أوروبا", cap: "بودابست", desc: "دولة غير ساحلية في وسط أوروبا يخترقها نهر الدانوب وتشتهر بالسهل المجري الخصب." },
       "352": { iso2: "is", name: "آيسلندا", cont: "قارة أوروبا", cap: "ريكيافيك", desc: "جزيرة بركانية جليدية في شمال المحيط الأطلنطي وتتميز بالينابيع الحارة والبراكين والجليد الدائم." },
       "356": { iso2: "in", name: "الهند", cont: "قارة آسيا", cap: "نيودلهي", desc: "شبه جزيرة مثلثة تضم هضبة الدكن وجبال الغات وجبال الهيمالايا ويسودها المناخ الموسمي المطير صيفاً." },
-      "360": { iso2: "id", name: "إندونيسيا", cont: "قارة آسيا", cap: "جاكرتا", desc: "أكبر دولة جزرية في العالم، يمر بها خط الاستواء وتغطيها الغابات الاستوائية المطيرة." },
+      "360": { iso2: "id", name: "إندونيسيا", cont: "قارة آسيا", cap: "جاكرتا", desc: "أكبر دولة جزرية في العالم (أكثر من 17 ألف جزيرة)، يمر بها خط الاستواء وتغطيها الغابات الاستوائية المطيرة." },
       "364": { iso2: "ir", name: "إيران", cont: "قارة آسيا", cap: "طهران", desc: "تقع في غرب آسيا وتضم هضبة إيران وسلاسل جبال زاجروس والبرز وتشرف على مضيق هرمز وبحر قزوين." },
       "368": { iso2: "iq", name: "العراق", cont: "قارة آسيا", cap: "بغداد", desc: "تقع في غرب آسيا، أرض الرافدين حيث يجري نهرا دجلة والفرات ويلتقيان في شط العرب وتحدها جبال زاجروس." },
       "372": { iso2: "ie", name: "أيرلندا", cont: "قارة أوروبا", cap: "دبلن", desc: "الجزيرة الخضراء غرب بريطانيا، يسودها مناخ غرب أوروبا مع هطول أمطار غزيرة طوال العام." },
-      "380": { iso2: "it", name: "إيطاليا", cont: "قارة أوروبا", cap: "روما", desc: "شبه جزيرة في قلب البحر المتوسط، تحدها شمالاً جبال الألب ويخترقها جبال الأبنين وبها جزيرتا صقلية وسردينيا." },
+      "376": { iso2: "il", name: "الأراضي المحتلة", cont: "قارة آسيا", cap: "القدس", desc: "تقع على الساحل الشرقي للبحر المتوسط في قلب بلاد الشام." },
+      "380": { iso2: "it", name: "إيطاليا", cont: "قارة أوروبا", cap: "روما", desc: "شبه جزيرة حذائية في قلب البحر المتوسط، تحدها شمالاً جبال الألب ويخترقها جبال الأبنين وبها جزيرتا صقلية وسردينيا." },
       "384": { iso2: "ci", name: "ساحل العاج (كوت ديفوار)", cont: "قارة أفريقيا", cap: "ياموسوكرو", desc: "تقع في غرب إفريقيا على خليج غينيا وتعد أكبر منتج للكاكاو في العالم ومزارع البن والكركم." },
       "388": { iso2: "jm", name: "جامايكا", cont: "قارة أمريكا الشمالية", cap: "كينغستون", desc: "دولة جزرية في البحر الكاريبي جنوب كوبا تشتهر بجبال بلو ماونتن والمناخ المداري." },
       "392": { iso2: "jp", name: "اليابان", cont: "قارة آسيا", cap: "طوكيو", desc: "دولة جزرية كبرى شرق آسيا تضم جزر هونشو وهوكايدو، أراضيها جبلية وينتمي شمالها للمناخ اللورنسي المعتدل البارد." },
@@ -646,7 +661,9 @@
       "516": { iso2: "na", name: "ناميبيا", cont: "قارة أفريقيا", cap: "ويندهوك", desc: "تقع في جنوب غرب إفريقيا على ساحل المحيط الأطلنطي وتضم صحراء ناميب وصحراء كالهاري." },
       "524": { iso2: "np", name: "النيبال", cont: "قارة آسيا", cap: "كاتماندو", desc: "دولة جبلية في جبال الهيمالايا تضم قمة إيفرست (8848م) أعلى قمة جبلية على وجه الأرض." },
       "528": { iso2: "nl", name: "هولندا", cont: "قارة أوروبا", cap: "أمستردام", desc: "تقع شمال غرب أوروبا عند مصب نهر الراين وتتميز بالأراضي المنخفضة المحمية بالسدود ومناخ غرب أوروبا." },
-      "554": { iso2: "nz", name: "نيوزيلندا", cont: "قارة أستراليا", cap: "ويلينغتون", desc: "دولة جزرية تتكون من جزيرتين رئيسيتين في جنوب غرب المحيط الهادي وتضم جبال الألب الجنوبية." },
+      "540": { iso2: "nc", name: "كاليدونيا الجديدة", cont: "قارة أوقيانوسيا", cap: "نوميا", desc: "أرخبيل جزر في جنوب غرب المحيط الهادي يتميز بالحيد المرجاني واحتياطات النيكل." },
+      "548": { iso2: "vu", name: "فانواتو", cont: "قارة أوقيانوسيا", cap: "بورت فيلا", desc: "دولة جزرية بركانية تقع في جنوب المحيط الهادي شرقي أستراليا." },
+      "554": { iso2: "nz", name: "نيوزيلندا", cont: "قارة أستراليا", cap: "ويلينغتون", desc: "دولة جزرية تتكون من جزيرتين رئيسيتين (الشمالية والجنوبية) في جنوب غرب المحيط الهادي وتضم جبال الألب الجنوبية." },
       "558": { iso2: "ni", name: "نيكاراغوا", cont: "قارة أمريكا الشمالية", cap: "ماناغوا", desc: "أكبر دول أمريكا الوسطى مساحة وتضم بحيرة نيكاراغوا العذبة والعديد من البراكين النشطة." },
       "562": { iso2: "ne", name: "النيجر", cont: "قارة أفريقيا", cap: "نيامي", desc: "دولة حبيسة في غرب إفريقيا يجري بجنوبها الغربي نهر النيجر وتغطي الصحراء الكبرى شمالها." },
       "566": { iso2: "ng", name: "نيجيريا", cont: "قارة أفريقيا", cap: "أبوجا", desc: "أكبر دول إفريقيا سكاناً، يجري بها نهر النيجر ويصب في خليج غينيا بالمحيط الأطلنطي وتتدرج من الغابات الاستوائية للسافانا." },
@@ -659,6 +676,9 @@
       "608": { iso2: "ph", name: "الفلبين", cont: "قارة آسيا", cap: "مانيلا", desc: "أرخبيل يتكون من أكثر من 7000 جزيرة في غرب المحيط الهادي شرق آسيا، وتعد مثالاً رئيسياً للدول الجزرية بالمقرر." },
       "616": { iso2: "pl", name: "بولندا", cont: "قارة أوروبا", cap: "وارسو", desc: "تقع في قلب السهل الأوروبي العظيم وتطل على بحر البلطيق شمالاً وتمر بها جبال الكاربات جنوباً." },
       "620": { iso2: "pt", name: "البرتغال", cont: "قارة أوروبا", cap: "لشبونة", desc: "تقع في أقصى غرب شبه الجزيرة الأيبيرية وتطل بالكامل على المحيط الأطلنطي ومناخها ينتمي للبحر المتوسط." },
+      "624": { iso2: "gw", name: "غينيا بيساو", cont: "قارة أفريقيا", cap: "بيساو", desc: "تقع في غرب إفريقيا على ساحل الأطلنطي وتتميز بغابات المانجروف والمناخ المداري الحار." },
+      "626": { iso2: "tl", name: "تيمور الشرقية", cont: "قارة آسيا", cap: "ديلي", desc: "دولة جزرية تشغل النصف الشرقي لجزيرة تيمور في جنوب شرق آسيا شمال أستراليا." },
+      "630": { iso2: "pr", name: "بورتوريكو", cont: "قارة أمريكا الشمالية", cap: "سان خوان", desc: "جزيرة في شمال شرق البحر الكاريبي وتتميز بمناخ مداري رطب وغابات إيل يونكي المطرية." },
       "634": { iso2: "qa", name: "دولة قطر", cont: "قارة آسيا", cap: "الدوحة", desc: "شبه جزيرة عربية تمتد داخل مياه الخليج العربي وتعد من كبار مصدري الغاز الطبيعي المسال في العالم." },
       "642": { iso2: "ro", name: "رومانيا", cont: "قارة أوروبا", cap: "بوخارست", desc: "تقع في جنوب شرق أوروبا ويخترقها نهر الدانوب قبل أن يصب بالبحر الأسود وتمر بها جبال الكاربات." },
       "643": { iso2: "ru", name: "روسيا الاتحادية", cont: "قارة آسيا وأوروبا", cap: "موسكو", desc: "أكبر دول العالم مساحة، تمتد عبر قارتين وتضم سهول سيبيريا (أوب، ينسي، لينا) وجبال الأورال ونهر الفولجا." },
@@ -666,26 +686,40 @@
       "682": { iso2: "sa", name: "المملكة العربية السعودية", cont: "قارة آسيا", cap: "الرياض", desc: "أكبر دول شبه الجزيرة العربية، تضم هضبة نجد وجبال الحجاز وعسير في الغرب وتطل على البحر الأحمر والخليج العربي." },
       "686": { iso2: "sn", name: "السنغال", cont: "قارة أفريقيا", cap: "داكار", desc: "تقع في أقصى غرب إفريقيا على ساحل المحيط الأطلنطي ويجري بها نهر السنغال." },
       "688": { iso2: "rs", name: "صربيا", cont: "قارة أوروبا", cap: "بلغراد", desc: "دولة غير ساحلية في شبه جزيرة البلقان بجنوب شرق أوروبا يلتقي بها نهرا الدانوب وسافا." },
+      "694": { iso2: "sl", name: "سيراليون", cont: "قارة أفريقيا", cap: "فريتاون", desc: "تقع في غرب إفريقيا على ساحل الأطلنطي وتتميز بمناخ مداري رطب وغابات مطيرة." },
+      "703": { iso2: "sk", name: "سلوفاكيا", cont: "قارة أوروبا", cap: "براتيسلافا", desc: "دولة غير ساحلية في وسط أوروبا تمتد بها سلاسل جبال الكاربات وجبال تاترا." },
       "704": { iso2: "vn", name: "فيتنام", cont: "قارة آسيا", cap: "هانوي", desc: "تقع شرق شبه جزيرة الهند الصينية على بحر الصين الجنوبي ويجري بها دلتا نهري ميكونغ والنهر الأحمر." },
+      "705": { iso2: "si", name: "سلوفينيا", cont: "قارة أوروبا", cap: "ليوبليانا", desc: "تقع في جنوب أوروبا الوسطى وتضم جبال الألب اليولية وسواحل قصيرة على البحر الأدرياتيكي." },
       "706": { iso2: "so", name: "جمهورية الصومال", cont: "قارة أفريقيا", cap: "مقديشو", desc: "تشغل القرن الإفريقي وتملك أطول سواحل قارية في إفريقيا على المحيط الهندي وخليج عدن." },
       "710": { iso2: "za", name: "جنوب أفريقيا", cont: "قارة أفريقيا", cap: "بريتوريا", desc: "أقصى جنوب القارة وبها هضبة جنوب إفريقيا وجبال دراكنزبرج ونهرا أورانج واللمبوبو." },
+      "716": { iso2: "zw", name: "زيمبابوي", cont: "قارة أفريقيا", cap: "هراري", desc: "دولة غير ساحلية في جنوب إفريقيا تقع بين نهري الزمبيزي واللمبوبو وبها شلالات فيكتوريا الشهيرة." },
       "724": { iso2: "es", name: "مملكة إسبانيا", cont: "قارة أوروبا", cap: "مدريد", desc: "تشغل معظم شبه جزيرة أيبيريا وبها هضبة الميزيتا وجبال البرانس وتشرف على مضيق جبل طارق بالمتوسط." },
       "728": { iso2: "ss", name: "جنوب السودان", cont: "قارة أفريقيا", cap: "جوبا", desc: "تقع في شرق إفريقيا ويجري بها بحر الجبل ونهر النيل الأبيض وتنتشر بها مستنقعات السدود النباتية." },
       "729": { iso2: "sd", name: "جمهورية السودان", cont: "قارة أفريقيا", cap: "الخرطوم", desc: "يجري بها نهر النيل عند ملتقى النيلين الأزرق والأبيض وبها سهول فيضية زراعية متسعة." },
+      "732": { iso2: "eh", name: "الصحراء الغربية", cont: "قارة أفريقيا", cap: "العيون", desc: "تقع في شمال غرب إفريقيا على ساحل المحيط الأطلنطي وتتميز بمناخ صحراوي جاف." },
+      "740": { iso2: "sr", name: "سورينام", cont: "قارة أمريكا الجنوبية", cap: "باراماريبو", desc: "أصغر دول أمريكا الجنوبية مساحة، تقع شمال القارة على الأطلنطي وتغطي الغابات معظم أراضيها." },
+      "748": { iso2: "sz", name: "إسواتيني", cont: "قارة أفريقيا", cap: "مبابان", desc: "مملكة صغيرة غير ساحلية تقع في جنوب إفريقيا بين جنوب إفريقيا وموزمبيق." },
       "752": { iso2: "se", name: "السويد", cont: "قارة أوروبا", cap: "ستوكهولم", desc: "شبه الجزيرة الإسكندنافية بشمال أوروبا وتشتهر بالغابات الصنوبرية والبحيرات العذبة وجبال إسكندنافيا." },
       "756": { iso2: "ch", name: "الاتحاد السويسري", cont: "قارة أوروبا", cap: "برن", desc: "دولة جبلية في قلب أوروبا تشغل قمم جبال الألب الشاهقة وينبع منها نهرا الراين والرون." },
       "760": { iso2: "sy", name: "الجمهورية العربية السورية", cont: "قارة آسيا", cap: "دمشق", desc: "تقع في غرب آسيا وتطل على البحر المتوسط، يجري بها نهر الفرات وتنتمي سفوحها لإقليم البحر المتوسط." },
+      "762": { iso2: "tj", name: "طاجيكستان", cont: "قارة آسيا", cap: "دوشنبه", desc: "دولة جبلية غير ساحلية في آسيا الوسطى تشغل جبال بامير (عقدة الجبال الآسيوية) أكثر من 90% منها." },
       "764": { iso2: "th", name: "مملكة تايلاند", cont: "قارة آسيا", cap: "بانكوك", desc: "تقع في جنوب شرق آسيا بشبه جزيرة الهند الصينية وتسودها الأقاليم المناخية الموسمية والمدارية المطيرة." },
+      "768": { iso2: "tg", name: "توغو", cont: "قارة أفريقيا", cap: "لومي", desc: "دولة شريطية ضيقة في غرب إفريقيا تمتد شمالاً من خليج غينيا بالمحيط الأطلنطي." },
+      "780": { iso2: "tt", name: "ترينيداد وتوباغو", cont: "قارة أمريكا الشمالية", cap: "بورت أوف سبين", desc: "دولة جزرية تقع قبالة الساحل الشمالي الشرقي لفنزويلا في جنوب البحر الكاريبي." },
       "784": { iso2: "ae", name: "الإمارات العربية المتحدة", cont: "قارة آسيا", cap: "أبوظبي", desc: "دولة اتحادية عربية تطل على الخليج العربي وخليج عمان وتتميز بنهضة عمرانية واقتصادية عالمية." },
       "788": { iso2: "tn", name: "الجمهورية التونسية", cont: "قارة أفريقيا", cap: "تونس", desc: "تقع في شمال إفريقيا على ساحل البحر المتوسط وتمتد بها سلاسل جبال أطلس التل الشرقية ومناخها متوسطي." },
       "792": { iso2: "tr", name: "الجمهورية التركية", cont: "قارة آسيا وأوروبا", cap: "أنقرة", desc: "تمتد بين آسيا وأوروبا وتضم مضيقي البسفور والدردنيل وجبال طوروس وبنطس وهضبة الأناضول." },
+      "795": { iso2: "tm", name: "تركمانستان", cont: "قارة آسيا", cap: "عشق آباد", desc: "دولة في آسيا الوسطى تطل غرباً على بحر قزوين وتشغل صحراء قره قوم معظم أراضيها." },
       "800": { iso2: "ug", name: "أوغندا", cont: "قارة أفريقيا", cap: "كمبالا", desc: "تقع في منطقة البحيرات الاستوائية الإفريقية وتضم بحيرة فيكتوريا المنبع الدائم لنهر النيل." },
       "804": { iso2: "ua", name: "أوكرانيا", cont: "قارة أوروبا", cap: "كييف", desc: "تقع شرق أوروبا وتشتهر بالسهول الطينية الخصبة ونهر الدنيبر وتطل على البحر الأسود وبحر آزوف." },
+      "807": { iso2: "mk", name: "مقدونيا الشمالية", cont: "قارة أوروبا", cap: "سكوبيه", desc: "دولة غير ساحلية في شبه جزيرة البلقان بجنوب شرق أوروبا وتتميز بطبيعة جبلية." },
       "818": { iso2: "eg", name: "جمهورية مصر العربية", cont: "قارة أفريقيا", cap: "القاهرة", desc: "تقع شمال شرق إفريقيا، يمر بها نهر النيل وبها قناة السويس وروافد دلتا النيل وموقع جغرافي فريد يربط قارات العالم القديم." },
       "826": { iso2: "gb", name: "المملكة المتحدة (بريطانيا)", cont: "قارة أوروبا", cap: "لندن", desc: "دولة جزرية في شمال غرب أوروبا يفصلها بحر المانش عن القارة وتنتمي لمناخ غرب أوروبا الممطر طوال العام." },
       "834": { iso2: "tz", name: "تنزانيا", cont: "قارة أفريقيا", cap: "دودوما", desc: "تضم جبل كليمنجارو (أعلى قمة في إفريقيا 5895م) وبحيرة فيكتوريا الاستوائية منبع النيل الدائم." },
       "840": { iso2: "us", name: "الولايات المتحدة الأمريكية", cont: "قارة أمريكا الشمالية", cap: "واشنطن", desc: "تضم جبال الروكي غرباً، جبال الأبلاش شرقاً، نهر الميسيسيبي وسهوله الوسطى والبحيرات العظمى الخمس." },
+      "854": { iso2: "bf", name: "بوركينا فاسو", cont: "قارة أفريقيا", cap: "واغادوغو", desc: "دولة حبيسة في غرب إفريقيا تقع في نطاق هضاب حشائش السافانا وينبع منها نهر الفولتا." },
       "858": { iso2: "uy", name: "أوروغواي", cont: "قارة أمريكا الجنوبية", cap: "مونتيفيديو", desc: "تقع جنوب شرق أمريكا الجنوبية على المحيط الأطلنطي ومصب نهر لابلاتا وتشتهر بسهول المراعي." },
+      "860": { iso2: "uz", name: "أوزبكستان", cont: "قارة آسيا", cap: "طشقند", desc: "دولة غير ساحلية في آسيا الوسطى يجري بأراضيها نهرا سيرداريا وأموداريا وتشتهر بزراعة القطن." },
       "862": { iso2: "ve", name: "فنزويلا", cont: "قارة أمريكا الجنوبية", cap: "كاراكاس", desc: "تقع شمال أمريكا الجنوبية وتضم حوض نهر الأورينوكو وهضبة جيانا وبحيرة ماراكايبو وشلالات آنجل." },
       "887": { iso2: "ye", name: "الجمهورية اليمنية", cont: "قارة آسيا", cap: "صنعاء", desc: "جنوب غرب شبه الجزيرة العربية وتشرف على مضيق باب المندب الاستراتيجي وبحر العرب وخليج عدن." },
       "894": { iso2: "zm", name: "زامبيا", cont: "قارة أفريقيا", cap: "لوساكا", desc: "دولة غير ساحلية في جنوب وسط إفريقيا يجري بها نهر الزمبيزي وتضم شلالات فيكتوريا الشهيرة." }
@@ -718,7 +752,156 @@
     let currentContinent = 'all';
     let currentSelectedFeat = null;
 
-    // جلب وتوليد مسارات العالم الواقعية من TopoJSON
+    // الأنهار الكبرى الدقيقة جغرافياً بإحداثيات حقيقية متطابقة مع قارات العالم
+    const ACCURATE_RIVERS_DATA = [
+      {
+        id: 'nile_main',
+        name: 'نهر النيل (أفريقيا)',
+        coords: [
+          [33.0, -0.5], [32.5, 0.4], [31.5, 2.3], [31.6, 4.8], [31.5, 7.5], 
+          [30.2, 9.5], [32.5, 12.0], [32.55, 15.6], [32.8, 18.5], [30.5, 19.2], 
+          [30.5, 21.0], [31.5, 22.0], [32.9, 24.0], [32.6, 25.7], [32.7, 26.1], 
+          [31.2, 27.2], [31.1, 29.1], [31.24, 30.1]
+        ]
+      },
+      {
+        id: 'nile_blue',
+        name: 'النيل الأزرق (هضبة إثيوبيا)',
+        coords: [
+          [37.3, 12.0], [36.0, 11.5], [34.5, 12.5], [33.5, 14.0], [32.55, 15.6]
+        ]
+      },
+      {
+        id: 'nile_rosetta',
+        name: 'فرع رشيد',
+        coords: [
+          [31.24, 30.1], [30.8, 30.8], [30.4, 31.45]
+        ]
+      },
+      {
+        id: 'nile_damietta',
+        name: 'فرع دمياط',
+        coords: [
+          [31.24, 30.1], [31.5, 30.8], [31.8, 31.52]
+        ]
+      },
+      {
+        id: 'amazon_main',
+        name: 'نهر الأمازون (أمريكا الجنوبية)',
+        coords: [
+          [-75.5, -4.5], [-73.2, -3.7], [-70.0, -3.8], [-65.0, -3.2], 
+          [-60.0, -3.1], [-54.7, -2.4], [-51.0, -1.0], [-49.5, -0.1]
+        ]
+      },
+      {
+        id: 'mississippi_main',
+        name: 'نهر الميسيسيبي (أمريكا الشمالية)',
+        coords: [
+          [-95.2, 47.2], [-93.2, 44.9], [-90.5, 41.5], [-90.2, 38.6], 
+          [-90.0, 35.1], [-90.9, 32.3], [-90.1, 29.9], [-89.2, 29.1]
+        ]
+      },
+      {
+        id: 'volga_main',
+        name: 'نهر الفولجا (أوروبا)',
+        coords: [
+          [32.5, 57.2], [35.9, 56.8], [39.8, 57.6], [44.0, 56.3], 
+          [49.1, 55.8], [50.1, 53.2], [47.5, 51.5], [44.5, 48.7], [48.0, 46.3]
+        ]
+      },
+      {
+        id: 'murray',
+        name: 'نهر مري (أستراليا)',
+        coords: [
+          [148.0, -36.5], [146.0, -36.0], [144.5, -35.8], [141.9, -34.1], [139.3, -35.5]
+        ]
+      },
+      {
+        id: 'darling',
+        name: 'نهر دارلنج (أستراليا)',
+        coords: [
+          [149.0, -29.0], [146.0, -30.5], [142.5, -33.0], [141.9, -34.1]
+        ]
+      },
+      {
+        id: 'ob',
+        name: 'نهر أوب (سيبيريا)',
+        coords: [
+          [83.0, 52.5], [82.0, 56.0], [75.0, 61.0], [69.0, 61.0], [66.5, 66.5]
+        ]
+      },
+      {
+        id: 'yenisey',
+        name: 'نهر ينسي (سيبيريا)',
+        coords: [
+          [93.0, 52.0], [92.8, 56.0], [88.0, 65.5], [86.0, 71.5]
+        ]
+      },
+      {
+        id: 'lena',
+        name: 'نهر لينا (سيبيريا)',
+        coords: [
+          [106.0, 53.5], [116.0, 60.5], [129.5, 62.0], [127.0, 72.5]
+        ]
+      }
+    ];
+
+    const riverLineGen = d3.line()
+      .x(d => projection(d)[0])
+      .y(d => projection(d)[1])
+      .curve(d3.curveBasis);
+
+    // رسم مسارات الأنهار الدقيقة
+    function renderAccurateRivers() {
+      const rLayer = d3.select('#rivers-layer');
+      rLayer.selectAll('*').remove();
+      ACCURATE_RIVERS_DATA.forEach(r => {
+        rLayer.append('path')
+          .attr('d', riverLineGen(r.coords))
+          .attr('fill', 'none')
+          .attr('stroke', '#0284C7')
+          .attr('stroke-width', r.id.includes('delta') || r.id.includes('rosetta') || r.id.includes('damietta') ? 2.0 : 2.8)
+          .attr('stroke-linecap', 'round')
+          .attr('stroke-linejoin', 'round');
+      });
+    }
+
+    // إعداد التكبير والتحريك D3 Zoom
+    const svgElem = d3.select('#realWorldSvg');
+    const zoomGroup = d3.select('#zoomable-map-group');
+
+    const zoomBehavior = d3.zoom()
+      .scaleExtent([1, 6])
+      .on('zoom', (event) => {
+        zoomGroup.attr('transform', event.transform);
+      });
+
+    svgElem.call(zoomBehavior);
+
+    function zoomIn() {
+      svgElem.transition().duration(250).call(zoomBehavior.scaleBy, 1.3);
+    }
+
+    function zoomOut() {
+      svgElem.transition().duration(250).call(zoomBehavior.scaleBy, 0.77);
+    }
+
+    function resetZoom() {
+      svgElem.transition().duration(350).call(zoomBehavior.transform, d3.zoomIdentity);
+      setContinent('all');
+    }
+
+    function toggleFullscreen() {
+      const mapElem = document.getElementById('mapWrapper');
+      if (!document.fullscreenElement) {
+        if (mapElem.requestFullscreen) mapElem.requestFullscreen();
+        else if (mapElem.webkitRequestFullscreen) mapElem.webkitRequestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    // جلب وتوليد مسارات العالم الواقعية
     d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(world => {
       const countries = topojson.feature(world, world.objects.countries).features;
       const g = d3.select('#earth-countries-layer');
@@ -733,29 +916,37 @@
         .attr('stroke-width', 0.8)
         .attr('class', 'country-path cursor-pointer')
         .on('mouseenter', function(event, d) {
+          // التحديد التفاعلي يعمل فقط عندما تكون الخريطة الصماء هي المختارة
+          if (currentTab !== 'blank') return;
           d3.select(this).attr('fill', '#DBEAFE').attr('stroke', '#2563EB').attr('stroke-width', 1.8);
           showCountryPopover(d.id, event);
         })
         .on('mousemove', function(event, d) {
+          if (currentTab !== 'blank') return;
           positionCountryPopover(event);
         })
         .on('mouseleave', function(event, d) {
+          if (currentTab !== 'blank') return;
           d3.select(this).attr('fill', '#F1EDE4').attr('stroke', '#CBD5E1').attr('stroke-width', 0.8);
           hideCountryPopover();
         })
         .on('click', function(event, d) {
+          if (currentTab !== 'blank') return;
           selectCountry(d.id);
         })
         .on('touchstart', function(event, d) {
+          if (currentTab !== 'blank') return;
           if (event.touches && event.touches[0]) {
             showCountryPopover(d.id, event.touches[0]);
             selectCountry(d.id);
           }
         });
 
+      renderAccurateRivers();
       updateView();
     }).catch(err => {
       console.error(err);
+      renderAccurateRivers();
       updateView();
     });
 
@@ -763,6 +954,20 @@
     function switchTab(tabId) {
       currentTab = tabId;
 
+      // إخفاء أي تحديد لدولة أو نافذة منبثقة عند الخروج من الخريطة الصماء
+      if (tabId !== 'blank') {
+        hideCountryPopover();
+        closeCountryCard();
+        d3.selectAll('.country-path')
+          .attr('fill', '#F1EDE4')
+          .attr('stroke', '#CBD5E1')
+          .attr('stroke-width', 0.8)
+          .style('cursor', 'default');
+      } else {
+        d3.selectAll('.country-path').style('cursor', 'pointer');
+      }
+
+      // تحديث أزرار التنقل
       document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.className = 'tab-btn px-3 py-1.5 rounded-lg text-slate-300 hover:text-white';
       });
@@ -775,6 +980,7 @@
       const activeNavBtn = document.getElementById('nav-' + tabId);
       if (activeNavBtn) activeNavBtn.className = 'nav-tab px-3 py-1.5 rounded-lg bg-blue-600 text-white shadow-xs';
 
+      // إظهار وإخفاء الأشرطة الخاصة
       const mToolbar = document.getElementById('mountains-toolbar');
       const wToolbar = document.getElementById('waters-toolbar');
       const cLegend = document.getElementById('climates-legend-bar');
@@ -804,24 +1010,18 @@
       const g = d3.select('#interactive-pins-layer');
       g.selectAll('*').remove();
 
-      if (currentTab === 'blank') return; // في وضع الخريطة الصماء تبقى نظيفة بدون دبابيس
+      // إذا كان في وضع الخريطة الصماء أو الأقاليم، تبقى الخريطة هادئة تماماً بدون أي دبابيس
+      if (currentTab === 'blank' || currentTab === 'climates') return;
 
       let items = [];
       if (currentTab === 'mountains') {
         items = FEATURES.filter(f => f.cat === 'mountain' || f.cat === 'plateau');
       } else if (currentTab === 'waters') {
         items = FEATURES.filter(f => f.cat === 'river' || f.cat === 'strait');
-      } else if (currentTab === 'climates') {
-        return;
       }
 
       if (currentContinent !== 'all') {
         items = items.filter(f => f.cont === currentContinent);
-      }
-
-      const q = document.getElementById('searchInput').value.trim().toLowerCase();
-      if (q) {
-        items = items.filter(f => f.name.toLowerCase().includes(q) || f.desc.toLowerCase().includes(q));
       }
 
       renderPins(items);
@@ -846,7 +1046,7 @@
           .attr('r', 18)
           .attr('fill', 'transparent');
 
-        pinGroup.append('circle')
+        const pinCircle = pinGroup.append('circle')
           .attr('cx', x)
           .attr('cy', y)
           .attr('r', 7.5)
@@ -859,24 +1059,63 @@
           .attr('cy', y)
           .attr('r', 2)
           .attr('fill', '#FFFFFF');
+
+        const label = pinGroup.append('g')
+          .attr('class', 'opacity-0 pointer-events-none transition-opacity duration-150');
+
+        label.append('rect')
+          .attr('x', x - 60)
+          .attr('y', y - 26)
+          .attr('width', 120)
+          .attr('height', 22)
+          .attr('rx', 6)
+          .attr('fill', '#0F172A')
+          .attr('opacity', 0.95);
+
+        label.append('text')
+          .attr('x', x)
+          .attr('y', y - 11)
+          .attr('text-anchor', 'middle')
+          .attr('font-size', '10')
+          .attr('font-family', 'Cairo')
+          .attr('font-weight', 'bold')
+          .attr('fill', '#FFFFFF')
+          .text(item.name.split('(')[0]);
+
+        pinGroup.on('mouseenter', () => {
+          label.attr('class', 'opacity-100 pointer-events-none transition-opacity duration-150');
+          pinCircle.attr('stroke-width', 3.5);
+        }).on('mouseleave', () => {
+          label.attr('class', 'opacity-0 pointer-events-none transition-opacity duration-150');
+          pinCircle.attr('stroke-width', 2.2);
+        });
       });
     }
 
     function showCountryPopover(countryId, event) {
-      const idStr = String(countryId).padStart(3, '0');
-      const data = COUNTRIES_DICT[idStr] || { iso2: 'un', name: 'دولة بالعالم', cont: 'قارات العالم', cap: 'عاصمة وطنية', desc: 'إحدى دول العالم ذات السيادة.' };
+      const padded = String(countryId).padStart(3, '0');
+      let data = COUNTRIES_DICT[padded] || COUNTRIES_DICT[String(countryId)];
+      
+      if (!data) {
+        data = {
+          iso2: "un",
+          name: "دولة ذات سيادة معترف بها",
+          cont: "المجتمع الدولي",
+          cap: "عاصمة وطنية",
+          desc: "دولة ذات سيادة تظهر على خريطة العالم السياسية وتخضع للمواثيق الدولية."
+        };
+      }
 
-      const popover = document.getElementById('country-popover');
-      const flagImg = document.getElementById('pop-flag-img');
-      const flagFallback = document.getElementById('pop-flag-fallback');
-
-      if (data.iso2 && data.iso2 !== 'un') {
-        flagImg.style.display = 'block';
-        flagFallback.classList.add('hidden');
-        flagImg.src = 'https://flagcdn.com/w80/' + data.iso2.toLowerCase() + '.png';
+      const img = document.getElementById('pop-flag-img');
+      const fallback = document.getElementById('pop-flag-fallback');
+      
+      if (data.iso2 && data.iso2 !== "un") {
+        img.src = 'https://flagcdn.com/w80/' + data.iso2.toLowerCase() + '.png';
+        img.style.display = 'block';
+        fallback.classList.add('hidden');
       } else {
-        flagImg.style.display = 'none';
-        flagFallback.classList.remove('hidden');
+        img.style.display = 'none';
+        fallback.classList.remove('hidden');
       }
 
       document.getElementById('pop-name').innerText = data.name;
@@ -884,27 +1123,30 @@
       document.getElementById('pop-capital').innerText = 'العاصمة: ' + data.cap;
       document.getElementById('pop-brief').innerText = data.desc;
 
-      popover.classList.remove('hidden');
+      const pop = document.getElementById('country-popover');
+      pop.classList.remove('hidden');
       positionCountryPopover(event);
     }
 
     function positionCountryPopover(event) {
-      const popover = document.getElementById('country-popover');
+      const pop = document.getElementById('country-popover');
       const wrapper = document.getElementById('mapWrapper').getBoundingClientRect();
       const x = (event.clientX || event.pageX || 0) - wrapper.left;
       const y = (event.clientY || event.pageY || 0) - wrapper.top;
 
-      popover.style.left = Math.min(Math.max(x + 15, 10), wrapper.width - 300) + 'px';
-      popover.style.top = Math.max(Math.min(y - 120, wrapper.height - 180), 10) + 'px';
+      pop.style.left = Math.min(Math.max(x + 15, 10), wrapper.width - 290) + 'px';
+      pop.style.top = Math.max(Math.min(y - 140, wrapper.height - 190), 15) + 'px';
     }
 
     function hideCountryPopover() {
       document.getElementById('country-popover').classList.add('hidden');
     }
 
+    // فتح تفاصيل الدولة وروابط جوجل ماب وجوجل إيرث
     function selectCountry(countryId) {
-      const idStr = String(countryId).padStart(3, '0');
-      const data = COUNTRIES_DICT[idStr] || { iso2: 'un', name: 'دولة بالعالم', cont: 'قارات العالم', cap: 'عاصمة وطنية', desc: 'إحدى دول العالم ذات السيادة.' };
+      const padded = String(countryId).padStart(3, '0');
+      let data = COUNTRIES_DICT[padded] || COUNTRIES_DICT[String(countryId)];
+      if (!data) return;
 
       const card = document.getElementById('country-detail-card');
       card.classList.remove('hidden');
@@ -915,7 +1157,7 @@
       document.getElementById('card-country-name').innerText = data.name;
       document.getElementById('card-country-desc').innerText = data.desc;
 
-      // إعداد روابط فتح جوجل ماب وجوجل إيرث
+      // روابط جوجل ماب وجوجل إيرث
       const mapsQuery = encodeURIComponent(data.name);
       document.getElementById('btn-google-maps').href = 'https://www.google.com/maps/search/?api=1&query=' + mapsQuery;
       document.getElementById('btn-google-earth').href = 'https://earth.google.com/web/search/' + mapsQuery;
@@ -931,6 +1173,7 @@
       const feat = FEATURES.find(f => f.id === featId);
       if (feat) {
         selectFeature(feat);
+        // تكبير على قارة المعلم
         setContinent(feat.cont);
       }
     }
@@ -1002,28 +1245,6 @@
 
       svg.setAttribute('viewBox', viewBoxes[contId] || '0 0 1000 520');
       updateView();
-    }
-
-    function searchFeatures() {
-      const q = document.getElementById('searchInput').value.trim().toLowerCase();
-      if (!q) {
-        updateView();
-        return;
-      }
-
-      const matchFeat = FEATURES.find(f => f.name.toLowerCase().includes(q));
-      if (matchFeat) {
-        if (matchFeat.cat === 'mountain' || matchFeat.cat === 'plateau') switchTab('mountains');
-        else if (matchFeat.cat === 'river' || matchFeat.cat === 'strait') switchTab('waters');
-        selectFeature(matchFeat);
-        return;
-      }
-
-      const countryEntry = Object.entries(COUNTRIES_DICT).find(([id, c]) => c.name.includes(q) || c.cap.includes(q));
-      if (countryEntry) {
-        switchTab('blank');
-        selectCountry(countryEntry[0]);
-      }
     }
 
     function readAloud() {
