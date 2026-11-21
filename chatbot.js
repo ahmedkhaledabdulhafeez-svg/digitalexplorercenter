@@ -1,6 +1,6 @@
 (function () {
   // 1. ضع مفتاح Gemini API الخاص بك هنا (وتأكد من تقييده بدومين موقعك فقط)
-const GEMINI_API_KEY = 'AQ.Ab8RN6LFZX9t2YBFrkNn_' + 'SYARcD8al2H1tcFsy1oY9wOYn6heA';
+const GEMINI_API_KEY = 'AQ.Ab8RN6LQwruPwQOVEYVNgHG2HECpYr_' + 's4HxYDidssv6eOznIoQ';
   // تحديد المسار تلقائياً سواء الصفحة في الرئيسية أو داخل مجلد فرعي
   const decodedPath = decodeURIComponent(location.pathname);
   const isSubFolder = decodedPath.includes('/قسم-');
