@@ -6,60 +6,140 @@
   <title>تسجيل الدخول | مركز المستكشف الرقمي</title>
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
   <style>
-    * { font-family: 'Cairo', sans-serif; }
-    body { margin: 0; background-color: #F8FAFC; }
-    .figma-shadow { box-shadow: 0 24px 48px -12px rgba(79, 70, 229, 0.15); }
-    .input-style { transition: all 0.3s ease; }
-    .input-style:focus { border-color: #6366F1; box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
+    :root{
+      --bg:#2e1a10; --bg2:#42251a; --panel:#3a2116; --line:rgba(224,160,110,.22);
+      --copper:#c8825a; --gold:#f0b44c; --sand:#f3dcb8; --text:#f6e8d4; --mute:#c9ae94;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:'Cairo',sans-serif}
+    body{min-height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--text);line-height:1.8;overflow-x:hidden}
+    :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+    /* خلفية المشهد (غروب + أهرامات) */
+    .scene{position:fixed;inset:0;z-index:-1}
+    .scene svg{width:100%;height:100%;display:block}
+    .scene::after{content:"";position:absolute;inset:0;
+      background:linear-gradient(270deg,var(--bg) 0%,rgba(46,26,16,.94) 45%,rgba(46,26,16,.45) 80%,rgba(46,26,16,.2) 100%),
+                 linear-gradient(0deg,var(--bg) 0%,rgba(46,26,16,0) 30%)}
+    .sun{animation:pulse 5s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+    @keyframes pulse{50%{opacity:.7;transform:scale(1.08)}}
+
+    /* الهيدر */
+    header{position:sticky;top:0;z-index:50;background:rgba(46,26,16,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .bar{max-width:1240px;margin:auto;padding:8px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .bar img{width:50px;height:50px;object-fit:contain;border-radius:50%;background:#fff;padding:3px}
+    .brand{text-align:center;flex:1}
+    .brand h1{font-family:'Reem Kufi',sans-serif;font-size:1.25rem;font-weight:700;color:var(--sand);line-height:1.4}
+    .brand p{color:var(--gold);font-weight:600;font-size:.8rem}
+
+    /* بطاقة الدخول */
+    main{flex:1;display:flex;align-items:center;justify-content:center;padding:48px 16px}
+    .box{position:relative;width:100%;max-width:440px;padding:40px 34px 36px;border-radius:28px;overflow:hidden;
+      background:linear-gradient(160deg,rgba(66,37,26,.95),rgba(58,33,22,.95));border:1px solid var(--line);
+      box-shadow:0 30px 70px rgba(0,0,0,.5),0 0 60px -20px var(--copper)}
+    .box::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--copper),var(--gold),var(--copper))}
+    .box::after{content:"";position:absolute;width:280px;height:280px;left:-110px;bottom:-130px;border-radius:50%;
+      background:radial-gradient(circle,var(--gold) 0%,transparent 68%);opacity:.14;pointer-events:none}
+    .box>*{position:relative;z-index:1}
+
+    .logo{width:112px;height:112px;margin:0 auto 18px;border-radius:50%;padding:16px;display:flex;align-items:center;justify-content:center;
+      background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);box-shadow:0 0 50px rgba(240,180,76,.45)}
+    .logo img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 10px rgba(0,0,0,.4))}
+    .box h2{font-family:'Reem Kufi',sans-serif;font-size:1.9rem;color:var(--copper);text-align:center;line-height:1.5;text-shadow:0 4px 24px rgba(240,180,76,.25)}
+    .box .sub{text-align:center;color:var(--mute);font-size:.9rem;margin:6px 0 28px}
+
+    form{display:flex;flex-direction:column;gap:20px}
+    label{display:block;font-weight:700;font-size:.88rem;color:var(--sand);margin-bottom:6px}
+    input{width:100%;padding:14px 18px;border-radius:18px;font-size:.95rem;color:var(--text);
+      background:rgba(0,0,0,.25);border:1.5px solid var(--line);outline:none;transition:.3s}
+    input::placeholder{color:rgba(201,174,148,.55)}
+    input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(240,180,76,.15);background:rgba(0,0,0,.35)}
+    button{margin-top:6px;width:100%;padding:14px;border-radius:18px;border:1.5px solid var(--copper);background:var(--copper);
+      color:#2a150b;font-weight:800;font-size:1rem;cursor:pointer;transition:.3s}
+    button:hover{background:var(--gold);border-color:var(--gold);transform:translateY(-3px);box-shadow:0 12px 28px rgba(240,180,76,.35)}
+
+    /* الفوتر */
+    .strip{border-radius:99px;height:10px;background:repeating-linear-gradient(90deg,var(--copper) 0 18px,transparent 18px 26px,var(--gold) 26px 34px,transparent 34px 42px);opacity:.7}
+    footer{background:#24130b;text-align:center;padding:22px 16px;color:var(--mute);font-weight:600;font-size:.85rem;border-top:1px solid var(--line)}
+    @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
   </style>
 </head>
 
-<body class="min-h-screen flex flex-col text-slate-800 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]">
+<body>
 
-  <header class="bg-white/80 backdrop-blur-md border-b border-slate-100 sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between gap-3">
-      <img src="https://upload.wikimedia.org/wikipedia/ar/f/f7/%D8%AC%D8%A7%D9%85%D8%B9%D8%A9_%D8%A3%D8%B3%D9%88%D8%A7%D9%86.png?utm_source=ar.wikipedia.org&utm_campaign=index&utm_content=original" alt="شعار جامعة أسوان" class="w-12 h-12 object-contain">
-      <div class="text-center flex-1">
-        <h1 class="text-base md:text-xl font-extrabold text-indigo-950">مركز المستكشف الرقمي</h1>
-        <p class="text-xs md:text-sm text-indigo-500 font-semibold mt-1">الصف الثالث الإعدادي</p>
+  <div class="scene" aria-hidden="true">
+    <svg viewBox="0 0 1200 640" preserveAspectRatio="xMinYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#d9741f"/><stop offset=".45" stop-color="#f4a93a"/><stop offset=".8" stop-color="#ffd98a"/><stop offset="1" stop-color="#fff0c4"/>
+        </linearGradient>
+        <radialGradient id="glow" cx=".5" cy=".5" r=".5">
+          <stop offset="0" stop-color="#fffbe6"/><stop offset=".25" stop-color="#ffe08a" stop-opacity=".9"/><stop offset="1" stop-color="#f4a93a" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="pl" x1="0" x2="1"><stop offset="0" stop-color="#e4a85c"/><stop offset="1" stop-color="#b8743a"/></linearGradient>
+        <linearGradient id="pr" x1="0" x2="1"><stop offset="0" stop-color="#8a4f26"/><stop offset="1" stop-color="#5e3218"/></linearGradient>
+        <linearGradient id="d1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e2a458"/><stop offset="1" stop-color="#8f5427"/></linearGradient>
+        <linearGradient id="d2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b87a3f"/><stop offset="1" stop-color="#5a3318"/></linearGradient>
+      </defs>
+      <rect width="1200" height="640" fill="url(#sky)"/>
+      <circle class="sun" cx="150" cy="330" r="330" fill="url(#glow)"/>
+      <circle cx="150" cy="330" r="62" fill="#fffbe6"/>
+      <g stroke="#fff3c0" stroke-opacity=".35" stroke-width="3">
+        <path d="M150 330 L760 120"/><path d="M150 330 L820 250"/><path d="M150 330 L760 380"/><path d="M150 330 L600 40"/>
+      </g>
+      <polygon points="700,430 820,330 940,430" fill="#c98e4e" opacity=".75"/>
+      <polygon points="880,430 960,355 1040,430" fill="#b57c40" opacity=".7"/>
+      <polygon points="470,470 690,150 910,470" fill="url(#pl)"/>
+      <polygon points="690,150 910,470 690,470" fill="url(#pr)"/>
+      <g stroke="#7a4421" stroke-opacity=".35" stroke-width="2">
+        <path d="M520 400 H860"/><path d="M570 330 H810"/><path d="M620 260 H760"/><path d="M660 205 H720"/>
+      </g>
+      <g fill="none" stroke="#5a3318" stroke-width="3" stroke-linecap="round">
+        <path d="M330 150 q10 -12 20 0 q10 -12 20 0"/><path d="M400 120 q8 -10 16 0 q8 -10 16 0"/>
+        <path d="M290 195 q8 -10 16 0 q8 -10 16 0"/><path d="M440 185 q7 -9 14 0 q7 -9 14 0"/>
+      </g>
+      <path d="M0 480 C150 430 300 470 450 450 C600 430 750 500 1200 460 L1200 640 L0 640Z" fill="url(#d1)"/>
+      <path d="M0 540 C200 500 350 560 560 530 C800 500 950 570 1200 540 L1200 640 L0 640Z" fill="url(#d2)"/>
+    </svg>
+  </div>
+
+  <header>
+    <div class="bar">
+      <img src="https://upload.wikimedia.org/wikipedia/ar/f/f7/%D8%AC%D8%A7%D9%85%D8%B9%D8%A9_%D8%A3%D8%B3%D9%88%D8%A7%D9%86.png?utm_source=ar.wikipedia.org&utm_campaign=index&utm_content=original" alt="شعار جامعة أسوان">
+      <div class="brand">
+        <h1>مركز المستكشف الرقمي</h1>
+        <p>الصف الثالث الإعدادي</p>
       </div>
-      <img src="https://scontent.fcai24-1.fna.fbcdn.net/v/t39.30808-6/560444138_1433335358795249_5604960393581487690_n.jpg?stp=dst-jpg_tt6&cstp=mx428x510&ctp=s428x510&_nc_cat=104&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=JSGjHQxh40kQ7kNvwE9ZPO5&_nc_oc=AdrirSZ8qbZlxuYAbPlvSZ-2pJrYKXbjYoKhINeNEAhreLO9rN8nj7GWHQrLOb8lf3A&_nc_zt=23&_nc_ht=scontent.fcai24-1.fna&_nc_gid=KHK1pGhd87-pFaFTyV0vGA&_nc_ss=7b289&oh=00_AQOaGhW14wlxeAMdAjSl3Qfe7pVqfl6OtHmDaR2IUCiQWw&oe=6AE62563" alt="شعار كلية التربية النوعية" class="w-12 h-12 object-contain rounded-full shadow-sm">
+      <img src="https://scontent.fcai24-1.fna.fbcdn.net/v/t39.30808-6/560444138_1433335358795249_5604960393581487690_n.jpg?stp=dst-jpg_tt6&cstp=mx428x510&ctp=s428x510&_nc_cat=104&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=JSGjHQxh40kQ7kNvwE9ZPO5&_nc_oc=AdrirSZ8qbZlxuYAbPlvSZ-2pJrYKXbjYoKhINeNEAhreLO9rN8nj7GWHQrLOb8lf3A&_nc_zt=23&_nc_ht=scontent.fcai24-1.fna&_nc_gid=KHK1pGhd87-pFaFTyV0vGA&_nc_ss=7b289&oh=00_AQOaGhW14wlxeAMdAjSl3Qfe7pVqfl6OtHmDaR2IUCiQWw&oe=6AE62563" alt="شعار كلية التربية النوعية">
     </div>
   </header>
 
-<main class="flex-1 flex items-center justify-center px-4 py-12">
-    <div class="w-full max-w-[420px] bg-white rounded-[2rem] p-8 md:p-10 figma-shadow border border-slate-50 relative overflow-hidden">
-      <div class="absolute -top-10 -right-10 w-32 h-32 bg-indigo-50 rounded-full blur-3xl z-0"></div>
-
-      <div class="text-center mb-8 relative z-10">
-        <div class="w-24 h-24 mx-auto mb-4 flex items-center justify-center">
-          <img src="https://i.postimg.cc/1zQLqtdq/mrkz-tlm-aldrasat-alajtmaʿyt-png1.png" alt="شعار مركز تعلم الدراسات الاجتماعية" class="w-full h-full object-contain drop-shadow-md">
-        </div>
-        <h2 class="text-3xl font-extrabold text-slate-900">مرحباً بك مجدداً 👋</h2>
-        <p class="text-slate-500 text-sm mt-3 font-medium">سجّل الدخول لاستكمال رحلتك التعليمية الممتعة</p>
+  <main>
+    <div class="box">
+      <div class="logo">
+        <img src="https://i.postimg.cc/1zQLqtdq/mrkz-tlm-aldrasat-alajtmaʿyt-png1.png" alt="شعار مركز تعلم الدراسات الاجتماعية">
       </div>
+      <h2>مرحباً بك مجدداً 👋</h2>
+      <p class="sub">سجّل الدخول لاستكمال رحلتك التعليمية الممتعة</p>
 
-      <form id="loginForm" class="space-y-6 relative z-10">
+      <form id="loginForm">
         <div>
-          <label class="block text-sm font-bold text-slate-700 mb-2">اسم المستخدم</label>
-          <input type="text" id="usernameInput" required placeholder="أدخل اسم المستخدم هنا" class="input-style w-full px-5 py-4 rounded-2xl bg-slate-50/50 border border-slate-200 text-slate-800 placeholder-slate-400 outline-none">
+          <label for="usernameInput">اسم المستخدم</label>
+          <input type="text" id="usernameInput" required placeholder="أدخل اسم المستخدم هنا">
         </div>
         <div>
-          <label class="block text-sm font-bold text-slate-700 mb-2">كلمة المرور</label>
-          <input type="password" id="passwordInput" required placeholder="••••••••" class="input-style w-full px-5 py-4 rounded-2xl bg-slate-50/50 border border-slate-200 text-slate-800 placeholder-slate-400 outline-none">
+          <label for="passwordInput">كلمة المرور</label>
+          <input type="password" id="passwordInput" required placeholder="••••••••">
         </div>
-        <button type="submit" class="w-full bg-slate-900 hover:bg-indigo-600 text-white font-bold py-4 rounded-2xl transition-all duration-300 transform hover:-translate-y-1 shadow-xl hover:shadow-indigo-500/30">
-          تسجيل الدخول
-        </button>
+        <button type="submit">تسجيل الدخول</button>
       </form>
     </div>
   </main>
 
-  <footer class="text-slate-400 text-center py-6 px-3">
-    <p class="text-xs font-medium">تصميم وإعداد: طلاب الفرقة الرابعة - قسم تكنولوجيا التعليم | جامعة أسوان</p>
+  <div class="strip"></div>
+  <footer>
+    <p>تصميم وإعداد: طلاب الفرقة الرابعة - قسم تكنولوجيا التعليم | جامعة أسوان</p>
   </footer>
 
   <script>
@@ -68,6 +148,6 @@
     window.location.href = "الصفحة-الرئيسية.html";
   });
 </script>
-  
+
 </body>
 </html>
