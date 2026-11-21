@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>تحدي الخريطة | مركز المستكشف الرقمي</title>
-  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet" />
@@ -113,9 +113,6 @@
     <nav class="bg-[#42251a] border-t border-[rgba(224,160,110,0.22)]">
       <div class="max-w-[1240px] mx-auto px-5 py-1.5 flex flex-wrap items-center justify-between gap-2">
         <div class="flex items-center gap-2">
-          <a href="index.html" class="px-3.5 py-1 rounded-[14px] text-xs sm:text-sm font-semibold text-[#c9ae94] hover:text-[#f3dcb8] transition-colors whitespace-nowrap">
-            الرئيسية
-          </a>
           <span class="px-4 py-1 rounded-[14px] bg-[#c8825a] text-[#2a150b] text-xs sm:text-sm font-bold whitespace-nowrap">
             تحدي الخريطة
           </span>
@@ -140,7 +137,7 @@
   <main class="flex-1 max-w-[1240px] w-full mx-auto px-5 py-4 sm:py-5">
     <!-- زر العودة للدرس (عدّل الرابط lesson.html إلى رابط صفحة الدرس عند الحاجة) -->
     <div class="mb-3">
-      <a href="درس-قارات العالم-الموقع-والمساحة.html" onclick="if (window.history.length > 1 && document.referrer) { history.back(); return false; }" class="inline-flex items-center gap-2 px-5 py-1.5 rounded-full border border-[#c8825a]/75 bg-[rgba(200,130,90,0.08)] text-[#f3dcb8] hover:bg-[#c8825a] hover:text-[#2a150b] hover:border-[#c8825a] text-xs sm:text-sm font-bold transition-all">
+      <a href="lesson.html" onclick="if (window.history.length > 1 && document.referrer) { history.back(); return false; }" class="inline-flex items-center gap-2 px-5 py-1.5 rounded-full border border-[#c8825a]/75 bg-[rgba(200,130,90,0.08)] text-[#f3dcb8] hover:bg-[#c8825a] hover:text-[#2a150b] hover:border-[#c8825a] text-xs sm:text-sm font-bold transition-all">
         <span aria-hidden="true">←</span>
         <span>العودة للدرس</span>
       </a>
@@ -215,7 +212,7 @@
   </footer>
 
   <!-- العنصر العائم أثناء السحب -->
-  <div id="drag-ghost" class="hidden fixed z-50 pointer-events-none px-4 py-2 rounded-[14px] bg-[#c8825a] text-[#2a150b] font-bold text-sm shadow-xl border border-[#f0b44c] whitespace-nowrap" style="transform: translate(-50%, -115%);"></div>
+  <div id="drag-ghost" class="hidden fixed z-50 pointer-events-none select-none px-4 py-2 rounded-[14px] bg-[#c8825a] text-[#2a150b] font-bold text-sm shadow-xl border border-[#f0b44c] whitespace-nowrap" style="transform: translate(-50%, -50%);"></div>
 
   <script>
     const SVG_WIDTH = 1000;
@@ -278,6 +275,11 @@
     let dragState = null;
     let suppressNextClick = false;
 
+    const chipRefs = {};
+    const slotRefs = {};
+    const pathsByContinent = {};
+    const continentVisualState = {};
+
     const projectedTargets = CONTINENTS.map(c => {
       const pt = projection([c.lon, c.lat]);
       return { ...c, x: pt[0], y: pt[1] };
@@ -307,8 +309,7 @@
       }
     }
 
-    function renderTray() {
-      const trayEl = document.getElementById('continents-tray');
+    function updateTrayChipStyles() {
       const containerEl = document.getElementById('tray-container');
       const remainingEl = document.getElementById('remaining-label');
 
@@ -319,29 +320,54 @@
 
       containerEl.classList.remove('hidden');
       remainingEl.textContent = 'المتبقي: ' + trayIds.length + ' من 7';
-      trayEl.innerHTML = '';
 
       trayIds.forEach(id => {
-        const cont = CONTINENT_BY_ID[id];
+        const btn = chipRefs[id];
+        if (!btn) return;
         const isSelected = selectedTrayId === id;
         const isDragged = dragState && dragState.hasMoved && dragState.id === id;
 
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.style.touchAction = 'none';
-        btn.className = 'inline-flex items-center gap-2 px-4 py-2 rounded-[14px] font-bold text-sm whitespace-nowrap shrink-0 border transition-all duration-200 cursor-grab active:cursor-grabbing ' +
+        btn.className = 'select-none inline-flex items-center gap-2 px-4 py-2 rounded-[14px] font-bold text-sm whitespace-nowrap shrink-0 border transition-all duration-150 cursor-grab active:cursor-grabbing ' +
           (isDragged
             ? 'opacity-35 scale-95 bg-[#42251a] border-[#f0b44c] text-[#f3dcb8]'
             : isSelected
               ? 'bg-[#c8825a] text-[#2a150b] border-[#f0b44c] shadow-[0_8px_22px_rgba(200,130,90,0.35)]'
               : 'bg-[#3a2116] text-[#f6e8d4] border-[rgba(224,160,110,0.35)] hover:border-[#f0b44c] hover:text-[#f0b44c] hover:-translate-y-0.5');
+      });
+    }
 
-        btn.innerHTML = '<span class="opacity-60 text-xs">⋮⋮</span><span>' + cont.name + '</span>';
+    function buildTray() {
+      const trayEl = document.getElementById('continents-tray');
+      trayEl.innerHTML = '';
+      Object.keys(chipRefs).forEach(k => delete chipRefs[k]);
+
+      trayIds.forEach(id => {
+        const cont = CONTINENT_BY_ID[id];
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.draggable = false;
+        btn.style.touchAction = 'none';
+        btn.style.userSelect = 'none';
+        btn.style.webkitUserSelect = 'none';
+        btn.innerHTML = '<span class="opacity-60 text-xs pointer-events-none">⋮⋮</span><span class="pointer-events-none">' + cont.name + '</span>';
+
+        btn.addEventListener('dragstart', e => e.preventDefault());
 
         btn.addEventListener('pointerdown', (e) => {
           if (e.button !== 0) return;
+          if (e.pointerType === 'mouse') {
+            e.preventDefault();
+          }
           suppressNextClick = false;
-          dragState = { id, startX: e.clientX, startY: e.clientY, x: e.clientX, y: e.clientY, hasMoved: false };
+          dragState = {
+            id,
+            pointerId: e.pointerId,
+            pointerType: e.pointerType || 'mouse',
+            btn,
+            startX: e.clientX,
+            startY: e.clientY,
+            hasMoved: false
+          };
         });
 
         btn.addEventListener('click', () => {
@@ -355,12 +381,15 @@
           } else {
             setFeedback('info', 'اختر أي قارة من الأعلى واسحبها إلى مكانها الصحيح على الخريطة الصماء.');
           }
-          renderTray();
+          updateTrayChipStyles();
           updateMapStyles();
         });
 
+        chipRefs[id] = btn;
         trayEl.appendChild(btn);
       });
+
+      updateTrayChipStyles();
     }
 
     function updateScoreUI() {
@@ -368,118 +397,121 @@
       document.getElementById('mistakes-count').textContent = mistakes;
     }
 
-    function updateMapStyles() {
-      d3.selectAll('.country-path').each(function() {
-        const contId = this.getAttribute('data-continent-id');
-        const isPlaced = placedIds.includes(contId);
-        const isError = errorTargetId === contId;
-        const isHovered = hoveredTargetId === contId && !isPlaced;
-        const canInteract = !isPlaced && ((dragState && dragState.hasMoved) || selectedTrayId !== null);
-
-        let fill = '#F2ECE1';
-        let stroke = '#C5B7A5';
-        let strokeWidth = 0.8;
-
-        if (isError) {
-          fill = '#FEE2E2';
-          stroke = '#DC2626';
-          strokeWidth = 1.1;
-        } else if (isPlaced) {
-          fill = '#D1FAE5';
-          stroke = '#059669';
-          strokeWidth = 0.9;
-        } else if (isHovered) {
-          fill = '#FDE6C4';
-          stroke = '#c8825a';
-          strokeWidth = 1.15;
-        }
-
-        d3.select(this)
-          .attr('fill', fill)
-          .attr('stroke', stroke)
-          .attr('stroke-width', strokeWidth)
-          .style('cursor', canInteract ? 'pointer' : 'default');
-      });
-
-      renderDropSlots();
-    }
-
-    function renderDropSlots() {
+    function buildDropSlotsOnce() {
       const layer = d3.select('#continent-drop-slots-layer');
       layer.selectAll('*').remove();
 
       projectedTargets.forEach(target => {
-        const isPlaced = placedIds.includes(target.id);
-        const isHovered = hoveredTargetId === target.id && !isPlaced;
-        const isError = errorTargetId === target.id;
-        const boxWidth = isPlaced ? target.slotWidth : (isHovered ? 92 : 78);
-        const boxHeight = isPlaced ? 30 : 28;
-
         const g = layer.append('g')
           .attr('transform', 'translate(' + target.x + ',' + target.y + ')')
           .attr('data-continent-slot', target.id)
-          .style('cursor', isPlaced ? 'default' : 'pointer')
           .on('mouseenter', () => {
-            if (!isPlaced) {
+            if (!dragState && !placedIds.includes(target.id)) {
               hoveredTargetId = target.id;
               updateMapStyles();
             }
           })
           .on('mouseleave', () => {
-            if (!isPlaced && hoveredTargetId === target.id) {
+            if (!dragState && !placedIds.includes(target.id) && hoveredTargetId === target.id) {
               hoveredTargetId = null;
               updateMapStyles();
             }
           })
           .on('click', () => {
-            if (!isPlaced && selectedTrayId) {
+            if (!placedIds.includes(target.id) && selectedTrayId) {
               handleDropAttempt(selectedTrayId, target.id);
             }
           });
 
-        g.append('circle').attr('r', 34).attr('fill', 'transparent');
+        g.append('circle').attr('r', 36).attr('fill', 'transparent');
+        const inner = g.append('g');
+        const rect = inner.append('rect').attr('rx', 9);
+        const text = inner.append('text')
+          .attr('x', 0)
+          .attr('text-anchor', 'middle')
+          .attr('font-weight', '800');
 
-        const inner = g.append('g')
-          .attr('class', isError ? 'animate-slot-shake' : (isPlaced ? 'animate-slot-pop' : ''));
+        slotRefs[target.id] = { target, g, inner, rect, text };
+      });
+    }
+
+    function updateMapStyles() {
+      const hasActiveDrag = Boolean(dragState && dragState.hasMoved);
+
+      projectedTargets.forEach(target => {
+        const id = target.id;
+        const isPlaced = placedIds.includes(id);
+        const isError = errorTargetId === id;
+        const isHovered = hoveredTargetId === id && !isPlaced;
+        const canInteract = !isPlaced && (hasActiveDrag || selectedTrayId !== null);
+        const stateKey = (isError ? 'err' : isPlaced ? 'ok' : isHovered ? 'hov' : 'idle') + (canInteract ? '1' : '0');
+
+        if (continentVisualState[id] !== stateKey) {
+          continentVisualState[id] = stateKey;
+
+          let fill = '#F2ECE1';
+          let stroke = '#C5B7A5';
+          let strokeWidth = '0.8';
+          if (isError) {
+            fill = '#FEE2E2';
+            stroke = '#DC2626';
+            strokeWidth = '1.1';
+          } else if (isPlaced) {
+            fill = '#D1FAE5';
+            stroke = '#059669';
+            strokeWidth = '0.9';
+          } else if (isHovered) {
+            fill = '#FDE6C4';
+            stroke = '#c8825a';
+            strokeWidth = '1.15';
+          }
+
+          const paths = pathsByContinent[id] || [];
+          const cursorVal = canInteract ? 'pointer' : 'default';
+          for (let i = 0; i < paths.length; i++) {
+            const p = paths[i];
+            p.setAttribute('fill', fill);
+            p.setAttribute('stroke', stroke);
+            p.setAttribute('stroke-width', strokeWidth);
+            p.style.cursor = cursorVal;
+          }
+        }
+
+        const slot = slotRefs[id];
+        if (!slot) return;
+        const boxWidth = isPlaced ? target.slotWidth : (isHovered ? 92 : 78);
+        const boxHeight = isPlaced ? 30 : 28;
+
+        slot.g.style('cursor', isPlaced ? 'default' : 'pointer');
+        slot.inner.attr('class', isError ? 'animate-slot-shake' : (isPlaced ? 'animate-slot-pop' : ''));
+
+        slot.rect
+          .attr('x', -boxWidth / 2)
+          .attr('y', -boxHeight / 2)
+          .attr('width', boxWidth)
+          .attr('height', boxHeight);
 
         if (isPlaced) {
-          inner.append('rect')
-            .attr('x', -boxWidth / 2)
-            .attr('y', -boxHeight / 2)
-            .attr('width', boxWidth)
-            .attr('height', boxHeight)
-            .attr('rx', 9)
+          slot.rect
             .attr('fill', '#047857')
             .attr('stroke', '#FFFFFF')
-            .attr('stroke-width', 2);
-
-          inner.append('text')
-            .attr('x', 0)
+            .attr('stroke-width', 2)
+            .attr('stroke-dasharray', null);
+          slot.text
             .attr('y', 5)
-            .attr('text-anchor', 'middle')
             .attr('fill', '#FFFFFF')
             .attr('font-size', '12')
-            .attr('font-weight', '800')
             .text('✓ ' + target.mapLabel);
         } else {
-          inner.append('rect')
-            .attr('x', -boxWidth / 2)
-            .attr('y', -boxHeight / 2)
-            .attr('width', boxWidth)
-            .attr('height', boxHeight)
-            .attr('rx', 9)
+          slot.rect
             .attr('fill', isError ? '#7F1D1D' : (isHovered ? '#c8825a' : 'rgba(46, 26, 16, 0.92)'))
             .attr('stroke', isError ? '#FCA5A5' : (isHovered ? '#f3dcb8' : '#f0b44c'))
             .attr('stroke-width', isHovered || isError ? 2.2 : 1.5)
             .attr('stroke-dasharray', isHovered || isError ? null : '4 3');
-
-          inner.append('text')
-            .attr('x', 0)
+          slot.text
             .attr('y', 4.5)
-            .attr('text-anchor', 'middle')
             .attr('fill', isError ? '#FEE2E2' : (isHovered ? '#2a150b' : '#f3dcb8'))
             .attr('font-size', '11')
-            .attr('font-weight', '800')
             .text(isError ? '✕ خطأ' : (isHovered ? 'أفلت هنا' : 'اسحب هنا'));
         }
       });
@@ -494,6 +526,10 @@
       if (draggedId === targetId) {
         placedIds.push(targetId);
         trayIds = trayIds.filter(id => id !== draggedId);
+        if (chipRefs[draggedId]) {
+          chipRefs[draggedId].remove();
+          delete chipRefs[draggedId];
+        }
         selectedTrayId = null;
         setFeedback('success', 'أحسنت! تم تحديد ' + formattedName + ' في موقعها الصحيح. — ' + dragged.fact);
 
@@ -520,21 +556,44 @@
       }
 
       updateScoreUI();
-      renderTray();
+      updateTrayChipStyles();
       updateMapStyles();
     }
 
-    function detectTargetAtClientPoint(clientX, clientY) {
+    function clientToSvgPoint(clientX, clientY) {
       const svg = document.getElementById('realWorldSvg');
+      if (!svg) return null;
+
+      const ctm = svg.getScreenCTM && svg.getScreenCTM();
+      if (ctm) {
+        const pt = svg.createSVGPoint();
+        pt.x = clientX;
+        pt.y = clientY;
+        const svgPt = pt.matrixTransform(ctm.inverse());
+        if (svgPt.x >= 0 && svgPt.x <= SVG_WIDTH && svgPt.y >= 0 && svgPt.y <= SVG_HEIGHT) {
+          return { x: svgPt.x, y: svgPt.y };
+        }
+        return null;
+      }
+
       const rect = svg.getBoundingClientRect();
       if (clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom && rect.width > 0 && rect.height > 0) {
-        const svgX = ((clientX - rect.left) / rect.width) * SVG_WIDTH;
-        const svgY = ((clientY - rect.top) / rect.height) * SVG_HEIGHT;
+        return {
+          x: ((clientX - rect.left) / rect.width) * SVG_WIDTH,
+          y: ((clientY - rect.top) / rect.height) * SVG_HEIGHT
+        };
+      }
+      return null;
+    }
+
+    function detectSinglePointTarget(clientX, clientY) {
+      const svgPt = clientToSvgPoint(clientX, clientY);
+      if (svgPt) {
         let closestId = null;
-        let minDistSq = 58 * 58;
+        let minDistSq = 72 * 72;
         for (const t of projectedTargets) {
           if (placedIds.includes(t.id)) continue;
-          const dSq = (svgX - t.x) ** 2 + (svgY - t.y) ** 2;
+          const dSq = (svgPt.x - t.x) ** 2 + (svgPt.y - t.y) ** 2;
           if (dSq <= minDistSq) {
             minDistSq = dSq;
             closestId = t.id;
@@ -545,23 +604,56 @@
 
       const elements = document.elementsFromPoint(clientX, clientY);
       for (const el of elements) {
-        const slotId = el.getAttribute('data-continent-slot');
+        const slotEl = el.closest('[data-continent-slot]');
+        const slotId = slotEl && slotEl.getAttribute('data-continent-slot');
         if (slotId && !placedIds.includes(slotId)) return slotId;
-        const pathId = el.getAttribute('data-continent-id');
+        const pathEl = el.closest('[data-continent-id]');
+        const pathId = pathEl && pathEl.getAttribute('data-continent-id');
         if (pathId && !placedIds.includes(pathId)) return pathId;
       }
       return null;
     }
 
+    function detectTargetAtClientPoint(clientX, clientY, pointerType) {
+      const direct = detectSinglePointTarget(clientX, clientY);
+      if (direct) return direct;
+      if (pointerType === 'touch') {
+        return detectSinglePointTarget(clientX, clientY - 28);
+      }
+      return null;
+    }
+
+    function clearDragVisuals() {
+      if (dragState && dragState.btn) {
+        try {
+          if (dragState.btn.hasPointerCapture(dragState.pointerId)) {
+            dragState.btn.releasePointerCapture(dragState.pointerId);
+          }
+        } catch (err) {}
+      }
+      dragState = null;
+      hoveredTargetId = null;
+      document.getElementById('drag-ghost').classList.add('hidden');
+      updateTrayChipStyles();
+      updateMapStyles();
+    }
+
     window.addEventListener('pointermove', (e) => {
       if (!dragState) return;
-      const movedEnough = dragState.hasMoved || Math.hypot(e.clientX - dragState.startX, e.clientY - dragState.startY) > 6;
-      dragState.x = e.clientX;
-      dragState.y = e.clientY;
+
+      if (dragState.pointerType === 'mouse' && (e.buttons & 1) === 0) {
+        endPointerDrag(e);
+        return;
+      }
+
+      const movedEnough = dragState.hasMoved || Math.hypot(e.clientX - dragState.startX, e.clientY - dragState.startY) > 5;
 
       if (movedEnough && !dragState.hasMoved) {
         dragState.hasMoved = true;
-        renderTray();
+        try {
+          dragState.btn.setPointerCapture(dragState.pointerId);
+        } catch (err) {}
+        updateTrayChipStyles();
       }
 
       if (dragState.hasMoved) {
@@ -569,9 +661,10 @@
         ghost.textContent = CONTINENT_BY_ID[dragState.id].name;
         ghost.style.left = e.clientX + 'px';
         ghost.style.top = e.clientY + 'px';
+        ghost.style.transform = dragState.pointerType === 'touch' ? 'translate(-50%, -115%)' : 'translate(-50%, -50%)';
         ghost.classList.remove('hidden');
 
-        const hit = detectTargetAtClientPoint(e.clientX, e.clientY);
+        const hit = detectTargetAtClientPoint(e.clientX, e.clientY, dragState.pointerType);
         if (hoveredTargetId !== hit) {
           hoveredTargetId = hit;
           updateMapStyles();
@@ -583,26 +676,27 @@
       if (!dragState) return;
       const wasMoved = dragState.hasMoved;
       const draggedId = dragState.id;
-      dragState = null;
-      document.getElementById('drag-ghost').classList.add('hidden');
+      const pointerType = dragState.pointerType;
+
+      clearDragVisuals();
 
       if (wasMoved) {
         suppressNextClick = true;
-        const targetId = detectTargetAtClientPoint(e.clientX, e.clientY);
-        hoveredTargetId = null;
+        const targetId = detectTargetAtClientPoint(e.clientX, e.clientY, pointerType);
         if (targetId) {
           handleDropAttempt(draggedId, targetId);
-        } else {
-          renderTray();
-          updateMapStyles();
         }
       }
     }
 
     window.addEventListener('pointerup', endPointerDrag);
     window.addEventListener('pointercancel', endPointerDrag);
+    window.addEventListener('blur', () => {
+      if (dragState) clearDragVisuals();
+    });
 
     function resetActivity() {
+      if (dragState) clearDragVisuals();
       trayIds = shuffle(CONTINENTS.map(c => c.id));
       placedIds = [];
       attempts = 0;
@@ -611,12 +705,14 @@
       selectedTrayId = null;
       hoveredTargetId = null;
       errorTargetId = null;
+      Object.keys(continentVisualState).forEach(k => delete continentVisualState[k]);
+
       const banner = document.getElementById('completion-banner');
       banner.classList.add('hidden');
       banner.classList.remove('flex');
       setFeedback('info', 'اختر أي قارة من الأعلى واسحبها إلى مكانها الصحيح على الخريطة الصماء.');
       updateScoreUI();
-      renderTray();
+      buildTray();
       updateMapStyles();
     }
 
@@ -634,14 +730,21 @@
         .attr('stroke-width', 0.8)
         .attr('class', 'country-path')
         .attr('data-continent-id', d => getCountryContinent(d.id, d3.geoCentroid(d)))
-        .on('mouseenter', function() {
+        .each(function() {
           const contId = this.getAttribute('data-continent-id');
-          if (!placedIds.includes(contId) && ((dragState && dragState.hasMoved) || selectedTrayId)) {
+          if (!pathsByContinent[contId]) pathsByContinent[contId] = [];
+          pathsByContinent[contId].push(this);
+        })
+        .on('mouseenter', function() {
+          if (dragState) return;
+          const contId = this.getAttribute('data-continent-id');
+          if (!placedIds.includes(contId) && selectedTrayId) {
             hoveredTargetId = contId;
             updateMapStyles();
           }
         })
         .on('mouseleave', function() {
+          if (dragState) return;
           const contId = this.getAttribute('data-continent-id');
           if (hoveredTargetId === contId) {
             hoveredTargetId = null;
@@ -655,6 +758,7 @@
           }
         });
 
+      buildDropSlotsOnce();
       resetActivity();
     });
   </script>
