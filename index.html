@@ -24,6 +24,15 @@
                  linear-gradient(0deg,var(--bg) 0%,rgba(46,26,16,0) 30%)}
     .sun{animation:pulse 5s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
     @keyframes pulse{50%{opacity:.7;transform:scale(1.08)}}
+    .core{animation:core 5s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+    @keyframes core{50%{transform:scale(1.12)}}
+    .rays{transform-box:view-box;transform-origin:150px 330px;animation:sway 12s ease-in-out infinite alternate}
+    @keyframes sway{from{transform:rotate(-5deg)}to{transform:rotate(7deg)}}
+    .bird{animation:fly 16s ease-in-out infinite alternate}
+    .bird path{animation:bob 3s ease-in-out infinite}
+    .bird path:nth-child(2){animation-delay:-.8s}.bird path:nth-child(3){animation-delay:-1.6s}.bird path:nth-child(4){animation-delay:-2.2s}
+    @keyframes fly{from{transform:translateX(60px)}to{transform:translateX(-160px)}}
+    @keyframes bob{50%{transform:translateY(-14px)}}
 
     /* الهيدر */
     header{position:sticky;top:0;z-index:50;background:rgba(46,26,16,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
@@ -84,8 +93,8 @@
       </defs>
       <rect width="1200" height="640" fill="url(#sky)"/>
       <circle class="sun" cx="150" cy="330" r="330" fill="url(#glow)"/>
-      <circle cx="150" cy="330" r="62" fill="#fffbe6"/>
-      <g stroke="#fff3c0" stroke-opacity=".35" stroke-width="3">
+      <circle class="core" cx="150" cy="330" r="62" fill="#fffbe6"/>
+      <g class="rays" stroke="#fff3c0" stroke-opacity=".35" stroke-width="3">
         <path d="M150 330 L760 120"/><path d="M150 330 L820 250"/><path d="M150 330 L760 380"/><path d="M150 330 L600 40"/>
       </g>
       <polygon points="700,430 820,330 940,430" fill="#c98e4e" opacity=".75"/>
@@ -95,7 +104,7 @@
       <g stroke="#7a4421" stroke-opacity=".35" stroke-width="2">
         <path d="M520 400 H860"/><path d="M570 330 H810"/><path d="M620 260 H760"/><path d="M660 205 H720"/>
       </g>
-      <g fill="none" stroke="#5a3318" stroke-width="3" stroke-linecap="round">
+      <g class="bird" fill="none" stroke="#5a3318" stroke-width="3" stroke-linecap="round">
         <path d="M330 150 q10 -12 20 0 q10 -12 20 0"/><path d="M400 120 q8 -10 16 0 q8 -10 16 0"/>
         <path d="M290 195 q8 -10 16 0 q8 -10 16 0"/><path d="M440 185 q7 -9 14 0 q7 -9 14 0"/>
       </g>
@@ -118,7 +127,7 @@
   <main>
     <div class="box">
       <div class="logo">
-        <img src="https://i.postimg.cc/1zQLqtdq/mrkz-tlm-aldrasat-alajtmaʿyt-png1.png" alt="شعار مركز تعلم الدراسات الاجتماعية">
+        <img src="https://i.postimg.cc/ZnF2Hzfs/almstkshf-alrqmy.png" alt="شعار مركز تعلم الدراسات الاجتماعية">
       </div>
       <h2>مرحباً بك مجدداً 👋</h2>
       <p class="sub">سجّل الدخول لاستكمال رحلتك التعليمية الممتعة</p>
