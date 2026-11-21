@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>تحدي الخريطة - تحديد مواقع القارات</title>
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+		<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script src="https://d3js.org/d3.v7.min.js"></script>
+		<script src="https://unpkg.com/topojson-client@3"></script>
+
+		<style>
+			body {
+			font-family: 'Cairo', sans-serif;
+			background-color: #241911;
+			color: #F7E8CC;
+			}
+			.tabular-nums { font-variant-numeric: tabular-nums; }
+			.country-path { transition: fill 0.15s ease, stroke 0.15s ease; }
+
+			@keyframes slotShake {
+			0%, 100% { transform: translateX(0); }
+			20% { transform: translateX(-6px); }
+			40% { transform: translateX(6px); }
+			60% { transform: translateX(-4px); }
+			80% { transform: translateX(4px); }
+			}
+			@keyframes slotPop {
+			0% { transform: scale(0.88); opacity: 0.7; }
+			60% { transform: scale(1.06); opacity: 1; }
+			100% { transform: scale(1); opacity: 1; }
+			}
+			.animate-slot-shake { animation: slotShake 0.35s ease both; }
+			.animate-slot-pop { animation: slotPop 0.25s ease both; }
+		</style>
+	</head>
+	<body class="min-h-screen flex flex-col antialiased selection:bg-[#E5A952] selection:text-[#22150B]">
+
+		<!-- الهيدر متطابق مع هوية مركز المستكشف الرقمي -->
+		<header class="bg-[#2B1E15] border-b border-[#4E3726] sticky top-0 z-30">
+			<div class="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 sm:py-3 flex flex-wrap items-center justify-between gap-2 sm:gap-4">
+				<div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+					<div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#3A291D] border border-[#6E4F36] text-[#F5CA82] flex items-center justify-center shrink-0">
+						<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<circle cx="12" cy="12" r="10"/>
+							<path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+							<path d="M2 12h20"/>
+						</svg>
+					</div>
+					<div class="min-w-0">
+						<h1 class="text-sm sm:text-xl font-black text-[#FDE6B6]">تحدي الخريطة: تحديد مواقع القارات</h1>
+						<p class="hidden sm:block text-xs font-semibold text-[#C8AF8C]">مركز المستكشف الرقمي · اسحب اسم القارة وضعه في المكان الصحيح على الخريطة</p>
+					</div>
+				</div>
+
+				<div class="flex items-center gap-3 shrink-0 mr-auto sm:mr-0">
+					<div id="score-readout" class="text-xs sm:text-sm font-extrabold text-[#F5D08A] tabular-nums whitespace-nowrap">
+						<span>
+							المحددة: <span id="placed-count">0</span> / 7
+						</span>
+						<span class="text-[#6E4F36] mx-1.5">·</span>
+						<span class="text-[#C8AF8C]">
+							الأخطاء: <span id="mistakes-count">0</span>
+						</span>
+					</div>
+
+					<button type="button" onclick="resetActivity()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:py-2 rounded-xl bg-[#3A291D] hover:bg-[#493424] text-[#FDE6B6] border border-[#6B4D35] font-bold text-xs sm:text-sm whitespace-nowrap transition-colors cursor-pointer">
+						<span>إعادة</span>
+					</button>
+				</div>
+			</div>
+		</header>
+
+		<!-- مساحة النشاط الرئيسية -->
+		<main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-5 sm:py-6">
+			<section class="relative bg-[#2F2117] rounded-[22px] border border-[#5C412C] shadow-xl p-4 sm:p-5 space-y-4">
+				<span aria-hidden="true" class="pointer-events-none absolute top-2 right-2 w-3.5 h-3.5 border-t-2 border-r-2 border-[#E5A952] rounded-tr-md opacity-80"></span>
+				<span aria-hidden="true" class="pointer-events-none absolute top-2 left-2 w-3.5 h-3.5 border-t-2 border-l-2 border-[#E5A952] rounded-tl-md opacity-80"></span>
+
+				<!-- شريط أسماء القارات القابلة للسحب -->
+				<div id="tray-container" class="bg-[#261B12] border border-[#523A27] rounded-2xl p-3 sm:p-4">
+					<div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+						<p class="text-xs sm:text-sm font-bold text-[#EAD4B0]">
+							اسحب اسم القارة أو اضغط عليه ثم اضغط على موقعها الصحيح في الخريطة:
+						</p>
+						<span id="remaining-label" class="text-xs font-bold text-[#C7A983] tabular-nums">المتبقي: 7 من 7</span>
+					</div>
+					<div id="continents-tray" class="flex flex-wrap items-center justify-center gap-2.5"></div>
+				</div>
+
+				<!-- بطاقة النتيجة النهائية (تظهر عند إكمال القارات السبع) -->
+				<div id="completion-banner" class="hidden bg-[#153126] border border-[#10B981]/60 rounded-2xl p-4 sm:p-5 flex-col sm:flex-row items-center justify-between gap-4">
+					<div class="text-center sm:text-right">
+						<h2 class="text-base sm:text-lg font-black text-[#ECFDF5]">أحسنت! تم تحديد جميع القارات السبع بنجاح</h2>
+						<p id="completion-stats" class="text-xs sm:text-sm font-bold text-[#A7F3D0] mt-0.5 tabular-nums"></p>
+					</div>
+					<button type="button" onclick="resetActivity()" class="px-5 py-2.5 rounded-xl bg-gradient-to-b from-[#E5A952] to-[#C27D32] hover:from-[#EEB764] hover:to-[#CE873A] text-[#22150B] font-extrabold text-sm whitespace-nowrap transition-colors cursor-pointer">
+						إعادة النشاط
+					</button>
+				</div>
+
+				<!-- حاوية الخريطة بنفس الجرافيك -->
+				<div id="mapWrapper" class="relative bg-[#E4F3F8] rounded-xl border border-[#5C412C] overflow-hidden select-none">
+					<svg id="realWorldSvg" viewBox="0 0 1000 520" class="w-full h-auto block max-h-[560px]">
+						<g id="earth-countries-layer"></g>
+
+						<g id="ocean-labels-layer" class="pointer-events-none select-none">
+							<text x="120" y="260" text-anchor="middle" fill="#0369A1" stroke="#FFFFFF" stroke-width="3" paint-order="stroke fill" opacity="0.88" font-size="13" font-weight="900">المحيط الهادي</text>
+							<text x="910" y="300" text-anchor="middle" fill="#0369A1" stroke="#FFFFFF" stroke-width="3" paint-order="stroke fill" opacity="0.88" font-size="13" font-weight="900">المحيط الهادي</text>
+							<text x="410" y="235" text-anchor="middle" fill="#0369A1" stroke="#FFFFFF" stroke-width="3" paint-order="stroke fill" opacity="0.88" font-size="14" font-weight="900">المحيط الأطلنطي</text>
+							<text x="670" y="340" text-anchor="middle" fill="#0369A1" stroke="#FFFFFF" stroke-width="3" paint-order="stroke fill" opacity="0.88" font-size="14" font-weight="900">المحيط الهندي</text>
+							<text x="500" y="50" text-anchor="middle" fill="#0369A1" stroke="#FFFFFF" stroke-width="3.5" paint-order="stroke fill" opacity="0.95" font-size="13.5" font-weight="900">المحيط القطبي الشمالي</text>
+							<text x="460" y="444" text-anchor="middle" fill="#0369A1" stroke="#FFFFFF" stroke-width="3" paint-order="stroke fill" opacity="0.88" font-size="12" font-weight="900">المحيط المتجمد الجنوبي</text>
+						</g>
+
+						<g id="continent-drop-slots-layer"></g>
+					</svg>
+				</div>
+
+				<!-- رسالة التوجيه والتغذية الراجعة -->
+				<div id="feedback-banner" role="status" aria-live="polite" class="min-h-[44px] px-4 py-2.5 rounded-xl border bg-[#261B12] border-[#523A27] text-[#E8CFA6] text-xs sm:text-sm font-bold flex items-center gap-2 transition-colors">
+					اختر أي قارة من الأعلى واسحبها إلى مكانها الصحيح على الخريطة الصماء.
+				</div>
+
+			</section>
+		</main>
+
+		<!-- العنصر العائم أثناء السحب -->
+		<div id="drag-ghost" class="hidden fixed z-50 pointer-events-none px-4 py-2 rounded-xl bg-gradient-to-b from-[#E5A952] to-[#C27D32] text-[#22150B] font-extrabold text-sm shadow-xl border border-[#F5CA82] whitespace-nowrap" style="transform: translate(-50%, -115%);"></div>
+
+		<script>
+			const SVG_WIDTH = 1000;
+			const SVG_HEIGHT = 520;
+			const projection = d3.geoNaturalEarth1()
+			.scale(168)
+			.translate([SVG_WIDTH / 2, SVG_HEIGHT / 2 + 10]);
+			const path = d3.geoPath().projection(projection);
+
+			const CONTINENTS = [
+			{ id: 'asia', name: 'آسيا', mapLabel: 'آسيا', lon: 92, lat: 44, slotWidth: 88, fact: 'أكبر قارات العالم مساحةً وسكاناً، وتضم جبال الهيمالايا وهضبة التبت.' },
+			{ id: 'africa', name: 'أفريقيا', mapLabel: 'أفريقيا', lon: 20, lat: 7, slotWidth: 92, fact: 'تتوسط قارات العالم ويمر بها خط الاستواء ومدارا السرطان والجدي.' },
+			{ id: 'europe', name: 'أوروبا', mapLabel: 'أوروبا', lon: 18, lat: 51, slotWidth: 88, fact: 'تقع شمال البحر المتوسط وتتميز بسواحلها المتعرجة وكثرة موانيها الطبيعية.' },
+			{ id: 'north_america', name: 'أمريكا الشمالية', mapLabel: 'أمريكا الشمالية', lon: -101, lat: 45, slotWidth: 122, fact: 'ثالث أكبر قارات العالم مساحةً، وتضم جبال الروكي ونهر الميسيسيبي.' },
+			{ id: 'south_america', name: 'أمريكا الجنوبية', mapLabel: 'أمريكا الجنوبية', lon: -59, lat: -14, slotWidth: 122, fact: 'تبدو على شكل مثلث، وتضم جبال الأنديز وحوض نهر الأمازون.' },
+			{ id: 'australia', name: 'أستراليا', mapLabel: 'أستراليا', lon: 134, lat: -25, slotWidth: 96, fact: 'أصغر قارات العالم مساحةً وتحيط بها المياه من جميع الجهات.' },
+			{ id: 'antarctica', name: 'القارة القطبية الجنوبية', mapLabel: 'أنتاركتيكا', lon: 10, lat: -76, slotWidth: 112, fact: 'قارة متجمدة غير مأهولة بالسكان تقع عند القطب الجنوبي أقصى جنوب الكرة الأرضية.' }
+			];
+
+			const CONTINENT_BY_ID = Object.fromEntries(CONTINENTS.map(c => [c.id, c]));
+
+			const ISO_TO_CONTINENT = {
+			'010': 'antarctica', '260': 'antarctica',
+			'036': 'australia', '554': 'australia', '598': 'australia', '242': 'australia', '090': 'australia', '548': 'australia', '540': 'australia',
+			'643': 'asia', '156': 'asia', '356': 'asia', '392': 'asia', '360': 'asia', '682': 'asia', '368': 'asia', '760': 'asia', '400': 'asia', '422': 'asia', '275': 'asia', '376': 'asia', '887': 'asia', '512': 'asia', '784': 'asia', '634': 'asia', '414': 'asia', '048': 'asia', '364': 'asia', '792': 'asia', '004': 'asia', '586': 'asia', '050': 'asia', '104': 'asia', '764': 'asia', '704': 'asia', '458': 'asia', '608': 'asia', '410': 'asia', '408': 'asia', '496': 'asia', '398': 'asia', '860': 'asia', '795': 'asia', '762': 'asia', '417': 'asia', '144': 'asia', '524': 'asia', '064': 'asia', '116': 'asia', '418': 'asia', '158': 'asia', '051': 'asia', '031': 'asia', '268': 'asia', '626': 'asia', '096': 'asia',
+			'818': 'africa', '012': 'africa', '504': 'africa', '788': 'africa', '434': 'africa', '729': 'africa', '728': 'africa', '231': 'africa', '706': 'africa', '262': 'africa', '710': 'africa', '566': 'africa', '404': 'africa', '834': 'africa', '180': 'africa', '024': 'africa', '450': 'africa', '508': 'africa', '894': 'africa', '716': 'africa', '072': 'africa', '516': 'africa', '466': 'africa', '562': 'africa', '148': 'africa', '478': 'africa', '732': 'africa', '686': 'africa', '288': 'africa', '384': 'africa', '120': 'africa', '266': 'africa', '178': 'africa', '140': 'africa', '800': 'africa', '646': 'africa', '108': 'africa', '454': 'africa', '232': 'africa', '204': 'africa', '768': 'africa', '854': 'africa', '324': 'africa', '694': 'africa', '430': 'africa', '270': 'africa', '624': 'africa', '226': 'africa', '426': 'africa', '748': 'africa',
+			'250': 'europe', '276': 'europe', '826': 'europe', '380': 'europe', '724': 'europe', '620': 'europe', '616': 'europe', '804': 'europe', '642': 'europe', '300': 'europe', '752': 'europe', '578': 'europe', '246': 'europe', '208': 'europe', '528': 'europe', '056': 'europe', '756': 'europe', '040': 'europe', '203': 'europe', '703': 'europe', '348': 'europe', '100': 'europe', '688': 'europe', '191': 'europe', '070': 'europe', '008': 'europe', '807': 'europe', '705': 'europe', '498': 'europe', '112': 'europe', '440': 'europe', '428': 'europe', '233': 'europe', '372': 'europe', '352': 'europe', '499': 'europe', '-99': 'europe',
+			'840': 'north_america', '124': 'north_america', '484': 'north_america', '304': 'north_america', '192': 'north_america', '332': 'north_america', '214': 'north_america', '388': 'north_america', '044': 'north_america', '320': 'north_america', '340': 'north_america', '558': 'north_america', '188': 'north_america', '591': 'north_america', '222': 'north_america', '084': 'north_america', '630': 'north_america',
+			'076': 'south_america', '032': 'south_america', '152': 'south_america', '170': 'south_america', '604': 'south_america', '862': 'south_america', '218': 'south_america', '068': 'south_america', '600': 'south_america', '858': 'south_america', '328': 'south_america', '740': 'south_america', '238': 'south_america'
+			};
+
+			function getCountryContinent(countryId, centroid) {
+			if (countryId !== undefined && countryId !== null) {
+			const raw = String(countryId);
+			const padded = raw.padStart(3, '0');
+			if (ISO_TO_CONTINENT[padded]) return ISO_TO_CONTINENT[padded];
+			if (ISO_TO_CONTINENT[raw]) return ISO_TO_CONTINENT[raw];
+			}
+			if (centroid && !isNaN(centroid[0]) && !isNaN(centroid[1])) {
+			const [lon, lat] = centroid;
+			if (lat <= -60) return 'antarctica';
+			if (lon < -30) return lat >= 12.5 ? 'north_america' : 'south_america';
+        if (lon >= 110 && lat <= -10) return 'australia';
+			if (lon >= -25 && lon <= 45 && lat >= 35.5) return 'europe';
+			if (lon >= -20 && lon <= 52 && lat < 35.5 && lat > -40) return 'africa';
+			return 'asia';
+			}
+			return 'asia';
+			}
+
+			let trayIds = [];
+			let placedIds = [];
+			let attempts = 0;
+			let mistakes = 0;
+			let startedAt = Date.now();
+			let selectedTrayId = null;
+			let hoveredTargetId = null;
+			let errorTargetId = null;
+			let errorTimer = null;
+			let dragState = null;
+			let suppressNextClick = false;
+
+			const projectedTargets = CONTINENTS.map(c => {
+			const pt = projection([c.lon, c.lat]);
+			return { ...c, x: pt[0], y: pt[1] };
+			});
+
+			function shuffle(arr) {
+			const copy = [...arr];
+			for (let i = copy.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[copy[i], copy[j]] = [copy[j], copy[i]];
+			}
+			return copy;
+			}
+
+			function setFeedback(type, text) {
+			const el = document.getElementById('feedback-banner');
+			el.textContent = text;
+			el.className = 'min-h-[44px] px-4 py-2.5 rounded-xl border text-xs sm:text-sm font-bold flex items-center gap-2 transition-colors ';
+			if (type === 'success') {
+			el.className += 'bg-[#153126] border-[#10B981]/60 text-[#A7F3D0]';
+			} else if (type === 'error') {
+			el.className += 'bg-[#3D1A1A] border-[#EF4444]/60 text-[#FECACA]';
+			} else if (type === 'selected') {
+			el.className += 'bg-[#3D2B1B] border-[#E5A952]/70 text-[#FDE6B6]';
+			} else {
+			el.className += 'bg-[#261B12] border-[#523A27] text-[#E8CFA6]';
+			}
+			}
+
+			function renderTray() {
+			const trayEl = document.getElementById('continents-tray');
+			const containerEl = document.getElementById('tray-container');
+			const remainingEl = document.getElementById('remaining-label');
+
+			if (trayIds.length === 0) {
+			containerEl.classList.add('hidden');
+			return;
+			}
+
+			containerEl.classList.remove('hidden');
+			remainingEl.textContent = 'المتبقي: ' + trayIds.length + ' من 7';
+			trayEl.innerHTML = '';
+
+			trayIds.forEach(id => {
+			const cont = CONTINENT_BY_ID[id];
+			const isSelected = selectedTrayId === id;
+			const isDragged = dragState && dragState.hasMoved && dragState.id === id;
+
+			const btn = document.createElement('button');
+			btn.type = 'button';
+			btn.style.touchAction = 'none';
+			btn.className = 'inline-flex items-center gap-2 px-4 py-2 rounded-xl font-extrabold text-sm whitespace-nowrap shrink-0 border transition-all duration-150 cursor-grab active:cursor-grabbing ' +
+			(isDragged
+			? 'opacity-35 scale-95 bg-[#3A291D] border-[#E5A94C] text-[#FDE6B6]'
+			: isSelected
+			? 'bg-gradient-to-b from-[#E5A952] to-[#C27D32] text-[#22150B] border-[#F5CA82] shadow-md ring-2 ring-[#E5A952]/40'
+			: 'bg-[#38271B] text-[#F7E8CC] border-[#664933] hover:border-[#E5A952] hover:bg-[#463122] hover:text-[#FFF3DA]');
+
+			btn.innerHTML = '<span class="opacity-60 text-xs">⋮⋮</span><span>' + cont.name + '</span>';
+
+			btn.addEventListener('pointerdown', (e) => {
+			if (e.button !== 0) return;
+			suppressNextClick = false;
+			dragState = { id, startX: e.clientX, startY: e.clientY, x: e.clientX, y: e.clientY, hasMoved: false };
+			});
+
+			btn.addEventListener('click', () => {
+			if (suppressNextClick) {
+			suppressNextClick = false;
+			return;
+			}
+			selectedTrayId = selectedTrayId === id ? null : id;
+			if (selectedTrayId) {
+			setFeedback('selected', 'القارة المختارة: ' + CONTINENT_BY_ID[selectedTrayId].name + ' — اضغط الآن على موقعها الصحيح في الخريطة.');
+			} else {
+			setFeedback('info', 'اختر أي قارة من الأعلى واسحبها إلى مكانها الصحيح على الخريطة الصماء.');
+			}
+			renderTray();
+			updateMapStyles();
+			});
+
+			trayEl.appendChild(btn);
+			});
+			}
+
+			function updateScoreUI() {
+			document.getElementById('placed-count').textContent = placedIds.length;
+			document.getElementById('mistakes-count').textContent = mistakes;
+			}
+
+			function updateMapStyles() {
+			d3.selectAll('.country-path').each(function() {
+			const contId = this.getAttribute('data-continent-id');
+			const isPlaced = placedIds.includes(contId);
+			const isError = errorTargetId === contId;
+			const isHovered = hoveredTargetId === contId && !isPlaced;
+			const canInteract = !isPlaced && ((dragState && dragState.hasMoved) || selectedTrayId !== null);
+
+			let fill = '#F2ECE1';
+			let stroke = '#C5B7A5';
+			let strokeWidth = 0.8;
+
+			if (isError) {
+			fill = '#FEE2E2';
+			stroke = '#DC2626';
+			strokeWidth = 1.1;
+			} else if (isPlaced) {
+			fill = '#D1FAE5';
+			stroke = '#059669';
+			strokeWidth = 0.9;
+			} else if (isHovered) {
+			fill = '#FDE6C4';
+			stroke = '#C27D32';
+			strokeWidth = 1.15;
+			}
+
+			d3.select(this)
+			.attr('fill', fill)
+			.attr('stroke', stroke)
+			.attr('stroke-width', strokeWidth)
+			.style('cursor', canInteract ? 'pointer' : 'default');
+			});
+
+			renderDropSlots();
+			}
+
+			function renderDropSlots() {
+			const layer = d3.select('#continent-drop-slots-layer');
+			layer.selectAll('*').remove();
+
+			projectedTargets.forEach(target => {
+			const isPlaced = placedIds.includes(target.id);
+			const isHovered = hoveredTargetId === target.id && !isPlaced;
+			const isError = errorTargetId === target.id;
+			const boxWidth = isPlaced ? target.slotWidth : (isHovered ? 92 : 78);
+			const boxHeight = isPlaced ? 30 : 28;
+
+			const g = layer.append('g')
+			.attr('transform', 'translate(' + target.x + ',' + target.y + ')')
+			.attr('data-continent-slot', target.id)
+			.style('cursor', isPlaced ? 'default' : 'pointer')
+			.on('mouseenter', () => {
+			if (!isPlaced) {
+			hoveredTargetId = target.id;
+			updateMapStyles();
+			}
+			})
+			.on('mouseleave', () => {
+			if (!isPlaced && hoveredTargetId === target.id) {
+			hoveredTargetId = null;
+			updateMapStyles();
+			}
+			})
+			.on('click', () => {
+			if (!isPlaced && selectedTrayId) {
+			handleDropAttempt(selectedTrayId, target.id);
+			}
+			});
+
+			g.append('circle').attr('r', 34).attr('fill', 'transparent');
+
+			const inner = g.append('g')
+			.attr('class', isError ? 'animate-slot-shake' : (isPlaced ? 'animate-slot-pop' : ''));
+
+			if (isPlaced) {
+			inner.append('rect')
+			.attr('x', -boxWidth / 2)
+			.attr('y', -boxHeight / 2)
+			.attr('width', boxWidth)
+			.attr('height', boxHeight)
+			.attr('rx', 9)
+			.attr('fill', '#047857')
+			.attr('stroke', '#FFFFFF')
+			.attr('stroke-width', 2);
+
+			inner.append('text')
+			.attr('x', 0)
+			.attr('y', 5)
+			.attr('text-anchor', 'middle')
+			.attr('fill', '#FFFFFF')
+			.attr('font-size', '12')
+			.attr('font-weight', '800')
+			.text('✓ ' + target.mapLabel);
+			} else {
+			inner.append('rect')
+			.attr('x', -boxWidth / 2)
+			.attr('y', -boxHeight / 2)
+			.attr('width', boxWidth)
+			.attr('height', boxHeight)
+			.attr('rx', 9)
+			.attr('fill', isError ? '#7F1D1D' : (isHovered ? '#C27D32' : 'rgba(47, 33, 23, 0.90)'))
+			.attr('stroke', isError ? '#FCA5A5' : (isHovered ? '#FFF3DA' : '#E5A952'))
+			.attr('stroke-width', isHovered || isError ? 2.2 : 1.5)
+			.attr('stroke-dasharray', isHovered || isError ? null : '4 3');
+
+			inner.append('text')
+			.attr('x', 0)
+			.attr('y', 4.5)
+			.attr('text-anchor', 'middle')
+			.attr('fill', isError ? '#FEE2E2' : (isHovered ? '#FFFFFF' : '#FDE6B6'))
+			.attr('font-size', '11')
+			.attr('font-weight', '800')
+			.text(isError ? '✕ خطأ' : (isHovered ? 'أفلت هنا' : 'اسحب هنا'));
+			}
+			});
+			}
+
+			function handleDropAttempt(draggedId, targetId) {
+			if (placedIds.includes(targetId) || placedIds.includes(draggedId)) return;
+			attempts += 1;
+			const dragged = CONTINENT_BY_ID[draggedId];
+			const formattedName = dragged.name.startsWith('القارة') ? dragged.name : ('قارة ' + dragged.name);
+
+			if (draggedId === targetId) {
+			placedIds.push(targetId);
+			trayIds = trayIds.filter(id => id !== draggedId);
+			selectedTrayId = null;
+			setFeedback('success', 'أحسنت! تم تحديد ' + formattedName + ' في موقعها الصحيح. — ' + dragged.fact);
+
+			if (placedIds.length === CONTINENTS.length) {
+			const elapsed = Math.max(0, Math.round((Date.now() - startedAt) / 1000));
+			const mins = Math.floor(elapsed / 60);
+			const secs = String(elapsed % 60).padStart(2, '0');
+			const accuracy = Math.min(100, Math.round((7 / attempts) * 100));
+			const banner = document.getElementById('completion-banner');
+			banner.classList.remove('hidden');
+			banner.classList.add('flex');
+			document.getElementById('completion-stats').textContent =
+			'الدقة: ' + accuracy + '% · الأخطاء: ' + mistakes + ' · الوقت المستغرق: ' + mins + ':' + secs;
+			}
+			} else {
+			mistakes += 1;
+			setFeedback('error', 'هذا الموقع لا يمثل ' + formattedName + ' — حاول مرة أخرى!');
+			if (errorTimer) clearTimeout(errorTimer);
+			errorTargetId = targetId;
+			errorTimer = setTimeout(() => {
+			errorTargetId = null;
+			updateMapStyles();
+			}, 650);
+			}
+
+			updateScoreUI();
+			renderTray();
+			updateMapStyles();
+			}
+
+			function detectTargetAtClientPoint(clientX, clientY) {
+			const svg = document.getElementById('realWorldSvg');
+			const rect = svg.getBoundingClientRect();
+			if (clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom && rect.width > 0 && rect.height > 0) {
+			const svgX = ((clientX - rect.left) / rect.width) * SVG_WIDTH;
+			const svgY = ((clientY - rect.top) / rect.height) * SVG_HEIGHT;
+			let closestId = null;
+			let minDistSq = 58 * 58;
+			for (const t of projectedTargets) {
+			if (placedIds.includes(t.id)) continue;
+			const dSq = (svgX - t.x) ** 2 + (svgY - t.y) ** 2;
+			if (dSq <= minDistSq) {
+			minDistSq = dSq;
+			closestId = t.id;
+			}
+			}
+			if (closestId) return closestId;
+			}
+
+			const elements = document.elementsFromPoint(clientX, clientY);
+			for (const el of elements) {
+			const slotId = el.getAttribute('data-continent-slot');
+			if (slotId && !placedIds.includes(slotId)) return slotId;
+			const pathId = el.getAttribute('data-continent-id');
+			if (pathId && !placedIds.includes(pathId)) return pathId;
+			}
+			return null;
+			}
+
+			window.addEventListener('pointermove', (e) => {
+			if (!dragState) return;
+			const movedEnough = dragState.hasMoved || Math.hypot(e.clientX - dragState.startX, e.clientY - dragState.startY) > 6;
+			dragState.x = e.clientX;
+			dragState.y = e.clientY;
+
+			if (movedEnough && !dragState.hasMoved) {
+			dragState.hasMoved = true;
+			renderTray();
+			}
+
+			if (dragState.hasMoved) {
+			const ghost = document.getElementById('drag-ghost');
+			ghost.textContent = CONTINENT_BY_ID[dragState.id].name;
+			ghost.style.left = e.clientX + 'px';
+			ghost.style.top = e.clientY + 'px';
+			ghost.classList.remove('hidden');
+
+			const hit = detectTargetAtClientPoint(e.clientX, e.clientY);
+			if (hoveredTargetId !== hit) {
+			hoveredTargetId = hit;
+			updateMapStyles();
+			}
+			}
+			});
+
+			function endPointerDrag(e) {
+			if (!dragState) return;
+			const wasMoved = dragState.hasMoved;
+			const draggedId = dragState.id;
+			dragState = null;
+			document.getElementById('drag-ghost').classList.add('hidden');
+
+			if (wasMoved) {
+			suppressNextClick = true;
+			const targetId = detectTargetAtClientPoint(e.clientX, e.clientY);
+			hoveredTargetId = null;
+			if (targetId) {
+			handleDropAttempt(draggedId, targetId);
+			} else {
+			renderTray();
+			updateMapStyles();
+			}
+			}
+			}
+
+			window.addEventListener('pointerup', endPointerDrag);
+			window.addEventListener('pointercancel', endPointerDrag);
+
+			function resetActivity() {
+			trayIds = shuffle(CONTINENTS.map(c => c.id));
+			placedIds = [];
+			attempts = 0;
+			mistakes = 0;
+			startedAt = Date.now();
+			selectedTrayId = null;
+			hoveredTargetId = null;
+			errorTargetId = null;
+			const banner = document.getElementById('completion-banner');
+			banner.classList.add('hidden');
+			banner.classList.remove('flex');
+			setFeedback('info', 'اختر أي قارة من الأعلى واسحبها إلى مكانها الصحيح على الخريطة الصماء.');
+			updateScoreUI();
+			renderTray();
+			updateMapStyles();
+			}
+
+			d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(world => {
+			const countries = topojson.feature(world, world.objects.countries).features;
+			const g = d3.select('#earth-countries-layer');
+
+			g.selectAll('path')
+			.data(countries)
+			.enter()
+			.append('path')
+			.attr('d', path)
+			.attr('fill', '#F2ECE1')
+			.attr('stroke', '#C5B7A5')
+			.attr('stroke-width', 0.8)
+			.attr('class', 'country-path')
+			.attr('data-continent-id', d => getCountryContinent(d.id, d3.geoCentroid(d)))
+			.on('mouseenter', function() {
+			const contId = this.getAttribute('data-continent-id');
+			if (!placedIds.includes(contId) && ((dragState && dragState.hasMoved) || selectedTrayId)) {
+			hoveredTargetId = contId;
+			updateMapStyles();
+			}
+			})
+			.on('mouseleave', function() {
+			const contId = this.getAttribute('data-continent-id');
+			if (hoveredTargetId === contId) {
+			hoveredTargetId = null;
+			updateMapStyles();
+			}
+			})
+			.on('click', function() {
+			const contId = this.getAttribute('data-continent-id');
+			if (!placedIds.includes(contId) && selectedTrayId) {
+			handleDropAttempt(selectedTrayId, contId);
+			}
+			});
+
+			resetActivity();
+			});
+		</script>
+	</body>
+</html>
