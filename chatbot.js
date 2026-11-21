@@ -156,33 +156,50 @@ const GEMINI_API_KEY = 'AQ.Ab8RN6LQwruPwQOVEYVNgHG2HECpYr_' + 's4HxYDidssv6eOznI
     const typingEl = addMsg('<span class="de-typing">المستكشف الذكي يكتب الإجابة... ⏳</span>', 'bot');
     sendBtn.disabled = true;
 
-    try {
-      const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.0-flash:generateContent?key=${GEMINI_API_KEY}`,        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            system_instruction: { parts: [{ text: systemInstruction }] },
-            contents: chatHistory
-          })
+    // قائمة الموديلات المتاحة بالترتيب لضمان عدم توقف البوت
+    const models = ['gemini-3-flash-preview', 'gemini-2.5-flash', 'gemini-flash-latest'];
+    let success = false;
+    let lastError = '';
+
+    for (const model of models) {
+      try {
+        const response = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              system_instruction: { parts: [{ text: systemInstruction }] },
+              contents: chatHistory
+            })
+          }
+        );
+
+        const data = await response.json();
+        if (!response.ok) {
+          lastError = data.error?.message || 'خطأ في الاتصال';
+          continue; // جرب الموديل التالي في القائمة
         }
-      );
 
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error?.message || 'خطأ في الاتصال');
-
-      const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || 'عذراً، لم أتمكن من صياغة إجابة الآن.';
-      chatHistory.push({ role: 'model', parts: [{ text: replyText }] });
-      typingEl.innerHTML = formatMarkdown(replyText);
-    } catch (err) {
-    typingEl.innerHTML = '⚠️ سبب الخطأ: ' + err.message;
-      chatHistory.pop();
-    } finally {
-      sendBtn.disabled = false;
-      msgs.scrollTop = msgs.scrollHeight;
+        const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || 'عذراً، لم أتمكن من صياغة إجابة الآن.';
+        chatHistory.push({ role: 'model', parts: [{ text: replyText }] });
+        typingEl.innerHTML = formatMarkdown(replyText);
+        success = true;
+        break;
+      } catch (err) {
+        lastError = err.message;
+      }
     }
-  }
 
+    if (!success) {
+      typingEl.innerHTML = '⚠️ سبب الخطأ: ' + lastError;
+      chatHistory.pop();
+    }
+
+    sendBtn.disabled = false;
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+  
   function handleAsk(text) {
     if (!text.trim() || sendBtn.disabled) return;
     addMsg(text.replace(/</g, '&lt;'), 'usr');
