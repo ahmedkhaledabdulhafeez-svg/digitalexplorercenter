@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تحدي الخريطة: الحضارات القديمة | مركز المستكشف الرقمي</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://unpkg.com/topojson-client@3"></script>
+
+  <style>
+    :root {
+      --bg: #2e1a10;
+      --bg2: #42251a;
+      --panel: #3a2116;
+      --line: rgba(224, 160, 110, .22);
+      --copper: #c8825a;
+      --gold: #f0b44c;
+      --sand: #f3dcb8;
+      --text: #f6e8d4;
+      --mute: #c9ae94;
+      --mint: #6fc2a8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.8;
+    }
+    .font-kufi { font-family: 'Reem Kufi', 'Cairo', sans-serif; }
+    .tabular-nums { font-variant-numeric: tabular-nums; }
+    .country-path { transition: fill 0.15s ease, stroke 0.15s ease; }
+
+    .explorer-frame {
+      border-radius: 28px;
+      position: relative;
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, var(--bg2), var(--panel));
+      box-shadow: 0 30px 70px rgba(0, 0, 0, .45);
+    }
+    .explorer-frame::before,
+    .explorer-frame::after {
+      content: "";
+      position: absolute;
+      width: 46px;
+      height: 46px;
+      border: 3px solid var(--gold);
+      pointer-events: none;
+    }
+    .explorer-frame::before {
+      top: -6px;
+      right: -6px;
+      border-left: 0;
+      border-bottom: 0;
+      border-top-right-radius: 28px;
+    }
+    .explorer-frame::after {
+      bottom: -6px;
+      left: -6px;
+      border-right: 0;
+      border-top: 0;
+      border-bottom-left-radius: 28px;
+    }
+    .explorer-strip {
+      border-radius: 99px;
+      height: 10px;
+      background: repeating-linear-gradient(90deg, var(--copper) 0 18px, transparent 18px 26px, var(--gold) 26px 34px, transparent 34px 42px);
+      opacity: .7;
+    }
+
+    @keyframes slotShake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-6px); }
+      40% { transform: translateX(6px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+    @keyframes slotPop {
+      0% { transform: scale(0.88); opacity: 0.7; }
+      60% { transform: scale(1.06); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .animate-slot-shake { animation: slotShake 0.35s ease both; }
+    .animate-slot-pop { animation: slotPop 0.25s ease both; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-[#c8825a] selection:text-[#2a150b]">
+
+  <!-- الهيدر المطابق لهوية مركز المستكشف الرقمي -->
+  <header class="sticky top-0 z-50 bg-[rgba(46,26,16,0.88)] backdrop-blur-[10px] border-b border-[rgba(224,160,110,0.22)]">
+    <div class="max-w-[1240px] mx-auto px-5 py-2 flex items-center justify-between gap-3">
+      <div class="w-[46px] h-[46px] sm:w-[50px] sm:h-[50px] rounded-full bg-white p-[3px] flex items-center justify-center shrink-0 overflow-hidden">
+        <img src="https://upload.wikimedia.org/wikipedia/ar/f/f7/%D8%AC%D8%A7%D9%85%D8%B9%D8%A9_%D8%A3%D8%B3%D9%88%D8%A7%D9%86.png?utm_source=ar.wikipedia.org&utm_campaign=index&utm_content=original" alt="شعار جامعة أسوان" referrerpolicy="no-referrer" class="w-full h-full object-contain rounded-full" onerror="this.style.display='none'" />
+      </div>
+
+      <div class="text-center min-w-0">
+        <b class="font-kufi text-lg sm:text-[1.25rem] text-[#f3dcb8] block leading-[1.4]">مركز المستكشف الرقمي</b>
+        <small class="text-[#f0b44c] font-semibold text-xs sm:text-[0.82rem] block">تحدي الخريطة — الحضارات القديمة</small>
+      </div>
+
+      <div class="w-[46px] h-[46px] sm:w-[50px] sm:h-[50px] rounded-full bg-white p-[3px] flex items-center justify-center shrink-0 overflow-hidden">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEzagK-_Zmqbzw25mmC78SZwqlNOLOK24tSfODSl1WydvvBxkharGt-Mmz&s=10" alt="شعار كلية التربية النوعية وقسم تكنولوجيا التعليم" referrerpolicy="no-referrer" class="w-full h-full object-contain rounded-full" onerror="this.style.display='none'" />
+      </div>
+    </div>
+
+    <nav class="bg-[#42251a] border-t border-[rgba(224,160,110,0.22)]">
+      <div class="max-w-[1240px] mx-auto px-5 py-1.5 flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <span class="px-4 py-1 rounded-[14px] bg-[#c8825a] text-[#2a150b] text-xs sm:text-sm font-bold whitespace-nowrap">
+            تحدي الخريطة
+          </span>
+        </div>
+
+        <div class="flex items-center gap-3 mr-auto sm:mr-0">
+          <div id="score-readout" class="text-xs sm:text-sm font-bold text-[#f0b44c] tabular-nums whitespace-nowrap">
+            <span>المحددة: <span id="placed-count">0</span> / 7</span>
+            <span class="text-[rgba(224,160,110,0.4)] mx-1.5">·</span>
+            <span class="text-[#c9ae94]">الأخطاء: <span id="mistakes-count">0</span></span>
+          </div>
+
+          <button type="button" onclick="resetActivity()" class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-[14px] border border-[#c8825a] text-[#f3dcb8] hover:bg-[#c8825a] hover:text-[#2a150b] font-bold text-xs sm:text-sm whitespace-nowrap transition-colors cursor-pointer">
+            <span>إعادة</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- مساحة النشاط الرئيسية -->
+  <main class="flex-1 max-w-[1240px] w-full mx-auto px-5 py-4 sm:py-5">
+    <!-- زر العودة للدرس (عدّل الرابط lesson.html إلى رابط صفحة الدرس عند الحاجة) -->
+    <div class="mb-3">
+      <a href="lesson.html" onclick="if (window.history.length > 1 && document.referrer) { history.back(); return false; }" class="inline-flex items-center gap-2 px-5 py-1.5 rounded-full border border-[#c8825a]/75 bg-[rgba(200,130,90,0.08)] text-[#f3dcb8] hover:bg-[#c8825a] hover:text-[#2a150b] hover:border-[#c8825a] text-xs sm:text-sm font-bold transition-all">
+        <span aria-hidden="true">←</span>
+        <span>العودة للدرس</span>
+      </a>
+    </div>
+
+    <div class="flex items-center gap-4 mb-4">
+      <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-[16px] border border-[#c8825a] bg-[rgba(200,130,90,0.12)] grid place-items-center rotate-45 shrink-0 m-1.5">
+        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-[#f0b44c] -rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="3" y1="22" x2="21" y2="22"></line>
+          <line x1="6" y1="18" x2="6" y2="11"></line>
+          <line x1="10" y1="18" x2="10" y2="11"></line>
+          <line x1="14" y1="18" x2="14" y2="11"></line>
+          <line x1="18" y1="18" x2="18" y2="11"></line>
+          <polygon points="12 2 20 7 4 7"></polygon>
+        </svg>
+      </div>
+      <div>
+        <h1 class="font-kufi text-xl sm:text-[1.75rem] font-bold text-[#f3dcb8] leading-[1.35]">تحدي الخريطة: تحديد مواقع الحضارات القديمة</h1>
+        <p class="text-xs sm:text-sm text-[#c9ae94]">نشاط تفاعلي لتحديد مواقع الحضارات القديمة — اسحب اسم الحضارة وضعه في المكان الصحيح على الخريطة</p>
+      </div>
+    </div>
+
+    <section class="explorer-frame p-3.5 sm:p-4 space-y-3">
+      <!-- شريط أسماء الحضارات القابلة للسحب -->
+      <div id="tray-container" class="bg-[#2e1a10]/85 border border-[rgba(224,160,110,0.22)] rounded-[18px] p-3.5 sm:p-4">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <p class="text-xs sm:text-sm font-bold text-[#f3dcb8]">
+            اسحب اسم الحضارة أو اضغط عليه ثم اضغط على موقعها الصحيح في الخريطة:
+          </p>
+          <span id="remaining-label" class="text-xs font-bold text-[#c9ae94] tabular-nums">المتبقي: 7 من 7</span>
+        </div>
+        <div id="civilizations-tray" class="flex flex-wrap items-center justify-center gap-2.5"></div>
+      </div>
+
+      <!-- بطاقة النتيجة النهائية -->
+      <div id="completion-banner" class="hidden bg-[#2e1a10]/90 border border-[#6fc2a8]/60 rounded-[18px] p-4 sm:p-5 flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="text-center sm:text-right">
+          <h2 class="font-kufi text-base sm:text-xl font-bold text-[#f3dcb8]">أحسنت! تم تحديد جميع الحضارات القديمة السبع بنجاح</h2>
+          <p id="completion-stats" class="text-xs sm:text-sm font-bold text-[#6fc2a8] mt-0.5 tabular-nums"></p>
+        </div>
+        <button type="button" onclick="resetActivity()" class="px-6 py-2.5 rounded-[18px] bg-[#c8825a] hover:bg-[#f0b44c] text-[#2a150b] font-bold text-sm whitespace-nowrap transition-all cursor-pointer">
+          إعادة النشاط
+        </button>
+      </div>
+
+      <!-- حاوية الخريطة بنفس الجرافيك -->
+      <div id="mapWrapper" class="relative bg-[#E4F3F8] rounded-[18px] border border-[rgba(224,160,110,0.25)] overflow-hidden select-none">
+        <svg id="realWorldSvg" viewBox="0 0 1000 520" class="w-full h-auto block max-h-[480px]">
+          <g id="earth-countries-layer"></g>
+
+          <g id="ocean-labels-layer" class="pointer-events-none select-none">
+            <text x="120" y="260" text-anchor="middle" fill="#0369A1" stroke="#FFFFFF" stroke-width="3" paint-order="stroke fill" opacity="0.88" font-size="13" font-weight="900">المحيط الهادي</text>
+            <text x="910" y="300" text-anchor="middle" fill="#0369A1" stroke="#FFFFFF" stroke-width="3" paint-order="stroke fill" opacity="0.88" font-size="13" font-weight="900">المحيط الهادي</text>
+            <text x="410" y="235" text-anchor="middle" fill="#0369A1" stroke="#FFFFFF" stroke-width="3" paint-order="stroke fill" opacity="0.88" font-size="14" font-weight="900">المحيط الأطلنطي</text>
+            <text x="670" y="340" text-anchor="middle" fill="#0369A1" stroke="#FFFFFF" stroke-width="3" paint-order="stroke fill" opacity="0.88" font-size="14" font-weight="900">المحيط الهندي</text>
+            <text x="500" y="50" text-anchor="middle" fill="#0369A1" stroke="#FFFFFF" stroke-width="3.5" paint-order="stroke fill" opacity="0.95" font-size="13.5" font-weight="900">المحيط القطبي الشمالي</text>
+            <text x="460" y="444" text-anchor="middle" fill="#0369A1" stroke="#FFFFFF" stroke-width="3" paint-order="stroke fill" opacity="0.88" font-size="12" font-weight="900">المحيط المتجمد الجنوبي</text>
+          </g>
+
+          <g id="civilization-pins-layer" class="pointer-events-none select-none"></g>
+          <g id="civilization-drop-slots-layer"></g>
+        </svg>
+      </div>
+
+      <!-- رسالة التوجيه والتغذية الراجعة -->
+      <div id="feedback-banner" role="status" aria-live="polite" class="min-h-[44px] px-4 py-2.5 rounded-[16px] border bg-[#2e1a10]/85 border-[rgba(224,160,110,0.22)] text-[#f3dcb8] text-xs sm:text-sm font-bold flex items-center gap-2 transition-colors">
+        اختر أي حضارة قديمة من الأعلى واسحبها إلى مكانها الصحيح على الخريطة.
+      </div>
+    </section>
+
+    <div class="explorer-strip mt-10" aria-hidden="true"></div>
+  </main>
+
+  <footer class="bg-[#24130b] text-center py-6 px-4 text-[#c9ae94] font-semibold text-sm border-t border-[rgba(224,160,110,0.22)]">
+    تصميم وإعداد: طلاب الفرقة الرابعة - قسم تكنولوجيا التعليم | جامعة أسوان
+  </footer>
+
+  <!-- العنصر العائم أثناء السحب -->
+  <div id="drag-ghost" class="hidden fixed z-50 pointer-events-none select-none px-4 py-2 rounded-[14px] bg-[#c8825a] text-[#2a150b] font-bold text-sm shadow-xl border border-[#f0b44c] whitespace-nowrap" style="transform: translate(-50%, -50%);"></div>
+
+  <script>
+    const SVG_WIDTH = 1000;
+    const SVG_HEIGHT = 520;
+    const projection = d3.geoNaturalEarth1()
+      .scale(168)
+      .translate([SVG_WIDTH / 2, SVG_HEIGHT / 2 + 10]);
+    const path = d3.geoPath().projection(projection);
+
+    const CIVILIZATIONS = [
+      {
+        id: 'egypt',
+        name: 'الحضارة المصرية القديمة',
+        mapLabel: 'المصرية القديمة',
+        pinCoordinates: [31.2, 26.8],
+        slotCoordinates: [22, 14],
+        slotWidth: 108,
+        fact: 'قامت على ضفاف نهر النيل منذ آلاف السنين، واشتهرت بالأهرامات والمعابد والكتابة الهيروغليفية.'
+      },
+      {
+        id: 'mesopotamia',
+        name: 'حضارة بلاد الرافدين',
+        mapLabel: 'بلاد الرافدين',
+        pinCoordinates: [44.5, 33.2],
+        slotCoordinates: [53, 44],
+        slotWidth: 96,
+        fact: 'نشأت بين نهري دجلة والفرات في العراق القديم، وعرفت الكتابة المسمارية وشريعة حمورابي.'
+      },
+      {
+        id: 'greco_roman',
+        name: 'الحضارة اليونانية والرومانية',
+        mapLabel: 'اليونان والرومان',
+        pinCoordinates: [17.5, 40.5],
+        slotCoordinates: [9, 51],
+        slotWidth: 104,
+        fact: 'ازدهرت على سواحل البحر المتوسط في اليونان وروما، وأسهمت في الفلسفة والديمقراطية والقانون.'
+      },
+      {
+        id: 'india',
+        name: 'الحضارة الهندية القديمة',
+        mapLabel: 'الهندية القديمة',
+        pinCoordinates: [77.5, 23.5],
+        slotCoordinates: [77, 15],
+        slotWidth: 104,
+        fact: 'قامت في حوض نهري السند والجانج، وتميزت بتخطيط المدن القديمة والأرقام والعلوم.'
+      },
+      {
+        id: 'china',
+        name: 'الحضارة الصينية القديمة',
+        mapLabel: 'الصينية القديمة',
+        pinCoordinates: [109, 35],
+        slotCoordinates: [112, 36],
+        slotWidth: 104,
+        fact: 'نشأت في حوض النهر الأصفر، واشتهرت بسور الصين العظيم واختراع الورق والبوصلة والحرير.'
+      },
+      {
+        id: 'maya',
+        name: 'حضارة المايا والأزتك',
+        mapLabel: 'المايا والأزتك',
+        pinCoordinates: [-94, 19.5],
+        slotCoordinates: [-98, 24],
+        slotWidth: 98,
+        fact: 'ازدهرت في أمريكا الوسطى (المكسيك وغواتيمالا)، وبرعت في الفلك والتقويم وبناء المعابد الهرمية.'
+      },
+      {
+        id: 'inca',
+        name: 'حضارة الإنكا',
+        mapLabel: 'حضارة الإنكا',
+        pinCoordinates: [-73, -12.5],
+        slotCoordinates: [-68, -15],
+        slotWidth: 96,
+        fact: 'أكبر حضارات أمريكا الجنوبية القديمة على مرتفعات الأنديز، واشتهرت بمدينة «ماتشو بيتشو».'
+      }
+    ];
+
+    const CIV_BY_ID = Object.fromEntries(CIVILIZATIONS.map(c => [c.id, c]));
+
+    const ISO_TO_CIV = {
+      '818': 'egypt',
+      '368': 'mesopotamia', '760': 'mesopotamia', '400': 'mesopotamia', '422': 'mesopotamia', '275': 'mesopotamia',
+      '300': 'greco_roman', '380': 'greco_roman',
+      '356': 'india', '586': 'india',
+      '156': 'china',
+      '484': 'maya', '320': 'maya', '084': 'maya', '340': 'maya', '222': 'maya',
+      '604': 'inca', '068': 'inca', '218': 'inca', '152': 'inca'
+    };
+
+    function getCountryCivilization(countryId) {
+      if (countryId === undefined || countryId === null) return null;
+      const raw = String(countryId);
+      const padded = raw.padStart(3, '0');
+      return ISO_TO_CIV[padded] || ISO_TO_CIV[raw] || null;
+    }
+
+    let trayIds = [];
+    let placedIds = [];
+    let attempts = 0;
+    let mistakes = 0;
+    let startedAt = Date.now();
+    let selectedTrayId = null;
+    let hoveredTargetId = null;
+    let errorTargetId = null;
+    let errorTimer = null;
+    let dragState = null;
+    let suppressNextClick = false;
+
+    const chipRefs = {};
+    const slotRefs = {};
+    const pinRefs = {};
+    const pathsByCiv = {};
+    const civVisualState = {};
+
+    const projectedTargets = CIVILIZATIONS.map(c => {
+      const slotPt = projection(c.slotCoordinates);
+      const pinPt = projection(c.pinCoordinates);
+      const hasLeader = Math.hypot(pinPt[0] - slotPt[0], pinPt[1] - slotPt[1]) > 18;
+      return {
+        ...c,
+        x: slotPt[0],
+        y: slotPt[1],
+        pinX: pinPt[0],
+        pinY: pinPt[1],
+        hasLeader
+      };
+    });
+
+    function shuffle(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function setFeedback(type, text) {
+      const el = document.getElementById('feedback-banner');
+      el.textContent = text;
+      el.className = 'min-h-[44px] px-4 py-2.5 rounded-[16px] border text-xs sm:text-sm font-bold flex items-center gap-2 transition-colors ';
+      if (type === 'success') {
+        el.className += 'bg-[#2e1a10]/90 border-[#6fc2a8]/60 text-[#6fc2a8]';
+      } else if (type === 'error') {
+        el.className += 'bg-[#3d1814] border-[#ef4444]/60 text-[#fecaca]';
+      } else if (type === 'selected') {
+        el.className += 'bg-[#2e1a10]/90 border-[#f0b44c]/70 text-[#f3dcb8]';
+      } else {
+        el.className += 'bg-[#2e1a10]/85 border-[rgba(224,160,110,0.22)] text-[#f3dcb8]';
+      }
+    }
+
+    function updateTrayChipStyles() {
+      const containerEl = document.getElementById('tray-container');
+      const remainingEl = document.getElementById('remaining-label');
+
+      if (trayIds.length === 0) {
+        containerEl.classList.add('hidden');
+        return;
+      }
+
+      containerEl.classList.remove('hidden');
+      remainingEl.textContent = 'المتبقي: ' + trayIds.length + ' من 7';
+
+      trayIds.forEach(id => {
+        const btn = chipRefs[id];
+        if (!btn) return;
+        const isSelected = selectedTrayId === id;
+        const isDragged = dragState && dragState.hasMoved && dragState.id === id;
+
+        btn.className = 'select-none inline-flex items-center gap-2 px-4 py-2 rounded-[14px] font-bold text-sm whitespace-nowrap shrink-0 border transition-all duration-150 cursor-grab active:cursor-grabbing ' +
+          (isDragged
+            ? 'opacity-35 scale-95 bg-[#42251a] border-[#f0b44c] text-[#f3dcb8]'
+            : isSelected
+              ? 'bg-[#c8825a] text-[#2a150b] border-[#f0b44c] shadow-[0_8px_22px_rgba(200,130,90,0.35)]'
+              : 'bg-[#3a2116] text-[#f6e8d4] border-[rgba(224,160,110,0.35)] hover:border-[#f0b44c] hover:text-[#f0b44c] hover:-translate-y-0.5');
+      });
+    }
+
+    function buildTray() {
+      const trayEl = document.getElementById('civilizations-tray');
+      trayEl.innerHTML = '';
+      Object.keys(chipRefs).forEach(k => delete chipRefs[k]);
+
+      trayIds.forEach(id => {
+        const civ = CIV_BY_ID[id];
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.draggable = false;
+        btn.style.touchAction = 'none';
+        btn.style.userSelect = 'none';
+        btn.style.webkitUserSelect = 'none';
+        btn.innerHTML = '<span class="opacity-60 text-xs pointer-events-none">⋮⋮</span><span class="pointer-events-none">' + civ.name + '</span>';
+
+        btn.addEventListener('dragstart', e => e.preventDefault());
+
+        btn.addEventListener('pointerdown', (e) => {
+          if (e.button !== 0) return;
+          if (e.pointerType === 'mouse') {
+            e.preventDefault();
+          }
+          suppressNextClick = false;
+          dragState = {
+            id,
+            pointerId: e.pointerId,
+            pointerType: e.pointerType || 'mouse',
+            btn,
+            startX: e.clientX,
+            startY: e.clientY,
+            hasMoved: false
+          };
+        });
+
+        btn.addEventListener('click', () => {
+          if (suppressNextClick) {
+            suppressNextClick = false;
+            return;
+          }
+          selectedTrayId = selectedTrayId === id ? null : id;
+          if (selectedTrayId) {
+            setFeedback('selected', 'الحضارة المختارة: ' + CIV_BY_ID[selectedTrayId].name + ' — اضغط الآن على موقعها الصحيح في الخريطة.');
+          } else {
+            setFeedback('info', 'اختر أي حضارة قديمة من الأعلى واسحبها إلى مكانها الصحيح على الخريطة.');
+          }
+          updateTrayChipStyles();
+          updateMapStyles();
+        });
+
+        chipRefs[id] = btn;
+        trayEl.appendChild(btn);
+      });
+
+      updateTrayChipStyles();
+    }
+
+    function updateScoreUI() {
+      document.getElementById('placed-count').textContent = placedIds.length;
+      document.getElementById('mistakes-count').textContent = mistakes;
+    }
+
+    function buildDropSlotsOnce() {
+      const pinsLayer = d3.select('#civilization-pins-layer');
+      pinsLayer.selectAll('*').remove();
+
+      const slotsLayer = d3.select('#civilization-drop-slots-layer');
+      slotsLayer.selectAll('*').remove();
+
+      projectedTargets.forEach(target => {
+        if (target.hasLeader) {
+          const pinG = pinsLayer.append('g');
+          const line = pinG.append('line')
+            .attr('x1', target.x)
+            .attr('y1', target.y)
+            .attr('x2', target.pinX)
+            .attr('y2', target.pinY)
+            .attr('stroke-dasharray', '3 3')
+            .attr('opacity', 0.9);
+          const circle = pinG.append('circle')
+            .attr('cx', target.pinX)
+            .attr('cy', target.pinY)
+            .attr('r', 4.5)
+            .attr('stroke', '#FFFFFF')
+            .attr('stroke-width', 1.6);
+          pinRefs[target.id] = { line, circle };
+        }
+
+        const g = slotsLayer.append('g')
+          .attr('transform', 'translate(' + target.x + ',' + target.y + ')')
+          .attr('data-civilization-slot', target.id)
+          .on('mouseenter', () => {
+            if (!dragState && !placedIds.includes(target.id)) {
+              hoveredTargetId = target.id;
+              updateMapStyles();
+            }
+          })
+          .on('mouseleave', () => {
+            if (!dragState && !placedIds.includes(target.id) && hoveredTargetId === target.id) {
+              hoveredTargetId = null;
+              updateMapStyles();
+            }
+          })
+          .on('click', () => {
+            if (!placedIds.includes(target.id) && selectedTrayId) {
+              handleDropAttempt(selectedTrayId, target.id);
+            }
+          });
+
+        g.append('circle').attr('r', 36).attr('fill', 'transparent');
+        const inner = g.append('g');
+        const rect = inner.append('rect').attr('rx', 9);
+        const text = inner.append('text')
+          .attr('x', 0)
+          .attr('text-anchor', 'middle')
+          .attr('font-weight', '800');
+
+        slotRefs[target.id] = { target, g, inner, rect, text };
+      });
+    }
+
+    function updateMapStyles() {
+      const hasActiveDrag = Boolean(dragState && dragState.hasMoved);
+
+      projectedTargets.forEach(target => {
+        const id = target.id;
+        const isPlaced = placedIds.includes(id);
+        const isError = errorTargetId === id;
+        const isHovered = hoveredTargetId === id && !isPlaced;
+        const canInteract = !isPlaced && (hasActiveDrag || selectedTrayId !== null);
+        const stateKey = (isError ? 'err' : isPlaced ? 'ok' : isHovered ? 'hov' : 'idle') + (canInteract ? '1' : '0');
+
+        if (civVisualState[id] !== stateKey) {
+          civVisualState[id] = stateKey;
+
+          let fill = '#F2ECE1';
+          let stroke = '#C5B7A5';
+          let strokeWidth = '0.8';
+          if (isError) {
+            fill = '#FEE2E2';
+            stroke = '#DC2626';
+            strokeWidth = '1.15';
+          } else if (isPlaced) {
+            fill = '#D1FAE5';
+            stroke = '#059669';
+            strokeWidth = '0.95';
+          } else if (isHovered) {
+            fill = '#FDE6C4';
+            stroke = '#c8825a';
+            strokeWidth = '1.15';
+          }
+
+          const paths = pathsByCiv[id] || [];
+          const cursorVal = canInteract ? 'pointer' : 'default';
+          for (let i = 0; i < paths.length; i++) {
+            const p = paths[i];
+            p.setAttribute('fill', fill);
+            p.setAttribute('stroke', stroke);
+            p.setAttribute('stroke-width', strokeWidth);
+            p.style.cursor = cursorVal;
+          }
+        }
+
+        const pin = pinRefs[id];
+        if (pin) {
+          pin.line
+            .attr('stroke', isError ? '#DC2626' : isPlaced ? '#059669' : isHovered ? '#c8825a' : '#8B5A2B')
+            .attr('stroke-width', isHovered || isPlaced ? 1.8 : 1.3);
+          pin.circle
+            .attr('fill', isError ? '#EF4444' : isPlaced ? '#059669' : '#f0b44c')
+            .attr('r', isHovered ? 6 : 4.5);
+        }
+
+        const slot = slotRefs[id];
+        if (!slot) return;
+        const boxWidth = isPlaced ? target.slotWidth : (isHovered ? 92 : 78);
+        const boxHeight = isPlaced ? 30 : 28;
+
+        slot.g.style('cursor', isPlaced ? 'default' : 'pointer');
+        slot.inner.attr('class', isError ? 'animate-slot-shake' : (isPlaced ? 'animate-slot-pop' : ''));
+
+        slot.rect
+          .attr('x', -boxWidth / 2)
+          .attr('y', -boxHeight / 2)
+          .attr('width', boxWidth)
+          .attr('height', boxHeight);
+
+        if (isPlaced) {
+          slot.rect
+            .attr('fill', '#047857')
+            .attr('stroke', '#FFFFFF')
+            .attr('stroke-width', 2)
+            .attr('stroke-dasharray', null);
+          slot.text
+            .attr('y', 5)
+            .attr('fill', '#FFFFFF')
+            .attr('font-size', '11.5')
+            .text('✓ ' + target.mapLabel);
+        } else {
+          slot.rect
+            .attr('fill', isError ? '#7F1D1D' : (isHovered ? '#c8825a' : 'rgba(46, 26, 16, 0.92)'))
+            .attr('stroke', isError ? '#FCA5A5' : (isHovered ? '#f3dcb8' : '#f0b44c'))
+            .attr('stroke-width', isHovered || isError ? 2.2 : 1.5)
+            .attr('stroke-dasharray', isHovered || isError ? null : '4 3');
+          slot.text
+            .attr('y', 4.5)
+            .attr('fill', isError ? '#FEE2E2' : (isHovered ? '#2a150b' : '#f3dcb8'))
+            .attr('font-size', '11')
+            .text(isError ? '✕ خطأ' : (isHovered ? 'أفلت هنا' : 'اسحب هنا'));
+        }
+      });
+    }
+
+    function handleDropAttempt(draggedId, targetId) {
+      if (placedIds.includes(targetId) || placedIds.includes(draggedId)) return;
+      attempts += 1;
+      const dragged = CIV_BY_ID[draggedId];
+
+      if (draggedId === targetId) {
+        placedIds.push(targetId);
+        trayIds = trayIds.filter(id => id !== draggedId);
+        if (chipRefs[draggedId]) {
+          chipRefs[draggedId].remove();
+          delete chipRefs[draggedId];
+        }
+        selectedTrayId = null;
+        setFeedback('success', 'أحسنت! تم تحديد ' + dragged.name + ' في موقعها الصحيح. — ' + dragged.fact);
+
+        if (placedIds.length === CIVILIZATIONS.length) {
+          const elapsed = Math.max(0, Math.round((Date.now() - startedAt) / 1000));
+          const mins = Math.floor(elapsed / 60);
+          const secs = String(elapsed % 60).padStart(2, '0');
+          const accuracy = Math.min(100, Math.round((7 / attempts) * 100));
+          const banner = document.getElementById('completion-banner');
+          banner.classList.remove('hidden');
+          banner.classList.add('flex');
+          document.getElementById('completion-stats').textContent =
+            'الدقة: ' + accuracy + '% · الأخطاء: ' + mistakes + ' · الوقت المستغرق: ' + mins + ':' + secs;
+        }
+      } else {
+        mistakes += 1;
+        setFeedback('error', 'هذا الموقع لا يمثل ' + dragged.name + ' — حاول مرة أخرى!');
+        if (errorTimer) clearTimeout(errorTimer);
+        errorTargetId = targetId;
+        errorTimer = setTimeout(() => {
+          errorTargetId = null;
+          updateMapStyles();
+        }, 650);
+      }
+
+      updateScoreUI();
+      updateTrayChipStyles();
+      updateMapStyles();
+    }
+
+    function clientToSvgPoint(clientX, clientY) {
+      const svg = document.getElementById('realWorldSvg');
+      if (!svg) return null;
+
+      const ctm = svg.getScreenCTM && svg.getScreenCTM();
+      if (ctm) {
+        const pt = svg.createSVGPoint();
+        pt.x = clientX;
+        pt.y = clientY;
+        const svgPt = pt.matrixTransform(ctm.inverse());
+        if (svgPt.x >= 0 && svgPt.x <= SVG_WIDTH && svgPt.y >= 0 && svgPt.y <= SVG_HEIGHT) {
+          return { x: svgPt.x, y: svgPt.y };
+        }
+        return null;
+      }
+
+      const rect = svg.getBoundingClientRect();
+      if (clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom && rect.width > 0 && rect.height > 0) {
+        return {
+          x: ((clientX - rect.left) / rect.width) * SVG_WIDTH,
+          y: ((clientY - rect.top) / rect.height) * SVG_HEIGHT
+        };
+      }
+      return null;
+    }
+
+    function detectSinglePointTarget(clientX, clientY) {
+      const svgPt = clientToSvgPoint(clientX, clientY);
+      if (svgPt) {
+        let closestId = null;
+        let minDistSq = 72 * 72;
+        for (const t of projectedTargets) {
+          if (placedIds.includes(t.id)) continue;
+          const dSlotSq = (svgPt.x - t.x) ** 2 + (svgPt.y - t.y) ** 2;
+          const dPinSq = (svgPt.x - t.pinX) ** 2 + (svgPt.y - t.pinY) ** 2;
+          const dSq = Math.min(dSlotSq, dPinSq);
+          if (dSq <= minDistSq) {
+            minDistSq = dSq;
+            closestId = t.id;
+          }
+        }
+        if (closestId) return closestId;
+      }
+
+      const elements = document.elementsFromPoint(clientX, clientY);
+      for (const el of elements) {
+        const slotEl = el.closest('[data-civilization-slot]');
+        const slotId = slotEl && slotEl.getAttribute('data-civilization-slot');
+        if (slotId && !placedIds.includes(slotId)) return slotId;
+        const pathEl = el.closest('[data-civilization-id]');
+        const pathId = pathEl && pathEl.getAttribute('data-civilization-id');
+        if (pathId && !placedIds.includes(pathId)) return pathId;
+      }
+      return null;
+    }
+
+    function detectTargetAtClientPoint(clientX, clientY, pointerType) {
+      const direct = detectSinglePointTarget(clientX, clientY);
+      if (direct) return direct;
+      if (pointerType === 'touch') {
+        return detectSinglePointTarget(clientX, clientY - 28);
+      }
+      return null;
+    }
+
+    function clearDragVisuals() {
+      if (dragState && dragState.btn) {
+        try {
+          if (dragState.btn.hasPointerCapture(dragState.pointerId)) {
+            dragState.btn.releasePointerCapture(dragState.pointerId);
+          }
+        } catch (err) {}
+      }
+      dragState = null;
+      hoveredTargetId = null;
+      document.getElementById('drag-ghost').classList.add('hidden');
+      updateTrayChipStyles();
+      updateMapStyles();
+    }
+
+    window.addEventListener('pointermove', (e) => {
+      if (!dragState) return;
+
+      if (dragState.pointerType === 'mouse' && (e.buttons & 1) === 0) {
+        endPointerDrag(e);
+        return;
+      }
+
+      const movedEnough = dragState.hasMoved || Math.hypot(e.clientX - dragState.startX, e.clientY - dragState.startY) > 5;
+
+      if (movedEnough && !dragState.hasMoved) {
+        dragState.hasMoved = true;
+        try {
+          dragState.btn.setPointerCapture(dragState.pointerId);
+        } catch (err) {}
+        updateTrayChipStyles();
+      }
+
+      if (dragState.hasMoved) {
+        const ghost = document.getElementById('drag-ghost');
+        ghost.textContent = CIV_BY_ID[dragState.id].name;
+        ghost.style.left = e.clientX + 'px';
+        ghost.style.top = e.clientY + 'px';
+        ghost.style.transform = dragState.pointerType === 'touch' ? 'translate(-50%, -115%)' : 'translate(-50%, -50%)';
+        ghost.classList.remove('hidden');
+
+        const hit = detectTargetAtClientPoint(e.clientX, e.clientY, dragState.pointerType);
+        if (hoveredTargetId !== hit) {
+          hoveredTargetId = hit;
+          updateMapStyles();
+        }
+      }
+    });
+
+    function endPointerDrag(e) {
+      if (!dragState) return;
+      const wasMoved = dragState.hasMoved;
+      const draggedId = dragState.id;
+      const pointerType = dragState.pointerType;
+
+      clearDragVisuals();
+
+      if (wasMoved) {
+        suppressNextClick = true;
+        const targetId = detectTargetAtClientPoint(e.clientX, e.clientY, pointerType);
+        if (targetId) {
+          handleDropAttempt(draggedId, targetId);
+        }
+      }
+    }
+
+    window.addEventListener('pointerup', endPointerDrag);
+    window.addEventListener('pointercancel', endPointerDrag);
+    window.addEventListener('blur', () => {
+      if (dragState) clearDragVisuals();
+    });
+
+    function resetActivity() {
+      if (dragState) clearDragVisuals();
+      trayIds = shuffle(CIVILIZATIONS.map(c => c.id));
+      placedIds = [];
+      attempts = 0;
+      mistakes = 0;
+      startedAt = Date.now();
+      selectedTrayId = null;
+      hoveredTargetId = null;
+      errorTargetId = null;
+      Object.keys(civVisualState).forEach(k => delete civVisualState[k]);
+
+      const banner = document.getElementById('completion-banner');
+      banner.classList.add('hidden');
+      banner.classList.remove('flex');
+      setFeedback('info', 'اختر أي حضارة قديمة من الأعلى واسحبها إلى مكانها الصحيح على الخريطة.');
+      updateScoreUI();
+      buildTray();
+      updateMapStyles();
+    }
+
+    d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(world => {
+      const countries = topojson.feature(world, world.objects.countries).features;
+      const g = d3.select('#earth-countries-layer');
+
+      g.selectAll('path')
+        .data(countries)
+        .enter()
+        .append('path')
+        .attr('d', path)
+        .attr('fill', '#F2ECE1')
+        .attr('stroke', '#C5B7A5')
+        .attr('stroke-width', 0.8)
+        .attr('class', 'country-path')
+        .attr('data-civilization-id', d => getCountryCivilization(d.id))
+        .each(function() {
+          const civId = this.getAttribute('data-civilization-id');
+          if (civId) {
+            if (!pathsByCiv[civId]) pathsByCiv[civId] = [];
+            pathsByCiv[civId].push(this);
+          }
+        })
+        .on('mouseenter', function() {
+          if (dragState) return;
+          const civId = this.getAttribute('data-civilization-id');
+          if (civId && !placedIds.includes(civId) && selectedTrayId) {
+            hoveredTargetId = civId;
+            updateMapStyles();
+          }
+        })
+        .on('mouseleave', function() {
+          if (dragState) return;
+          const civId = this.getAttribute('data-civilization-id');
+          if (civId && hoveredTargetId === civId) {
+            hoveredTargetId = null;
+            updateMapStyles();
+          }
+        })
+        .on('click', function() {
+          const civId = this.getAttribute('data-civilization-id');
+          if (civId && !placedIds.includes(civId) && selectedTrayId) {
+            handleDropAttempt(selectedTrayId, civId);
+          }
+        });
+
+      buildDropSlotsOnce();
+      resetActivity();
+    });
+  </script>
+</body>
+</html>
