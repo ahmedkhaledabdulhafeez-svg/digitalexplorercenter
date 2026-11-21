@@ -1,38 +1,24 @@
 (function () {
-  // تحديد المسار تلقائياً سواء الصفحة في الرئيسية أو داخل مجلد فرعي (قسم-الجغرافيا أو قسم-التاريخ)
+  // 1. ضع مفتاح Gemini API الخاص بك هنا (وتأكد من تقييده بدومين موقعك فقط)
+const GEMINI_API_KEY = 'AQ.Ab8RN6LFZX9t2YBFrkNn_' + 'SYARcD8al2H1tcFsy1oY9wOYn6heA';
+  // تحديد المسار تلقائياً سواء الصفحة في الرئيسية أو داخل مجلد فرعي
   const decodedPath = decodeURIComponent(location.pathname);
   const isSubFolder = decodedPath.includes('/قسم-');
   const base = isSubFolder ? '../' : '';
 
-  // قاعدة بيانات المساعد التعليمي بروابط صحيحة بدون مسافات (بالشرطات)
-  const knowledgeBase = [
-    {
-      keys: ['مرحبا', 'اهلا', 'السلام', 'هاي', 'ازيك', 'صباح', 'مساء'],
-      reply: 'أهلاً بك يا بطل في <b>مركز المستكشف الرقمي</b>! 🤖 أنا مساعدك التعليمي الذكي. اسألني عن أي درس في الجغرافيا أو التاريخ، أو اختر من الأزرار السريعة بالأسفل 👇'
-    },
-    {
-      keys: ['قارات', 'العالم', 'اسيا', 'أفريقيا', 'اوروبا', 'مساحة', 'موقع', 'جغرافيا'],
-      reply: '🌍 <b>قارات العالم:</b> ينقسم العالم إلى 7 قارات (آسيا أكبرها مساحة وأستراليا أصغرها).<br>تقدر تدخل تذاكر الدرس وتلعب نشاط الخريطة التفاعلي من <a href="' + base + 'قسم-الجغرافيا/درس-قارات-العالم-الموقع-والمساحة.html" style="color:#f0b44c;text-decoration:underline;">هنا</a> أو تصفح كل دروس <a href="' + base + 'قسم-الجغرافيا/قسم-الجغرافيا.html" style="color:#f0b44c;text-decoration:underline;">قسم الجغرافيا</a>.'
-    },
-    {
-      keys: ['محمد علي', 'تولية', 'حكم', 'مصر', 'تاريخ', 'المماليك', 'الزعامة'],
-      reply: '🏺 <b>قسم التاريخ:</b> استكشف دروس التاريخ وتولية محمد علي حكم مصر (1805م) وتثبيت دعائم حكمه.<br>ادخل مباشرة على <a href="' + base + 'قسم-التاريخ/قسم-التاريخ.html" style="color:#f0b44c;text-decoration:underline;">قسم التاريخ</a> أو اسمع الشخصيات التاريخية تتحدث عن نفسها في <a href="' + base + 'محاكاة-الشخصيات.html" style="color:#f0b44c;text-decoration:underline;">محاكاة الشخصيات</a>!'
-    },
-    {
-      keys: ['خرائط', 'خريطة', 'ذكية'],
-      reply: '🗺️ تقدر تستكشف القارات والتضاريس والدول بشكل تفاعلي من خلال صفحة <a href="' + base + 'readings.html" style="color:#f0b44c;text-decoration:underline;">الخرائط الجغرافية الذكية</a>.'
-    },
-    {
-      keys: ['ذكاء', 'اصطناعي', 'شخصيات', 'محاكاة'],
-      reply: '🤖 في قسم <a href="' + base + 'محاكاة-الشخصيات.html" style="color:#f0b44c;text-decoration:underline;">محاكاة الشخصيات التاريخية</a> هتلاقي حكام وشخصيات تاريخية يتحدثون عن أنفسهم بالذكاء الاصطناعي!'
-    },
-    {
-      keys: ['اعداد', 'مين', 'صمم', 'جامعة', 'اسوان', 'فريق'],
-      reply: '🎓 تم تصميم وإعداد هذه المنصة بواسطة طلاب الفرقة الرابعة - قسم تكنولوجيا التعليم - كلية التربية النوعية - <b>جامعة أسوان</b>.'
-    }
-  ];
+  // تعليمات النظام لتوجيه الذكاء الاصطناعي ليكون معلماً لمنصتك
+  const systemInstruction = `
+    أنت "المستكشف الذكي"، المساعد التعليمي الافتراضي لمنصة "مركز المستكشف الرقمي" المخصصة لمادة الدراسات الاجتماعية للصف الثالث الإعدادي في مصر (إعداد طلاب الفرقة الرابعة بقسم تكنولوجيا التعليم - جامعة أسوان).
+    - أسلوبك ودود، مشجع، مبسط، ومناسب لطلاب المرحلة الإعدادية.
+    - أجب بدقة واختصار ووضوح عن أسئلة الجغرافيا (مثل قارات العالم، التضاريس، المناخ) والتاريخ (مثل تولية محمد علي حكم مصر وتثبيت دعائم حكمه، الكشوف الجغرافية، الحضارات).
+    - عند الحاجة، وجّه الطالب لاستكشاف أقسام المنصة: قسم الجغرافيا، قسم التاريخ، الخرائط الجغرافية الذكية، أو محاكاة الشخصيات التاريخية بالذكاء الاصطناعي.
+    - لا تخرج عن نطاق التعليم والدراسات الاجتماعية بأسلوب مهذب.
+  `;
 
-  // إضافة التنسيقات (CSS) في اليمين وبحجم أكبر للكمبيوتر
+  // سجل المحادثة ليتذكر البوت سياق الكلام مع الطالب
+  let chatHistory = [];
+
+  // إضافة التنسيقات (CSS)
   const style = document.createElement('style');
   style.textContent = `
     #de-bot-btn {
@@ -59,17 +45,18 @@
     }
     .de-head-info { display: flex; align-items: center; gap: 12px; }
     .de-head-icon {
-      width: 42px; height: 42px; border-radius: 14px; background: rgba(240,180,76,.15);
-      border: 1px solid #f0b44c; display: grid; place-items: center;
+      width: 38px; height: 38px; border-radius: 14px; background: rgba(240,180,76,.15);
+      border: 1px solid #f0b44c; display: grid; place-items: center; padding: 4px;
     }
     .de-head b { font-family: 'Reem Kufi', sans-serif; color: #f0b44c; font-size: 1.15rem; display: block; line-height: 1.3; }
     .de-head small { color: #c9ae94; font-size: .8rem; }
     .de-close { background: none; border: none; color: #f3dcb8; font-size: 1.4rem; cursor: pointer; padding: 4px 8px; }
     .de-close:hover { color: #f0b44c; }
     .de-msgs { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-    .de-msg { max-width: 86%; padding: 12px 16px; border-radius: 18px; font-size: .95rem; line-height: 1.65; }
+    .de-msg { max-width: 86%; padding: 12px 16px; border-radius: 18px; font-size: .95rem; line-height: 1.65; word-wrap: break-word; }
     .de-msg.bot { background: #3a2116; border: 1px solid rgba(224,160,110,.22); align-self: flex-start; border-bottom-right-radius: 4px; }
     .de-msg.usr { background: #c8825a; color: #2a150b; font-weight: 700; align-self: flex-end; border-bottom-left-radius: 4px; }
+    .de-typing { font-style: italic; color: #f0b44c; font-size: .85rem; }
     .de-chips { padding: 10px 14px; display: flex; gap: 8px; overflow-x: auto; border-top: 1px solid rgba(224,160,110,.15); scrollbar-width: none; }
     .de-chips::-webkit-scrollbar { display: none; }
     .de-chips button {
@@ -87,11 +74,10 @@
       background: #f0b44c; color: #2a150b; border: none; border-radius: 14px; padding: 0 20px;
       font-weight: 700; font-family: inherit; font-size: .92rem; cursor: pointer; transition: .2s;
     }
-    .de-form button:hover { background: #f3dcb8; }
+    .de-form button:disabled { opacity: .6; cursor: not-allowed; }
   `;
   document.head.appendChild(style);
 
-  // أيقونة الروبوت الذكي SVG
   const robotSvg = `
     <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
       <line x1="32" y1="6" x2="32" y2="15" stroke="#f0b44c" stroke-width="3.5" stroke-linecap="round"/>
@@ -107,30 +93,28 @@
     </svg>
   `;
 
-  // بناء واجهة الشات بوت في الصفحة
   const wrap = document.createElement('div');
   wrap.innerHTML = `
     <button id="de-bot-btn" aria-label="المساعد الذكي" title="اسأل المستكشف الذكي">${robotSvg}</button>
     <div id="de-bot-box" role="dialog" aria-label="المساعد التعليمي">
       <div class="de-head">
         <div class="de-head-info">
-          <div class="de-head-icon" style="width:38px;height:38px;padding:4px;">${robotSvg}</div>
-          <div><b>المستكشف الذكي</b><small>مساعدك في الدراسات الاجتماعية</small></div>
+          <div class="de-head-icon">${robotSvg}</div>
+          <div><b>المستكشف الذكي</b><small>مدعوم بالذكاء الاصطناعي ✨</small></div>
         </div>
         <button class="de-close" id="de-bot-x" aria-label="إغلاق">✕</button>
       </div>
       <div class="de-msgs" id="de-msgs">
-        <div class="de-msg bot">أهلاً بك في <b>مركز المستكشف الرقمي</b>! 👋<br>أنا هنا لمساعدتك في دروس الجغرافيا والتاريخ للصف الثالث الإعدادي. اسألني عن أي درس أو اختر من الأزرار بالأسفل:</div>
+        <div class="de-msg bot">أهلاً بك في <b>مركز المستكشف الرقمي</b>! 👋<br>اسألني أي سؤال في منهج الدراسات الاجتماعية للصف الثالث الإعدادي، وسأشرحه لك فوراً!</div>
       </div>
       <div class="de-chips">
-        <button type="button" data-q="قارات العالم">🌍 قارات العالم</button>
-        <button type="button" data-q="قسم التاريخ">🏺 قسم التاريخ</button>
-        <button type="button" data-q="الخرائط الذكية">🗺️ الخرائط الذكية</button>
-        <button type="button" data-q="محاكاة الشخصيات">🤖 محاكاة الشخصيات</button>
+        <button type="button" data-q="اشرح لي باختصار موقع ومساحة قارات العالم">🌍 قارات العالم</button>
+        <button type="button" data-q="كيف تولى محمد علي حكم مصر عام 1805م؟">🏺 تولية محمد علي</button>
+        <button type="button" data-q="اعمل لي سؤال اختبار سريع في الجغرافيا">📝 اختبرني</button>
       </div>
       <form class="de-form" id="de-form">
-        <input type="text" id="de-in" placeholder="اكتب سؤالك هنا..." autocomplete="off">
-        <button type="submit">إرسال</button>
+        <input type="text" id="de-in" placeholder="اسأل في الجغرافيا أو التاريخ..." autocomplete="off">
+        <button type="submit" id="de-send">إرسال</button>
       </form>
     </div>
   `;
@@ -140,9 +124,18 @@
   const box = document.getElementById('de-bot-box');
   const msgs = document.getElementById('de-msgs');
   const input = document.getElementById('de-in');
+  const sendBtn = document.getElementById('de-send');
 
   btn.onclick = () => box.classList.toggle('open');
   document.getElementById('de-bot-x').onclick = () => box.classList.remove('open');
+
+  // تنسيق نص رد Gemini ليدعم العناوين والسطور الجديدة بشكل أنيق
+  function formatMarkdown(text) {
+    return text
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/\*\*(.*?)\*\*/g, '<b style="color:#f0b44c;">$1</b>')
+      .replace(/\n/g, '<br>');
+  }
 
   function addMsg(html, type) {
     const d = document.createElement('div');
@@ -150,26 +143,58 @@
     d.innerHTML = html;
     msgs.appendChild(d);
     msgs.scrollTop = msgs.scrollHeight;
+    return d;
   }
 
-  function getReply(text) {
-    const q = text.trim().toLowerCase();
-    for (const item of knowledgeBase) {
-      if (item.keys.some(k => q.includes(k))) return item.reply;
+  async function askGemini(userText) {
+    if (!GEMINI_API_KEY || GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY') {
+      addMsg('⚠️ يرجى إضافة مفتاح <b>GEMINI_API_KEY</b> داخل ملف <code>chatbot.js</code> أولاً.', 'bot');
+      return;
     }
-    return 'سؤال جميل! 🤔 جرب تسألني بكلمات أوضح مثل: <b>قارات العالم</b>، <b>قسم التاريخ</b>، <b>الخرائط الذكية</b>، أو <b>محاكاة الشخصيات</b>.';
+
+    chatHistory.push({ role: 'user', parts: [{ text: userText }] });
+    const typingEl = addMsg('<span class="de-typing">المستكشف الذكي يكتب الإجابة... ⏳</span>', 'bot');
+    sendBtn.disabled = true;
+
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            system_instruction: { parts: [{ text: systemInstruction }] },
+            contents: chatHistory
+          })
+        }
+      );
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error?.message || 'خطأ في الاتصال');
+
+      const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || 'عذراً، لم أتمكن من صياغة إجابة الآن.';
+      chatHistory.push({ role: 'model', parts: [{ text: replyText }] });
+      typingEl.innerHTML = formatMarkdown(replyText);
+    } catch (err) {
+      typingEl.innerHTML = '⚠️ حدث خطأ أثناء الاتصال بالمساعد الذكي. تأكد من الإنترنت أو صلاحية المفتاح.';
+      chatHistory.pop();
+    } finally {
+      sendBtn.disabled = false;
+      msgs.scrollTop = msgs.scrollHeight;
+    }
   }
 
   function handleAsk(text) {
-    if (!text.trim()) return;
-    addMsg(text, 'usr');
-    setTimeout(() => addMsg(getReply(text), 'bot'), 250);
+    if (!text.trim() || sendBtn.disabled) return;
+    addMsg(text.replace(/</g, '&lt;'), 'usr');
+    askGemini(text);
   }
 
   document.getElementById('de-form').onsubmit = (e) => {
     e.preventDefault();
-    handleAsk(input.value);
+    const val = input.value;
     input.value = '';
+    handleAsk(val);
   };
 
   wrap.querySelectorAll('.de-chips button').forEach(b => {
