@@ -158,7 +158,7 @@ const GEMINI_API_KEY = 'AQ.Ab8RN6LQwruPwQOVEYVNgHG2HECpYr_' + 's4HxYDidssv6eOznI
 
     try {
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -176,7 +176,7 @@ const GEMINI_API_KEY = 'AQ.Ab8RN6LQwruPwQOVEYVNgHG2HECpYr_' + 's4HxYDidssv6eOznI
       chatHistory.push({ role: 'model', parts: [{ text: replyText }] });
       typingEl.innerHTML = formatMarkdown(replyText);
     } catch (err) {
-      typingEl.innerHTML = '⚠️ حدث خطأ أثناء الاتصال بالمساعد الذكي. تأكد من الإنترنت أو صلاحية المفتاح.';
+    typingEl.innerHTML = '⚠️ سبب الخطأ: ' + err.message;
       chatHistory.pop();
     } finally {
       sendBtn.disabled = false;
