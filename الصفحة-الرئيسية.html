@@ -107,22 +107,30 @@ section.blk{padding:50px 0}
 .card:hover .go span:last-child{background:var(--c);color:#2a150b;transform:translateX(-6px)}
 .geo{--c:#e0a85a}.his{--c:#d9784a}.map{--c:#6fc2a8}.ai{--c:#b793e6}
 
-/* ===== سلايدر بنك المصطلحات الذكي (100 مصطلح بدون ثقل) ===== */
+/* ===== سلايدر بنك المصطلحات الذكي (حركة انزلاق حقيقية + تعريف ظاهر) ===== */
 .glossary-bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px}
 .g-filters{display:flex;gap:8px}
 .g-btn{padding:6px 18px;border-radius:99px;border:1px solid var(--line);background:rgba(0,0,0,.25);color:var(--mute);font-family:inherit;font-weight:700;font-size:.85rem;cursor:pointer;transition:.3s}
 .g-btn.on,.g-btn:hover{background:var(--gold);color:#2a150b;border-color:var(--gold)}
-.g-nav{display:flex;align-items:center;gap:10px}
-.g-nav button{width:38px;height:38px;border-radius:12px;border:1px solid var(--copper);background:rgba(0,0,0,.25);color:var(--gold);font-size:1.1rem;cursor:pointer;transition:.3s}
-.g-nav button:hover{background:var(--copper);color:#2a150b}
-.g-prog{width:90px;height:5px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}
+.g-prog{width:110px;height:5px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}
 .g-prog i{display:block;height:100%;width:0%;background:var(--gold);transition:width .25s linear}
 
-.terms-viewport{overflow:hidden;padding:6px 2px}
-.terms-track{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;transition:transform .55s cubic-bezier(.25,.8,.25,1),opacity .4s ease}
-.terms-track.sliding{opacity:.35;transform:translateX(24px)}
-@media(max-width:960px){.terms-track{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:540px){.terms-track{grid-template-columns:1fr}}
+.terms-viewport{overflow:hidden;padding:8px 2px;cursor:grab;user-select:none;touch-action:pan-y}
+.terms-viewport.dragging{cursor:grabbing}
+.terms-track{display:flex;gap:20px;will-change:transform}
+
+.term-box{flex:0 0 calc((100% - 60px) / 4);border-radius:24px;padding:24px 22px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);transition:transform .35s,border-color .35s,box-shadow .35s;position:relative;overflow:hidden;min-height:200px;display:flex;flex-direction:column}
+.term-box::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--c,var(--gold))}
+.term-box.his-t{--c:#d9784a}
+.term-box.geo-t{--c:#6fc2a8}
+.term-box:hover{transform:translateY(-5px);border-color:var(--c);box-shadow:0 16px 36px rgba(0,0,0,.4)}
+.term-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.term-head span{font-size:.78rem;padding:2px 12px;border-radius:99px;background:color-mix(in srgb,var(--c) 16%,transparent);color:var(--c);font-weight:700}
+.term-box h4{font-family:'Reem Kufi',sans-serif;font-size:1.3rem;color:var(--sand);margin-bottom:10px}
+.term-def{color:var(--text);font-size:.98rem;line-height:1.75;padding-top:10px;border-top:1px dashed var(--line);opacity:.92}
+
+@media(max-width:960px){.term-box{flex:0 0 calc((100% - 20px) / 2)}}
+@media(max-width:540px){.term-box{flex:0 0 100%}}
 
 .term-box{border-radius:24px;padding:24px 22px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);cursor:pointer;transition:.35s;position:relative;overflow:hidden;min-height:175px;display:flex;flex-direction:column;justify-content:space-between}
 .term-box::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--c,var(--gold))}
@@ -289,7 +297,7 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
   <section id="glossary" class="blk rv">
     <div class="head">
       <div class="ic"><i>📖</i></div>
-      <div><h2>بنك المصطلحات السريع</h2><p>يتجدد تلقائياً كل 30 ثانية — اضغط على أي مصطلح لعرض تعريفه</p></div>
+      <div><h2>بنك المصطلحات السريع</h2><p>أهم مصطلحات ومفاهيم الجغرافيا والتاريخ للصف الثالث الإعدادي</p></div>
     </div>
 
     <div class="glossary-bar">
@@ -298,11 +306,7 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
         <button class="g-btn" onclick="filterTerms('جغرافيا', this)">جغرافيا</button>
         <button class="g-btn" onclick="filterTerms('تاريخ', this)">تاريخ</button>
       </div>
-      <div class="g-nav">
-        <div class="g-prog" title="التبديل التلقائي كل 30 ثانية"><i id="gBar"></i></div>
-        <button onclick="stepTerms(-1)" aria-label="السابق">→</button>
-        <button onclick="stepTerms(1)" aria-label="التالي">←</button>
-      </div>
+      <div class="g-prog" title="التبديل التلقائي كل 30 ثانية"><i id="gBar"></i></div>
     </div>
 
     <div class="terms-viewport" id="gViewport">
@@ -345,7 +349,7 @@ try {
 (function(){
   if (typeof TERMS_DB === 'undefined') return;
   var list = TERMS_DB.slice();
-  var idx = 0, sec = 0, paused = false;
+  var idx = 0, sec = 0, paused = false, busy = false;
   var track = document.getElementById('termsTrack');
   var bar = document.getElementById('gBar');
   var vp = document.getElementById('gViewport');
@@ -354,57 +358,109 @@ try {
     return window.innerWidth <= 540 ? 1 : (window.innerWidth <= 960 ? 2 : 4);
   }
 
-  function render(animate) {
-    if (animate) track.classList.add('sliding');
-    setTimeout(function() {
-      var count = visibleCount();
-      var html = '';
-      for (var i = 0; i < count; i++) {
-        var item = list[(idx + i) % list.length];
-        var cls = item.cat === 'تاريخ' ? 'his-t' : 'geo-t';
-        html += '<div class="term-box ' + cls + '" onclick="this.classList.toggle(\'open\')">' +
-                  '<div><div class="term-head"><span>' + item.cat + '</span><i>' + item.icon + '</i></div>' +
-                  '<h4>' + item.term + '</h4></div>' +
-                  '<div><div class="term-hint">اضغط لعرض التعريف ▾</div>' +
-                  '<div class="term-def">' + item.def + '</div></div>' +
-                '</div>';
-      }
-      track.innerHTML = html;
-      track.classList.remove('sliding');
-    }, animate ? 220 : 0);
+  function cardHTML(item) {
+    var cls = item.cat === 'تاريخ' ? 'his-t' : 'geo-t';
+    return '<div class="term-box ' + cls + '">' +
+             '<div class="term-head"><span>' + item.cat + '</span><i>' + item.icon + '</i></div>' +
+             '<h4>' + item.term + '</h4>' +
+             '<div class="term-def">' + item.def + '</div>' +
+           '</div>';
   }
 
-  window.stepTerms = function(dir) {
-    idx = (idx + dir + list.length) % list.length;
+  function renderStatic() {
+    var count = visibleCount();
+    var html = '';
+    for (var i = 0; i < count; i++) {
+      html += cardHTML(list[(idx + i) % list.length]);
+    }
+    track.style.transition = 'none';
+    track.style.transform = 'translateX(0)';
+    track.innerHTML = html;
+  }
+
+  function slideStep(dir) {
+    if (busy || list.length <= visibleCount()) return;
+    busy = true;
     sec = 0;
     bar.style.width = '0%';
-    render(true);
-  };
+
+    var count = visibleCount();
+    var firstCard = track.firstElementChild;
+    var stepPx = firstCard ? (firstCard.offsetWidth + 20) : 280;
+
+    if (dir === 1) {
+      // إضافة الكارت الجديد على الشمال ثم تحريك الشريط لليمين (في RTL التحريك لليمين موجب)
+      var nextItem = list[(idx + count) % list.length];
+      track.insertAdjacentHTML('beforeend', cardHTML(nextItem));
+      track.style.transition = 'transform 0.65s cubic-bezier(0.25, 0.8, 0.25, 1)';
+      track.style.transform = 'translateX(' + stepPx + 'px)';
+
+      setTimeout(function() {
+        idx = (idx + 1) % list.length;
+        renderStatic();
+        busy = false;
+      }, 660);
+    } else {
+      // السحب للاتجاه المعاكس: إضافة الكارت السابق على اليمين وتثبيته ثم إعادته للصفر
+      var prevIdx = (idx - 1 + list.length) % list.length;
+      track.insertAdjacentHTML('afterbegin', cardHTML(list[prevIdx]));
+      track.style.transition = 'none';
+      track.style.transform = 'translateX(' + stepPx + 'px)';
+      track.offsetHeight; // إجبار المتصفح على قراءة الوضع المبدئي
+      track.style.transition = 'transform 0.65s cubic-bezier(0.25, 0.8, 0.25, 1)';
+      track.style.transform = 'translateX(0)';
+
+      setTimeout(function() {
+        idx = prevIdx;
+        renderStatic();
+        busy = false;
+      }, 660);
+    }
+  }
 
   window.filterTerms = function(cat, btn) {
     document.querySelectorAll('.g-btn').forEach(function(b){ b.classList.remove('on'); });
     btn.classList.add('on');
     list = cat === 'all' ? TERMS_DB.slice() : TERMS_DB.filter(function(t){ return t.cat === cat; });
     idx = 0; sec = 0;
-    render(true);
+    bar.style.width = '0%';
+    renderStatic();
   };
 
-  // إيقاف المؤقت مؤقتاً لو الطالب واقف بالماوس بيقرأ تعريف
+  // السحب بالماوس واللمس للتقليب اليدوي
+  var startX = 0, isDown = false;
+  vp.addEventListener('pointerdown', function(e) {
+    isDown = true;
+    startX = e.clientX;
+    vp.classList.add('dragging');
+  });
+  window.addEventListener('pointerup', function(e) {
+    if (!isDown) return;
+    isDown = false;
+    vp.classList.remove('dragging');
+    var diff = e.clientX - startX;
+    if (Math.abs(diff) > 45) {
+      // في اتجاه RTL: السحب لليمين (diff > 0) يحرك المصطلحات لليمين ويجيب التالي
+      slideStep(diff > 0 ? 1 : -1);
+    }
+  });
+
+  // إيقاف المؤقت عند وضع الماوس على السلايدر
   vp.addEventListener('mouseenter', function(){ paused = true; });
   vp.addEventListener('mouseleave', function(){ paused = false; });
 
-  // عداد الـ 30 ثانية مع شريط التقدم الذهبي
+  // المؤقت التلقائي كل 30 ثانية
   setInterval(function(){
-    if (paused || document.querySelector('.term-box.open')) return;
+    if (paused || busy) return;
     sec++;
     bar.style.width = ((sec / 30) * 100) + '%';
     if (sec >= 30) {
-      stepTerms(1); // يزحف مصطلح واحد لليمين ويجيب مصطلح جديد من الشمال
+      slideStep(1);
     }
   }, 1000);
 
-  render(false);
-  window.addEventListener('resize', function(){ render(false); });
+  renderStatic();
+  window.addEventListener('resize', renderStatic);
 })();
 </script>
   
