@@ -1,5 +1,9 @@
 (function () {
-  const GEMINI_API_KEY = 'AQ.Ab8RN6LQwruPwQOVEYVNgHG2HECpYr_' + 's4HxYDidssv6eOznIoQ';
+  // قائمة مفاتيح Gemini API (يمكنك إضافة مفاتيح احتياطية من حسابات أخرى داخل المصفوفة)
+  const API_KEYS = [
+    'AQ.Ab8RN6LQwruPwQOVEYVNgHG2HECpYr_' + 's4HxYDidssv6eOznIoQ'
+    // يمكنك إضافة مفتاح ثانٍ هنا بنفس الطريقة بعد وضع فاصلة في السطر السابق
+  ];
 
   const systemInstruction = `
     أنت "المستكشف الذكي"، المساعد التعليمي الافتراضي لمنصة "مركز المستكشف الرقمي" المخصصة لمادة الدراسات الاجتماعية للصف الثالث الإعدادي في مصر (إعداد طلاب الفرقة الرابعة بقسم تكنولوجيا التعليم - جامعة أسوان).
@@ -10,6 +14,7 @@
   `;
 
   let chatHistory = [];
+  const replyCache = {};
 
   const style = document.createElement('style');
   style.textContent = `
@@ -150,58 +155,88 @@
     return d;
   }
 
- async function askGemini(userText) {
+  async function askGemini(userText) {
+    if (replyCache[userText]) {
+      const typingEl = addMsg('<span class="de-typing">المستكشف الذكي يكتب الإجابة... ⏳</span>', 'bot');
+      setTimeout(() => {
+        typingEl.innerHTML = formatMarkdown(replyCache[userText]);
+        msgs.scrollTop = msgs.scrollHeight;
+      }, 300);
+      return;
+    }
+
     chatHistory.push({ role: 'user', parts: [{ text: userText }] });
     const typingEl = addMsg('<span class="de-typing">المستكشف الذكي يكتب الإجابة... ⏳</span>', 'bot');
     sendBtn.disabled = true;
 
-    const models = ['gemini-2.5-flash', 'gemini-flash-latest'];
+    const models = [
+      'gemini-2.5-flash-lite',
+      'gemini-2.0-flash-lite',
+      'gemini-2.0-flash',
+      'gemini-2.5-flash',
+      'gemini-1.5-flash'
+    ];
+
     let success = false;
-    let lastError = '';
+    let isQuotaFull = false;
 
-    for (const model of models) {
-      try {
-        const response = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              system_instruction: { parts: [{ text: systemInstruction }] },
-              contents: chatHistory,
-              generationConfig: {
-                thinkingConfig: { thinkingBudget: 0 },
-                maxOutputTokens: 600
-              }
-            })
+    for (const apiKey of API_KEYS) {
+      if (!apiKey) continue;
+      for (const model of models) {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 9000);
+
+        try {
+          const bodyData = {
+            system_instruction: { parts: [{ text: systemInstruction }] },
+            contents: chatHistory,
+            generationConfig: { maxOutputTokens: 550 }
+          };
+          if (model.includes('2.5')) {
+            bodyData.generationConfig.thinkingConfig = { thinkingBudget: 0 };
           }
-        );
 
-        const data = await response.json();
-        if (!response.ok) {
-          lastError = data.error?.message || 'خطأ في الاتصال';
-          continue;
+          const response = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              signal: controller.signal,
+              body: JSON.stringify(bodyData)
+            }
+          );
+
+          clearTimeout(timer);
+          const data = await response.json();
+          if (!response.ok) {
+            if (response.status === 429) isQuotaFull = true;
+            continue;
+          }
+
+          const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || 'عذراً، لم أتمكن من صياغة إجابة الآن.';
+          replyCache[userText] = replyText;
+          chatHistory.push({ role: 'model', parts: [{ text: replyText }] });
+          typingEl.innerHTML = formatMarkdown(replyText);
+          success = true;
+          break;
+        } catch (err) {
+          clearTimeout(timer);
         }
-
-        const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || 'عذراً، لم أتمكن من صياغة إجابة الآن.';
-        chatHistory.push({ role: 'model', parts: [{ text: replyText }] });
-        typingEl.innerHTML = formatMarkdown(replyText);
-        success = true;
-        break;
-      } catch (err) {
-        lastError = err.message;
       }
+      if (success) break;
     }
 
     if (!success) {
-      typingEl.innerHTML = '⚠️ سبب الخطأ: ' + lastError;
+      typingEl.innerHTML = isQuotaFull
+        ? '⏳ تم الوصول للحد اليومي للأسئلة المجانية اليوم، سيعود المستكشف الذكي للعمل تلقائياً غداً. يمكنك الاستمرار في تصفح الدروس وبنك المصطلحات!'
+        : '⚠️ الخادم مزدحم حالياً، حاول مرة أخرى بعد قليل.';
       chatHistory.pop();
     }
 
     sendBtn.disabled = false;
     msgs.scrollTop = msgs.scrollHeight;
   }
-  
+
   function handleAsk(text) {
     if (!text.trim() || sendBtn.disabled) return;
     addMsg(text.replace(/</g, '&lt;'), 'usr');
