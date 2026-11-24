@@ -89,6 +89,46 @@
     }
     .animate-slot-shake { animation: slotShake 0.35s ease both; }
     .animate-slot-pop { animation: slotPop 0.25s ease both; }
+
+	  /* تنسيق الفوتر والشريط الموحد */
+body {
+  padding-bottom: 0 !important;
+  margin-bottom: 0 !important;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+main, .wrap {
+  flex: 1;
+}
+.strip {
+  width: 100%;
+  height: 10px;
+  margin-top: 50px;
+  background: repeating-linear-gradient(90deg, #c8825a 0 18px, transparent 18px 26px, #f0b44c 26px 34px, transparent 34px 42px);
+  opacity: 0.7;
+}
+footer {
+  display: block;
+  width: 100%;
+  background: #24130b;
+  text-align: center;
+  padding: 24px 16px;
+  color: #c9ae94;
+  border-top: 1px solid rgba(224, 160, 110, 0.22);
+}
+footer p {
+  margin: 0 0 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #c9ae94;
+}
+footer .f-copy {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 400;
+  opacity: 0.75;
+}
   </style>
 </head>
 <body class="min-h-screen flex flex-col antialiased selection:bg-[#c8825a] selection:text-[#2a150b]">
@@ -207,9 +247,12 @@
     <div class="explorer-strip mt-10" aria-hidden="true"></div>
   </main>
 
-  <footer class="bg-[#24130b] text-center py-6 px-4 text-[#c9ae94] font-semibold text-sm border-t border-[rgba(224,160,110,0.22)]">
-    تصميم وإعداد: طلاب الفرقة الرابعة - قسم تكنولوجيا التعليم | جامعة أسوان
-  </footer>
+<!-- ==================== الفوتر ==================== -->
+<div class="strip"></div>
+<footer>
+  <p>تصميم وإعداد: طلاب الفرقة الرابعة - قسم تكنولوجيا التعليم | جامعة أسوان</p>
+  <p class="f-copy">جميع الحقوق محفوظة © مركز المستكشف الرقمي</p>
+</footer>
 
   <!-- العنصر العائم أثناء السحب -->
   <div id="drag-ghost" class="hidden fixed z-50 pointer-events-none select-none px-4 py-2 rounded-[14px] bg-[#c8825a] text-[#2a150b] font-bold text-sm shadow-xl border border-[#f0b44c] whitespace-nowrap" style="transform: translate(-50%, -50%);"></div>
