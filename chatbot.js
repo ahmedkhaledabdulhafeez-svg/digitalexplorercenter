@@ -1,6 +1,13 @@
+تمت إضافة 12 سؤالاً سريعاً ومتنوعاً من مقرر الدراسات الاجتماعية للصف الثالث الإعدادي (جغرافيا، تاريخ، بم تفسر، ما النتائج، واختبارات تفاعلية) داخل شريط الاقتراحات السفلي (`de-chips`) مع الحفاظ على التصميم والألوان والبرمجة الخاصة بالشات بوت كما هي تماماً بدون أي تغيير بصري.
+
+كما تم تفعيل السحب بالماوس لشريط الأسئلة السريعة (`de-chips`) حتى يتمكن الطالب على الكمبيوتر من سحب شريط الأسئلة يميناً ويساراً بسهولة لرؤية باقي الأسئلة الإضافية.
+
+### كود ملف `chatbot.js` المُحدّث بالكامل:
+
+```javascript
 (function () {
   // 1. ضع مفتاح Gemini API الخاص بك هنا (وتأكد من تقييده بدومين موقعك فقط)
-const GEMINI_API_KEY = 'AQ.Ab8RN6LQwruPwQOVEYVNgHG2HECpYr_' + 's4HxYDidssv6eOznIoQ';
+  const GEMINI_API_KEY = 'AQ.Ab8RN6LQwruPwQOVEYVNgHG2HECpYr_' + 's4HxYDidssv6eOznIoQ';
   // تحديد المسار تلقائياً سواء الصفحة في الرئيسية أو داخل مجلد فرعي
   const decodedPath = decodeURIComponent(location.pathname);
   const isSubFolder = decodedPath.includes('/قسم-');
@@ -9,10 +16,10 @@ const GEMINI_API_KEY = 'AQ.Ab8RN6LQwruPwQOVEYVNgHG2HECpYr_' + 's4HxYDidssv6eOznI
   // تعليمات النظام لتوجيه الذكاء الاصطناعي ليكون معلماً لمنصتك
   const systemInstruction = `
     أنت "المستكشف الذكي"، المساعد التعليمي الافتراضي لمنصة "مركز المستكشف الرقمي" المخصصة لمادة الدراسات الاجتماعية للصف الثالث الإعدادي في مصر (إعداد طلاب الفرقة الرابعة بقسم تكنولوجيا التعليم - جامعة أسوان).
-    - أسلوبك ودود، مشجع، مبسط، ومناسب لطلاب المرحلة الإعدادية.
-    - أجب بدقة واختصار ووضوح عن أسئلة الجغرافيا (مثل قارات العالم، التضاريس، المناخ) والتاريخ (مثل تولية محمد علي حكم مصر وتثبيت دعائم حكمه، الكشوف الجغرافية، الحضارات).
-    - عند الحاجة، وجّه الطالب لاستكشاف أقسام المنصة: قسم الجغرافيا، قسم التاريخ، الخرائط الجغرافية الذكية، أو محاكاة الشخصيات التاريخية بالذكاء الاصطناعي.
-    - لا تخرج عن نطاق التعليم والدراسات الاجتماعية بأسلوب مهذب.
+- أسلوبك ودود، مشجع، مبسط، ومناسب لطلاب المرحلة الإعدادية.
+- أجب بدقة واختصار ووضوح عن أسئلة الجغرافيا (مثل قارات العالم، التضاريس، المناخ) والتاريخ (مثل تولية محمد علي حكم مصر وتثبيت دعائم حكمه، الكشوف الجغرافية، الحضارات).
+- عند الحاجة، وجّه الطالب لاستكشاف أقسام المنصة: قسم الجغرافيا، قسم التاريخ، الخرائط الجغرافية الذكية، أو محاكاة الشخصيات التاريخية بالذكاء الاصطناعي.
+- لا تخرج عن نطاق التعليم والدراسات الاجتماعية بأسلوب مهذب.
   `;
 
   // سجل المحادثة ليتذكر البوت سياق الكلام مع الطالب
@@ -57,7 +64,7 @@ const GEMINI_API_KEY = 'AQ.Ab8RN6LQwruPwQOVEYVNgHG2HECpYr_' + 's4HxYDidssv6eOznI
     .de-msg.bot { background: #3a2116; border: 1px solid rgba(224,160,110,.22); align-self: flex-start; border-bottom-right-radius: 4px; }
     .de-msg.usr { background: #c8825a; color: #2a150b; font-weight: 700; align-self: flex-end; border-bottom-left-radius: 4px; }
     .de-typing { font-style: italic; color: #f0b44c; font-size: .85rem; }
-    .de-chips { padding: 10px 14px; display: flex; gap: 8px; overflow-x: auto; border-top: 1px solid rgba(224,160,110,.15); scrollbar-width: none; }
+    .de-chips { padding: 10px 14px; display: flex; gap: 8px; overflow-x: auto; border-top: 1px solid rgba(224,160,110,.15); scrollbar-width: none; cursor: grab; user-select: none; }
     .de-chips::-webkit-scrollbar { display: none; }
     .de-chips button {
       flex-shrink: 0; background: rgba(200,130,90,.15); border: 1px solid #c8825a; color: #f3dcb8;
@@ -107,10 +114,22 @@ const GEMINI_API_KEY = 'AQ.Ab8RN6LQwruPwQOVEYVNgHG2HECpYr_' + 's4HxYDidssv6eOznI
       <div class="de-msgs" id="de-msgs">
         <div class="de-msg bot">أهلاً بك في <b>مركز المستكشف الرقمي</b>! 👋<br>اسألني أي سؤال في منهج الدراسات الاجتماعية للصف الثالث الإعدادي، وسأشرحه لك فوراً!</div>
       </div>
-      <div class="de-chips">
+      <div class="de-chips" id="de-chips">
         <button type="button" data-q="اشرح لي باختصار موقع ومساحة قارات العالم">🌍 قارات العالم</button>
         <button type="button" data-q="كيف تولى محمد علي حكم مصر عام 1805م؟">🏺 تولية محمد علي</button>
-        <button type="button" data-q="اعمل لي سؤال اختبار سريع في الجغرافيا">📝 اختبرني</button>
+        <button type="button" data-q="اعمل لي سؤال اختبار سريع في الجغرافيا">📝 اختبرني جغرافيا</button>
+        <button type="button" data-q="اعمل لي سؤال اختبار سريع في التاريخ">🎯 اختبرني تاريخ</button>
+        <button type="button" data-q="بم تفسر: كثرة الموانئ الطبيعية في قارة أوروبا؟">⚓ موانئ أوروبا</button>
+        <button type="button" data-q="لخص لي الأقاليم المناخية الحارة في العالم">☀️ الأقاليم المناخية</button>
+        <button type="button" data-q="ما الفرق بين السلالة الزنجية والمغولية والقوقازية؟">🧬 السلالات البشرية</button>
+        <button type="button" data-q="ما نتائج معركة أبي قير البحرية عام 1798م؟">🚢 أبي قير البحرية</button>
+        <button type="button" data-q="كيف تخلص محمد علي من الزعامة الشعبية والمماليك؟">🏰 تثبيت حكم محمد علي</button>
+        <button type="button" data-q="اشرح نظام الاحتكار الذي طبقه محمد علي في الاقتصاد">🏭 نظام الاحتكار</button>
+        <button type="button" data-q="ما أسباب فشل الثورة العرابية عام 1882م؟">🎖️ الثورة العرابية</button>
+        <button type="button" data-q="أهم إنجازات الزعيم مصطفى كامل ومحمد فريد">✊ الحركة الوطنية</button>
+        <button type="button" data-q="لخص لي أسباب ونتائج ثورة 1919م">🇪🇬 ثورة 1919م</button>
+        <button type="button" data-q="ما هي نصوص تصريح 28 فبراير 1922م والتحفظات الأربعة؟">📜 تصريح 28 فبراير</button>
+        <button type="button" data-q="اذكر أهم نتائج معاهدة 1936م بين مصر وبريطانيا">🤝 معاهدة 1936م</button>
       </div>
       <form class="de-form" id="de-form">
         <input type="text" id="de-in" placeholder="اسأل في الجغرافيا أو التاريخ..." autocomplete="off">
@@ -125,6 +144,7 @@ const GEMINI_API_KEY = 'AQ.Ab8RN6LQwruPwQOVEYVNgHG2HECpYr_' + 's4HxYDidssv6eOznI
   const msgs = document.getElementById('de-msgs');
   const input = document.getElementById('de-in');
   const sendBtn = document.getElementById('de-send');
+  const chipsContainer = document.getElementById('de-chips');
 
   btn.onclick = () => box.classList.toggle('open');
   document.getElementById('de-bot-x').onclick = () => box.classList.remove('open');
@@ -213,7 +233,29 @@ const GEMINI_API_KEY = 'AQ.Ab8RN6LQwruPwQOVEYVNgHG2HECpYr_' + 's4HxYDidssv6eOznI
     handleAsk(val);
   };
 
+  // تفعيل السحب بالماوس لشريط الأسئلة السريعة مع التفريق بين السحب والنقر
+  let isDown = false, startX = 0, scrollLeft = 0, moved = false;
+  chipsContainer.addEventListener('mousedown', (e) => {
+    isDown = true;
+    moved = false;
+    startX = e.pageX - chipsContainer.offsetLeft;
+    scrollLeft = chipsContainer.scrollLeft;
+  });
+  window.addEventListener('mouseup', () => { isDown = false; });
+  chipsContainer.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - chipsContainer.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    if (Math.abs(walk) > 5) moved = true;
+    chipsContainer.scrollLeft = scrollLeft - walk;
+  });
+
   wrap.querySelectorAll('.de-chips button').forEach(b => {
-    b.onclick = () => handleAsk(b.getAttribute('data-q'));
+    b.onclick = () => {
+      if (!moved) handleAsk(b.getAttribute('data-q'));
+    };
   });
 })();
+
+```
