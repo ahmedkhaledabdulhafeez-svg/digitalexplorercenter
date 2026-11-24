@@ -107,39 +107,25 @@ section.blk{padding:50px 0}
 .card:hover .go span:last-child{background:var(--c);color:#2a150b;transform:translateX(-6px)}
 .geo{--c:#e0a85a}.his{--c:#d9784a}.map{--c:#6fc2a8}.ai{--c:#b793e6}
 
+/* ===== بنك المصطلحات السريع (الإضافة الجديدة) ===== */
+.terms-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.term-box{border-radius:24px;padding:24px 22px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);cursor:pointer;transition:.35s;position:relative;overflow:hidden}
+.term-box::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--gold)}
+.term-box:hover{transform:translateY(-5px);border-color:var(--gold);box-shadow:0 16px 36px rgba(0,0,0,.4)}
+.term-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.term-head span{font-size:.76rem;padding:2px 12px;border-radius:99px;background:rgba(240,180,76,.14);color:var(--gold);font-weight:700}
+.term-box h4{font-family:'Reem Kufi',sans-serif;font-size:1.25rem;color:var(--sand);margin-bottom:6px}
+.term-def{color:var(--mute);font-size:.88rem;line-height:1.7;display:none;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.term-box.open .term-def{display:block}
+.term-hint{font-size:.8rem;color:var(--copper);font-weight:700}
+.term-box.open .term-hint{display:none}
+
 /* tip */
 .tip{border-radius:28px;display:flex;gap:22px;align-items:center;padding:26px 30px;border:1px dashed var(--copper);background:rgba(200,130,90,.08)}
 .tip .bulb{width:64px;height:64px;border-radius:50%;background:radial-gradient(circle,var(--gold),var(--copper));display:grid;place-items:center;font-size:1.9rem;flex-shrink:0;box-shadow:0 0 30px rgba(240,180,76,.5)}
 .tip h3{color:var(--gold);font-family:'Reem Kufi',sans-serif;font-size:1.2rem}
 .tip p{color:var(--mute);font-size:.92rem}
 @media(max-width:600px){.tip{flex-direction:column;text-align:center}}
-
-
-/* ===== الإعداد والإشراف ===== */
-.team{padding:20px 0 10px}
-.grp{margin-bottom:40px;--c:var(--copper)}
-.grp.sup{--c:var(--gold)}
-.sub{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}
-.sub h3{font-family:'Reem Kufi',sans-serif;font-size:1.4rem;color:var(--c);display:flex;align-items:center;gap:12px}
-.sub h3::before{content:"";width:34px;height:4px;border-radius:99px;background:var(--c)}
-.arrows{display:flex;gap:10px}
-.arrows button{width:44px;height:44px;border-radius:14px;border:1.5px solid var(--c);background:rgba(0,0,0,.2);color:var(--c);font-size:1.2rem;cursor:pointer;transition:.3s;font-family:inherit}
-.arrows button:hover{background:var(--c);color:#2a150b;transform:translateY(-2px)}
-.sl.noov .arrows{display:none}
-.track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 4px 18px;scrollbar-width:none;cursor:grab}
-.track::-webkit-scrollbar{display:none}
-.track.drag{scroll-snap-type:none;cursor:grabbing;user-select:none}
-.person{flex:0 0 210px;scroll-snap-align:start;text-align:center;padding:26px 18px 22px;border-radius:28px;
-  background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);position:relative;overflow:hidden;transition:.35s}
-.person::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--c)}
-.person:hover{transform:translateY(-6px);border-color:var(--c);box-shadow:0 20px 40px rgba(0,0,0,.4),0 0 30px -10px var(--c)}
-.av{width:116px;height:116px;margin:0 auto 16px;border-radius:50%;overflow:hidden;border:3px solid var(--c);padding:4px;
-  background:radial-gradient(circle at 50% 35%,#6a3f2b,#3a2116);box-shadow:0 0 26px -6px var(--c)}
-.av svg,.av img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;-webkit-user-drag:none}
-.person b{display:block;color:var(--sand);font-size:1rem}
-.person small{color:var(--mute);font-size:.82rem}
-.sup .person{flex-basis:250px}
-.sup .av{width:136px;height:136px}
 
 /* strip + footer */
 .strip{border-radius:99px;height:10px;margin-top:50px;background:repeating-linear-gradient(90deg,var(--copper) 0 18px,transparent 18px 26px,var(--gold) 26px 34px,transparent 34px 42px);opacity:.7}
@@ -163,7 +149,7 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
     <a href="#lessons">المسارات التعليمية</a>
     <a href="#tools">الذكاء الاصطناعي والخرائط</a>
     <a href="#video">فيديو ترحيبي</a>
-    <a href="#team">الإعداد والإشراف</a>
+    <a href="#glossary">بنك المصطلحات</a>
   </div></nav>
 </header>
 
@@ -214,7 +200,7 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
 
   <div class="copy">
     <div class="txt">
-      <span class="tag">🏺 منصة تعليمية تفاعلية</span>
+      <span class="tag" id="welcomeTag">🏺 منصة تعليمية تفاعلية</span>
       <h1 class="big">اكتشف العالم من حولك<span>بطريقة مبتكرة!</span></h1>
       <p>تعلم الجغرافيا والتاريخ بطريقة ممتعة، شاهد الشروحات، واستكشف الخرائط، ثم اختبر معلوماتك من خلال الأنشطة التفاعلية المصممة خصيصاً لك.</p>
       <div class="btns">
@@ -282,44 +268,48 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
     </div>
   </section>
 
+  <!-- بنك المصطلحات السريع (بديل قسم الإعداد والإشراف) -->
+  <section id="glossary" class="blk rv">
+    <div class="head">
+      <div class="ic"><i>📖</i></div>
+      <div><h2>بنك المصطلحات السريع</h2><p>اضغط على أي مصطلح من المنهج لاستعراض تعريفه ومراجعته بسرعة</p></div>
+    </div>
+    <div class="terms-grid">
+      <div class="term-box" onclick="this.classList.toggle('open')">
+        <div class="term-head"><span>جغرافيا</span><i>🌐</i></div>
+        <h4>الموقع الفلكي</h4>
+        <div class="term-hint">اضغط لعرض التعريف ▾</div>
+        <div class="term-def">هو موقع المكان بالنسبة لخطوط الطول ودوائر العرض، ويؤثر بشكل مباشر في تحديد المناخ.</div>
+      </div>
+      <div class="term-box" onclick="this.classList.toggle('open')">
+        <div class="term-head"><span>جغرافيا</span><i>🏝️</i></div>
+        <h4>الدولة الجزرية</h4>
+        <div class="term-hint">اضغط لعرض التعريف ▾</div>
+        <div class="term-def">هي الدولة التي تتكون من جزيرة أو أكثر، أو قد تكون جزءاً من جزيرة، مثل اليابان والفلبين.</div>
+      </div>
+      <div class="term-box" onclick="this.classList.toggle('open')">
+        <div class="term-head"><span>تاريخ</span><i>📜</i></div>
+        <h4>الفرمان</h4>
+        <div class="term-hint">اضغط لعرض التعريف ▾</div>
+        <div class="term-def">هو أمر سلطاني يصدر من قِبل سلطان الدولة العثمانية واجب التنفيذ في الولايات التابعة لها.</div>
+      </div>
+      <div class="term-box" onclick="this.classList.toggle('open')">
+        <div class="term-head"><span>تاريخ</span><i>⚔️</i></div>
+        <h4>الحماية البريطانية</h4>
+        <div class="term-hint">اضغط لعرض التعريف ▾</div>
+        <div class="term-def">هي خضوع مصر المطلق للاحتلال البريطاني وإلغاء السيادة العثمانية عليها عام 1914م.</div>
+      </div>
+    </div>
+  </section>
+
   <!-- Tip -->
   <section class="rv">
     <div class="tip">
       <div class="bulb">💡</div>
-      <div><h3>نصيحة للمذاكرة</h3><p>شاهد الفيديو التعليمي الترحيبي أولاً، ثم اختر المسار المطلوب، وأخيراً اختبر فهمك لضمان ثبات المعلومة.</p></div>
+      <div><h3>نصيحة للمذاكرة</h3><p>شاهد الفيديو التعليمي الترحيبي أولاً، ثم اختر المسار المطلوب، وأخيراً اختبر فهمك لضمان ثبات المعلومة أو اسأل المساعد الذكي أسفل الشاشة.</p></div>
     </div>
   </section>
 </main>
-
-<!-- ===== الإعداد والإشراف ===== -->
-<section id="team" class="wrap team rv">
-  <div class="head">
-    <div class="ic"><i>👥</i></div>
-    <div><h2>الإعداد والإشراف</h2><p>فريق العمل الذي أعدّ المنصة والسادة المشرفون عليها</p></div>
-  </div>
-
-  <!-- لتغيير الصورة: استبدل الـ svg داخل div.av بـ <img src="رابط الصورة" alt="الاسم"> -->
-  <div class="grp sl">
-    <div class="sub"><h3>الإعداد</h3><div class="arrows"><button class="pv" aria-label="السابق">→</button><button class="nx" aria-label="التالي">←</button></div></div>
-    <div class="track">
-        <div class="person"><div class="av"><svg viewBox="0 0 100 100"><circle cx="50" cy="38" r="17" fill="#c8825a" opacity=".85"/><path d="M14 98c0-24 16-38 36-38s36 14 36 38z" fill="#c8825a" opacity=".85"/></svg></div><b>اسم الطالب</b><small>معد</small></div>
-        <div class="person"><div class="av"><svg viewBox="0 0 100 100"><circle cx="50" cy="38" r="17" fill="#c8825a" opacity=".85"/><path d="M14 98c0-24 16-38 36-38s36 14 36 38z" fill="#c8825a" opacity=".85"/></svg></div><b>اسم الطالب</b><small>معد</small></div>
-        <div class="person"><div class="av"><svg viewBox="0 0 100 100"><circle cx="50" cy="38" r="17" fill="#c8825a" opacity=".85"/><path d="M14 98c0-24 16-38 36-38s36 14 36 38z" fill="#c8825a" opacity=".85"/></svg></div><b>اسم الطالب</b><small>معد</small></div>
-        <div class="person"><div class="av"><svg viewBox="0 0 100 100"><circle cx="50" cy="38" r="17" fill="#c8825a" opacity=".85"/><path d="M14 98c0-24 16-38 36-38s36 14 36 38z" fill="#c8825a" opacity=".85"/></svg></div><b>اسم الطالب</b><small>معد</small></div>
-        <div class="person"><div class="av"><svg viewBox="0 0 100 100"><circle cx="50" cy="38" r="17" fill="#c8825a" opacity=".85"/><path d="M14 98c0-24 16-38 36-38s36 14 36 38z" fill="#c8825a" opacity=".85"/></svg></div><b>اسم الطالب</b><small>معد</small></div>
-        <div class="person"><div class="av"><svg viewBox="0 0 100 100"><circle cx="50" cy="38" r="17" fill="#c8825a" opacity=".85"/><path d="M14 98c0-24 16-38 36-38s36 14 36 38z" fill="#c8825a" opacity=".85"/></svg></div><b>اسم الطالب</b><small>معد</small></div>
-        <div class="person"><div class="av"><svg viewBox="0 0 100 100"><circle cx="50" cy="38" r="17" fill="#c8825a" opacity=".85"/><path d="M14 98c0-24 16-38 36-38s36 14 36 38z" fill="#c8825a" opacity=".85"/></svg></div><b>اسم الطالب</b><small>معد</small></div>
-    </div>
-  </div>
-
-  <div class="grp sup sl">
-    <div class="sub"><h3>الإشراف</h3><div class="arrows"><button class="pv" aria-label="السابق">→</button><button class="nx" aria-label="التالي">←</button></div></div>
-    <div class="track">
-        <div class="person"><div class="av"><svg viewBox="0 0 100 100"><circle cx="50" cy="38" r="17" fill="#c8825a" opacity=".85"/><path d="M14 98c0-24 16-38 36-38s36 14 36 38z" fill="#c8825a" opacity=".85"/></svg></div><b>د. ..........</b><small>مشرف</small></div>
-        <div class="person"><div class="av"><svg viewBox="0 0 100 100"><circle cx="50" cy="38" r="17" fill="#c8825a" opacity=".85"/><path d="M14 98c0-24 16-38 36-38s36 14 36 38z" fill="#c8825a" opacity=".85"/></svg></div><b>د. ..........</b><small>مشرف</small></div>
-    </div>
-  </div>
-</section>
 
 <div class="strip"></div>
 <footer>تصميم وإعداد: طلاب الفرقة الرابعة - قسم تكنولوجيا التعليم | جامعة أسوان</footer>
@@ -333,18 +323,13 @@ document.querySelectorAll('nav a[href^="#"]').forEach(function(a){
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}})},{threshold:.12});
 document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
 
-document.querySelectorAll('.sl').forEach(function(sl){
-  var t=sl.querySelector('.track'),n=sl.querySelector('.nx'),pv=sl.querySelector('.pv');
-  function st(){return t.clientWidth*.8}
-  n.onclick=function(){t.scrollBy({left:-st(),behavior:'smooth'})};
-  pv.onclick=function(){t.scrollBy({left:st(),behavior:'smooth'})};
-  function chk(){sl.classList.toggle('noov',t.scrollWidth<=t.clientWidth+2)}
-  chk();addEventListener('resize',chk);addEventListener('load',chk);
-  var d=false,x=0,s0=0;
-  t.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;d=true;x=e.clientX;s0=t.scrollLeft;t.classList.add('drag')});
-  addEventListener('pointermove',function(e){if(d)t.scrollLeft=s0-(e.clientX-x)});
-  addEventListener('pointerup',function(){if(d){d=false;t.classList.remove('drag')}});
-});
+// ترحيب مخصص باسم الطالب المسجل من صفحة الهبوط
+try {
+  var savedName = localStorage.getItem('explorerUserName');
+  if (savedName) {
+    document.getElementById('welcomeTag').textContent = '👋 أهلاً بك يا ' + savedName + ' في مركز المستكشف';
+  }
+} catch (e) {}
 </script>
 <script src="chatbot.js"></script>
 </body>
