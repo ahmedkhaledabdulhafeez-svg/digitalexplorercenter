@@ -1,5 +1,5 @@
 (function () {
-  // قائمة مفاتيح Gemini API (يمكنك إضافة مفاتيح احتياطية من حسابات أخرى داخل المصفوفة)
+  // قائمة مفاتيح Gemini API (ضع مفتاحك الثاني مكان النص الموضح بالأسفل)
   const API_KEYS = [
     'AQ.Ab8RN6LQwruPwQOVEYVNgHG2HECpYr_' + 's4HxYDidssv6eOznIoQ',
     'AQ.Ab8RN6IjlAusqZXwz8kc2cXqoeajQuE' + '7WaMW7XkQmOzJjAvFwg'
@@ -16,6 +16,93 @@
   let chatHistory = [];
   const replyCache = {};
 
+  // إجابات نموذجية فورية للأسئلة السريعة لتوفير رصيد API والرد اللحظي
+  const presetAnswers = {
+    'اشرح لي باختصار موقع ومساحة قارات العالم': `🌍 **قارات العالم من حيث المساحة (من الأكبر للأصغر):**
+1. **آسيا:** أكبر القارات (44.2 مليون كم²).
+2. **أفريقيا:** ثاني القارات (30.3 مليون كم²).
+3. **أمريكا الشمالية:** (24.2 مليون كم²).
+4. **أمريكا الجنوبية:** (17.8 مليون كم²).
+5. **القطبية الجنوبية (أنتاركتيكا):** (12.3 مليون كم²) وهي قارة متجمدة غير مأهولة بالسكان.
+6. **أوروبا:** (10.5 مليون كم²).
+7. **أستراليا (الأوقيانوسية):** أصغر القارات (7.8 مليون كم²).
+💡 *تُسمى آسيا وأفريقيا وأوروبا بقارات العالم القديم، بينما باقي القارات هي قارات العالم الجديد.*`,
+
+    'كيف تولى محمد علي حكم مصر عام 1805م؟': `🏺 **تولية محمد علي حكم مصر (13 مايو 1805م):**
+- استغل محمد علي ثورة الشعب المصري ضد الوالي العثماني **خورشيد باشا** بسبب فرض الضرائب الباهظة.
+- جهر بالانضمام إلى العلماء والمشايخ والأهالي، وتعهد ببذل قصارى جهده لرفع الضريبة عن الناس.
+- اجتمع زعماء الشعب والعلماء بقيادة **عمر مكرم** في **دار المحكمة (بيت القاضي)** يوم 13 مايو 1805م، وقرروا عزل خورشيد باشا وتعيين محمد علي والياً على مصر بشروطهم.
+- اضطر السلطان العثماني لإصدار فرمان بتعيينه في يوليو 1805م استجابة لإرادة الشعب.`,
+
+    'بم تفسر: كثرة الموانئ الطبيعية في قارة أوروبا؟': `⚓ **بم تفسر كثرة الموانئ الطبيعية في أوروبا؟**
+- بسبب **كثرة تعاريج سواحلها وكثرة الجزر** بها، مما ساعد على إنشاء الموانئ الطبيعية وسهولة اتصالها بالعالم الخارجي.`,
+
+    'لخص لي الأقاليم المناخية الحارة في العالم': `☀️ **الأقاليم المناخية الحارة (تمتد بين دائرتي عرض 30° شمالاً وجنوباً):**
+1. **الإقليم الاستوائي وشبه الاستوائي:** حار ممطر طوال العام (حوض الكونغو، حوض الأمازون، جزر إندونيسيا).
+2. **الإقليم المداري الحار (السوداني):** حار ممطر صيفاً وجاف شتاءً، وتنمو به حشائش السافانا.
+3. **الإقليم الموسمي:** غزير المطر صيفاً وجاف شتاءً (الهند والهند الصينية)، وتنمو به أشجار جوز الهند.
+4. **الإقليم الصحراوي الحار:** شديد الحرارة صيفاً وشديد البرودة شتاءً ونادر الأمطار.`,
+
+    'ما الفرق بين السلالة الزنجية والمغولية والقوقازية؟': `🧬 **السلالات البشرية الرئيسية في العالم:**
+1. **السلالة الزنجية (10%):** البشرة الداكنة، الأنف العريض، الشعر الأجعد، الشفاه الغليظة (تتركز في أفريقيا).
+2. **السلالة المغولية (40%):** البشرة الصفراء، العيون المنحرفة، الشعر الأسود المسترسل (تتركز في شرق وجنوب شرق آسيا).
+3. **السلالة القوقازية (50%):** البشرة البيضاء الوردية، الشعر المتموج، الشفاه الرفيعة (تنتشر في أوروبا والأمريكتين وشمال أفريقيا).`,
+
+    'ما نتائج معركة أبي قير البحرية عام 1798م؟': `🚢 **نتائج معركة أبي قير البحرية (أغسطس 1798م):**
+1. تحطيم وإغراق الأسطول الفرنسي على يد الأسطول الإنجليزي بقيادة **نيلسون**.
+2. القضاء على آمال فرنسا في السيطرة على سواحل البحر المتوسط.
+3. حرمان الحملة الفرنسية في مصر من إمدادات فرنسا لها.
+4. شعور الجنود الفرنسيين بأنهم محاصرون داخل مصر، وتوقف حركة التجارة الخارجية لمصر.`,
+
+    'كيف تخلص محمد علي من الزعامة الشعبية والمماليك؟': `🏰 **انفراد محمد علي بحكم مصر:**
+- **الزعامة الشعبية:** استغل انقسام القيادات الشعبية حول مكانة **عمر مكرم**، فقام بخلعه من نقابة الأشراف ونفيه إلى **دمياط** عام 1809م.
+- **المماليك:** حرمهم من تولي المناصب الرفيعة مثل مشيخة البلد، وطاردهم في كل مكان، ثم دبر لهم **مذبحة القلعة** في مارس 1811م وتخلص منهم نهائياً.`,
+
+    'اشرح نظام الاحتكار الذي طبقه محمد علي في الاقتصاد': `🏭 **نظام الاحتكار في عهد محمد علي:**
+هو نظام تقوم فيه الحكومة ممثلة في محمد علي بتحديد نوع الغلات التي تزرع ونوع المصنوعات التي تنتج، وتحديد أثمان شرائها من المنتجين وأثمان بيعها في السوق، وذلك لضمان الدخول في سوق التجارة الدولية منافساً لغيره من الدول.`,
+
+    'ما أسباب فشل الثورة العرابية عام 1882م؟': `🎖️ **أسباب فشل الثورة العرابية:**
+1. عدم تكافؤ القوة العسكرية بين قوات الاحتلال البريطاني والقوات المصرية.
+2. تواطؤ إدارة شركة قناة السويس (ديليسبس) مع الإنجليز والسماح لهم بالمرور في القناة.
+3. إصدار السلطان العثماني منشوراً بإعلان **عصيان عرابي**، مما أضعف الروح المعنوية للمصريين.
+4. عدم إدراك قيادة الثورة لأهمية التعبئة الشعبية لمساندة القوات المصرية.`,
+
+    'أهم إنجازات الزعيم مصطفى كامل ومحمد فريد': `✊ **كفاح الحركة الوطنية ضد الاحتلال:**
+- **مصطفى كامل:** أسس جريدة اللواء (1900م) والحزب الوطني (1907م)، وندد بجرائم الاحتلال في الداخل والخارج خاصة بعد **حادثة دنشواي (1906م)** مما أدى لاستقالة اللورد كرومر.
+- **محمد فريد:** طالب بإنشاء مجلس نيابي ونقابات للعمال، وأنشأ مدارس الشعب الليلية لتعليم الفقراء مجاناً، ونجح في إجبار الحكومة على رفض مد امتياز شركة قناة السويس 40 عاماً أخرى.`,
+
+    'لخص لي أسباب ونتائج ثورة 1919م': `🇪🇬 **ثورة 1919م:**
+- **الأسباب:** ازدياد الوعي الوطني، الإجراءات العنيفة التي اتخذتها بريطانيا أثناء الحرب العالمية الأولى، إعلان مبادئ الرئيس الأمريكي ويلسون، ورفض سلطات الاحتلال سفر الوفد المصري برئاسة **سعد زغلول** إلى مؤتمر الصلح بباريس ونفيه إلى جزيرة مالطا.
+- **النتائج:** عزل السير ونجت وتعيين الجنرال اللنبي، الإفراج عن سعد زغلول والسماح له بالسفر لباريس، وإرسال لجنة ملنر للتفاوض.`,
+
+    'ما هي نصوص تصريح 28 فبراير 1922م والتحفظات الأربعة؟': `📜 **تصريح 28 فبراير 1922م:**
+اعترفت فيه بريطانيا بمصر دولة مستقلة ذات سيادة، وأنهت الحماية البريطانية عليها، مع وجود **4 تحفظات**:
+1. تأمين المواصلات البريطانية في مصر.
+2. الدفاع عن مصر ضد أي اعتداء أجنبي.
+3. حماية المصالح الأجنبية وحماية الأقليات في مصر.
+4. استمرار أوضاع السودان وفقاً لاتفاقية الحكم الثنائي عام 1899م.`,
+
+    'اذكر أهم نتائج معاهدة 1936م بين مصر وبريطانيا': `🤝 **نتائج معاهدة 1936م:**
+1. انتهاء احتلال مصر عسكرياً مع بقاء قوات بريطانية في منطقة قناة السويس.
+2. انضمام مصر إلى عضوية **عصبة الأمم** باعتبارها دولة مستقلة.
+3. إلغاء الامتيازات الأجنبية وفقاً لمؤتمر مونترو (1937م).
+4. عودة الجيش المصري إلى السودان وتقوية الجيش المصري ليتمكن من الدفاع عن القناة.`
+  };
+
+  // أسئلة اختبار عشوائية متجددة بدون استهلاك API
+  const geoQuizzes = [
+    `📝 **سؤال جغرافيا سريع:**\nبم تفسر: ضيق السهول الساحلية في غرب أمريكا الجنوبية؟\n\n*(فكر في الإجابة، ثم اكتبها لي وسأصححها لك!)*`,
+    `📝 **سؤال جغرافيا سريع:**\nما المقصود بـ **الدولة الجزرية**؟ مع ذكر مثالين من قارة آسيا.\n\n*(اكتب إجابتك في مربع الرسائل وسأراجعها معك!)*`,
+    `📝 **سؤال جغرافيا سريع:**\nأين تقع أعلى قمة جبلية في العالم؟ وما اسم السلسلة الجبلية التي تنتمي إليها؟\n\n*(أرسل إجابتك الآن!)*`
+  ];
+
+  const hisQuizzes = [
+    `🎯 **سؤال تاريخ سريع:**\nمن هو قائد الأسطول الإنجليزي الذي حطم الأسطول الفرنسي في معركة أبي قير البحرية عام 1798م؟\n\n*(اكتب إجابتك وسأصححها لك فوراً!)*`,
+    `🎯 **سؤال تاريخ سريع:**\nما النتائج المترتبة على: مذبحة القلعة في مارس 1811م؟\n\n*(أرسل إجابتك الآن!)*`,
+    `🎯 **سؤال تاريخ سريع:**\nفي عهد أي من حكام مصر تم حفر ترعة الإبراهيمية وافتتاح قناة السويس للملاحة؟\n\n*(اكتب إجابتك وسأراجعها معك!)*`
+  ];
+
+  // إضافة التنسيقات (CSS) بما فيها الرسالة المنبثقة فوق البوت
   const style = document.createElement('style');
   style.textContent = `
     #de-bot-btn {
@@ -27,6 +114,31 @@
     }
     #de-bot-btn:hover { transform: scale(1.08) translateY(-3px); box-shadow: 0 16px 38px rgba(0,0,0,.7), 0 0 30px rgba(240,180,76,.7); }
     #de-bot-btn svg { width: 36px; height: 36px; }
+
+    /* فقاعة الإشعار المنبثقة فوق زر البوت (مثل ماسنجر) */
+    #de-toast {
+      position: fixed; bottom: 106px; right: 26px; z-index: 9998;
+      max-width: 290px; background: linear-gradient(145deg, #42251a, #2e1a10);
+      border: 1.5px solid #f0b44c; color: #f6e8d4; padding: 12px 16px;
+      border-radius: 18px 18px 4px 18px; font-family: 'Cairo', sans-serif;
+      font-size: .88rem; line-height: 1.55; direction: rtl; cursor: pointer;
+      box-shadow: 0 16px 40px rgba(0,0,0,.65), 0 0 20px rgba(240,180,76,.25);
+      opacity: 0; transform: translateY(14px) scale(.95); pointer-events: none;
+      transition: opacity .35s ease, transform .35s cubic-bezier(.25,.8,.25,1);
+    }
+    #de-toast.show { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+    #de-toast::after {
+      content: ""; position: absolute; bottom: -8px; right: 24px;
+      width: 14px; height: 14px; background: #2e1a10;
+      border-right: 1.5px solid #f0b44c; border-bottom: 1.5px solid #f0b44c;
+      transform: rotate(45deg);
+    }
+    #de-toast-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    #de-toast-head b { color: #f0b44c; font-size: .82rem; font-family: 'Reem Kufi', sans-serif; }
+    #de-toast-x { background: none; border: none; color: #c9ae94; font-size: 1rem; cursor: pointer; padding: 0 4px; line-height: 1; }
+    #de-toast-x:hover { color: #f0b44c; }
+    #de-toast-txt { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
     #de-bot-box {
       position: fixed; bottom: 108px; right: 26px; z-index: 9999;
       width: 420px; max-width: calc(100vw - 36px); height: 560px; max-height: 78vh;
@@ -92,6 +204,13 @@
 
   const wrap = document.createElement('div');
   wrap.innerHTML = `
+    <div id="de-toast" role="status" aria-live="polite">
+      <div id="de-toast-head">
+        <b>🤖 المستكشف الذكي</b>
+        <button type="button" id="de-toast-x" aria-label="إغلاق الإشعار">✕</button>
+      </div>
+      <div id="de-toast-txt"></div>
+    </div>
     <button id="de-bot-btn" aria-label="المساعد الذكي" title="اسأل المستكشف الذكي">${robotSvg}</button>
     <div id="de-bot-box" role="dialog" aria-label="المساعد التعليمي">
       <div class="de-head">
@@ -135,8 +254,48 @@
   const input = document.getElementById('de-in');
   const sendBtn = document.getElementById('de-send');
   const chipsContainer = document.getElementById('de-chips');
+  const toast = document.getElementById('de-toast');
+  const toastTxt = document.getElementById('de-toast-txt');
+  let toastTimer = null;
 
-  btn.onclick = () => box.classList.toggle('open');
+  // دالة إظهار فقاعة الإشعار فوق زر البوت عندما يكون الشات مغلقاً
+  function showToast(text, duration = 6000) {
+    if (box.classList.contains('open')) return;
+    const cleanText = text.replace(/\*\*/g, '').replace(/\*/g, '').replace(/\n+/g, ' ');
+    toastTxt.textContent = cleanText;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => {
+      toast.classList.remove('show');
+    }, duration);
+  }
+
+  function hideToast() {
+    clearTimeout(toastTimer);
+    toast.classList.remove('show');
+  }
+
+  // إظهار فقاعة ترحيبية ذكية بعد 3 ثوانٍ من فتح الصفحة
+  setTimeout(() => {
+    if (!box.classList.contains('open')) {
+      showToast('أهلاً بك يا بطل! 👋 عندك سؤال في الجغرافيا أو التاريخ؟ اضغط هنا واسألني فوراً!', 6500);
+    }
+  }, 3000);
+
+  toast.onclick = (e) => {
+    if (e.target.id === 'de-toast-x') {
+      e.stopPropagation();
+      hideToast();
+      return;
+    }
+    hideToast();
+    box.classList.add('open');
+  };
+
+  btn.onclick = () => {
+    hideToast();
+    box.classList.toggle('open');
+  };
   document.getElementById('de-bot-x').onclick = () => box.classList.remove('open');
 
   function formatMarkdown(text) {
@@ -156,20 +315,32 @@
   }
 
   async function askGemini(userText) {
-    if (replyCache[userText]) {
+    // 1. الرد الفوري من الإجابات النموذجية المحفوظة أو الاختبارات العشوائية (بدون استهلاك API)
+    let instantReply = presetAnswers[userText] || replyCache[userText];
+    if (userText === 'اعمل لي سؤال اختبار سريع في الجغرافيا') {
+      instantReply = geoQuizzes[Math.floor(Math.random() * geoQuizzes.length)];
+    } else if (userText === 'اعمل لي سؤال اختبار سريع في التاريخ') {
+      instantReply = hisQuizzes[Math.floor(Math.random() * hisQuizzes.length)];
+    }
+
+    if (instantReply) {
       const typingEl = addMsg('<span class="de-typing">المستكشف الذكي يكتب الإجابة... ⏳</span>', 'bot');
       setTimeout(() => {
-        typingEl.innerHTML = formatMarkdown(replyCache[userText]);
+        chatHistory.push({ role: 'user', parts: [{ text: userText }] });
+        chatHistory.push({ role: 'model', parts: [{ text: instantReply }] });
+        typingEl.innerHTML = formatMarkdown(instantReply);
         msgs.scrollTop = msgs.scrollHeight;
-      }, 300);
+        showToast(instantReply, 6000);
+      }, 450);
       return;
     }
 
+    // 2. الاتصال بالذكاء الاصطناعي للأسئلة الحرة
     chatHistory.push({ role: 'user', parts: [{ text: userText }] });
     const typingEl = addMsg('<span class="de-typing">المستكشف الذكي يكتب الإجابة... ⏳</span>', 'bot');
     sendBtn.disabled = true;
 
-const models = [
+    const models = [
       'gemini-2.5-flash',
       'gemini-2.5-flash-lite',
       'gemini-3-flash-preview',
@@ -180,7 +351,7 @@ const models = [
     let isQuotaFull = false;
 
     for (const apiKey of API_KEYS) {
-      if (!apiKey) continue;
+      if (!apiKey || apiKey.includes('ضع_هنا')) continue;
       for (const model of models) {
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), 9000);
@@ -216,6 +387,7 @@ const models = [
           replyCache[userText] = replyText;
           chatHistory.push({ role: 'model', parts: [{ text: replyText }] });
           typingEl.innerHTML = formatMarkdown(replyText);
+          showToast(replyText, 6500);
           success = true;
           break;
         } catch (err) {
@@ -225,10 +397,12 @@ const models = [
       if (success) break;
     }
 
-if (!success) {
-      typingEl.innerHTML = isQuotaFull
-        ? '⏳ تم الوصول للحد اليومي للأسئلة المجانية اليوم، سيعود المستكشف الذكي للعمل تلقائياً غداً.'
-        : '⚠️ تعذر الاتصال: ' + (lastError || 'تأكد من صحة مفتاح API أو اتصالك بالإنترنت.');
+    if (!success) {
+      const errMsg = isQuotaFull
+        ? '⏳ تم الوصول للحد اليومي للأسئلة الحرة اليوم، يمكنك استخدام الأسئلة السريعة بالأسفل أو العودة غداً!'
+        : '⚠️ الخادم مزدحم حالياً، حاول مرة أخرى بعد قليل.';
+      typingEl.innerHTML = errMsg;
+      showToast(errMsg, 5000);
       chatHistory.pop();
     }
 
