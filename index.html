@@ -173,8 +173,9 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
 @keyframes pop{from{transform:scale(.92) translateY(14px);opacity:0}}
 .x{position:absolute;top:14px;left:16px;width:36px;height:36px;border-radius:12px;border:1px solid var(--line);background:rgba(0,0,0,.2);color:var(--mute);font-size:1.3rem;cursor:pointer;transition:.25s}
 .x:hover{color:var(--gold);border-color:var(--gold)}
-.mlogo{width:84px;height:84px;margin:0 auto 12px;border-radius:50%;padding:12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3);box-shadow:0 0 40px rgba(240,180,76,.45);display:grid;place-items:center}
-.mlogo img{width:100%;height:100%;object-fit:contain}
+.mlogo{width:140px;height:140px;margin:0 auto 14px;display:grid;place-items:center;position:relative}
+.mlogo::before{content:"";position:absolute;inset:10px;border-radius:50%;background:radial-gradient(circle,rgba(240,180,76,.32) 0%,transparent 70%);filter:blur(12px);z-index:0}
+.mlogo img{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 8px 18px rgba(0,0,0,.55))}
 .tabs{display:flex;gap:6px;padding:5px;border-radius:18px;background:rgba(0,0,0,.25);margin-bottom:18px}
 .tabs button{flex:1;padding:9px;border-radius:14px;border:0;background:transparent;color:var(--mute);font-family:inherit;font-weight:800;font-size:.92rem;cursor:pointer;transition:.3s}
 .tabs button.on{background:var(--copper);color:#2a150b}
