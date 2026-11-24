@@ -122,30 +122,44 @@ section.blk{padding:70px 0 10px}
 .vid{border-radius:18px;position:relative;aspect-ratio:16/9;overflow:hidden;background:#1d0f08}
 .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 
-/* الإعداد والإشراف */
-.uni{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px 30px;border-radius:28px;margin-bottom:34px;background:linear-gradient(135deg,var(--bg2),var(--panel));border:1px solid var(--line);box-shadow:0 20px 50px rgba(0,0,0,.35);position:relative;overflow:hidden}
+/* ===== الإشراف والإعداد ===== */
+.uni{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:24px 30px;border-radius:28px;margin-bottom:44px;background:linear-gradient(135deg,var(--bg2),var(--panel));border:1px solid var(--line);box-shadow:0 20px 50px rgba(0,0,0,.35);position:relative;overflow:hidden}
 .uni::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--gold),var(--copper),var(--gold))}
 .uni img{width:72px;height:72px;border-radius:50%;background:#fff;padding:5px;object-fit:contain;flex-shrink:0}
 .uni div{text-align:center}.uni h3{font-family:'Reem Kufi',sans-serif;font-size:1.5rem;color:var(--gold)}.uni p{color:var(--mute);font-size:.9rem}
 @media(max-width:640px){.uni{flex-wrap:wrap;justify-content:center}.uni div{order:3;flex-basis:100%}}
-.grp{margin-bottom:40px;--c:var(--copper)}.grp.sup{--c:var(--gold)}
-.sub{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}
-.sub h3{font-family:'Reem Kufi',sans-serif;font-size:1.4rem;color:var(--c);display:flex;align-items:center;gap:12px}
-.sub h3::before{content:"";width:34px;height:4px;border-radius:99px;background:var(--c)}
-.arrows{display:flex;gap:10px}
-.arrows button{width:44px;height:44px;border-radius:14px;border:1.5px solid var(--c);background:rgba(0,0,0,.2);color:var(--c);font-size:1.2rem;cursor:pointer;transition:.3s;font-family:inherit}
-.arrows button:hover{background:var(--c);color:#2a150b;transform:translateY(-2px)}
-.sl.noov .arrows{display:none}
-.track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 4px 18px;scrollbar-width:none;cursor:grab}
-.track::-webkit-scrollbar{display:none}
-.track.drag{scroll-snap-type:none;cursor:grabbing;user-select:none}
-.person{flex:0 0 210px;scroll-snap-align:start;text-align:center;padding:26px 18px 22px;border-radius:28px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);position:relative;overflow:hidden;transition:.35s}
+
+.grp{margin-bottom:54px;--c:var(--copper)}
+.grp.sup{--c:var(--gold)}
+
+.sub{display:flex;align-items:center;justify-content:center;margin-bottom:28px}
+.sub h3{font-family:'Reem Kufi',sans-serif;font-size:1.65rem;color:var(--c);display:flex;align-items:center;gap:14px}
+.sub h3::before,.sub h3::after{content:"";width:42px;height:4px;border-radius:99px;background:var(--c)}
+
+/* شبكة الإشراف: بطاقتين كبار في المنتصف */
+.sup-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:34px;max-width:860px;margin:auto}
+.sup-grid .person{width:350px;max-width:100%;padding:36px 26px 30px;box-shadow:0 22px 50px rgba(0,0,0,.45)}
+.sup-grid .av{width:154px;height:154px;margin-bottom:20px;border-width:4px}
+.sup-grid .person b{font-size:1.25rem;margin-bottom:6px}
+.sup-grid .person .role-badge{font-size:.9rem;padding:4px 16px}
+
+/* شبكة الإعداد: 6 بطاقات متناسقة (3 فوق و 3 تحت) */
+.prep-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:960px;margin:auto}
+
+@media(max-width:860px){
+  .prep-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:540px){
+  .prep-grid{grid-template-columns:1fr;max-width:340px}
+}
+
+.person{text-align:center;padding:28px 18px 24px;border-radius:28px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);position:relative;overflow:hidden;transition:.35s;display:flex;flex-direction:column;align-items:center}
 .person::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--c)}
-.person:hover{transform:translateY(-6px);border-color:var(--c);box-shadow:0 20px 40px rgba(0,0,0,.4),0 0 30px -10px var(--c)}
-.av{width:116px;height:116px;margin:0 auto 16px;border-radius:50%;overflow:hidden;border:3px solid var(--c);padding:4px;background:radial-gradient(circle at 50% 35%,#6a3f2b,#3a2116);box-shadow:0 0 26px -6px var(--c)}
-.av svg,.av img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;-webkit-user-drag:none}
-.person b{display:block;color:var(--sand);font-size:1rem}.person small{color:var(--mute);font-size:.82rem}
-.sup .person{flex-basis:250px}.sup .av{width:136px;height:136px}
+.person:hover{transform:translateY(-7px);border-color:var(--c);box-shadow:0 22px 44px rgba(0,0,0,.45),0 0 32px -10px var(--c)}
+.av{width:118px;height:118px;margin:0 auto 16px;border-radius:50%;overflow:hidden;border:3px solid var(--c);padding:4px;background:radial-gradient(circle at 50% 35%,#6a3f2b,#3a2116);box-shadow:0 0 26px -6px var(--c)}
+.av svg,.av img{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
+.person b{display:block;color:var(--sand);font-size:1.08rem;margin-bottom:6px}
+.role-badge{display:inline-block;padding:3px 14px;border-radius:99px;font-size:.82rem;font-weight:700;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent);border:1px solid color-mix(in srgb,var(--c) 35%,transparent)}
 
 .strip{border-radius:99px;height:10px;margin-top:60px;background:repeating-linear-gradient(90deg,var(--copper) 0 18px,transparent 18px 26px,var(--gold) 26px 34px,transparent 34px 42px);opacity:.7}
 footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);font-weight:600;font-size:.88rem;border-top:1px solid var(--line)}
@@ -272,14 +286,16 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(240,180,76,.15);b
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKef2y4Gj5p9F4KYzTy5-bZHM7TrsaiJUKUmKuojkA_cj7t2uzMuf8V-ub6boEFPktNlPZQbwTJmHCGoRrYb2dx8pLcqz81LnJAEEJYEQ&s=10" alt="شعار كلية التربية النوعية">
     </div>
 
-    <!-- لتغيير الصورة: استبدل الـ svg داخل div.av بـ <img src="رابط الصورة" alt="الاسم"> -->
-    <div class="grp sl">
-      <div class="sub"><h3>الإعداد</h3><div class="arrows"><button class="pv" aria-label="السابق">→</button><button class="nx" aria-label="التالي">←</button></div></div>
-      <div class="track" id="prep"></div>
+    <!-- قسم الإشراف -->
+    <div class="grp sup">
+      <div class="sub"><h3>الإشراف</h3></div>
+      <div class="sup-grid" id="sup"></div>
     </div>
-    <div class="grp sup sl">
-      <div class="sub"><h3>الإشراف</h3><div class="arrows"><button class="pv" aria-label="السابق">→</button><button class="nx" aria-label="التالي">←</button></div></div>
-      <div class="track" id="sup"></div>
+
+    <!-- قسم الإعداد -->
+    <div class="grp">
+      <div class="sub"><h3>الإعداد</h3></div>
+      <div class="prep-grid" id="prep"></div>
     </div>
   </section>
 </main>
@@ -327,25 +343,35 @@ document.getElementById('authForm').addEventListener('submit',function(e){
   window.location.href="الصفحة-الرئيسية.html";
 });
 
-/* ===== بطاقات الإعداد والإشراف ===== */
+/* ===== بيانات الإشراف والإعداد (جاهزة لإضافة الصور لاحقاً) ===== */
 var AV='<svg viewBox="0 0 100 100"><circle cx="50" cy="38" r="17" fill="#c8825a" opacity=".85"/><path d="M14 98c0-24 16-38 36-38s36 14 36 38z" fill="#c8825a" opacity=".85"/></svg>';
-function card(n,r){return '<div class="person"><div class="av">'+AV+'</div><b>'+n+'</b><small>'+r+'</small></div>'}
-var names=['أحمد خالد عبدالحفيظ','اسم الطالب','اسم الطالب','اسم الطالب','اسم الطالب','اسم الطالب','اسم الطالب'];
-document.getElementById('prep').innerHTML=names.map(function(n){return card(n,'معد')}).join('');
-document.getElementById('sup').innerHTML=card('د. ..........','مشرف')+card('د. ..........','مشرف');
 
-document.querySelectorAll('.sl').forEach(function(sl){
-  var t=sl.querySelector('.track'),n=sl.querySelector('.nx'),pv=sl.querySelector('.pv');
-  function st(){return t.clientWidth*.8}
-  n.onclick=function(){t.scrollBy({left:-st(),behavior:'smooth'})};
-  pv.onclick=function(){t.scrollBy({left:st(),behavior:'smooth'})};
-  function chk(){sl.classList.toggle('noov',t.scrollWidth<=t.clientWidth+2)}
-  chk();addEventListener('resize',chk);addEventListener('load',chk);
-  var d=false,x=0,s0=0;
-  t.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;d=true;x=e.clientX;s0=t.scrollLeft;t.classList.add('drag')});
-  addEventListener('pointermove',function(e){if(d)t.scrollLeft=s0-(e.clientX-x)});
-  addEventListener('pointerup',function(){if(d){d=false;t.classList.remove('drag')}});
-});
+function card(item){
+  // لو حطيت رابط صورة في خانة img هتظهر تلقائي، ولو سبتها فاضية هتظهر الأيقونة الافتراضية
+  var avatarHTML = item.img && item.img.trim() !== '' 
+    ? '<img src="' + item.img + '" alt="' + item.name + '">' 
+    : AV;
+  return '<div class="person"><div class="av">' + avatarHTML + '</div><b>' + item.name + '</b><span class="role-badge">' + item.role + '</span></div>';
+}
+
+// 1. هيئة الإشراف (ضع رابط الصورة مكان علامتي التنصيص الفارغة في img مستقبلاً)
+var supervisors = [
+  { name: 'أ.د/ حلمي مصطفى أبوموتة', role: 'المشرف العام على المشروع', img: 'https://scontent.fcai19-6.fna.fbcdn.net/v/t39.30808-6/491354772_29048001698181139_7843507398349816750_n.jpg?stp=dst-jpg_tt6&cstp=mx816x821&ctp=s816x821&_nc_cat=109&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeEfvdUOQ02YKKIXzhBJo4zb3pt2aPvekRjem3Zo-96RGMuXoahGCYPFwpnAijjyI2Y1WcFqHdlFflyp8o3-hjGw&_nc_ohc=rbfO53D5NLwQ7kNvwFNvXZ7&_nc_oc=AdpWqqyi63rJacpTccNSh6gMLQIDjUhTNzWjZtin5EF-VODFDOBxDadnF4WA8q7DFfk&_nc_zt=23&_nc_ht=scontent.fcai19-6.fna&_nc_gid=De_kEW1ZFuwyr9aXdidsfw&_nc_ss=7b3a8&oh=00_AQQCR9UACljLLFAFHIp1HJzrGsBeeI28fcn5qKFyygHqHA&oe=6B0B3DB7' },
+  { name: 'د/ ضحى رمضان', role: 'مشرف المشروع', img: '' }
+];
+
+// 2. فريق الإعداد (6 أعضاء - 3 فوق و 3 تحت)
+var teamMembers = [
+  { name: 'أحمد خالد عبدالحفيظ', role: 'تطوير الموقع والبرمجة', img: '' },
+  { name: 'يوسف طلعت أحمد', role: 'تطوير الموقع وتجربة المستخدم', img: '' },
+  { name: 'عبدالرحمن عرفة بشر', role: 'إعداد المحتوى العلمي والتعليمي', img: '' },
+  { name: 'محمد علاء أحمد', role: 'تصميم الجرافيك والوسائط المتعددة', img: '' },
+  { name: 'عبدالله محمود محمد', role: 'إنتاج الفيديو والمونتاج التعليمي', img: '' },
+  { name: 'مصطفى محمد محمود', role: 'تصميم الأنشطة والاختبارات التفاعلية', img: '' }
+];
+
+document.getElementById('sup').innerHTML = supervisors.map(card).join('');
+document.getElementById('prep').innerHTML = teamMembers.map(card).join('');
 
 /* ===== غبار ذهبي متصاعد + ظهور الأقسام ===== */
 var fx=document.getElementById('fx');
