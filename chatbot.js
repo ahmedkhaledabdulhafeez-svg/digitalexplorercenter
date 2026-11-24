@@ -1,19 +1,6 @@
-تمت إضافة 12 سؤالاً سريعاً ومتنوعاً من مقرر الدراسات الاجتماعية للصف الثالث الإعدادي (جغرافيا، تاريخ، بم تفسر، ما النتائج، واختبارات تفاعلية) داخل شريط الاقتراحات السفلي (`de-chips`) مع الحفاظ على التصميم والألوان والبرمجة الخاصة بالشات بوت كما هي تماماً بدون أي تغيير بصري.
-
-كما تم تفعيل السحب بالماوس لشريط الأسئلة السريعة (`de-chips`) حتى يتمكن الطالب على الكمبيوتر من سحب شريط الأسئلة يميناً ويساراً بسهولة لرؤية باقي الأسئلة الإضافية.
-
-### كود ملف `chatbot.js` المُحدّث بالكامل:
-
-```javascript
 (function () {
-  // 1. ضع مفتاح Gemini API الخاص بك هنا (وتأكد من تقييده بدومين موقعك فقط)
   const GEMINI_API_KEY = 'AQ.Ab8RN6LQwruPwQOVEYVNgHG2HECpYr_' + 's4HxYDidssv6eOznIoQ';
-  // تحديد المسار تلقائياً سواء الصفحة في الرئيسية أو داخل مجلد فرعي
-  const decodedPath = decodeURIComponent(location.pathname);
-  const isSubFolder = decodedPath.includes('/قسم-');
-  const base = isSubFolder ? '../' : '';
 
-  // تعليمات النظام لتوجيه الذكاء الاصطناعي ليكون معلماً لمنصتك
   const systemInstruction = `
     أنت "المستكشف الذكي"، المساعد التعليمي الافتراضي لمنصة "مركز المستكشف الرقمي" المخصصة لمادة الدراسات الاجتماعية للصف الثالث الإعدادي في مصر (إعداد طلاب الفرقة الرابعة بقسم تكنولوجيا التعليم - جامعة أسوان).
 - أسلوبك ودود، مشجع، مبسط، ومناسب لطلاب المرحلة الإعدادية.
@@ -22,10 +9,8 @@
 - لا تخرج عن نطاق التعليم والدراسات الاجتماعية بأسلوب مهذب.
   `;
 
-  // سجل المحادثة ليتذكر البوت سياق الكلام مع الطالب
   let chatHistory = [];
 
-  // إضافة التنسيقات (CSS)
   const style = document.createElement('style');
   style.textContent = `
     #de-bot-btn {
@@ -149,7 +134,6 @@
   btn.onclick = () => box.classList.toggle('open');
   document.getElementById('de-bot-x').onclick = () => box.classList.remove('open');
 
-  // تنسيق نص رد Gemini ليدعم العناوين والسطور الجديدة بشكل أنيق
   function formatMarkdown(text) {
     return text
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -167,16 +151,10 @@
   }
 
   async function askGemini(userText) {
-    if (!GEMINI_API_KEY || GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY') {
-      addMsg('⚠️ يرجى إضافة مفتاح <b>GEMINI_API_KEY</b> داخل ملف <code>chatbot.js</code> أولاً.', 'bot');
-      return;
-    }
-
     chatHistory.push({ role: 'user', parts: [{ text: userText }] });
     const typingEl = addMsg('<span class="de-typing">المستكشف الذكي يكتب الإجابة... ⏳</span>', 'bot');
     sendBtn.disabled = true;
 
-    // قائمة الموديلات المتاحة بالترتيب لضمان عدم توقف البوت
     const models = ['gemini-3-flash-preview', 'gemini-2.5-flash', 'gemini-flash-latest'];
     let success = false;
     let lastError = '';
@@ -198,7 +176,7 @@
         const data = await response.json();
         if (!response.ok) {
           lastError = data.error?.message || 'خطأ في الاتصال';
-          continue; // جرب الموديل التالي في القائمة
+          continue;
         }
 
         const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text || 'عذراً، لم أتمكن من صياغة إجابة الآن.';
@@ -219,7 +197,7 @@
     sendBtn.disabled = false;
     msgs.scrollTop = msgs.scrollHeight;
   }
-  
+
   function handleAsk(text) {
     if (!text.trim() || sendBtn.disabled) return;
     addMsg(text.replace(/</g, '&lt;'), 'usr');
@@ -233,7 +211,6 @@
     handleAsk(val);
   };
 
-  // تفعيل السحب بالماوس لشريط الأسئلة السريعة مع التفريق بين السحب والنقر
   let isDown = false, startX = 0, scrollLeft = 0, moved = false;
   chipsContainer.addEventListener('mousedown', (e) => {
     isDown = true;
@@ -257,5 +234,3 @@
     };
   });
 })();
-
-```
