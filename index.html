@@ -189,6 +189,18 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(240,180,76,.15);b
 .submit{width:100%;justify-content:center;padding:14px;font-size:1rem;margin-top:4px;border-radius:18px}
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+
+  /* حماية الصور من التحميل والسحب */
+img {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none; /* يمنع قائمة الحفظ عند الضغط المطول على الموبايل */
+  pointer-events: none; /* يمنع تفاعل الماوس مع الصورة تماماً */
+}
+
 </style>
 </head>
 <body>
@@ -381,6 +393,19 @@ for(var i=0;i<22;i++){var p=document.createElement('span');p.className='dust';
   fx.appendChild(p)}
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}})},{threshold:.1});
 document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+
+  /* منع الكليك يمين على الصور واختصارات الحفظ */
+document.addEventListener('contextmenu', function(e) {
+  if (e.target.tagName === 'IMG' || e.target.closest('.av') || e.target.closest('.core')) {
+    e.preventDefault();
+  }
+});
+
+document.addEventListener('dragstart', function(e) {
+  if (e.target.tagName === 'IMG') {
+    e.preventDefault();
+  }
+});
 </script>
 </body>
 </html>
