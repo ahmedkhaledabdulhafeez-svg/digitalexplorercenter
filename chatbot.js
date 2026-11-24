@@ -1,8 +1,8 @@
 (function () {
   // قائمة مفاتيح Gemini API (يمكنك إضافة مفاتيح احتياطية من حسابات أخرى داخل المصفوفة)
   const API_KEYS = [
-    'AQ.Ab8RN6LQwruPwQOVEYVNgHG2HECpYr_' + 's4HxYDidssv6eOznIoQ'
-    // يمكنك إضافة مفتاح ثانٍ هنا بنفس الطريقة بعد وضع فاصلة في السطر السابق
+    'AQ.Ab8RN6LQwruPwQOVEYVNgHG2HECpYr_' + 's4HxYDidssv6eOznIoQ',
+    'AQ.AQ.Ab8RN6IjlAusqZXwz8kc2cXqoeaj' + 'QuE7WaMW7XkQmOzJjAvFwg'
   ];
 
   const systemInstruction = `
