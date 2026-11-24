@@ -150,12 +150,12 @@
     return d;
   }
 
-  async function askGemini(userText) {
+ async function askGemini(userText) {
     chatHistory.push({ role: 'user', parts: [{ text: userText }] });
     const typingEl = addMsg('<span class="de-typing">المستكشف الذكي يكتب الإجابة... ⏳</span>', 'bot');
     sendBtn.disabled = true;
 
-    const models = ['gemini-3-flash-preview', 'gemini-2.5-flash', 'gemini-flash-latest'];
+    const models = ['gemini-2.5-flash', 'gemini-flash-latest'];
     let success = false;
     let lastError = '';
 
@@ -168,7 +168,11 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               system_instruction: { parts: [{ text: systemInstruction }] },
-              contents: chatHistory
+              contents: chatHistory,
+              generationConfig: {
+                thinkingConfig: { thinkingBudget: 0 },
+                maxOutputTokens: 600
+              }
             })
           }
         );
@@ -197,7 +201,7 @@
     sendBtn.disabled = false;
     msgs.scrollTop = msgs.scrollHeight;
   }
-
+  
   function handleAsk(text) {
     if (!text.trim() || sendBtn.disabled) return;
     addMsg(text.replace(/</g, '&lt;'), 'usr');
