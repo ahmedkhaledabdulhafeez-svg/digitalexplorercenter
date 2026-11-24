@@ -169,12 +169,11 @@
     const typingEl = addMsg('<span class="de-typing">المستكشف الذكي يكتب الإجابة... ⏳</span>', 'bot');
     sendBtn.disabled = true;
 
-    const models = [
-      'gemini-2.5-flash-lite',
-      'gemini-2.0-flash-lite',
-      'gemini-2.0-flash',
+const models = [
       'gemini-2.5-flash',
-      'gemini-1.5-flash'
+      'gemini-2.5-flash-lite',
+      'gemini-3-flash-preview',
+      'gemini-flash-latest'
     ];
 
     let success = false;
