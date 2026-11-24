@@ -2,7 +2,7 @@
   // قائمة مفاتيح Gemini API (يمكنك إضافة مفاتيح احتياطية من حسابات أخرى داخل المصفوفة)
   const API_KEYS = [
     'AQ.Ab8RN6LQwruPwQOVEYVNgHG2HECpYr_' + 's4HxYDidssv6eOznIoQ',
-    'AQ.AQ.Ab8RN6IjlAusqZXwz8kc2cXqoeaj' + 'QuE7WaMW7XkQmOzJjAvFwg'
+    'AQ.Ab8RN6IjlAusqZXwz8kc2cXqoeajQuE' + '7WaMW7XkQmOzJjAvFwg'
   ];
 
   const systemInstruction = `
@@ -226,10 +226,10 @@
       if (success) break;
     }
 
-    if (!success) {
+if (!success) {
       typingEl.innerHTML = isQuotaFull
-        ? '⏳ تم الوصول للحد اليومي للأسئلة المجانية اليوم، سيعود المستكشف الذكي للعمل تلقائياً غداً. يمكنك الاستمرار في تصفح الدروس وبنك المصطلحات!'
-        : '⚠️ الخادم مزدحم حالياً، حاول مرة أخرى بعد قليل.';
+        ? '⏳ تم الوصول للحد اليومي للأسئلة المجانية اليوم، سيعود المستكشف الذكي للعمل تلقائياً غداً.'
+        : '⚠️ تعذر الاتصال: ' + (lastError || 'تأكد من صحة مفتاح API أو اتصالك بالإنترنت.');
       chatHistory.pop();
     }
 
