@@ -187,6 +187,8 @@ input{width:100%;padding:13px 18px;border-radius:18px;font-size:.95rem;font-fami
 input::placeholder{color:rgba(201,174,148,.55)}
 input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(240,180,76,.15);background:rgba(0,0,0,.35)}
 .submit{width:100%;justify-content:center;padding:14px;font-size:1rem;margin-top:4px;border-radius:18px}
+.submit:disabled{opacity:.65;cursor:not-allowed;transform:none}
+.auth-err{color:#ff8a80;font-size:.85rem;font-weight:700;text-align:center;min-height:20px;margin-top:-4px}
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 
@@ -331,8 +333,9 @@ img {
     <p class="s" id="ms">سجّل الدخول لاستكمال رحلتك التعليمية الممتعة</p>
     <form id="authForm">
       <div id="nameG" style="display:none"><label for="nm">الاسم بالكامل</label><input type="text" id="nm" placeholder="اكتب اسمك ثلاثياً"></div>
-      <div><label for="usernameInput">اسم المستخدم</label><input type="text" id="usernameInput" required placeholder="أدخل اسم المستخدم هنا"></div>
-      <div><label for="passwordInput">كلمة المرور</label><input type="password" id="passwordInput" required placeholder="••••••••"></div>
+      <div><label for="usernameInput">البريد الإلكتروني</label><input type="email" id="usernameInput" required placeholder="example@gmail.com" dir="ltr" style="text-align:right"></div>
+      <div><label for="passwordInput">كلمة المرور</label><input type="password" id="passwordInput" required placeholder="••••••••" minlength="6"></div>
+      <div id="authError" class="auth-err"></div>
       <button type="submit" class="btn submit" id="sb">تسجيل الدخول</button>
     </form>
   </div>
@@ -341,38 +344,35 @@ img {
 <script>
 /* ===== النافذة ===== */
 var ov=document.getElementById('ov');
+var currentAuthMode='login';
 function openModal(t){
+  currentAuthMode=t;
   var s=t==='signup';
   document.getElementById('mt').textContent=s?'إنشاء حساب جديد':'مرحباً بك مجدداً 👋';
   document.getElementById('ms').textContent=s?'انضم الآن إلى مركز المستكشف الرقمي':'سجّل الدخول لاستكمال رحلتك التعليمية الممتعة';
   document.getElementById('nameG').style.display=s?'block':'none';
+  document.getElementById('nm').required=s;
   document.getElementById('sb').textContent=s?'إنشاء الحساب والدخول':'تسجيل الدخول';
   document.getElementById('tL').classList.toggle('on',!s);document.getElementById('tS').classList.toggle('on',s);
+  var errEl=document.getElementById('authError');if(errEl)errEl.textContent='';
   ov.classList.add('on');document.body.style.overflow='hidden';
   setTimeout(function(){document.getElementById(s?'nm':'usernameInput').focus()},60);
 }
 function closeModal(){ov.classList.remove('on');document.body.style.overflow=''}
 ov.addEventListener('click',function(e){if(e.target===ov)closeModal()});
 addEventListener('keydown',function(e){if(e.key==='Escape')closeModal()});
-document.getElementById('authForm').addEventListener('submit',function(e){
-  e.preventDefault();
-  var n=document.getElementById('nm').value.trim();
-  try{if(n)localStorage.setItem('explorerUserName',n)}catch(x){}
-  window.location.href="الصفحة-الرئيسية.html";
-});
 
 /* ===== بيانات الإشراف والإعداد (جاهزة لإضافة الصور لاحقاً) ===== */
 var AV='<svg viewBox="0 0 100 100"><circle cx="50" cy="38" r="17" fill="#c8825a" opacity=".85"/><path d="M14 98c0-24 16-38 36-38s36 14 36 38z" fill="#c8825a" opacity=".85"/></svg>';
 
 function card(item){
-  // لو حطيت رابط صورة في خانة img هتظهر تلقائي، ولو سبتها فاضية هتظهر الأيقونة الافتراضية
   var avatarHTML = item.img && item.img.trim() !== '' 
     ? '<img src="' + item.img + '" alt="' + item.name + '">' 
     : AV;
   return '<div class="person"><div class="av">' + avatarHTML + '</div><b>' + item.name + '</b><span class="role-badge">' + item.role + '</span></div>';
 }
 
-// 1. هيئة الإشراف (ضع رابط الصورة مكان علامتي التنصيص الفارغة في img مستقبلاً)
+// 1. هيئة الإشراف
 var supervisors = [
   { name: 'أ.د/ حلمي مصطفى أبوموتة', role: 'المشرف العام على المشروع', img: 'images/dr-helmy.jpg' },
   { name: 'د/ ضحى رمضان', role: 'مشرفة المشروع', img: 'images/dr-doha.jpg' }
@@ -411,6 +411,77 @@ document.addEventListener('dragstart', function(e) {
     e.preventDefault();
   }
 });
+</script>
+
+<!-- ===== ربط تسجيل الدخول وإنشاء الحساب بـ Firebase ===== -->
+<script type="module">
+  import { auth } from "./firebase-config.js";
+  import {
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    updateProfile
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const form = document.getElementById("authForm");
+  const errEl = document.getElementById("authError");
+  const submitBtn = document.getElementById("sb");
+
+  function getArabicError(code) {
+    switch (code) {
+      case "auth/invalid-email":
+        return "صيغة البريد الإلكتروني غير صحيحة.";
+      case "auth/user-not-found":
+      case "auth/wrong-password":
+      case "auth/invalid-credential":
+        return "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
+      case "auth/email-already-in-use":
+        return "هذا البريد مسجل بالفعل، انتقل لتبويب تسجيل الدخول.";
+      case "auth/weak-password":
+        return "كلمة المرور يجب أن تكون 6 أحرف على الأقل.";
+      case "auth/too-many-requests":
+        return "تم حظر المحاولات مؤقتاً لكثرة التكرار، حاول بعد قليل.";
+      case "auth/network-request-failed":
+        return "تأكد من اتصالك بالإنترنت وحاول مرة أخرى.";
+      default:
+        return "حدث خطأ أثناء العملية، حاول مرة أخرى.";
+    }
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    errEl.textContent = "";
+
+    const email = document.getElementById("usernameInput").value.trim();
+    const password = document.getElementById("passwordInput").value;
+    const isSignup = window.currentAuthMode === "signup";
+    const fullName = document.getElementById("nm").value.trim();
+
+    if (isSignup && !fullName) {
+      errEl.textContent = "من فضلك اكتب اسمك بالكامل.";
+      return;
+    }
+
+    const originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = isSignup ? "جاري إنشاء الحساب..." : "جاري تسجيل الدخول...";
+
+    try {
+      if (isSignup) {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCredential.user, { displayName: fullName });
+        try { localStorage.setItem("explorerUserName", fullName); } catch (_) {}
+      } else {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const savedName = userCredential.user.displayName || email.split("@")[0];
+        try { localStorage.setItem("explorerUserName", savedName); } catch (_) {}
+      }
+      window.location.href = "الصفحة-الرئيسية.html";
+    } catch (error) {
+      errEl.textContent = getArabicError(error.code);
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+    }
+  });
 </script>
 </body>
 </html>
