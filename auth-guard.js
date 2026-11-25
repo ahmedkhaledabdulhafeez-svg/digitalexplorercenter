@@ -5,9 +5,7 @@ const MIN_DISPLAY_MS = 1500;
 const loadStartTime = Date.now();
 
 function redirectToLogin() {
-  const decodedPath = decodeURIComponent(window.location.pathname);
-  const isSubfolder = decodedPath.includes("/قسم-") || decodedPath.includes("/الشخصيات-");
-  window.location.replace(isSubfolder ? "../index.html" : "index.html");
+  window.location.replace("/index.html");
 }
 
 function hidePreloader() {
