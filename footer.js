@@ -123,7 +123,7 @@
           </div>
 
           <div class="u-f-col">
-            <h4>الانتماء الأكاديمي</h4>
+            <h4>روابـــط تهمـــك</h4>
             <ul>
               <li><a href="https://aswu.edu.eg" target="_blank" rel="noopener">جامعة أسوان</a></li>
               <li><a href="http://spec.aswu.edu.eg" target="_blank" rel="noopener">كلية التربية النوعية</a></li>
