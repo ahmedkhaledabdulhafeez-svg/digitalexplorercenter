@@ -162,6 +162,10 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
 .rv{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
 .rv.show{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+
+html{background:#24130b}
+footer{padding-bottom:calc(26px + env(safe-area-inset-bottom,0px))}
+  
 </style>
 <script>
 if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
