@@ -4,7 +4,7 @@
   const isSub = decodedPath.includes("/قسم-") || decodedPath.includes("/الشخصيات-");
   const base = isSub ? "../" : "./";
 
-  // 1. حقن تنسيقات الفوتر والنافذة المنبثقة (Modal)
+  // 1. حقن تنسيقات الفوتر والنافذة المنبثقة (Modal) بدون شريط تمرير ظاهر
   const style = document.createElement("style");
   style.textContent = `
     .u-strip{width:100%;height:10px;margin-top:60px;background:repeating-linear-gradient(90deg,#c8825a 0 18px,transparent 18px 26px,#f0b44c 26px 34px,transparent 34px 42px);opacity:.75}
@@ -33,10 +33,12 @@
     /* شريط الحقوق السفلي الأصلي */
     .u-f-copy{border-top:1px solid rgba(224,160,110,.16);text-align:center;padding:20px 16px;font-weight:600;font-size:.88rem;color:#c9ae94}
 
-    /* ===== النافذة المنبثقة للإعداد والإشراف ===== */
-    .u-modal-ov{position:fixed;inset:0;z-index:99990;background:rgba(20,11,6,.84);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:18px;overflow-y:auto;direction:rtl;font-family:'Cairo',sans-serif}
+    /* ===== النافذة المنبثقة للإعداد والإشراف (بدون شريط تمرير ظاهر) ===== */
+    .u-modal-ov{position:fixed;inset:0;z-index:99990;background:rgba(20,11,6,.84);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:18px;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;direction:rtl;font-family:'Cairo',sans-serif}
+    .u-modal-ov::-webkit-scrollbar{display:none}
     .u-modal-ov.on{display:flex}
-    .u-modal-box{position:relative;width:100%;max-width:980px;max-height:88vh;overflow-y:auto;padding:34px 28px 28px;border-radius:28px;background:linear-gradient(160deg,#42251a,#2e1a10);border:1px solid rgba(224,160,110,.28);box-shadow:0 30px 80px rgba(0,0,0,.7),0 0 60px -20px #c8825a;animation:uPop .32s ease;margin:auto}
+    .u-modal-box{position:relative;width:100%;max-width:980px;max-height:88vh;overflow-y:auto;scrollbar-width:none;-ms-overflow-style:none;padding:34px 28px 28px;border-radius:28px;background:linear-gradient(160deg,#42251a,#2e1a10);border:1px solid rgba(224,160,110,.28);box-shadow:0 30px 80px rgba(0,0,0,.7),0 0 60px -20px #c8825a;animation:uPop .32s ease;margin:auto}
+    .u-modal-box::-webkit-scrollbar{display:none}
     .u-modal-box::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,#c8825a,#f0b44c,#c8825a)}
     @keyframes uPop{from{transform:scale(.94) translateY(14px);opacity:0}}
     .u-modal-x{position:sticky;top:0;float:left;z-index:5;width:38px;height:38px;border-radius:12px;border:1px solid rgba(224,160,110,.3);background:#2e1a10;color:#c9ae94;font-size:1.4rem;cursor:pointer;transition:.25s;display:grid;place-items:center}
@@ -166,39 +168,4 @@
         if (imgSrc && !imgSrc.startsWith("http") && !imgSrc.startsWith("/")) {
           imgSrc = base + imgSrc;
         }
-        const avHTML = imgSrc ? `<img src="${imgSrc}" alt="${item.name}">` : AV;
-        return `<div class="person"><div class="av">${avHTML}</div><b>${item.name}</b><span class="role-badge">${item.role}</span></div>`;
-      };
-
-      const supEl = container.querySelector("#sup");
-      const prepEl = container.querySelector("#prep");
-      if (supEl && supervisors.length) supEl.innerHTML = supervisors.map(renderCard).join("");
-      if (prepEl && teamMembers.length) prepEl.innerHTML = teamMembers.map(renderCard).join("");
-
-      teamLoaded = true;
-    } catch (err) {
-      container.innerHTML = `<p style="text-align:center;color:#ff8a80;padding:24px;">تعذر تحميل البيانات، تأكد من اتصال الإنترنت.</p>`;
-    }
-  }
-
-  // 5. فتح وإغلاق النافذة المنبثقة
-  const modal = document.getElementById("uTeamModal");
-  document.getElementById("openTeamModalBtn").addEventListener("click", () => {
-    modal.classList.add("on");
-    document.body.style.overflow = "hidden";
-    loadTeamFromIndex();
-  });
-
-  function closeTeamModal() {
-    modal.classList.remove("on");
-    document.body.style.overflow = "";
-  }
-
-  document.getElementById("closeTeamModalBtn").addEventListener("click", closeTeamModal);
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) closeTeamModal();
-  });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modal.classList.contains("on")) closeTeamModal();
-  });
-})();
+        const avHTML = imgSrc ?
