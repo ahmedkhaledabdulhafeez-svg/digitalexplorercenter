@@ -54,7 +54,6 @@ nav a:hover{color:var(--sand)}
 nav a.on{background:var(--copper);color:#2a150b}
 @media(min-width:760px){nav{display:block}}
 
-
 /* ===== Sub bar + back button + title (مطابق لصفحات الأنشطة) ===== */
 .backrow{padding:20px 0 0;display:flex;justify-content:flex-start}
 .back{display:inline-flex;align-items:center;gap:10px;padding:8px 24px;border-radius:99px;border:1px solid var(--copper);color:var(--sand);font-weight:700;font-size:.92rem;background:rgba(200,130,90,.06);transition:.3s}
@@ -65,7 +64,6 @@ nav a.on{background:var(--copper);color:#2a150b}
 .title .ic i{transform:rotate(-45deg);font-style:normal}
 .title h1{font-family:'Reem Kufi',sans-serif;font-weight:700;font-size:clamp(1.8rem,4.6vw,3rem);line-height:1.4;color:var(--sand)}
 .title p{color:var(--mute);font-size:.95rem;max-width:640px;margin:0 auto}
-
 
 /* ===== Page title ===== */
 .wrap{max-width:1240px;margin:auto;padding:0 20px}
@@ -115,9 +113,9 @@ section.blk{padding:40px 0 10px}
 #btnPlayVoice:hover{background:var(--copper);color:#2a150b}
 #speechBubbleText{font-size:.85rem;color:var(--text);line-height:1.8;max-height:86px;overflow-y:auto}
 
-.controls{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:4;display:flex;gap:6px;padding:6px 10px;border-radius:16px;background:rgba(36,19,11,.9);border:1px solid var(--line);backdrop-filter:blur(8px)}
+.controls{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:4;display:flex;gap:6px;padding:6px 10px;border-radius:16px;background:rgba(36,19,11,.9);border:1px solid var(--line);backdrop-filter:blur(8px);flex-wrap:wrap;justify-content:center;max-width:95%}
 .ctl{border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--sand);padding:4px 14px;border-radius:12px;font-weight:700;font-size:.78rem;cursor:pointer;transition:.25s;white-space:nowrap}
-.ctl:hover{background:var(--copper);color:#2a150b;border-color:var(--copper)}
+.ctl:hover,.ctl.is-active{background:var(--copper);color:#2a150b;border-color:var(--copper)}
 
 /* side panel */
 .side{width:100%;background:linear-gradient(180deg,var(--bg2),var(--panel));border-top:1px solid var(--line);padding:20px;display:flex;flex-direction:column;gap:16px;overflow-y:auto}
@@ -174,7 +172,6 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
   </div>
 </header>
 
-
 <main class="wrap">
 
   <div class="backrow"><a href="../../قسم-التاريخ/الدرس-الاول-تولية-محمد-علي-حكم-مصر.html" class="back"><span>العودة للدرس</span><span>←</span></a></div>
@@ -220,6 +217,8 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
             <button class="ctl" onclick="rotateCharacter(Math.PI / 6)" aria-label="لف الشخصية يمينًا">🔄 يمين</button>
             <button class="ctl" onclick="rotateCharacter(-Math.PI / 6)" aria-label="لف الشخصية يسارًا">🔁 يسار</button>
             <button class="ctl" onclick="resetCamera()">🎯 ضبط</button>
+            <button class="ctl" onclick="playCharacterMotion('Waving', true)">👋 ترحيب</button>
+            <button class="ctl" onclick="playCharacterMotion('Quick Informal Bow', true)">🙇 تحية</button>
           </div>
         </div>
 
@@ -271,7 +270,6 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
   <p style="margin: 0; font-size: 0.8rem; opacity: 0.75;">جميع الحقوق محفوظة © مركز المستكشف الرقمي</p>
 </footer>
 
-
 <script>
 const figure = {
   mainSpeech: 'مرحباً بكم يا أبنائي وبناتي طلاب الصف الثالث الإعدادي. أنا محمد علي باشا، مؤسس مصر الحديثة. حين اختارني زعماء الشعب في دار المحكمة يوم 13 مايو عام 1805م، عاهدتكم أن أجعل مصر دولة قوية مهيبة. بنيت جيشاً وطنياً نظامياً، وأنشأت القناطر الخيرية لتطوير الري، وشيدت المدارس الحديثة مثل الطب والهندسة وأرسلت البعثات التعليمية إلى أوروبا.',
@@ -290,10 +288,15 @@ let isSpeaking = false;
 let currentSpeechText = figure.mainSpeech;
 let characterHeight = 3;
 let visualModel = null, visualModelBaseScale = 1, visualModelBaseY = 0;
+
+// متغيرات التحكم في الحركات المدمجة (AnimationMixer)
+let animMixer = null;
+const animActions = {};
+let activeAction = null;
+
 let speechAudio = null;
 const geminiTtsCache = new Map();
 let speechRequestId = 0;
-// ضع رابط Web App المنشور من Google Apps Script هنا بعد الإعداد.
 const GEMINI_TTS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx_vy-WNBWgAGCtY2IgxzBB0YvEKvvjrEKqtBVfumkULJKRDrnZl-F360bF1F1T_msIPQ/exec';
 
 let scene, camera, renderer, controls, charGroup;
@@ -341,14 +344,12 @@ function makeBackdrop() {
   g.fillStyle = '#fff3c4';
   g.beginPath(); g.arc(512, 400, 46, 0, Math.PI * 2); g.fill();
 
-  // أهرامات بعيدة
   g.fillStyle = 'rgba(120,64,32,.75)';
   g.beginPath(); g.moveTo(90, 470); g.lineTo(230, 330); g.lineTo(370, 470); g.fill();
   g.beginPath(); g.moveTo(640, 470); g.lineTo(790, 310); g.lineTo(940, 470); g.fill();
   g.fillStyle = 'rgba(96,50,24,.8)';
   g.beginPath(); g.moveTo(780, 470); g.lineTo(880, 380); g.lineTo(980, 470); g.fill();
 
-  // كثبان
   g.fillStyle = '#7a4421';
   g.beginPath(); g.moveTo(0, 500);
   g.bezierCurveTo(200, 450, 380, 520, 560, 480);
@@ -391,7 +392,6 @@ function initThree() {
   controls.minDistance = 1.8;
   controls.maxDistance = 6.5;
 
-  // إضاءة دافئة بلون الموقع
   const keyLight = new THREE.DirectionalLight(0xffe2b8, 2.4);
   keyLight.position.set(3, 4, 3.5);
   keyLight.castShadow = true;
@@ -401,7 +401,6 @@ function initThree() {
   scene.add(fillLight);
   scene.add(new THREE.HemisphereLight(0xf0b44c, 0x2e1a10, 0.8));
 
-  // المنصة بألوان النحاس والذهب
   const pedestal = new THREE.Group();
   const base = new THREE.Mesh(
     new THREE.CylinderGeometry(1.6, 1.75, 0.15, 48),
@@ -432,23 +431,15 @@ function initThree() {
   pedestal.add(ring2);
   scene.add(pedestal);
 
-  let lastTime = performance.now(), elapsed = 0;
+  let lastTime = performance.now();
   (function animate() {
     requestAnimationFrame(animate);
     const now = performance.now();
-    elapsed += Math.min((now - lastTime) / 1000, 0.1);
+    const delta = Math.min((now - lastTime) / 1000, 0.1);
     lastTime = now;
+
+    if (animMixer) animMixer.update(delta);
     controls.update();
-
-    if (charGroup) charGroup.position.y = Math.sin(elapsed * 2) * 0.015;
-
-    if (visualModel) {
-      const talking = isSpeaking ? 1 : 0;
-      const pulse = Math.sin(elapsed * 8.5);
-      visualModel.position.y = visualModelBaseY + (talking ? Math.abs(pulse) * 0.018 : 0);
-      visualModel.rotation.z = talking ? Math.sin(elapsed * 2.1) * 0.012 : visualModel.rotation.z * 0.9;
-      visualModel.scale.setScalar(visualModelBaseScale * (1 + talking * Math.abs(pulse) * 0.003));
-    }
     renderer.render(scene, camera);
   })();
 
@@ -460,16 +451,47 @@ function initThree() {
   });
 }
 
-// تحميل المجسم ثلاثي الأبعاد لمحمد علي باشا
+// التبديل الناعم بين الحركات (Crossfade) بدون اختفاء أو تقطيع
+function playCharacterMotion(name, once = false) {
+  if (!animMixer) return;
+  const targetKey = Object.keys(animActions).find(k => k.toLowerCase() === name.toLowerCase())
+                 || Object.keys(animActions).find(k => k.toLowerCase().includes(name.toLowerCase()));
+  const nextAction = targetKey ? animActions[targetKey] : animActions[Object.keys(animActions)[0]];
+  if (!nextAction) return;
+
+  if (activeAction === nextAction && !once) return;
+
+  nextAction.reset();
+  if (once) {
+    nextAction.setLoop(THREE.LoopOnce, 1);
+    nextAction.clampWhenFinished = true;
+  } else {
+    nextAction.setLoop(THREE.LoopRepeat);
+    nextAction.clampWhenFinished = false;
+  }
+
+  if (activeAction && activeAction !== nextAction) {
+    nextAction.crossFadeFrom(activeAction, 0.5, true);
+  }
+  nextAction.play();
+  activeAction = nextAction;
+}
+
+// تحميل المجسم ثلاثي الأبعاد المتحرك لمحمد علي باشا (mohamed-ali.glb)
 function buildCharacterModel() {
   if (charGroup) scene.remove(charGroup);
   charGroup = new THREE.Group();
   scene.add(charGroup);
   visualModel = null;
+  animMixer = null;
+  activeAction = null;
+  Object.keys(animActions).forEach(k => delete animActions[k]);
+
   const loadingMessage = document.getElementById('modelLoadingMessage');
   loadingMessage.style.display = 'flex';
   loadingMessage.textContent = 'جارٍ تحميل مجسم محمد علي باشا...';
-  new THREE.GLTFLoader().load('./mohamed-ali-optimized.glb', (gltf) => {
+
+  new THREE.GLTFLoader().load('./mohamed-ali.glb', (gltf) => {
     const model = gltf.scene;
     const bounds = new THREE.Box3().setFromObject(model);
     const size = bounds.getSize(new THREE.Vector3());
@@ -478,16 +500,44 @@ function buildCharacterModel() {
     characterHeight = Math.max(1, size.y * scale);
     model.scale.setScalar(scale);
     model.position.set(-center.x * scale, -bounds.min.y * scale, -center.z * scale);
-    model.traverse((node) => { if (node.isMesh) { node.castShadow = true; node.receiveShadow = true; } });
+    model.traverse((node) => {
+      if (node.isMesh) {
+        node.castShadow = true;
+        node.receiveShadow = true;
+        node.frustumCulled = false; // يمنع اختفاء أجزاء من الجسم أثناء الحركة
+      }
+    });
+
     visualModel = model;
     visualModelBaseScale = scale;
     visualModelBaseY = model.position.y;
     charGroup.add(model);
+
+    // تهيئة الحركات المدمجة في الملف
+    if (gltf.animations && gltf.animations.length > 0) {
+      animMixer = new THREE.AnimationMixer(model);
+      gltf.animations.forEach((clip) => {
+        animActions[clip.name] = animMixer.clipAction(clip);
+      });
+
+      // الرجوع التلقائي للوقفة الهادئة بعد انتهاء أي حركة لمرة واحدة (مثل الترحيب أو التحية)
+      animMixer.addEventListener('finished', () => {
+        playCharacterMotion('idle', false);
+      });
+
+      // بدء المشهد بترحيب خفيف ثم الاستقرار على الوقفة الهادئة
+      if (animActions['Waving']) {
+        playCharacterMotion('Waving', true);
+      } else {
+        playCharacterMotion('idle', false);
+      }
+    }
+
     loadingMessage.style.display = 'none';
     resetCamera();
   }, undefined, (error) => {
     console.error('تعذر تحميل المجسم:', error);
-    loadingMessage.textContent = 'تعذر تحميل المجسم. ضع ملف mohamed-ali-optimized.glb بجوار صفحة HTML.';
+    loadingMessage.textContent = 'تعذر تحميل المجسم. ضع ملف mohamed-ali.glb بجوار صفحة HTML.';
   });
 }
 
@@ -543,6 +593,13 @@ function setSpeakingUI(active, message) {
   document.getElementById('speakingIndicatorDot').classList.toggle('animate-ping', active);
   document.getElementById('speakingIndicatorText').innerText = message || (active ? 'يتحدث الآن...' : 'صوت الشخصية التاريخية');
   document.getElementById('btnPlayVoice').innerText = active ? '⏸' : '▶';
+
+  // ربط حركة الشخصية مع بداية ونهاية الصوت بنعومة
+  if (active && message && message.includes('يتحدث الآن')) {
+    playCharacterMotion('Waving', true);
+  } else if (!active) {
+    playCharacterMotion('idle', false);
+  }
 }
 
 function stopSpeech() {
@@ -617,6 +674,7 @@ function togglePlaySpeech() {
 
 function playMainSpeech() {
   playFanfare();
+  playCharacterMotion('Quick Informal Bow', true);
   playSpeech(figure.mainSpeech);
 }
 
@@ -627,7 +685,10 @@ function renderDialogues() {
     const btn = document.createElement('button');
     btn.className = 'qbtn';
     btn.innerHTML = `<span style="color:var(--gold)">💬</span><span>${d.q}</span>`;
-    btn.onclick = () => playSpeech(d.a);
+    btn.onclick = () => {
+      playCharacterMotion('Waving', true);
+      playSpeech(d.a);
+    };
     box.appendChild(btn);
   });
 }
@@ -656,6 +717,7 @@ function renderQuiz() {
           else if (i === optIdx) { x.classList.add('wrong'); x.innerHTML = `<span>${x.textContent}</span><span>✗</span>`; }
         });
         if (optIdx === qz.correct && typeof confetti === 'function') {
+          playCharacterMotion('Quick Informal Bow', true);
           confetti({ particleCount: 50, spread: 60, origin: { y: 0.7 }, colors: ['#c8825a', '#f0b44c', '#f3dcb8', '#6fc2a8'] });
         }
       };
@@ -664,7 +726,6 @@ function renderQuiz() {
     box.appendChild(qBox);
   });
 }
-
 
 window.addEventListener('DOMContentLoaded', () => {
   renderDialogues();
