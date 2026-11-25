@@ -1,7 +1,7 @@
 import { auth } from "./firebase-config.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-const MIN_DISPLAY_MS = 1500;
+const MIN_DISPLAY_MS = 1200;
 const loadStartTime = Date.now();
 
 function clearFallback() {
@@ -32,7 +32,7 @@ function hidePreloader() {
     setTimeout(() => {
       preloader.remove();
       if (preStyle) preStyle.remove();
-    }, 420);
+    }, 400);
   }, remainingTime);
 }
 
@@ -43,15 +43,7 @@ onAuthStateChanged(auth, (user) => {
       localStorage.removeItem("explorerUserName");
       sessionStorage.removeItem("explorerSessionVerified");
     } catch (_) {}
-
-    const preloader = document.getElementById("auth-preloader");
-    if (preloader) {
-      const elapsed = Date.now() - loadStartTime;
-      const wait = Math.max(0, Math.min(900, MIN_DISPLAY_MS - elapsed));
-      setTimeout(redirectToLogin, wait);
-    } else {
-      redirectToLogin();
-    }
+    redirectToLogin();
   } else {
     const displayName = user.displayName || user.email.split("@")[0];
     try {
