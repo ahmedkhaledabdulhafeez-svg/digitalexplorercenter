@@ -480,6 +480,8 @@ const animActions = {};
 let activeAction = null;
 let talkTimer = null;
 let currentTalkIndex = 0;
+let idleStretchTimer = null;
+let isIdleStretching = false;
 
 let speechAudio = null;
 const geminiTtsCache = new Map();
@@ -643,8 +645,34 @@ function initThree() {
   });
 }
 
+function clearIdleStretchTimer() {
+  if (idleStretchTimer) {
+    clearTimeout(idleStretchTimer);
+    idleStretchTimer = null;
+  }
+  isIdleStretching = false;
+}
+
+function scheduleIdleStretch() {
+  clearIdleStretchTimer();
+  const stretchKey = Object.keys(animActions).find(k => k.toLowerCase() === 'idle1');
+  if (!stretchKey || isSpeaking) return;
+
+  idleStretchTimer = setTimeout(() => {
+    idleStretchTimer = null;
+    if (isSpeaking) return;
+    isIdleStretching = true;
+    playCharacterMotion('Idle1', true);
+  }, 60000);
+}
+
 function playCharacterMotion(name, once = false) {
   if (!animMixer) return;
+  const isIdleBase = name.toLowerCase() === 'idle';
+  if (!isIdleBase && name.toLowerCase() !== 'idle1') {
+    clearIdleStretchTimer();
+  }
+
   const targetKey = Object.keys(animActions).find(k => k.toLowerCase() === name.toLowerCase())
                  || Object.keys(animActions).find(k => k.toLowerCase().includes(name.toLowerCase()));
   const nextAction = targetKey ? animActions[targetKey] : animActions[Object.keys(animActions)[0]];
@@ -666,6 +694,10 @@ function playCharacterMotion(name, once = false) {
   }
   nextAction.play();
   activeAction = nextAction;
+
+  if (isIdleBase && !once && !isSpeaking) {
+    scheduleIdleStretch();
+  }
 }
 
 function stopTalkingLoop() {
@@ -676,6 +708,7 @@ function stopTalkingLoop() {
 }
 
 function startTalkingLoop() {
+  clearIdleStretchTimer();
   stopTalkingLoop();
   const talkClips = Object.keys(animActions)
     .filter(k => k.toLowerCase().startsWith('talk'))
@@ -712,6 +745,7 @@ function buildCharacterModel() {
   scene.add(charGroup);
   animMixer = null;
   activeAction = null;
+  clearIdleStretchTimer();
   stopTalkingLoop();
   Object.keys(animActions).forEach(k => delete animActions[k]);
 
@@ -746,6 +780,7 @@ function buildCharacterModel() {
 
       animMixer.addEventListener('finished', () => {
         if (!isSpeaking) {
+          isIdleStretching = false;
           playCharacterMotion('Idle', false);
         }
       });
