@@ -145,7 +145,7 @@ section.blk{padding:40px 0 10px}
 .vid{border-radius:18px;position:relative;padding-bottom:56.25%;height:0;overflow:hidden}
 .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 
-/* ===== Supporting Characters Slider ===== */
+/* ===== Supporting Characters Slider (يدعم السحب بالماوس واللمس + صور ثابتة محمية) ===== */
 .slider-shell{position:relative;padding:8px 6px}
 .slider-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;padding:0 6px}
 .slider-hint{font-size:.84rem;color:var(--mute);font-weight:600}
@@ -153,21 +153,75 @@ section.blk{padding:40px 0 10px}
 .snav-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--copper);background:rgba(200,130,90,.12);color:var(--sand);font-size:1rem;font-weight:700;cursor:pointer;display:grid;place-items:center;transition:.25s}
 .snav-btn:hover{background:var(--copper);color:#2a150b;transform:scale(1.06)}
 
-.chars-track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:4px 4px 10px}
-.char-card{flex:0 0 275px;scroll-snap-align:start;background:linear-gradient(165deg,#2b170e,#1f1009);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;transition:.3s}
-@media(min-width:640px){.char-card{flex:0 0 295px}}
-.char-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 16px 32px rgba(0,0,0,.45)}
+.chars-track{
+  display:flex;
+  gap:16px;
+  overflow-x:auto;
+  scroll-behavior:smooth;
+  padding:4px 4px 10px;
+  cursor:grab;
+  user-select:none;
+  -webkit-user-select:none;
+}
+.chars-track.is-dragging{
+  cursor:grabbing;
+  scroll-behavior:auto;
+}
 
-.char-thumb{position:relative;height:210px;background:radial-gradient(circle at center,#5a331d,#24130b);overflow:hidden;border-bottom:1px solid var(--line)}
-.char-thumb img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:transform .4s ease}
-.char-card:hover .char-thumb img{transform:scale(1.04)}
-.char-role-tag{position:absolute;bottom:10px;right:10px;padding:3px 11px;border-radius:99px;background:rgba(36,19,11,.9);border:1px solid rgba(240,180,76,.45);color:var(--gold);font-size:.72rem;font-weight:700;backdrop-filter:blur(6px)}
+.char-card{
+  flex:0 0 275px;
+  background:linear-gradient(165deg,#2b170e,#1f1009);
+  border:1px solid var(--line);
+  border-radius:20px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  transition:border-color .3s, box-shadow .3s;
+}
+@media(min-width:640px){.char-card{flex:0 0 295px}}
+.char-card:hover{border-color:var(--gold);box-shadow:0 16px 32px rgba(0,0,0,.45)}
+
+/* تثبيت الصورة ومنع سحبها أو تحديدها أو كليك يمين عليها */
+.char-thumb{
+  position:relative;
+  height:210px;
+  background:radial-gradient(circle at center,#5a331d,#24130b);
+  overflow:hidden;
+  border-bottom:1px solid var(--line);
+  pointer-events:none;
+  user-select:none;
+  -webkit-user-select:none;
+}
+.char-thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:top center;
+  display:block;
+  pointer-events:none;
+  user-select:none;
+  -webkit-user-select:none;
+  -webkit-user-drag:none;
+  -webkit-touch-callout:none;
+}
+.char-role-tag{
+  position:absolute;
+  bottom:10px;
+  right:10px;
+  padding:3px 11px;
+  border-radius:99px;
+  background:rgba(36,19,11,.92);
+  border:1px solid rgba(240,180,76,.45);
+  color:var(--gold);
+  font-size:.72rem;
+  font-weight:700;
+}
 
 .char-body{padding:15px;display:flex;flex-direction:column;gap:8px;flex:1}
-.char-body h3{font-family:'Reem Kufi',sans-serif;font-size:1.12rem;color:var(--sand);line-height:1.4}
-.char-body p{font-size:.84rem;color:var(--mute);line-height:1.75;flex:1}
+.char-body h3{font-family:'Reem Kufi',sans-serif;font-size:1.14rem;color:var(--sand);line-height:1.4}
+.char-body p{font-size:.86rem;color:var(--text);opacity:.92;line-height:1.8;flex:1}
 
-.char-listen-btn{margin-top:6px;width:100%;padding:8px 12px;border-radius:12px;border:1px solid var(--copper);background:rgba(200,130,90,.12);color:var(--sand);font-size:.82rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.25s}
+.char-listen-btn{margin-top:6px;width:100%;padding:8px 12px;border-radius:12px;border:1px solid var(--copper);background:rgba(200,130,90,.14);color:var(--sand);font-size:.82rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.25s}
 .char-listen-btn:hover,.char-listen-btn.playing{background:var(--copper);color:#2a150b;border-color:var(--copper)}
 
 /* ===== Quiz ===== */
@@ -294,7 +348,7 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
     <div class="frame">
       <div class="slider-shell">
         <div class="slider-toolbar">
-          <span class="slider-hint">اسحب البطاقات يميناً ويساراً أو استخدم الأسهم لاستعراض الشخصيات</span>
+          <span class="slider-hint">امسك واسحب بالماوس يميناً ويساراً أو استخدم الأسهم لاستعراض الشخصيات</span>
           <div class="slider-nav">
             <button type="button" class="snav-btn" onclick="slideCharacters(-1)" aria-label="السابق">→</button>
             <button type="button" class="snav-btn" onclick="slideCharacters(1)" aria-label="التالي">←</button>
@@ -334,35 +388,35 @@ const figure = {
     {
       name: 'سليمان باشا الفرنساوي',
       role: 'قائد التدريب العسكري',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Soliman_Pasha_al-Faransawi.jpg/480px-Soliman_Pasha_al-Faransawi.jpg',
+      image: './images/soliman-pasha.jpg',
       summary: 'هو الكولونيل سيف أحد ضباط جيش نابليون، استعان به محمد علي لإعداد وتدريب الضباط المصريين بالمدرسة العسكرية في أسوان.',
       speech: 'أنا سليمان باشا الفرنساوي، الكولونيل سيف سابقاً. استعان بي محمد علي باشا لتأسيس المدرسة العسكرية في أسوان وتدريب الضباط المصريين على أحدث النظم العسكرية الأوروبية.'
     },
     {
       name: 'رفاعة رافع الطهطاوي',
       role: 'رائد النهضة التعليمية',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Rifa%27a_al-Tahtawi.jpg/480px-Rifa%27a_al-Tahtawi.jpg',
+      image: './images/rifaa-tahtawi.jpg',
       summary: 'إمام البعثة التعليمية إلى فرنسا، أسهم بعد عودته في حركة الترجمة وإنشاء مدرسة الألسن وإصدار صحيفة الوقائع المصرية.',
       speech: 'أنا رفاعة رافع الطهطاوي. أرسلني محمد علي باشا إماماً للبعثة التعليمية إلى باريس، وبعد عودتي اقترحت إنشاء مدرسة الألسن لترجمة العلوم الحديثة إلى اللغة العربية.'
     },
     {
       name: 'علي مبارك',
       role: 'أبو التعليم والهندسة',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Ali_Mubarak.jpg/480px-Ali_Mubarak.jpg',
+      image: './images/ali-mubarak.jpg',
       summary: 'أحد أبرز نوابغ البعثات التعليمية إلى أوروبا في عهد محمد علي، وأسهم في تطوير التعليم والهندسة ومشروعات الري في مصر.',
       speech: 'أنا علي مبارك، تخرجت في مدرسة المهندسخانة وسافرت ضمن بعثات محمد علي باشا إلى فرنسا، وعملت على تطوير المدارس والمشروعات الهندسية والري في مصر.'
     },
     {
       name: 'إبراهيم باشا',
       role: 'القائد العام للجيش',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Ibrahim_Pasha_of_Egypt.jpg/480px-Ibrahim_Pasha_of_Egypt.jpg',
+      image: './images/ibrahim-pasha.jpg',
       summary: 'الابن الأكبر لمحمد علي والقائد العام للجيش المصري في حروب الجزيرة العربية والمورة والشام، وركيزة التوسعات العسكرية.',
       speech: 'أنا إبراهيم باشا، الابن الأكبر لمحمد علي باشا وقائد الجيوش المصرية. قدت الحملات العسكرية في الجزيرة العربية والمورة والشام لتأمين حدود الدولة المصرية الحديثة.'
     },
     {
       name: 'مسيو جوميل (Jumel)',
       role: 'خبير الزراعة والقطن',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Louis_Alexis_Jumel.jpg/480px-Louis_Alexis_Jumel.jpg',
+      image: './images/jumel.jpg',
       summary: 'المهندس الفرنسي الذي استعان به محمد علي لإدخال وزراعة القطن طويل التيلة، مما أحدث طفرة كبرى في الاقتصاد المصري.',
       speech: 'أنا المهندس الفرنسي لويس أليكسيس جوميل. استعان بي محمد علي باشا لتطوير زراعة القطن المصري طويل التيلة، فأصبح محصول التصدير الأول لمصر في الأسواق العالمية.'
     }
@@ -824,12 +878,13 @@ function renderDialogues() {
   });
 }
 
-// بناء سلايدر الشخصيات المساندة
+// صورة بديلة محمية ومثبتة في حال عدم وجود الملف المحلي بعد
 function getFallbackPortrait(name) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4a2a1c"/><stop offset="100%" stop-color="#24130b"/></linearGradient></defs><rect width="400" height="300" fill="url(#g)"/><circle cx="200" cy="112" r="44" fill="#c8825a" opacity="0.35"/><path d="M125 245c0-42 34-70 75-70s75 28 75 70" fill="#c8825a" opacity="0.35"/><text x="200" y="275" font-family="Cairo,sans-serif" font-size="18" font-weight="bold" fill="#f3dcb8" text-anchor="middle">${name}</text></svg>`;
   return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
 
+// بناء سلايدر الشخصيات المساندة مع دعم السحب بالماوس وحماية الصور
 function renderSupportingCharacters() {
   const track = document.getElementById('charactersTrack');
   figure.supportingCharacters.forEach((char) => {
@@ -838,11 +893,16 @@ function renderSupportingCharacters() {
 
     const thumb = document.createElement('div');
     thumb.className = 'char-thumb';
+    thumb.oncontextmenu = (e) => e.preventDefault();
 
     const img = document.createElement('img');
     img.src = char.image;
     img.alt = char.name;
     img.loading = 'lazy';
+    img.draggable = false;
+    img.setAttribute('draggable', 'false');
+    img.oncontextmenu = (e) => e.preventDefault();
+    img.ondragstart = (e) => e.preventDefault();
     img.onerror = () => { img.onerror = null; img.src = getFallbackPortrait(char.name); };
 
     const roleTag = document.createElement('span');
@@ -880,12 +940,53 @@ function renderSupportingCharacters() {
     card.appendChild(body);
     track.appendChild(card);
   });
+
+  enableSliderMouseDrag(track);
+}
+
+// تفعيل السحب بالماوس وعجلة الماوس للسلايدر
+function enableSliderMouseDrag(track) {
+  let isDown = false;
+  let startX = 0;
+  let scrollStart = 0;
+  let hasMoved = false;
+
+  track.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return;
+    isDown = true;
+    hasMoved = false;
+    track.classList.add('is-dragging');
+    startX = e.pageX - track.offsetLeft;
+    scrollStart = track.scrollLeft;
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    const x = e.pageX - track.offsetLeft;
+    const walk = (x - startX) * 1.4;
+    if (Math.abs(walk) > 4) hasMoved = true;
+    track.scrollLeft = scrollStart - walk;
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (!isDown) return;
+    isDown = false;
+    track.classList.remove('is-dragging');
+  });
+
+  // منع تفعيل الضغط بالخطأ أثناء سحب البطاقة بالماوس
+  track.addEventListener('click', (e) => {
+    if (hasMoved) {
+      e.stopPropagation();
+      e.preventDefault();
+      hasMoved = false;
+    }
+  }, true);
 }
 
 function slideCharacters(direction) {
   const track = document.getElementById('charactersTrack');
   if (!track) return;
-  // في اتجاه RTL التمرير لليسار يكون بقيمة سالبة
   track.scrollBy({ left: -direction * 310, behavior: 'smooth' });
 }
 
