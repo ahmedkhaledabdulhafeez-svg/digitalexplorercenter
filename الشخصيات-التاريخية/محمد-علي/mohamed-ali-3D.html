@@ -145,7 +145,7 @@ section.blk{padding:40px 0 10px}
 .vid{border-radius:18px;position:relative;padding-bottom:56.25%;height:0;overflow:hidden}
 .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 
-/* ===== Supporting Characters Slider (يدعم السحب بالماوس واللمس + صور ثابتة محمية) ===== */
+/* ===== Supporting Characters Slider ===== */
 .slider-shell{position:relative;padding:8px 6px}
 .slider-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;padding:0 6px}
 .slider-hint{font-size:.84rem;color:var(--mute);font-weight:600}
@@ -181,7 +181,6 @@ section.blk{padding:40px 0 10px}
 @media(min-width:640px){.char-card{flex:0 0 295px}}
 .char-card:hover{border-color:var(--gold);box-shadow:0 16px 32px rgba(0,0,0,.45)}
 
-/* تثبيت الصورة ومنع سحبها أو تحديدها أو كليك يمين عليها */
 .char-thumb{
   position:relative;
   height:210px;
@@ -221,8 +220,10 @@ section.blk{padding:40px 0 10px}
 .char-body h3{font-family:'Reem Kufi',sans-serif;font-size:1.14rem;color:var(--sand);line-height:1.4}
 .char-body p{font-size:.86rem;color:var(--text);opacity:.92;line-height:1.8;flex:1}
 
-.char-listen-btn{margin-top:6px;width:100%;padding:8px 12px;border-radius:12px;border:1px solid var(--copper);background:rgba(200,130,90,.14);color:var(--sand);font-size:.82rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.25s}
-.char-listen-btn:hover,.char-listen-btn.playing{background:var(--copper);color:#2a150b;border-color:var(--copper)}
+.char-listen-btn{margin-top:6px;width:100%;padding:9px 12px;border-radius:12px;border:1px solid var(--copper);background:rgba(200,130,90,.14);color:var(--sand);font-size:.82rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.25s}
+.char-listen-btn:hover{background:rgba(200,130,90,.28);border-color:var(--gold)}
+.char-listen-btn.loading{background:rgba(240,180,76,.18);border-color:var(--gold);color:var(--gold)}
+.char-listen-btn.playing{background:var(--copper);color:#2a150b;border-color:var(--copper)}
 
 /* ===== Quiz ===== */
 .quiz{display:flex;flex-direction:column;gap:18px}
@@ -258,7 +259,7 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
 
 <main class="wrap">
 
-  <div class="backrow"><a href="../../قسم-التاريخ/الدرس-التاني-محمد-علي-وبناء-الدولة-الحديثة.html" class="back"><span>العودة للدرس</span><span>←</span></a></div>
+  <div class="backrow"><a href="../../قسم-التاريخ/الدرس-الثاني-محمد-علي-وبناء-الدولة-الحديثة.html" class="back"><span>العودة للدرس</span><span>←</span></a></div>
 
   <div class="title">
     <div class="ic"><i>🏺</i></div>
@@ -442,6 +443,11 @@ let speechAudio = null;
 const geminiTtsCache = new Map();
 let speechRequestId = 0;
 const GEMINI_TTS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx_vy-WNBWgAGCtY2IgxzBB0YvEKvvjrEKqtBVfumkULJKRDrnZl-F360bF1F1T_msIPQ/exec';
+
+// متغيرات صوت بطاقات السلايدر المنفصلة تماماً عن الشخصية 3D
+let cardSpeechAudio = null;
+let cardRequestId = 0;
+let activeCardBtn = null;
 
 let scene, camera, renderer, controls, charGroup;
 
@@ -769,6 +775,7 @@ function updateCameraButtonState(activeView) {
   });
 }
 
+// ===== نظام صوت الشخصية الرئيسية 3D =====
 function setSpeakingUI(active, message) {
   isSpeaking = active;
   document.getElementById('speakingIndicatorDot').classList.toggle('animate-ping', active);
@@ -780,7 +787,6 @@ function setSpeakingUI(active, message) {
   } else if (!active) {
     stopTalkingLoop();
     playCharacterMotion('Idle', false);
-    document.querySelectorAll('.char-listen-btn').forEach(b => b.classList.remove('playing'));
   }
 }
 
@@ -820,6 +826,7 @@ function requestGeminiAudio(text) {
 }
 
 async function playSpeech(text) {
+  stopCardSpeech();
   stopSpeech();
   const requestId = speechRequestId;
   currentSpeechText = text;
@@ -863,6 +870,107 @@ function playMainSpeech() {
   playSpeech(figure.mainSpeech);
 }
 
+// ===== نظام صوت بطاقات الشخصيات المساندة (منفصل تماماً عن الشخصية 3D) =====
+function setCardButtonState(btn, state) {
+  if (!btn) return;
+  btn.classList.remove('loading', 'playing');
+  if (state === 'loading') {
+    btn.classList.add('loading');
+    btn.innerHTML = '<span>⏳</span><span>جارٍ تجهيز الصوت الاحترافي...</span>';
+  } else if (state === 'playing') {
+    btn.classList.add('playing');
+    btn.innerHTML = '<span>⏸</span><span>إيقاف الصوت</span>';
+  } else {
+    btn.innerHTML = '<span>🔊</span><span>اسمع نبذة</span>';
+  }
+}
+
+function stopCardSpeech() {
+  cardRequestId++;
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  if (cardSpeechAudio) {
+    cardSpeechAudio.pause();
+    cardSpeechAudio.currentTime = 0;
+    cardSpeechAudio = null;
+  }
+  if (activeCardBtn) {
+    setCardButtonState(activeCardBtn, 'idle');
+    activeCardBtn = null;
+  }
+}
+
+function playCardBrowserSpeech(text, btn, reqId) {
+  if (!('speechSynthesis' in window)) {
+    if (reqId === cardRequestId) stopCardSpeech();
+    return;
+  }
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'ar-EG';
+  utterance.rate = 0.95;
+  utterance.onstart = () => {
+    if (reqId !== cardRequestId) return;
+    setCardButtonState(btn, 'playing');
+  };
+  utterance.onend = utterance.onerror = () => {
+    if (reqId === cardRequestId) stopCardSpeech();
+  };
+  window.speechSynthesis.speak(utterance);
+}
+
+function playCardAudioData(result, btn, reqId) {
+  if (reqId !== cardRequestId) return;
+  cardSpeechAudio = new Audio(`data:${result.mimeType || 'audio/wav'};base64,${result.audio}`);
+  cardSpeechAudio.onplay = () => {
+    if (reqId !== cardRequestId) return;
+    setCardButtonState(btn, 'playing');
+  };
+  cardSpeechAudio.onended = cardSpeechAudio.onerror = () => {
+    if (reqId === cardRequestId) stopCardSpeech();
+  };
+  cardSpeechAudio.play().catch((error) => {
+    console.error(error);
+    if (reqId === cardRequestId) stopCardSpeech();
+  });
+}
+
+async function toggleCardSpeech(text, btn) {
+  // إذا ضغط الطالب على نفس الزر أثناء التحميل أو التشغيل -> أوقف الصوت فوراً
+  if (activeCardBtn === btn) {
+    stopCardSpeech();
+    return;
+  }
+
+  stopSpeech();
+  stopCardSpeech();
+
+  const reqId = ++cardRequestId;
+  activeCardBtn = btn;
+  setCardButtonState(btn, 'loading');
+
+  if (!GEMINI_TTS_ENDPOINT) {
+    playCardBrowserSpeech(text, btn, reqId);
+    return;
+  }
+
+  const cached = geminiTtsCache.get(text);
+  if (cached) {
+    playCardAudioData(cached, btn, reqId);
+    return;
+  }
+
+  try {
+    const result = await requestGeminiAudio(text);
+    if (reqId !== cardRequestId) return;
+    if (!result || !result.audio) throw new Error('لم يصل ملف الصوت من الخدمة');
+    geminiTtsCache.set(text, result);
+    playCardAudioData(result, btn, reqId);
+  } catch (error) {
+    if (reqId !== cardRequestId) return;
+    console.error('Card Gemini TTS:', error);
+    playCardBrowserSpeech(text, btn, reqId);
+  }
+}
+
 function renderDialogues() {
   const box = document.getElementById('questionsContainer');
   figure.dialogues.forEach(d => {
@@ -878,13 +986,11 @@ function renderDialogues() {
   });
 }
 
-// صورة بديلة محمية ومثبتة في حال عدم وجود الملف المحلي بعد
 function getFallbackPortrait(name) {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4a2a1c"/><stop offset="100%" stop-color="#24130b"/></linearGradient></defs><rect width="400" height="300" fill="url(#g)"/><circle cx="200" cy="112" r="44" fill="#c8825a" opacity="0.35"/><path d="M125 245c0-42 34-70 75-70s75 28 75 70" fill="#c8825a" opacity="0.35"/><text x="200" y="275" font-family="Cairo,sans-serif" font-size="18" font-weight="bold" fill="#f3dcb8" text-anchor="middle">${name}</text></svg>`;
   return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
 
-// بناء سلايدر الشخصيات المساندة مع دعم السحب بالماوس وحماية الصور
 function renderSupportingCharacters() {
   const track = document.getElementById('charactersTrack');
   figure.supportingCharacters.forEach((char) => {
@@ -925,12 +1031,7 @@ function renderSupportingCharacters() {
     listenBtn.type = 'button';
     listenBtn.className = 'char-listen-btn';
     listenBtn.innerHTML = '<span>🔊</span><span>اسمع نبذة</span>';
-    listenBtn.onclick = () => {
-      document.querySelectorAll('.char-listen-btn').forEach(b => b.classList.remove('playing'));
-      listenBtn.classList.add('playing');
-      playSpeech(char.speech);
-      document.getElementById('stage-section').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    };
+    listenBtn.onclick = () => toggleCardSpeech(char.speech, listenBtn);
 
     body.appendChild(title);
     body.appendChild(desc);
@@ -944,7 +1045,6 @@ function renderSupportingCharacters() {
   enableSliderMouseDrag(track);
 }
 
-// تفعيل السحب بالماوس وعجلة الماوس للسلايدر
 function enableSliderMouseDrag(track) {
   let isDown = false;
   let startX = 0;
@@ -974,7 +1074,6 @@ function enableSliderMouseDrag(track) {
     track.classList.remove('is-dragging');
   });
 
-  // منع تفعيل الضغط بالخطأ أثناء سحب البطاقة بالماوس
   track.addEventListener('click', (e) => {
     if (hasMoved) {
       e.stopPropagation();
