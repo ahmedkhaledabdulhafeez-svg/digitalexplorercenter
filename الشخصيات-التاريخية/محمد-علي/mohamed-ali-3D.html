@@ -80,42 +80,45 @@ section.blk{padding:40px 0 10px}
 .frame::before{top:-6px;right:-6px;border-left:0;border-bottom:0;border-top-right-radius:28px}
 .frame::after{bottom:-6px;left:-6px;border-right:0;border-top:0;border-bottom-left-radius:28px}
 
-/* ===== 3D stage (تخطيط نظيف بدون تداخل على الكمبيوتر والموبايل) ===== */
-.stage-shell{display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:#24130b;border:1px solid var(--line)}
-.stage{display:flex;flex-direction:column}
-@media(min-width:900px){.stage{flex-direction:row;height:580px}}
+/* ===== 3D stage ===== */
+.stage{display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:#24130b;border:1px solid var(--line)}
+@media(min-width:900px){.stage{flex-direction:row;align-items:stretch;min-height:600px}}
 
-.canvas-side{position:relative;flex:1;height:430px;min-height:380px}
-@media(min-width:900px){.canvas-side{height:100%}}
+.canvas-side{position:relative;flex:1;height:430px;min-height:400px}
+@media(min-width:900px){.canvas-side{height:auto;min-height:600px}}
 #threeCanvasContainer{width:100%;height:100%;cursor:grab;touch-action:pan-y}
 #threeCanvasContainer:active{cursor:grabbing}
 #threeCanvasContainer canvas{display:block;width:100%!important;height:100%!important}
 #modelLoadingMessage{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;color:var(--sand);font-weight:700;font-size:.95rem;pointer-events:none;text-align:center;padding:20px}
 
-/* شريط علوي شفاف وخفيف جداً فوق المسرح لا يحجب المجسم */
-.stage-top{position:absolute;top:12px;left:12px;right:12px;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:8px;pointer-events:none}
-.badge{pointer-events:auto;display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:99px;background:rgba(36,19,11,.84);border:1px solid var(--line);backdrop-filter:blur(8px)}
-.badge b{font-family:'Reem Kufi',sans-serif;color:var(--sand);font-size:.9rem}
-.badge span{font-size:.68rem;font-weight:700;color:var(--gold);background:rgba(240,180,76,.12);padding:0 8px;border-radius:99px;border:1px solid rgba(240,180,76,.3)}
-@media(max-width:520px){.badge span{display:none}}
+/* شارة الشخصية أعلى المسرح (واضحة بالكامل على الموبايل والكمبيوتر) */
+.badge{position:absolute;top:12px;right:12px;z-index:4;pointer-events:none;display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:99px;background:rgba(36,19,11,.88);border:1px solid var(--line);backdrop-filter:blur(8px);max-width:calc(100% - 24px)}
+.badge b{font-family:'Reem Kufi',sans-serif;color:var(--sand);font-size:.95rem;white-space:nowrap}
+.badge span{font-size:.7rem;font-weight:700;color:var(--gold);background:rgba(240,180,76,.12);padding:0 9px;border-radius:99px;border:1px solid rgba(240,180,76,.3);white-space:nowrap}
 
-.views{pointer-events:auto;display:flex;gap:3px;padding:3px;border-radius:12px;background:rgba(36,19,11,.84);border:1px solid var(--line);backdrop-filter:blur(8px)}
-.camera-view-button{border:0;cursor:pointer;padding:4px 10px;border-radius:9px;background:transparent;color:var(--mute);font-weight:700;font-size:.75rem;transition:.25s;white-space:nowrap}
-.camera-view-button:hover{color:var(--sand);background:rgba(255,255,255,.06)}
-.camera-view-button.is-active{background:var(--copper);color:#2a150b}
+/* اللوحة الجانبية (في الكمبيوتر على الشمال، وفي الموبايل تحت الشخصية مباشرة) */
+.side{width:100%;background:linear-gradient(180deg,var(--bg2),var(--panel));border-top:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:14px;overflow:visible}
+@media(min-width:900px){.side{width:385px;border-top:0;border-right:1px solid var(--line)}}
 
-/* لوحة الحوار الجانبية (تحتوي على النص المقروء عند الضغط على استمع) */
-.side{width:100%;background:linear-gradient(180deg,var(--bg2),var(--panel));border-top:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:14px;overflow-y:auto}
-@media(min-width:900px){.side{width:370px;border-top:0;border-right:1px solid var(--line)}}
-.side h3{font-family:'Reem Kufi',sans-serif;color:var(--sand);font-size:1.15rem;padding-bottom:10px;border-bottom:1px dashed var(--line)}
+/* قسم أزرار التحكم والكاميرا الموحد داخل اللوحة الجانبية */
+.controls-panel{background:rgba(26,14,8,.72);border:1px solid var(--line);border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.controls-panel-title{font-size:.75rem;font-weight:700;color:var(--gold);display:flex;align-items:center;justify-content:space-between}
+.views-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.actions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
 
-.speech-btn{width:100%;text-align:right;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-radius:18px;border:1px solid var(--copper);background:var(--copper);color:#2a150b;cursor:pointer;transition:.3s}
+.camera-view-button,.ctl{border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--sand);padding:6px 10px;border-radius:10px;font-weight:700;font-size:.78rem;cursor:pointer;transition:.25s;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:5px}
+.camera-view-button:hover,.ctl:hover{background:rgba(200,130,90,.22);border-color:var(--copper)}
+.camera-view-button.is-active,.ctl.is-active{background:var(--copper);color:#2a150b;border-color:var(--copper)}
+
+.side h3{font-family:'Reem Kufi',sans-serif;color:var(--sand);font-size:1.12rem;padding-bottom:8px;border-bottom:1px dashed var(--line)}
+
+.speech-btn{width:100%;text-align:right;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 14px;border-radius:16px;border:1px solid var(--copper);background:var(--copper);color:#2a150b;cursor:pointer;transition:.3s}
 .speech-btn:hover{background:var(--gold);border-color:var(--gold);transform:translateY(-2px)}
-.speech-btn b{display:block;font-size:.9rem}
+.speech-btn b{display:block;font-size:.88rem}
 .speech-btn small{font-size:.72rem;font-weight:600;opacity:.85}
 .speech-btn .l{display:flex;align-items:center;gap:10px}
 
-/* صندوق عرض الكلام داخل لوحة الحوار (يظهر عند التشغيل) */
+/* صندوق عرض الكلام بدون أي سكرول بار */
 .dialogue-box{display:none;background:rgba(26,14,8,.88);border:1px solid rgba(240,180,76,.38);border-radius:16px;padding:12px 14px;animation:fadeSlide .28s ease}
 .dialogue-box.open{display:block}
 @keyframes fadeSlide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
@@ -126,23 +129,14 @@ section.blk{padding:40px 0 10px}
 @keyframes ping{50%{transform:scale(1.7);opacity:.45}}
 #btnPlayVoice{width:30px;height:30px;border-radius:50%;border:1px solid var(--copper);background:rgba(200,130,90,.18);color:var(--gold);cursor:pointer;transition:.25s;display:grid;place-items:center;flex-shrink:0}
 #btnPlayVoice:hover{background:var(--copper);color:#2a150b}
-#speechBubbleText{font-size:.84rem;color:var(--text);line-height:1.85;max-height:130px;overflow-y:auto;padding-left:4px}
+#speechBubbleText{font-size:.83rem;color:var(--text);line-height:1.85;overflow:visible}
 
 .lbl{font-size:.78rem;font-weight:700;color:var(--mute)}
 #questionsContainer{display:flex;flex-direction:column;gap:8px;margin-top:6px}
-.qbtn{width:100%;text-align:right;display:flex;gap:8px;align-items:flex-start;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.22);color:var(--text);font-size:.82rem;font-weight:600;cursor:pointer;transition:.25s}
+.qbtn{width:100%;text-align:right;display:flex;gap:8px;align-items:flex-start;padding:9px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.22);color:var(--text);font-size:.81rem;font-weight:600;cursor:pointer;transition:.25s}
 .qbtn:hover,.qbtn.active{border-color:var(--gold);background:rgba(240,180,76,.12)}
 .down{margin-top:auto;padding:10px 16px;border-radius:14px;text-align:center;font-weight:700;font-size:.82rem;border:1px dashed var(--copper);color:var(--gold);background:rgba(200,130,90,.08);transition:.25s}
 .down:hover{background:var(--copper);color:#2a150b}
-
-/* شريط التحكم السفلي الموحد أسفل المسرح بالكامل (لا يغطي المجسم أبداً) */
-.control-dock{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;padding:12px 14px;background:#1f1009;border-top:1px solid var(--line)}
-.ctl{border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--sand);padding:7px 16px;border-radius:12px;font-weight:700;font-size:.82rem;cursor:pointer;transition:.25s;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
-.ctl:hover,.ctl.is-active{background:var(--copper);color:#2a150b;border-color:var(--copper)}
-@media(max-width:520px){
-  .control-dock{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:10px}
-  .ctl{justify-content:center;padding:8px 10px;font-size:.8rem}
-}
 
 /* ===== Video ===== */
 .vtitle{padding:6px 10px 14px}
@@ -203,53 +197,52 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
     </div>
 
     <div class="frame">
-      <div class="stage-shell">
-        <div class="stage">
-          <div class="canvas-side">
-            <div id="threeCanvasContainer"></div>
-            <div id="modelLoadingMessage">جارٍ تحميل مجسم محمد علي باشا...</div>
+      <div class="stage">
+        <div class="canvas-side">
+          <div id="threeCanvasContainer"></div>
+          <div id="modelLoadingMessage">جارٍ تحميل مجسم محمد علي باشا...</div>
 
-            <div class="stage-top">
-              <div class="badge"><span style="background:none;border:0;padding:0;font-size:.95rem">👑</span><b>محمد علي باشا</b><span>1805 - 1848م</span></div>
-              <div class="views">
-                <button type="button" data-camera-view="face" aria-pressed="false" onclick="setCameraView('face')" class="camera-view-button">👤 الوجه</button>
-                <button type="button" data-camera-view="body" aria-pressed="true" onclick="setCameraView('body')" class="camera-view-button is-active">🧍 كامل</button>
-                <button type="button" data-camera-view="top" aria-pressed="false" onclick="setCameraView('top')" class="camera-view-button">📐 علوي</button>
-              </div>
+          <div class="badge"><span style="background:none;border:0;padding:0;font-size:.95rem">👑</span><b>محمد علي باشا</b><span>1805 - 1848م</span></div>
+        </div>
+
+        <aside class="side">
+          <!-- جميع أدوات التحكم والكاميرا هنا (تظهر تحت الشخصية مباشرة على الموبايل وفي اللوحة الجانبية على الكمبيوتر) -->
+          <div class="controls-panel" role="toolbar" aria-label="التحكم في الكاميرا والشخصية">
+            <div class="controls-panel-title"><span>🎮 التحكم في العرض والشخصية</span></div>
+            <div class="views-grid">
+              <button type="button" data-camera-view="face" aria-pressed="false" onclick="setCameraView('face')" class="camera-view-button">👤 الوجه</button>
+              <button type="button" data-camera-view="body" aria-pressed="true" onclick="setCameraView('body')" class="camera-view-button is-active">🧍 كامل</button>
+              <button type="button" data-camera-view="top" aria-pressed="false" onclick="setCameraView('top')" class="camera-view-button">📐 علوي</button>
+            </div>
+            <div class="actions-grid">
+              <button type="button" class="ctl" onclick="rotateCharacter(Math.PI / 6)" aria-label="لف الشخصية يمينًا">🔄 لف يمين</button>
+              <button type="button" class="ctl" onclick="rotateCharacter(-Math.PI / 6)" aria-label="لف الشخصية يسارًا">🔁 لف يسار</button>
+              <button type="button" class="ctl" onclick="resetCamera()">🎯 ضبط الكاميرا</button>
+              <button type="button" class="ctl" onclick="triggerWaving()">👋 ترحيب</button>
             </div>
           </div>
 
-          <aside class="side">
-            <h3>💬 حوار مع محمد علي باشا</h3>
-            <button class="speech-btn" onclick="playMainSpeech()">
-              <span class="l"><span style="font-size:1.3rem">📢</span><span><b>الخطاب التاريخي</b><small>خطاب ثورة الشعب وبناء النهضة الكبرى</small></span></span>
-              <b>استمع</b>
-            </button>
+          <h3>💬 حوار مع محمد علي باشا</h3>
+          <button class="speech-btn" onclick="playMainSpeech()">
+            <span class="l"><span style="font-size:1.3rem">📢</span><span><b>الخطاب التاريخي</b><small>خطاب ثورة الشعب وبناء النهضة الكبرى</small></span></span>
+            <b>استمع</b>
+          </button>
 
-            <!-- صندوق الكلام يظهر هنا داخل الحوار عند الضغط على استمع أو أي سؤال -->
-            <div id="dialogueOutputBox" class="dialogue-box" aria-live="polite">
-              <div class="row">
-                <div class="who"><span id="speakingIndicatorDot" class="dot"></span><span id="speakingIndicatorText">صوت الشخصية التاريخية</span></div>
-                <button id="btnPlayVoice" onclick="togglePlaySpeech()" title="تشغيل / إيقاف">▶</button>
-              </div>
-              <p id="speechBubbleText"></p>
+          <!-- صندوق الكلام يظهر عند الضغط على استمع أو أي سؤال بدون سكرول -->
+          <div id="dialogueOutputBox" class="dialogue-box" aria-live="polite">
+            <div class="row">
+              <div class="who"><span id="speakingIndicatorDot" class="dot"></span><span id="speakingIndicatorText">صوت الشخصية التاريخية</span></div>
+              <button id="btnPlayVoice" onclick="togglePlaySpeech()" title="تشغيل / إيقاف">▶</button>
             </div>
+            <p id="speechBubbleText"></p>
+          </div>
 
-            <div>
-              <span class="lbl">اسأل الشخصية من منهج الدراسات:</span>
-              <div id="questionsContainer"></div>
-            </div>
-            <a href="#video-section" class="down">انزل لمشاهدة الفيديو ↓</a>
-          </aside>
-        </div>
-
-        <!-- شريط التحكم السفلي الموحد للشخصية -->
-        <div class="control-dock" role="toolbar" aria-label="أدوات التحكم في الشخصية">
-          <button type="button" class="ctl" onclick="rotateCharacter(Math.PI / 6)" aria-label="لف الشخصية يمينًا">🔄 لف يمين</button>
-          <button type="button" class="ctl" onclick="rotateCharacter(-Math.PI / 6)" aria-label="لف الشخصية يسارًا">🔁 لف يسار</button>
-          <button type="button" class="ctl" onclick="resetCamera()">🎯 ضبط الكاميرا</button>
-          <button type="button" class="ctl" onclick="triggerWaving()">👋 ترحيب</button>
-        </div>
+          <div>
+            <span class="lbl">اسأل الشخصية من منهج الدراسات:</span>
+            <div id="questionsContainer"></div>
+          </div>
+          <a href="#video-section" class="down">انزل لمشاهدة الفيديو ↓</a>
+        </aside>
       </div>
     </div>
   </section>
@@ -391,7 +384,7 @@ function initThree() {
   scene.background = makeBackdrop();
 
   camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 50);
-  camera.position.set(0, 1.35, 4.2);
+  camera.position.set(0, 1.35, 4.6);
 
   renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(width, height);
@@ -406,7 +399,7 @@ function initThree() {
   controls.dampingFactor = 0.06;
   controls.target.set(0, 1.05, 0);
   controls.minDistance = 1.8;
-  controls.maxDistance = 6.5;
+  controls.maxDistance = 8.5;
 
   const keyLight = new THREE.DirectionalLight(0xffe2b8, 2.4);
   keyLight.position.set(3, 4, 3.5);
@@ -462,7 +455,7 @@ function initThree() {
   window.addEventListener('resize', () => {
     if (!renderer || !camera) return;
     const w = container.clientWidth || 320;
-    const h = container.clientHeight || 420;
+    const h = container.clientHeight || 430;
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
     renderer.setSize(w, h);
@@ -534,7 +527,7 @@ function triggerWaving() {
   playCharacterMotion('Waving', true);
 }
 
-// تحميل المجسم ثلاثي الأبعاد المتحرك لمحمد علي باشا (mohamed-ali.glb)
+// تحميل المجسم ثلاثي الأبعاد المتحرك لمحمد علي باشا
 function buildCharacterModel() {
   if (charGroup) scene.remove(charGroup);
   charGroup = new THREE.Group();
@@ -548,7 +541,7 @@ function buildCharacterModel() {
   loadingMessage.style.display = 'flex';
   loadingMessage.textContent = 'جارٍ تحميل مجسم محمد علي باشا...';
 
-  new THREE.GLTFLoader().load('./mohamed-ali.glb', (gltf) => {
+  new THREE.GLTFLoader().load('./mohamed-ali.glb?v=2', (gltf) => {
     const model = gltf.scene;
     const bounds = new THREE.Box3().setFromObject(model);
     const size = bounds.getSize(new THREE.Vector3());
@@ -573,7 +566,6 @@ function buildCharacterModel() {
         animActions[clip.name] = animMixer.clipAction(clip);
       });
 
-      // بعد انتهاء حركة الترحيب يعود تلقائياً إلى Idle
       animMixer.addEventListener('finished', () => {
         if (!isSpeaking) {
           playCharacterMotion('Idle', false);
@@ -604,10 +596,17 @@ function rotateCharacter(angle) {
   controls.update();
 }
 
+// حساب مسافة الكاميرا المناسبة لشاشة الكمبيوتر والموبايل لإظهار الشخصية كاملة بدون قص
+function getFitBodyDistance() {
+  const aspect = (camera && camera.aspect) ? camera.aspect : 1;
+  const portraitBoost = aspect < 1 ? Math.min(1.38, 1 + (1 - aspect) * 0.65) : 1.05;
+  return characterHeight * 1.9 * portraitBoost;
+}
+
 function resetCamera() {
   if (camera && controls) {
-    const centerY = characterHeight * 0.5;
-    camera.position.set(0, centerY, characterHeight * 1.85);
+    const centerY = characterHeight * 0.52;
+    camera.position.set(0, centerY, getFitBodyDistance());
     controls.target.set(0, centerY, 0);
     controls.update();
   }
@@ -617,16 +616,16 @@ function resetCamera() {
 
 function setCameraView(view) {
   if (!camera || !controls) return;
-  const centerY = characterHeight * 0.5;
+  const centerY = characterHeight * 0.52;
   if (view === 'face') {
-    const faceY = characterHeight * 0.89;
-    camera.position.set(0, faceY, characterHeight * 0.72);
+    const faceY = characterHeight * 0.88;
+    camera.position.set(0, faceY, characterHeight * 0.85);
     controls.target.set(0, faceY, 0);
   } else if (view === 'body') {
-    camera.position.set(0, centerY, characterHeight * 1.85);
+    camera.position.set(0, centerY, getFitBodyDistance());
     controls.target.set(0, centerY, 0);
   } else if (view === 'top') {
-    camera.position.set(0, characterHeight * 1.95, 0.12);
+    camera.position.set(0, characterHeight * 2.1, 0.14);
     controls.target.set(0, centerY, 0);
   }
   controls.update();
