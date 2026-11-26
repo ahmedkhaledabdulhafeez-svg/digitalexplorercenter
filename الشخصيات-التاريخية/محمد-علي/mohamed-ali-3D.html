@@ -17,7 +17,7 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 <script type="module" src="../../auth-guard.js"></script>
 <noscript><meta http-equiv="refresh" content="0;url=../../index.html"></noscript>
   
-<title>شخصية | محمد علي3D</title>
+<title>شخصية | محمد علي 3D</title>
 <link rel="icon" type="image/png" href="../../favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
@@ -84,7 +84,7 @@ section.blk{padding:40px 0 10px}
 .frame::before{top:-6px;right:-6px;border-left:0;border-bottom:0;border-top-right-radius:28px}
 .frame::after{bottom:-6px;left:-6px;border-right:0;border-top:0;border-bottom-left-radius:28px}
 
-/* ===== 3D stage (ثابت على الأبعاد الأساسية دون تمدد) ===== */
+/* ===== 3D stage ===== */
 .stage{display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:#24130b;border:1px solid var(--line)}
 @media(min-width:900px){.stage{flex-direction:row;height:620px}}
 
@@ -95,16 +95,13 @@ section.blk{padding:40px 0 10px}
 #threeCanvasContainer canvas{display:block;width:100%!important;height:100%!important}
 #modelLoadingMessage{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;color:var(--sand);font-weight:700;font-size:.95rem;pointer-events:none;text-align:center;padding:20px}
 
-/* شارة الشخصية أعلى المسرح */
 .badge{position:absolute;top:12px;right:12px;z-index:4;pointer-events:none;display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:99px;background:rgba(36,19,11,.88);border:1px solid var(--line);backdrop-filter:blur(8px);max-width:calc(100% - 24px)}
 .badge b{font-family:'Reem Kufi',sans-serif;color:var(--sand);font-size:.95rem;white-space:nowrap}
 .badge span{font-size:.7rem;font-weight:700;color:var(--gold);background:rgba(240,180,76,.12);padding:0 9px;border-radius:99px;border:1px solid rgba(240,180,76,.3);white-space:nowrap}
 
-/* اللوحة الجانبية: سكرول شغال مع إخفاء السكرول بار */
 .side{width:100%;background:linear-gradient(180deg,var(--bg2),var(--panel));border-top:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:14px}
 @media(min-width:900px){.side{width:380px;height:100%;border-top:0;border-right:1px solid var(--line);overflow-y:auto}}
 
-/* قسم أزرار التحكم والكاميرا */
 .controls-panel{background:rgba(26,14,8,.72);border:1px solid var(--line);border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:8px;flex-shrink:0}
 .controls-panel-title{font-size:.75rem;font-weight:700;color:var(--gold);display:flex;align-items:center;justify-content:space-between}
 .views-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
@@ -122,7 +119,6 @@ section.blk{padding:40px 0 10px}
 .speech-btn small{font-size:.72rem;font-weight:600;opacity:.85}
 .speech-btn .l{display:flex;align-items:center;gap:10px}
 
-/* صندوق عرض الكلام: سكرول شغال مع إخفاء السكرول بار */
 .dialogue-box{display:none;background:rgba(26,14,8,.88);border:1px solid rgba(240,180,76,.38);border-radius:16px;padding:12px 14px;animation:fadeSlide .28s ease;flex-shrink:0}
 .dialogue-box.open{display:block}
 @keyframes fadeSlide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
@@ -148,6 +144,31 @@ section.blk{padding:40px 0 10px}
 .vtitle p{color:var(--mute);font-size:.9rem}
 .vid{border-radius:18px;position:relative;padding-bottom:56.25%;height:0;overflow:hidden}
 .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+/* ===== Supporting Characters Slider ===== */
+.slider-shell{position:relative;padding:8px 6px}
+.slider-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;padding:0 6px}
+.slider-hint{font-size:.84rem;color:var(--mute);font-weight:600}
+.slider-nav{display:flex;align-items:center;gap:8px}
+.snav-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--copper);background:rgba(200,130,90,.12);color:var(--sand);font-size:1rem;font-weight:700;cursor:pointer;display:grid;place-items:center;transition:.25s}
+.snav-btn:hover{background:var(--copper);color:#2a150b;transform:scale(1.06)}
+
+.chars-track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:4px 4px 10px}
+.char-card{flex:0 0 275px;scroll-snap-align:start;background:linear-gradient(165deg,#2b170e,#1f1009);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;transition:.3s}
+@media(min-width:640px){.char-card{flex:0 0 295px}}
+.char-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 16px 32px rgba(0,0,0,.45)}
+
+.char-thumb{position:relative;height:210px;background:radial-gradient(circle at center,#5a331d,#24130b);overflow:hidden;border-bottom:1px solid var(--line)}
+.char-thumb img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:transform .4s ease}
+.char-card:hover .char-thumb img{transform:scale(1.04)}
+.char-role-tag{position:absolute;bottom:10px;right:10px;padding:3px 11px;border-radius:99px;background:rgba(36,19,11,.9);border:1px solid rgba(240,180,76,.45);color:var(--gold);font-size:.72rem;font-weight:700;backdrop-filter:blur(6px)}
+
+.char-body{padding:15px;display:flex;flex-direction:column;gap:8px;flex:1}
+.char-body h3{font-family:'Reem Kufi',sans-serif;font-size:1.12rem;color:var(--sand);line-height:1.4}
+.char-body p{font-size:.84rem;color:var(--mute);line-height:1.75;flex:1}
+
+.char-listen-btn{margin-top:6px;width:100%;padding:8px 12px;border-radius:12px;border:1px solid var(--copper);background:rgba(200,130,90,.12);color:var(--sand);font-size:.82rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.25s}
+.char-listen-btn:hover,.char-listen-btn.playing{background:var(--copper);color:#2a150b;border-color:var(--copper)}
 
 /* ===== Quiz ===== */
 .quiz{display:flex;flex-direction:column;gap:18px}
@@ -183,17 +204,17 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
 
 <main class="wrap">
 
-  <div class="backrow"><a href="../../قسم-التاريخ/الدرس-الاول-تولية-محمد-علي-حكم-مصر.html" class="back"><span>العودة للدرس</span><span>←</span></a></div>
+  <div class="backrow"><a href="../../قسم-التاريخ/الدرس-الثاني-محمد-علي-وبناء-الدولة-الحديثة.html" class="back"><span>العودة للدرس</span><span>←</span></a></div>
 
   <div class="title">
     <div class="ic"><i>🏺</i></div>
     <div>
       <h1>محاكاة الشخصيات التاريخية</h1>
-      <p>شخصية ثلاثية الأبعاد ناطقة — تحدّث مع محمد علي باشا ودوّر المجسم 360° ثم شاهد الفيديو وأجب عن الأسئلة</p>
+      <p>شخصية ثلاثية الأبعاد ناطقة — تحدّث مع محمد علي باشا ودوّر المجسم 360° ثم شاهد الفيديو وتعرّف على شخصيات العصر</p>
     </div>
   </div>
 
-  <!-- 3D -->
+  <!-- 1. 3D Stage -->
   <section id="stage-section" class="blk">
     <div class="head">
       <div class="ic"><i>👑</i></div>
@@ -210,7 +231,6 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
         </div>
 
         <aside class="side no-scrollbar">
-          <!-- أدوات التحكم والكاميرا -->
           <div class="controls-panel" role="toolbar" aria-label="التحكم في الكاميرا والشخصية">
             <div class="controls-panel-title"><span>🎮 التحكم في العرض والشخصية</span></div>
             <div class="views-grid">
@@ -228,11 +248,10 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
 
           <h3>💬 حوار مع محمد علي باشا</h3>
           <button class="speech-btn" onclick="playMainSpeech()">
-            <span class="l"><span style="font-size:1.3rem">📢</span><span><b>الخطاب التاريخي</b><small>خطاب ثورة الشعب وبناء النهضة الكبرى</small></span></span>
+            <span class="l"><span style="font-size:1.3rem">📢</span><span><b>الخطاب التاريخي</b><small>خطاب بناء الدولة الحديثة والنهضة الكبرى</small></span></span>
             <b>استمع</b>
           </button>
 
-          <!-- صندوق الكلام بسكرول مخفي -->
           <div id="dialogueOutputBox" class="dialogue-box" aria-live="polite">
             <div class="row">
               <div class="who"><span id="speakingIndicatorDot" class="dot"></span><span id="speakingIndicatorText">صوت الشخصية التاريخية</span></div>
@@ -251,7 +270,7 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
     </div>
   </section>
 
-  <!-- Video -->
+  <!-- 2. Video -->
   <section id="video-section" class="blk">
     <div class="head">
       <div class="ic"><i>🎬</i></div>
@@ -266,11 +285,31 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
     </div>
   </section>
 
-  <!-- Quiz -->
+  <!-- 3. Supporting Characters Slider -->
+  <section id="characters-section" class="blk">
+    <div class="head">
+      <div class="ic"><i>📜</i></div>
+      <div><h2>شخصيات عاصرت النهضة</h2><p>تعرّف على أبرز القادة والعلماء والخبراء الذين ساهموا في بناء الدولة الحديثة</p></div>
+    </div>
+    <div class="frame">
+      <div class="slider-shell">
+        <div class="slider-toolbar">
+          <span class="slider-hint">اسحب البطاقات يميناً ويساراً أو استخدم الأسهم لاستعراض الشخصيات</span>
+          <div class="slider-nav">
+            <button type="button" class="snav-btn" onclick="slideCharacters(-1)" aria-label="السابق">→</button>
+            <button type="button" class="snav-btn" onclick="slideCharacters(1)" aria-label="التالي">←</button>
+          </div>
+        </div>
+        <div id="charactersTrack" class="chars-track no-scrollbar"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Quiz -->
   <section id="quiz-section" class="blk">
     <div class="head">
       <div class="ic"><i>❓</i></div>
-      <div><h2>اختبر فهمك</h2><p>بعد مشاهدة المجسم والفيديو أجب عن الأسئلة</p></div>
+      <div><h2>اختبر فهمك</h2><p>بعد مشاهدة المجسم والفيديو والشخصيات أجب عن الأسئلة</p></div>
     </div>
     <div id="quizContainer" class="quiz"></div>
   </section>
@@ -291,9 +330,47 @@ const figure = {
     { q: 'ما هو نظام الاحتكار ولماذا طبقته؟', a: 'طبقت نظام الاحتكار في الاقتصاد لأضمن الدخول في سوق التجارة الدولية منافساً لغيري من الدول. كانت الحكومة تحدد نوع الغلات التي تزرع والمصنوعات التي تنتج وأثمان شرائها وبيعها.' },
     { q: 'ما دورك في نهضة التعليم والثقافة؟', a: 'أنشأت المدارس العالية كالطب والمهندسخانة والزراعة، وأرسلت البعثات إلى فرنسا وإيطاليا وكان على رأسهم رفاعة الطهطاوي وعلي مبارك، وأسست مطبعة بولاق الأميرية وأصدرت صحيفة الوقائع المصرية.' }
   ],
+  supportingCharacters: [
+    {
+      name: 'سليمان باشا الفرنساوي',
+      role: 'قائد التدريب العسكري',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Soliman_Pasha_al-Faransawi.jpg/480px-Soliman_Pasha_al-Faransawi.jpg',
+      summary: 'هو الكولونيل سيف أحد ضباط جيش نابليون، استعان به محمد علي لإعداد وتدريب الضباط المصريين بالمدرسة العسكرية في أسوان.',
+      speech: 'أنا سليمان باشا الفرنساوي، الكولونيل سيف سابقاً. استعان بي محمد علي باشا لتأسيس المدرسة العسكرية في أسوان وتدريب الضباط المصريين على أحدث النظم العسكرية الأوروبية.'
+    },
+    {
+      name: 'رفاعة رافع الطهطاوي',
+      role: 'رائد النهضة التعليمية',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Rifa%27a_al-Tahtawi.jpg/480px-Rifa%27a_al-Tahtawi.jpg',
+      summary: 'إمام البعثة التعليمية إلى فرنسا، أسهم بعد عودته في حركة الترجمة وإنشاء مدرسة الألسن وإصدار صحيفة الوقائع المصرية.',
+      speech: 'أنا رفاعة رافع الطهطاوي. أرسلني محمد علي باشا إماماً للبعثة التعليمية إلى باريس، وبعد عودتي اقترحت إنشاء مدرسة الألسن لترجمة العلوم الحديثة إلى اللغة العربية.'
+    },
+    {
+      name: 'علي مبارك',
+      role: 'أبو التعليم والهندسة',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Ali_Mubarak.jpg/480px-Ali_Mubarak.jpg',
+      summary: 'أحد أبرز نوابغ البعثات التعليمية إلى أوروبا في عهد محمد علي، وأسهم في تطوير التعليم والهندسة ومشروعات الري في مصر.',
+      speech: 'أنا علي مبارك، تخرجت في مدرسة المهندسخانة وسافرت ضمن بعثات محمد علي باشا إلى فرنسا، وعملت على تطوير المدارس والمشروعات الهندسية والري في مصر.'
+    },
+    {
+      name: 'إبراهيم باشا',
+      role: 'القائد العام للجيش',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Ibrahim_Pasha_of_Egypt.jpg/480px-Ibrahim_Pasha_of_Egypt.jpg',
+      summary: 'الابن الأكبر لمحمد علي والقائد العام للجيش المصري في حروب الجزيرة العربية والمورة والشام، وركيزة التوسعات العسكرية.',
+      speech: 'أنا إبراهيم باشا، الابن الأكبر لمحمد علي باشا وقائد الجيوش المصرية. قدت الحملات العسكرية في الجزيرة العربية والمورة والشام لتأمين حدود الدولة المصرية الحديثة.'
+    },
+    {
+      name: 'مسيو جوميل (Jumel)',
+      role: 'خبير الزراعة والقطن',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Louis_Alexis_Jumel.jpg/480px-Louis_Alexis_Jumel.jpg',
+      summary: 'المهندس الفرنسي الذي استعان به محمد علي لإدخال وزراعة القطن طويل التيلة، مما أحدث طفرة كبرى في الاقتصاد المصري.',
+      speech: 'أنا المهندس الفرنسي لويس أليكسيس جوميل. استعان بي محمد علي باشا لتطوير زراعة القطن المصري طويل التيلة، فأصبح محصول التصدير الأول لمصر في الأسواق العالمية.'
+    }
+  ],
   quiz: [
     { q: 'في أي مكان اجتمع زعماء الشعب المصري لتولية محمد علي حكم مصر عام 1805م؟', options: ['جامع الأزهر الشريف', 'دار المحكمة (بيت القاضي)', 'قلعة الجبل', 'قصر عابدين'], correct: 1, exp: 'اجتمع زعماء الشعب من العلماء ونقباء الطوائف بدار المحكمة في 13 مايو 1805م وقرروا عزل خورشيد باشا وتعيين محمد علي.' },
-    { q: 'من هو القائد الفرنسي الذي استعان به محمد علي لتدريب الضباط المصريين في أسوان؟', options: ['كليبر', 'مينو', 'الكولونيل سيف (سليمان باشا الفرنساوي)', 'ديليسبس'], correct: 2, exp: 'استعان محمد علي بالكولونيل سيف وهو أحد ضباط جيش نابليون وأسلم وسُمي بسليمان باشا الفرنساوي.' }
+    { q: 'من هو القائد الفرنسي الذي استعان به محمد علي لتدريب الضباط المصريين في أسوان؟', options: ['كليبر', 'مينو', 'الكولونيل سيف (سليمان باشا الفرنساوي)', 'ديليسبس'], correct: 2, exp: 'استعان محمد علي بالكولونيل سيف وهو أحد ضباط جيش نابليون وأسلم وسُمي بسليمان باشا الفرنساوي.' },
+    { q: 'من هو رائد النهضة التعليمية الذي أرسله محمد علي مع البعثات إلى فرنسا وأسهم في إنشاء مدرسة الألسن؟', options: ['علي مبارك', 'رفاعة رافع الطهطاوي', 'سليمان باشا', 'مسيو جوميل'], correct: 1, exp: 'أرسل محمد علي رفاعة الطهطاوي إماماً للبعثة التعليمية إلى فرنسا، وبعد عودته أسهم في حركة الترجمة وإنشاء مدرسة الألسن.' }
   ]
 };
 
@@ -649,6 +726,7 @@ function setSpeakingUI(active, message) {
   } else if (!active) {
     stopTalkingLoop();
     playCharacterMotion('Idle', false);
+    document.querySelectorAll('.char-listen-btn').forEach(b => b.classList.remove('playing'));
   }
 }
 
@@ -746,6 +824,71 @@ function renderDialogues() {
   });
 }
 
+// بناء سلايدر الشخصيات المساندة
+function getFallbackPortrait(name) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4a2a1c"/><stop offset="100%" stop-color="#24130b"/></linearGradient></defs><rect width="400" height="300" fill="url(#g)"/><circle cx="200" cy="112" r="44" fill="#c8825a" opacity="0.35"/><path d="M125 245c0-42 34-70 75-70s75 28 75 70" fill="#c8825a" opacity="0.35"/><text x="200" y="275" font-family="Cairo,sans-serif" font-size="18" font-weight="bold" fill="#f3dcb8" text-anchor="middle">${name}</text></svg>`;
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
+function renderSupportingCharacters() {
+  const track = document.getElementById('charactersTrack');
+  figure.supportingCharacters.forEach((char) => {
+    const card = document.createElement('article');
+    card.className = 'char-card';
+
+    const thumb = document.createElement('div');
+    thumb.className = 'char-thumb';
+
+    const img = document.createElement('img');
+    img.src = char.image;
+    img.alt = char.name;
+    img.loading = 'lazy';
+    img.onerror = () => { img.onerror = null; img.src = getFallbackPortrait(char.name); };
+
+    const roleTag = document.createElement('span');
+    roleTag.className = 'char-role-tag';
+    roleTag.textContent = char.role;
+
+    thumb.appendChild(img);
+    thumb.appendChild(roleTag);
+
+    const body = document.createElement('div');
+    body.className = 'char-body';
+
+    const title = document.createElement('h3');
+    title.textContent = char.name;
+
+    const desc = document.createElement('p');
+    desc.textContent = char.summary;
+
+    const listenBtn = document.createElement('button');
+    listenBtn.type = 'button';
+    listenBtn.className = 'char-listen-btn';
+    listenBtn.innerHTML = '<span>🔊</span><span>اسمع نبذة</span>';
+    listenBtn.onclick = () => {
+      document.querySelectorAll('.char-listen-btn').forEach(b => b.classList.remove('playing'));
+      listenBtn.classList.add('playing');
+      playSpeech(char.speech);
+      document.getElementById('stage-section').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    };
+
+    body.appendChild(title);
+    body.appendChild(desc);
+    body.appendChild(listenBtn);
+
+    card.appendChild(thumb);
+    card.appendChild(body);
+    track.appendChild(card);
+  });
+}
+
+function slideCharacters(direction) {
+  const track = document.getElementById('charactersTrack');
+  if (!track) return;
+  // في اتجاه RTL التمرير لليسار يكون بقيمة سالبة
+  track.scrollBy({ left: -direction * 310, behavior: 'smooth' });
+}
+
 function renderQuiz() {
   const box = document.getElementById('quizContainer');
   figure.quiz.forEach((qz, qIdx) => {
@@ -781,6 +924,7 @@ function renderQuiz() {
 
 window.addEventListener('DOMContentLoaded', () => {
   renderDialogues();
+  renderSupportingCharacters();
   renderQuiz();
   initThree();
   buildCharacterModel();
