@@ -775,6 +775,27 @@ function updateCameraButtonState(activeView) {
   });
 }
 
+// ===== تحميل ملفات الصوت المولّدة بصيغة WAV =====
+let wavCounter = 1;
+function downloadBase64Wav(base64Audio, mimeType, prefix = 'voice') {
+  if (!base64Audio) return;
+  const byteChars = atob(base64Audio);
+  const byteArray = new Uint8Array(byteChars.length);
+  for (let i = 0; i < byteChars.length; i++) {
+    byteArray[i] = byteChars.charCodeAt(i);
+  }
+  const blob = new Blob([byteArray], { type: mimeType || 'audio/wav' });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${prefix}-${wavCounter++}.wav`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
 // ===== نظام صوت الشخصية الرئيسية 3D =====
 function setSpeakingUI(active, message) {
   isSpeaking = active;
@@ -836,14 +857,14 @@ async function playSpeech(text) {
 
   if (!GEMINI_TTS_ENDPOINT) { playBrowserSpeech(text); return; }
   const cached = geminiTtsCache.get(text);
-  if (cached) { playAudioData(cached); return; }
+  if (cached) { playAudioData(cached, false); return; }
   setSpeakingUI(true, 'جارٍ تجهيز الصوت الاحترافي...');
   try {
     const result = await requestGeminiAudio(text);
     if (requestId !== speechRequestId) return;
     if (!result || !result.audio) throw new Error('لم يصل ملف الصوت من الخدمة');
     geminiTtsCache.set(text, result);
-    playAudioData(result);
+    playAudioData(result, true);
   } catch (error) {
     if (requestId !== speechRequestId) return;
     console.error('Gemini TTS:', error);
@@ -852,7 +873,10 @@ async function playSpeech(text) {
   }
 }
 
-function playAudioData(result) {
+function playAudioData(result, shouldDownload = true) {
+  if (shouldDownload) {
+    downloadBase64Wav(result.audio, result.mimeType, 'mohamed-ali');
+  }
   stopSpeech();
   speechAudio = new Audio(`data:${result.mimeType || 'audio/wav'};base64,${result.audio}`);
   speechAudio.onplay = () => setSpeakingUI(true, 'يتحدث الآن بصوت Gemini');
@@ -917,8 +941,11 @@ function playCardBrowserSpeech(text, btn, reqId) {
   window.speechSynthesis.speak(utterance);
 }
 
-function playCardAudioData(result, btn, reqId) {
+function playCardAudioData(result, btn, reqId, shouldDownload = true) {
   if (reqId !== cardRequestId) return;
+  if (shouldDownload) {
+    downloadBase64Wav(result.audio, result.mimeType, 'character-card');
+  }
   cardSpeechAudio = new Audio(`data:${result.mimeType || 'audio/wav'};base64,${result.audio}`);
   cardSpeechAudio.onplay = () => {
     if (reqId !== cardRequestId) return;
@@ -954,7 +981,7 @@ async function toggleCardSpeech(text, btn) {
 
   const cached = geminiTtsCache.get(text);
   if (cached) {
-    playCardAudioData(cached, btn, reqId);
+    playCardAudioData(cached, btn, reqId, false);
     return;
   }
 
@@ -963,7 +990,7 @@ async function toggleCardSpeech(text, btn) {
     if (reqId !== cardRequestId) return;
     if (!result || !result.audio) throw new Error('لم يصل ملف الصوت من الخدمة');
     geminiTtsCache.set(text, result);
-    playCardAudioData(result, btn, reqId);
+    playCardAudioData(result, btn, reqId, true);
   } catch (error) {
     if (reqId !== cardRequestId) return;
     console.error('Card Gemini TTS:', error);
