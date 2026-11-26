@@ -1,3 +1,10 @@
+تم إعادة تنظيم واجهة المسرح بالكامل وتحديث منطق الحركات لتتوافق مع ملف `mohamed-ali.glb` الجديد (بحركات `Idle`، `Waving`، `Talk1`، `Talk2`) على الكمبيوتر والموبايل:
+
+* **إخلاء مساحة المجسم بالكامل:** نُقلت فقاعة النص المقروء (`speechBubbleText`) من فوق المجسم إلى داخل لوحة **حوار مع محمد علي باشا** الجانبية (وتظهر تلقائياً عند الضغط على **استمع** أو أي سؤال من المنهج)، مع الإبقاء فقط على شريط الكاميرا المدمج في الأعلى.
+* **شريط تحكم سفلي موحد:** تم تجميع أزرار التحكم (اللف يميناً ويساراً، الضبط، والترحيب) في شريط واحد خارج إطار العرض أسفل المسرح بعرض كامل وأزرار متراصة أفقياً لا تحجب المجسم على شاشة الموبايل.
+* **التبديل التلقائي بين حركتي الكلام:** يعمل النظام الآن بحركة `Idle` افتراضياً، وينتقل بنعومة (`Crossfade`) بين `Talk1` و`Talk2` طوال فترة تشغيل الصوت ثم يعود إلى `Idle` فور انتهاء الصوت أو إيقافه.
+
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -54,7 +61,7 @@ nav a:hover{color:var(--sand)}
 nav a.on{background:var(--copper);color:#2a150b}
 @media(min-width:760px){nav{display:block}}
 
-/* ===== Sub bar + back button + title (مطابق لصفحات الأنشطة) ===== */
+/* ===== Sub bar + back button + title ===== */
 .backrow{padding:20px 0 0;display:flex;justify-content:flex-start}
 .back{display:inline-flex;align-items:center;gap:10px;padding:8px 24px;border-radius:99px;border:1px solid var(--copper);color:var(--sand);font-weight:700;font-size:.92rem;background:rgba(200,130,90,.06);transition:.3s}
 .back:hover{background:var(--copper);color:#2a150b;transform:translateX(4px)}
@@ -65,13 +72,8 @@ nav a.on{background:var(--copper);color:#2a150b}
 .title h1{font-family:'Reem Kufi',sans-serif;font-weight:700;font-size:clamp(1.8rem,4.6vw,3rem);line-height:1.4;color:var(--sand)}
 .title p{color:var(--mute);font-size:.95rem;max-width:640px;margin:0 auto}
 
-/* ===== Page title ===== */
+/* ===== Page layout ===== */
 .wrap{max-width:1240px;margin:auto;padding:0 20px}
-.intro{text-align:center;padding:44px 0 6px}
-.tag{display:inline-block;border:1px solid var(--copper);color:var(--gold);padding:3px 18px;border-radius:99px;font-size:.8rem;font-weight:700;margin-bottom:14px;background:rgba(200,130,90,.12)}
-.intro h1{font-family:'Reem Kufi',sans-serif;font-weight:700;font-size:clamp(1.9rem,5vw,3.2rem);line-height:1.5;color:var(--copper);text-shadow:0 4px 30px rgba(240,180,76,.25)}
-.intro p{color:var(--mute);max-width:620px;margin:8px auto 0;font-size:.98rem}
-
 section.blk{padding:40px 0 10px}
 .head{display:flex;align-items:center;gap:16px;margin-bottom:26px}
 .head .ic{border-radius:18px;width:56px;height:56px;border:1px solid var(--copper);display:grid;place-items:center;font-size:1.6rem;background:rgba(200,130,90,.12);transform:rotate(45deg);flex-shrink:0;margin:6px}
@@ -85,53 +87,69 @@ section.blk{padding:40px 0 10px}
 .frame::before{top:-6px;right:-6px;border-left:0;border-bottom:0;border-top-right-radius:28px}
 .frame::after{bottom:-6px;left:-6px;border-right:0;border-top:0;border-bottom-left-radius:28px}
 
-/* ===== 3D stage ===== */
-.stage{display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:#24130b}
-@media(min-width:900px){.stage{flex-direction:row;height:620px}}
-.canvas-side{position:relative;flex:1;min-height:420px}
-#threeCanvasContainer{width:100%;height:100%;min-height:420px;cursor:grab}
+/* ===== 3D stage (تخطيط نظيف بدون تداخل على الكمبيوتر والموبايل) ===== */
+.stage-shell{display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:#24130b;border:1px solid var(--line)}
+.stage{display:flex;flex-direction:column}
+@media(min-width:900px){.stage{flex-direction:row;height:580px}}
+
+.canvas-side{position:relative;flex:1;height:430px;min-height:380px}
+@media(min-width:900px){.canvas-side{height:100%}}
+#threeCanvasContainer{width:100%;height:100%;cursor:grab;touch-action:pan-y}
 #threeCanvasContainer:active{cursor:grabbing}
-#threeCanvasContainer canvas{display:block}
+#threeCanvasContainer canvas{display:block;width:100%!important;height:100%!important}
 #modelLoadingMessage{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;color:var(--sand);font-weight:700;font-size:.95rem;pointer-events:none;text-align:center;padding:20px}
 
-.badge{position:absolute;top:14px;right:14px;z-index:4;pointer-events:none;display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:99px;background:rgba(36,19,11,.88);border:1px solid var(--line);backdrop-filter:blur(8px)}
-.badge b{font-family:'Reem Kufi',sans-serif;color:var(--sand);font-size:1rem}
-.badge span{font-size:.72rem;font-weight:700;color:var(--gold);background:rgba(240,180,76,.12);padding:0 10px;border-radius:99px;border:1px solid rgba(240,180,76,.3)}
+/* شريط علوي شفاف وخفيف جداً فوق المسرح لا يحجب المجسم */
+.stage-top{position:absolute;top:12px;left:12px;right:12px;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:8px;pointer-events:none}
+.badge{pointer-events:auto;display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:99px;background:rgba(36,19,11,.84);border:1px solid var(--line);backdrop-filter:blur(8px)}
+.badge b{font-family:'Reem Kufi',sans-serif;color:var(--sand);font-size:.9rem}
+.badge span{font-size:.68rem;font-weight:700;color:var(--gold);background:rgba(240,180,76,.12);padding:0 8px;border-radius:99px;border:1px solid rgba(240,180,76,.3)}
+@media(max-width:520px){.badge span{display:none}}
 
-.views{position:absolute;top:14px;left:14px;z-index:4;display:flex;gap:4px;padding:4px;border-radius:14px;background:rgba(36,19,11,.88);border:1px solid var(--line);backdrop-filter:blur(8px)}
-.camera-view-button{border:0;cursor:pointer;padding:4px 12px;border-radius:10px;background:transparent;color:var(--mute);font-weight:700;font-size:.78rem;transition:.25s}
+.views{pointer-events:auto;display:flex;gap:3px;padding:3px;border-radius:12px;background:rgba(36,19,11,.84);border:1px solid var(--line);backdrop-filter:blur(8px)}
+.camera-view-button{border:0;cursor:pointer;padding:4px 10px;border-radius:9px;background:transparent;color:var(--mute);font-weight:700;font-size:.75rem;transition:.25s;white-space:nowrap}
 .camera-view-button:hover{color:var(--sand);background:rgba(255,255,255,.06)}
 .camera-view-button.is-active{background:var(--copper);color:#2a150b}
 
-.bubble{position:absolute;z-index:4;left:14px;right:14px;bottom:70px;max-width:440px;background:rgba(36,19,11,.93);border:1px solid var(--line);border-radius:18px;padding:12px 16px;backdrop-filter:blur(8px)}
-.bubble .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
-.bubble .who{display:flex;align-items:center;gap:8px;font-weight:700;font-size:.78rem;color:var(--gold)}
-.dot{width:9px;height:9px;border-radius:50%;background:var(--gold)}
-.dot.animate-ping{animation:ping 1s ease-in-out infinite}
-@keyframes ping{50%{transform:scale(1.7);opacity:.45}}
-#btnPlayVoice{width:32px;height:32px;border-radius:50%;border:1px solid var(--copper);background:rgba(200,130,90,.15);color:var(--copper);cursor:pointer;transition:.25s}
-#btnPlayVoice:hover{background:var(--copper);color:#2a150b}
-#speechBubbleText{font-size:.85rem;color:var(--text);line-height:1.8;max-height:86px;overflow-y:auto}
-
-.controls{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:4;display:flex;gap:6px;padding:6px 10px;border-radius:16px;background:rgba(36,19,11,.9);border:1px solid var(--line);backdrop-filter:blur(8px);flex-wrap:wrap;justify-content:center;max-width:95%}
-.ctl{border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--sand);padding:4px 14px;border-radius:12px;font-weight:700;font-size:.78rem;cursor:pointer;transition:.25s;white-space:nowrap}
-.ctl:hover,.ctl.is-active{background:var(--copper);color:#2a150b;border-color:var(--copper)}
-
-/* side panel */
-.side{width:100%;background:linear-gradient(180deg,var(--bg2),var(--panel));border-top:1px solid var(--line);padding:20px;display:flex;flex-direction:column;gap:16px;overflow-y:auto}
-@media(min-width:900px){.side{width:340px;border-top:0;border-right:1px solid var(--line)}}
+/* لوحة الحوار الجانبية (تحتوي على النص المقروء عند الضغط على استمع) */
+.side{width:100%;background:linear-gradient(180deg,var(--bg2),var(--panel));border-top:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:14px;overflow-y:auto}
+@media(min-width:900px){.side{width:370px;border-top:0;border-right:1px solid var(--line)}}
 .side h3{font-family:'Reem Kufi',sans-serif;color:var(--sand);font-size:1.15rem;padding-bottom:10px;border-bottom:1px dashed var(--line)}
+
 .speech-btn{width:100%;text-align:right;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-radius:18px;border:1px solid var(--copper);background:var(--copper);color:#2a150b;cursor:pointer;transition:.3s}
 .speech-btn:hover{background:var(--gold);border-color:var(--gold);transform:translateY(-2px)}
 .speech-btn b{display:block;font-size:.9rem}
 .speech-btn small{font-size:.72rem;font-weight:600;opacity:.85}
 .speech-btn .l{display:flex;align-items:center;gap:10px}
+
+/* صندوق عرض الكلام داخل لوحة الحوار (يظهر عند التشغيل) */
+.dialogue-box{display:none;background:rgba(26,14,8,.88);border:1px solid rgba(240,180,76,.38);border-radius:16px;padding:12px 14px;animation:fadeSlide .28s ease}
+.dialogue-box.open{display:block}
+@keyframes fadeSlide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.dialogue-box .row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px;padding-bottom:6px;border-bottom:1px dashed var(--line)}
+.dialogue-box .who{display:flex;align-items:center;gap:8px;font-weight:700;font-size:.78rem;color:var(--gold)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.dot.animate-ping{animation:ping 1s ease-in-out infinite}
+@keyframes ping{50%{transform:scale(1.7);opacity:.45}}
+#btnPlayVoice{width:30px;height:30px;border-radius:50%;border:1px solid var(--copper);background:rgba(200,130,90,.18);color:var(--gold);cursor:pointer;transition:.25s;display:grid;place-items:center;flex-shrink:0}
+#btnPlayVoice:hover{background:var(--copper);color:#2a150b}
+#speechBubbleText{font-size:.84rem;color:var(--text);line-height:1.85;max-height:130px;overflow-y:auto;padding-left:4px}
+
 .lbl{font-size:.78rem;font-weight:700;color:var(--mute)}
 #questionsContainer{display:flex;flex-direction:column;gap:8px;margin-top:6px}
 .qbtn{width:100%;text-align:right;display:flex;gap:8px;align-items:flex-start;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.22);color:var(--text);font-size:.82rem;font-weight:600;cursor:pointer;transition:.25s}
-.qbtn:hover{border-color:var(--gold);background:rgba(240,180,76,.08)}
+.qbtn:hover,.qbtn.active{border-color:var(--gold);background:rgba(240,180,76,.12)}
 .down{margin-top:auto;padding:10px 16px;border-radius:14px;text-align:center;font-weight:700;font-size:.82rem;border:1px dashed var(--copper);color:var(--gold);background:rgba(200,130,90,.08);transition:.25s}
 .down:hover{background:var(--copper);color:#2a150b}
+
+/* شريط التحكم السفلي الموحد أسفل المسرح بالكامل (لا يغطي المجسم أبداً) */
+.control-dock{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;padding:12px 14px;background:#1f1009;border-top:1px solid var(--line)}
+.ctl{border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--sand);padding:7px 16px;border-radius:12px;font-weight:700;font-size:.82rem;cursor:pointer;transition:.25s;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+.ctl:hover,.ctl.is-active{background:var(--copper);color:#2a150b;border-color:var(--copper)}
+@media(max-width:520px){
+  .control-dock{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:10px}
+  .ctl{justify-content:center;padding:8px 10px;font-size:.8rem}
+}
 
 /* ===== Video ===== */
 .vtitle{padding:6px 10px 14px}
@@ -192,48 +210,53 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
     </div>
 
     <div class="frame">
-      <div class="stage">
-        <div class="canvas-side">
-          <div id="threeCanvasContainer"></div>
-          <div id="modelLoadingMessage">جارٍ تحميل مجسم محمد علي باشا...</div>
+      <div class="stage-shell">
+        <div class="stage">
+          <div class="canvas-side">
+            <div id="threeCanvasContainer"></div>
+            <div id="modelLoadingMessage">جارٍ تحميل مجسم محمد علي باشا...</div>
 
-          <div class="badge"><span style="background:none;border:0;padding:0;font-size:1rem">👑</span><b>محمد علي باشا</b><span>1805 - 1848م</span></div>
-
-          <div class="views">
-            <button type="button" data-camera-view="face" aria-pressed="false" onclick="setCameraView('face')" class="camera-view-button">👤 الوجه</button>
-            <button type="button" data-camera-view="body" aria-pressed="true" onclick="setCameraView('body')" class="camera-view-button is-active">🧍 كامل</button>
-            <button type="button" data-camera-view="top" aria-pressed="false" onclick="setCameraView('top')" class="camera-view-button">📐 علوي</button>
-          </div>
-
-          <div class="bubble">
-            <div class="row">
-              <div class="who"><span id="speakingIndicatorDot" class="dot"></span><span id="speakingIndicatorText">صوت الشخصية التاريخية</span></div>
-              <button id="btnPlayVoice" onclick="togglePlaySpeech()" title="تشغيل / إيقاف">▶</button>
+            <div class="stage-top">
+              <div class="badge"><span style="background:none;border:0;padding:0;font-size:.95rem">👑</span><b>محمد علي باشا</b><span>1805 - 1848م</span></div>
+              <div class="views">
+                <button type="button" data-camera-view="face" aria-pressed="false" onclick="setCameraView('face')" class="camera-view-button">👤 الوجه</button>
+                <button type="button" data-camera-view="body" aria-pressed="true" onclick="setCameraView('body')" class="camera-view-button is-active">🧍 كامل</button>
+                <button type="button" data-camera-view="top" aria-pressed="false" onclick="setCameraView('top')" class="camera-view-button">📐 علوي</button>
+              </div>
             </div>
-            <p id="speechBubbleText">"مرحباً بكم يا أبنائي وبناتي طلاب الصف الثالث الإعدادي. أنا محمد علي باشا، مؤسس مصر الحديثة..."</p>
           </div>
 
-          <div class="controls">
-            <button class="ctl" onclick="rotateCharacter(Math.PI / 6)" aria-label="لف الشخصية يمينًا">🔄 يمين</button>
-            <button class="ctl" onclick="rotateCharacter(-Math.PI / 6)" aria-label="لف الشخصية يسارًا">🔁 يسار</button>
-            <button class="ctl" onclick="resetCamera()">🎯 ضبط</button>
-            <button class="ctl" onclick="playCharacterMotion('Waving', true)">👋 ترحيب</button>
-            <button class="ctl" onclick="playCharacterMotion('Quick Informal Bow', true)">🙇 تحية</button>
-          </div>
+          <aside class="side">
+            <h3>💬 حوار مع محمد علي باشا</h3>
+            <button class="speech-btn" onclick="playMainSpeech()">
+              <span class="l"><span style="font-size:1.3rem">📢</span><span><b>الخطاب التاريخي</b><small>خطاب ثورة الشعب وبناء النهضة الكبرى</small></span></span>
+              <b>استمع</b>
+            </button>
+
+            <!-- صندوق الكلام يظهر هنا داخل الحوار عند الضغط على استمع أو أي سؤال -->
+            <div id="dialogueOutputBox" class="dialogue-box" aria-live="polite">
+              <div class="row">
+                <div class="who"><span id="speakingIndicatorDot" class="dot"></span><span id="speakingIndicatorText">صوت الشخصية التاريخية</span></div>
+                <button id="btnPlayVoice" onclick="togglePlaySpeech()" title="تشغيل / إيقاف">▶</button>
+              </div>
+              <p id="speechBubbleText"></p>
+            </div>
+
+            <div>
+              <span class="lbl">اسأل الشخصية من منهج الدراسات:</span>
+              <div id="questionsContainer"></div>
+            </div>
+            <a href="#video-section" class="down">انزل لمشاهدة الفيديو ↓</a>
+          </aside>
         </div>
 
-        <aside class="side">
-          <h3>💬 حوار مع محمد علي باشا</h3>
-          <button class="speech-btn" onclick="playMainSpeech()">
-            <span class="l"><span style="font-size:1.3rem">📢</span><span><b>الخطاب التاريخي</b><small>خطاب ثورة الشعب وبناء النهضة الكبرى</small></span></span>
-            <b>استمع</b>
-          </button>
-          <div>
-            <span class="lbl">اسأل الشخصية من منهج الدراسات:</span>
-            <div id="questionsContainer"></div>
-          </div>
-          <a href="#video-section" class="down">انزل لمشاهدة الفيديو ↓</a>
-        </aside>
+        <!-- شريط التحكم السفلي الموحد للشخصية -->
+        <div class="control-dock" role="toolbar" aria-label="أدوات التحكم في الشخصية">
+          <button type="button" class="ctl" onclick="rotateCharacter(Math.PI / 6)" aria-label="لف الشخصية يمينًا">🔄 لف يمين</button>
+          <button type="button" class="ctl" onclick="rotateCharacter(-Math.PI / 6)" aria-label="لف الشخصية يسارًا">🔁 لف يسار</button>
+          <button type="button" class="ctl" onclick="resetCamera()">🎯 ضبط الكاميرا</button>
+          <button type="button" class="ctl" onclick="triggerWaving()">👋 ترحيب</button>
+        </div>
       </div>
     </div>
   </section>
@@ -287,12 +310,13 @@ const figure = {
 let isSpeaking = false;
 let currentSpeechText = figure.mainSpeech;
 let characterHeight = 3;
-let visualModel = null, visualModelBaseScale = 1, visualModelBaseY = 0;
 
-// متغيرات التحكم في الحركات المدمجة (AnimationMixer)
+// متغيرات التحكم في الحركات المدمجة (Idle, Waving, Talk1, Talk2)
 let animMixer = null;
 const animActions = {};
 let activeAction = null;
+let talkTimer = null;
+let currentTalkIndex = 0;
 
 let speechAudio = null;
 const geminiTtsCache = new Map();
@@ -323,7 +347,6 @@ function playFanfare() {
   } catch (e) {}
 }
 
-// خلفية بسيطة: غروب صحراوي بالأهرامات والكثبان بنفس ألوان الموقع
 function makeBackdrop() {
   const c = document.createElement('canvas');
   c.width = 1024; c.height = 640;
@@ -369,7 +392,7 @@ function makeBackdrop() {
 function initThree() {
   const container = document.getElementById('threeCanvasContainer');
   const width = container.clientWidth || 600;
-  const height = container.clientHeight || 450;
+  const height = container.clientHeight || 430;
 
   scene = new THREE.Scene();
   scene.background = makeBackdrop();
@@ -445,13 +468,15 @@ function initThree() {
 
   window.addEventListener('resize', () => {
     if (!renderer || !camera) return;
-    camera.aspect = container.clientWidth / container.clientHeight;
+    const w = container.clientWidth || 320;
+    const h = container.clientHeight || 420;
+    camera.aspect = w / h;
     camera.updateProjectionMatrix();
-    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setSize(w, h);
   });
 }
 
-// التبديل الناعم بين الحركات (Crossfade) بدون اختفاء أو تقطيع
+// التبديل الناعم بين الحركات (Crossfade)
 function playCharacterMotion(name, once = false) {
   if (!animMixer) return;
   const targetKey = Object.keys(animActions).find(k => k.toLowerCase() === name.toLowerCase())
@@ -471,10 +496,49 @@ function playCharacterMotion(name, once = false) {
   }
 
   if (activeAction && activeAction !== nextAction) {
-    nextAction.crossFadeFrom(activeAction, 0.5, true);
+    nextAction.crossFadeFrom(activeAction, 0.45, true);
   }
   nextAction.play();
   activeAction = nextAction;
+}
+
+function stopTalkingLoop() {
+  if (talkTimer) {
+    clearTimeout(talkTimer);
+    talkTimer = null;
+  }
+}
+
+// التبديل التلقائي المستمر بين Talk1 و Talk2 طوال فترة التحدث
+function startTalkingLoop() {
+  stopTalkingLoop();
+  const talkClips = Object.keys(animActions)
+    .filter(k => k.toLowerCase().startsWith('talk'))
+    .sort();
+  if (talkClips.length === 0) {
+    playCharacterMotion('Waving', false);
+    return;
+  }
+
+  function playNextTalk() {
+    if (!isSpeaking) return;
+    const clipName = talkClips[currentTalkIndex % talkClips.length];
+    currentTalkIndex++;
+
+    playCharacterMotion(clipName, false);
+
+    const action = animActions[clipName];
+    const durationMs = action ? action.getClip().duration * 1000 : 3500;
+    const nextDelay = Math.max(1500, durationMs - 450);
+    talkTimer = setTimeout(playNextTalk, nextDelay);
+  }
+
+  playNextTalk();
+}
+
+function triggerWaving() {
+  if (isSpeaking) return;
+  playCharacterMotion('Waving', true);
 }
 
 // تحميل المجسم ثلاثي الأبعاد المتحرك لمحمد علي باشا (mohamed-ali.glb)
@@ -482,9 +546,9 @@ function buildCharacterModel() {
   if (charGroup) scene.remove(charGroup);
   charGroup = new THREE.Group();
   scene.add(charGroup);
-  visualModel = null;
   animMixer = null;
   activeAction = null;
+  stopTalkingLoop();
   Object.keys(animActions).forEach(k => delete animActions[k]);
 
   const loadingMessage = document.getElementById('modelLoadingMessage');
@@ -504,32 +568,29 @@ function buildCharacterModel() {
       if (node.isMesh) {
         node.castShadow = true;
         node.receiveShadow = true;
-        node.frustumCulled = false; // يمنع اختفاء أجزاء من الجسم أثناء الحركة
+        node.frustumCulled = false;
       }
     });
 
-    visualModel = model;
-    visualModelBaseScale = scale;
-    visualModelBaseY = model.position.y;
     charGroup.add(model);
 
-    // تهيئة الحركات المدمجة في الملف
     if (gltf.animations && gltf.animations.length > 0) {
       animMixer = new THREE.AnimationMixer(model);
       gltf.animations.forEach((clip) => {
         animActions[clip.name] = animMixer.clipAction(clip);
       });
 
-      // الرجوع التلقائي للوقفة الهادئة بعد انتهاء أي حركة لمرة واحدة (مثل الترحيب أو التحية)
+      // بعد انتهاء حركة الترحيب يعود تلقائياً إلى Idle
       animMixer.addEventListener('finished', () => {
-        playCharacterMotion('idle', false);
+        if (!isSpeaking) {
+          playCharacterMotion('Idle', false);
+        }
       });
 
-      // بدء المشهد بترحيب خفيف ثم الاستقرار على الوقفة الهادئة
       if (animActions['Waving']) {
         playCharacterMotion('Waving', true);
       } else {
-        playCharacterMotion('idle', false);
+        playCharacterMotion('Idle', false);
       }
     }
 
@@ -587,18 +648,18 @@ function updateCameraButtonState(activeView) {
   });
 }
 
-// الصوت: Gemini TTS عند ضبط رابط Apps Script، وصوت المتصفح كبديل تلقائي.
+// الصوت وحالة صندوق الكلام داخل الحوار
 function setSpeakingUI(active, message) {
   isSpeaking = active;
   document.getElementById('speakingIndicatorDot').classList.toggle('animate-ping', active);
   document.getElementById('speakingIndicatorText').innerText = message || (active ? 'يتحدث الآن...' : 'صوت الشخصية التاريخية');
   document.getElementById('btnPlayVoice').innerText = active ? '⏸' : '▶';
 
-  // ربط حركة الشخصية مع بداية ونهاية الصوت بنعومة
   if (active && message && message.includes('يتحدث الآن')) {
-    playCharacterMotion('Waving', true);
+    startTalkingLoop();
   } else if (!active) {
-    playCharacterMotion('idle', false);
+    stopTalkingLoop();
+    playCharacterMotion('Idle', false);
   }
 }
 
@@ -641,7 +702,10 @@ async function playSpeech(text) {
   stopSpeech();
   const requestId = speechRequestId;
   currentSpeechText = text;
+  const outputBox = document.getElementById('dialogueOutputBox');
+  outputBox.classList.add('open');
   document.getElementById('speechBubbleText').innerText = `"${text}"`;
+
   if (!GEMINI_TTS_ENDPOINT) { playBrowserSpeech(text); return; }
   const cached = geminiTtsCache.get(text);
   if (cached) { playAudioData(cached); return; }
@@ -673,8 +737,8 @@ function togglePlaySpeech() {
 }
 
 function playMainSpeech() {
+  document.querySelectorAll('.qbtn').forEach(b => b.classList.remove('active'));
   playFanfare();
-  playCharacterMotion('Quick Informal Bow', true);
   playSpeech(figure.mainSpeech);
 }
 
@@ -686,7 +750,8 @@ function renderDialogues() {
     btn.className = 'qbtn';
     btn.innerHTML = `<span style="color:var(--gold)">💬</span><span>${d.q}</span>`;
     btn.onclick = () => {
-      playCharacterMotion('Waving', true);
+      document.querySelectorAll('.qbtn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
       playSpeech(d.a);
     };
     box.appendChild(btn);
@@ -717,7 +782,7 @@ function renderQuiz() {
           else if (i === optIdx) { x.classList.add('wrong'); x.innerHTML = `<span>${x.textContent}</span><span>✗</span>`; }
         });
         if (optIdx === qz.correct && typeof confetti === 'function') {
-          playCharacterMotion('Quick Informal Bow', true);
+          triggerWaving();
           confetti({ particleCount: 50, spread: 60, origin: { y: 0.7 }, colors: ['#c8825a', '#f0b44c', '#f3dcb8', '#6fc2a8'] });
         }
       };
@@ -736,3 +801,5 @@ window.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
+
+```
