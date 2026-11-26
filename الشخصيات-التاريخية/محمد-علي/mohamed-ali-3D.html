@@ -37,7 +37,7 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 html{scroll-behavior:smooth}
 body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.8}
 a{color:inherit;text-decoration:none}
-button{font-family:inherit}
+button,input{font-family:inherit}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 
 /* إخفاء السكرول بار مع بقاء التمرير نشطاً */
@@ -86,7 +86,7 @@ section.blk{padding:40px 0 10px}
 
 /* ===== 3D stage ===== */
 .stage{display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:#24130b;border:1px solid var(--line)}
-@media(min-width:900px){.stage{flex-direction:row;height:620px}}
+@media(min-width:900px){.stage{flex-direction:row;height:660px}}
 
 .canvas-side{position:relative;flex:1;height:430px;min-height:400px}
 @media(min-width:900px){.canvas-side{height:100%}}
@@ -99,8 +99,8 @@ section.blk{padding:40px 0 10px}
 .badge b{font-family:'Reem Kufi',sans-serif;color:var(--sand);font-size:.95rem;white-space:nowrap}
 .badge span{font-size:.7rem;font-weight:700;color:var(--gold);background:rgba(240,180,76,.12);padding:0 9px;border-radius:99px;border:1px solid rgba(240,180,76,.3);white-space:nowrap}
 
-.side{width:100%;background:linear-gradient(180deg,var(--bg2),var(--panel));border-top:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:14px}
-@media(min-width:900px){.side{width:380px;height:100%;border-top:0;border-right:1px solid var(--line);overflow-y:auto}}
+.side{width:100%;background:linear-gradient(180deg,var(--bg2),var(--panel));border-top:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:12px}
+@media(min-width:900px){.side{width:390px;height:100%;border-top:0;border-right:1px solid var(--line);overflow-y:auto}}
 
 .controls-panel{background:rgba(26,14,8,.72);border:1px solid var(--line);border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:8px;flex-shrink:0}
 .controls-panel-title{font-size:.75rem;font-weight:700;color:var(--gold);display:flex;align-items:center;justify-content:space-between}
@@ -111,7 +111,18 @@ section.blk{padding:40px 0 10px}
 .camera-view-button:hover,.ctl:hover{background:rgba(200,130,90,.22);border-color:var(--copper)}
 .camera-view-button.is-active,.ctl.is-active{background:var(--copper);color:#2a150b;border-color:var(--copper)}
 
-.side h3{font-family:'Reem Kufi',sans-serif;color:var(--sand);font-size:1.12rem;padding-bottom:8px;border-bottom:1px dashed var(--line);flex-shrink:0}
+.side h3{font-family:'Reem Kufi',sans-serif;color:var(--sand);font-size:1.12rem;padding-bottom:6px;border-bottom:1px dashed var(--line);flex-shrink:0}
+
+/* ===== مربع السؤال المباشر الاحترافي ===== */
+.ask-direct-box{background:rgba(26,14,8,.72);border:1px solid rgba(240,180,76,.32);border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:7px;flex-shrink:0}
+.ask-direct-box label{font-size:.76rem;font-weight:700;color:var(--gold);display:flex;align-items:center;gap:6px}
+.ask-direct-row{display:flex;gap:6px}
+.ask-direct-row input{flex:1;min-width:0;padding:8px 11px;border-radius:10px;border:1px solid var(--line);background:rgba(0,0,0,.35);color:var(--text);font-size:.82rem;transition:.25s}
+.ask-direct-row input::placeholder{color:var(--mute);opacity:.75}
+.ask-direct-row input:focus{border-color:var(--gold);outline:none}
+.ask-direct-row button{padding:8px 14px;border-radius:10px;border:1px solid var(--gold);background:var(--gold);color:#2a150b;font-weight:800;font-size:.8rem;cursor:pointer;white-space:nowrap;transition:.25s}
+.ask-direct-row button:hover{background:var(--sand);border-color:var(--sand)}
+.ask-direct-row button:disabled{opacity:.6;cursor:wait}
 
 .speech-btn{width:100%;text-align:right;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 14px;border-radius:16px;border:1px solid var(--copper);background:var(--copper);color:#2a150b;cursor:pointer;transition:.3s;flex-shrink:0}
 .speech-btn:hover{background:var(--gold);border-color:var(--gold);transform:translateY(-2px)}
@@ -302,6 +313,16 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
           </div>
 
           <h3>💬 حوار مع محمد علي باشا</h3>
+
+          <!-- مربع السؤال المباشر بالصوت الاحترافي -->
+          <div class="ask-direct-box">
+            <label for="directQuestionInput">🎙️ اسأل محمد علي باشا مباشرة (صوت احترافي):</label>
+            <div class="ask-direct-row">
+              <input type="text" id="directQuestionInput" placeholder="اكتب سؤالك هنا لمحمد علي باشا..." onkeydown="if(event.key==='Enter') askDirectQuestion()">
+              <button type="button" id="directAskBtn" onclick="askDirectQuestion()">اسأل</button>
+            </div>
+          </div>
+
           <button class="speech-btn" onclick="playMainSpeech()">
             <span class="l"><span style="font-size:1.3rem">📢</span><span><b>الخطاب التاريخي</b><small>خطاب بناء الدولة الحديثة والنهضة الكبرى</small></span></span>
             <b>استمع</b>
@@ -380,10 +401,23 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
 <script>
 const figure = {
   mainSpeech: 'مرحباً بكم يا أبنائي وبناتي طلاب الصف الثالث الإعدادي. أنا محمد علي باشا، مؤسس مصر الحديثة. حين اختارني زعماء الشعب في دار المحكمة يوم 13 مايو عام 1805م، عاهدتكم أن أجعل مصر دولة قوية مهيبة. بنيت جيشاً وطنياً نظامياً، وأنشأت القناطر الخيرية لتطوير الري، وشيدت المدارس الحديثة مثل الطب والهندسة وأرسلت البعثات التعليمية إلى أوروبا.',
+  mainAudio: './audio/mohamed-ali-main.wav',
   dialogues: [
-    { q: 'كيف قمت ببناء الجيش المصري الحديث؟', a: 'أدركت أن الجيش هو الدعامة الأساسية لتحقيق أهدافي. أنشأت مدرسة عسكرية في أسوان لتدريب الضباط بقيادة الكولونيل سيف، واستقدمت خبراء من فرنسا، كما أنشأت الترسانة البحرية في بولاق ثم الإسكندرية لصناعة السفن الحربية والأسلحة.' },
-    { q: 'ما هو نظام الاحتكار ولماذا طبقته؟', a: 'طبقت نظام الاحتكار في الاقتصاد لأضمن الدخول في سوق التجارة الدولية منافساً لغيري من الدول. كانت الحكومة تحدد نوع الغلات التي تزرع والمصنوعات التي تنتج وأثمان شرائها وبيعها.' },
-    { q: 'ما دورك في نهضة التعليم والثقافة؟', a: 'أنشأت المدارس العالية كالطب والمهندسخانة والزراعة، وأرسلت البعثات إلى فرنسا وإيطاليا وكان على رأسهم رفاعة الطهطاوي وعلي مبارك، وأسست مطبعة بولاق الأميرية وأصدرت صحيفة الوقائع المصرية.' }
+    {
+      q: 'كيف قمت ببناء الجيش المصري الحديث؟',
+      a: 'أدركت أن الجيش هو الدعامة الأساسية لتحقيق أهدافي. أنشأت مدرسة عسكرية في أسوان لتدريب الضباط بقيادة الكولونيل سيف، واستقدمت خبراء من فرنسا، كما أنشأت الترسانة البحرية في بولاق ثم الإسكندرية لصناعة السفن الحربية والأسلحة.',
+      audio: './audio/mohamed-ali-q1.wav'
+    },
+    {
+      q: 'ما هو نظام الاحتكار ولماذا طبقته؟',
+      a: 'طبقت نظام الاحتكار في الاقتصاد لأضمن الدخول في سوق التجارة الدولية منافساً لغيري من الدول. كانت الحكومة تحدد نوع الغلات التي تزرع والمصنوعات التي تنتج وأثمان شرائها وبيعها.',
+      audio: './audio/mohamed-ali-q2.wav'
+    },
+    {
+      q: 'ما دورك في نهضة التعليم والثقافة؟',
+      a: 'أنشأت المدارس العالية كالطب والمهندسخانة والزراعة، وأرسلت البعثات إلى فرنسا وإيطاليا وكان على رأسهم رفاعة الطهطاوي وعلي مبارك، وأسست مطبعة بولاق الأميرية وأصدرت صحيفة الوقائع المصرية.',
+      audio: './audio/mohamed-ali-q3.wav'
+    }
   ],
   supportingCharacters: [
     {
@@ -391,35 +425,40 @@ const figure = {
       role: 'قائد التدريب العسكري',
       image: './images/soliman-pasha.jpg',
       summary: 'هو الكولونيل سيف أحد ضباط جيش نابليون، استعان به محمد علي لإعداد وتدريب الضباط المصريين بالمدرسة العسكرية في أسوان.',
-      speech: 'أنا سليمان باشا الفرنساوي، الكولونيل سيف سابقاً. استعان بي محمد علي باشا لتأسيس المدرسة العسكرية في أسوان وتدريب الضباط المصريين على أحدث النظم العسكرية الأوروبية.'
+      speech: 'أنا سليمان باشا الفرنساوي، الكولونيل سيف سابقاً. استعان بي محمد علي باشا لتأسيس المدرسة العسكرية في أسوان وتدريب الضباط المصريين على أحدث النظم العسكرية الأوروبية.',
+      audio: './audio/soliman-pasha.wav'
     },
     {
       name: 'رفاعة رافع الطهطاوي',
       role: 'رائد النهضة التعليمية',
       image: './images/rifaa-tahtawi.jpg',
       summary: 'إمام البعثة التعليمية إلى فرنسا، أسهم بعد عودته في حركة الترجمة وإنشاء مدرسة الألسن وإصدار صحيفة الوقائع المصرية.',
-      speech: 'أنا رفاعة رافع الطهطاوي. أرسلني محمد علي باشا إماماً للبعثة التعليمية إلى باريس، وبعد عودتي اقترحت إنشاء مدرسة الألسن لترجمة العلوم الحديثة إلى اللغة العربية.'
+      speech: 'أنا رفاعة رافع الطهطاوي. أرسلني محمد علي باشا إماماً للبعثة التعليمية إلى باريس، وبعد عودتي اقترحت إنشاء مدرسة الألسن لترجمة العلوم الحديثة إلى اللغة العربية.',
+      audio: './audio/rifaa-tahtawi.wav'
     },
     {
       name: 'علي مبارك',
       role: 'أبو التعليم والهندسة',
       image: './images/ali-mubarak.jpg',
       summary: 'أحد أبرز نوابغ البعثات التعليمية إلى أوروبا في عهد محمد علي، وأسهم في تطوير التعليم والهندسة ومشروعات الري في مصر.',
-      speech: 'أنا علي مبارك، تخرجت في مدرسة المهندسخانة وسافرت ضمن بعثات محمد علي باشا إلى فرنسا، وعملت على تطوير المدارس والمشروعات الهندسية والري في مصر.'
+      speech: 'أنا علي مبارك، تخرجت في مدرسة المهندسخانة وسافرت ضمن بعثات محمد علي باشا إلى فرنسا، وعملت على تطوير المدارس والمشروعات الهندسية والري في مصر.',
+      audio: './audio/ali-mubarak.wav'
     },
     {
       name: 'إبراهيم باشا',
       role: 'القائد العام للجيش',
       image: './images/ibrahim-pasha.jpg',
       summary: 'الابن الأكبر لمحمد علي والقائد العام للجيش المصري في حروب الجزيرة العربية والمورة والشام، وركيزة التوسعات العسكرية.',
-      speech: 'أنا إبراهيم باشا، الابن الأكبر لمحمد علي باشا وقائد الجيوش المصرية. قدت الحملات العسكرية في الجزيرة العربية والمورة والشام لتأمين حدود الدولة المصرية الحديثة.'
+      speech: 'أنا إبراهيم باشا، الابن الأكبر لمحمد علي باشا وقائد الجيوش المصرية. قدت الحملات العسكرية في الجزيرة العربية والمورة والشام لتأمين حدود الدولة المصرية الحديثة.',
+      audio: './audio/ibrahim-pasha.wav'
     },
     {
       name: 'مسيو جوميل (Jumel)',
       role: 'خبير الزراعة والقطن',
       image: './images/jumel.jpg',
       summary: 'المهندس الفرنسي الذي استعان به محمد علي لإدخال وزراعة القطن طويل التيلة، مما أحدث طفرة كبرى في الاقتصاد المصري.',
-      speech: 'أنا المهندس الفرنسي لويس أليكسيس جوميل. استعان بي محمد علي باشا لتطوير زراعة القطن المصري طويل التيلة، فأصبح محصول التصدير الأول لمصر في الأسواق العالمية.'
+      speech: 'أنا المهندس الفرنسي لويس أليكسيس جوميل. استعان بي محمد علي باشا لتطوير زراعة القطن المصري طويل التيلة، فأصبح محصول التصدير الأول لمصر في الأسواق العالمية.',
+      audio: './audio/jumel.wav'
     }
   ],
   quiz: [
@@ -431,6 +470,7 @@ const figure = {
 
 let isSpeaking = false;
 let currentSpeechText = figure.mainSpeech;
+let currentSpeechAudioUrl = figure.mainAudio;
 let characterHeight = 3;
 
 let animMixer = null;
@@ -775,7 +815,7 @@ function updateCameraButtonState(activeView) {
   });
 }
 
-// ===== نظام صوت الشخصية الرئيسية 3D =====
+// ===== نظام صوت الشخصية الرئيسية 3D (ملفات WAV جاهزة + السؤال المباشر فقط) =====
 function setSpeakingUI(active, message) {
   isSpeaking = active;
   document.getElementById('speakingIndicatorDot').classList.toggle('animate-ping', active);
@@ -792,19 +832,34 @@ function setSpeakingUI(active, message) {
 
 function stopSpeech() {
   speechRequestId++;
-  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-  if (speechAudio) { speechAudio.pause(); speechAudio.currentTime = 0; speechAudio = null; }
+  if (speechAudio) {
+    speechAudio.pause();
+    speechAudio.currentTime = 0;
+    speechAudio = null;
+  }
   setSpeakingUI(false);
 }
 
-function playBrowserSpeech(text) {
-  if (!('speechSynthesis' in window)) { setSpeakingUI(false, 'الصوت غير متاح في هذا المتصفح'); return; }
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'ar-EG';
-  utterance.rate = 0.95;
-  utterance.onstart = () => setSpeakingUI(true, 'يتحدث الآن...');
-  utterance.onend = utterance.onerror = () => setSpeakingUI(false);
-  window.speechSynthesis.speak(utterance);
+function playPreloadedAudio(audioUrl, text) {
+  stopCardSpeech();
+  stopSpeech();
+
+  currentSpeechText = text;
+  currentSpeechAudioUrl = audioUrl;
+
+  const outputBox = document.getElementById('dialogueOutputBox');
+  outputBox.classList.add('open');
+  document.getElementById('speechBubbleText').innerText = `"${text}"`;
+
+  setSpeakingUI(true, 'جارٍ تشغيل الصوت...');
+  speechAudio = new Audio(audioUrl);
+  speechAudio.onplay = () => setSpeakingUI(true, 'يتحدث الآن بصوت محمد علي باشا');
+  speechAudio.onended = () => setSpeakingUI(false);
+  speechAudio.onerror = () => setSpeakingUI(false, 'تعذر تحميل ملف الصوت');
+  speechAudio.play().catch((error) => {
+    console.error(error);
+    setSpeakingUI(false, 'اضغط تشغيل للسماح بالصوت');
+  });
 }
 
 function requestGeminiAudio(text) {
@@ -825,58 +880,93 @@ function requestGeminiAudio(text) {
   });
 }
 
-async function playSpeech(text) {
+function playAudioData(result) {
+  stopSpeech();
+  speechAudio = new Audio(`data:${result.mimeType || 'audio/wav'};base64,${result.audio}`);
+  speechAudio.onplay = () => setSpeakingUI(true, 'يتحدث الآن بصوت محمد علي باشا');
+  speechAudio.onended = speechAudio.onerror = () => setSpeakingUI(false);
+  speechAudio.play().catch((error) => {
+    console.error(error);
+    setSpeakingUI(false, 'اضغط تشغيل للسماح بالصوت');
+  });
+}
+
+async function askDirectQuestion() {
+  const input = document.getElementById('directQuestionInput');
+  const askBtn = document.getElementById('directAskBtn');
+  const question = (input.value || '').trim();
+  if (!question) {
+    input.focus();
+    return;
+  }
+
+  document.querySelectorAll('.qbtn').forEach(b => b.classList.remove('active'));
   stopCardSpeech();
   stopSpeech();
+
   const requestId = speechRequestId;
-  currentSpeechText = text;
+  currentSpeechText = question;
+  currentSpeechAudioUrl = null;
+
   const outputBox = document.getElementById('dialogueOutputBox');
   outputBox.classList.add('open');
-  document.getElementById('speechBubbleText').innerText = `"${text}"`;
+  document.getElementById('speechBubbleText').innerText = `"${question}"`;
 
-  if (!GEMINI_TTS_ENDPOINT) { playBrowserSpeech(text); return; }
-  const cached = geminiTtsCache.get(text);
-  if (cached) { playAudioData(cached); return; }
-  setSpeakingUI(true, 'جارٍ تجهيز الصوت الاحترافي...');
+  const cached = geminiTtsCache.get(question);
+  if (cached) {
+    if (cached.reply) {
+      currentSpeechText = cached.reply;
+      document.getElementById('speechBubbleText').innerText = `"${cached.reply}"`;
+    }
+    playAudioData(cached);
+    return;
+  }
+
+  askBtn.disabled = true;
+  setSpeakingUI(true, 'جارٍ تجهيز الرد بالصوت الاحترافي...');
+
   try {
-    const result = await requestGeminiAudio(text);
+    const result = await requestGeminiAudio(question);
     if (requestId !== speechRequestId) return;
     if (!result || !result.audio) throw new Error('لم يصل ملف الصوت من الخدمة');
-    geminiTtsCache.set(text, result);
+    geminiTtsCache.set(question, result);
+    if (result.reply) {
+      currentSpeechText = result.reply;
+      document.getElementById('speechBubbleText').innerText = `"${result.reply}"`;
+    }
     playAudioData(result);
   } catch (error) {
     if (requestId !== speechRequestId) return;
     console.error('Gemini TTS:', error);
-    setSpeakingUI(false, 'تعذر صوت Gemini؛ جارٍ استخدام الصوت البديل');
-    playBrowserSpeech(text);
+    setSpeakingUI(false, 'الخدمة الصوتية المباشرة مزدحمة حالياً؛ جرّب الأسئلة الجاهزة بالأسفل');
+  } finally {
+    askBtn.disabled = false;
   }
 }
 
-function playAudioData(result) {
-  stopSpeech();
-  speechAudio = new Audio(`data:${result.mimeType || 'audio/wav'};base64,${result.audio}`);
-  speechAudio.onplay = () => setSpeakingUI(true, 'يتحدث الآن بصوت Gemini');
-  speechAudio.onended = speechAudio.onerror = () => setSpeakingUI(false);
-  speechAudio.play().catch((error) => { console.error(error); setSpeakingUI(false, 'اضغط تشغيل للسماح بالصوت'); });
-}
-
 function togglePlaySpeech() {
-  if (isSpeaking) stopSpeech(); else playSpeech(currentSpeechText);
+  if (isSpeaking) {
+    stopSpeech();
+  } else if (currentSpeechAudioUrl) {
+    playPreloadedAudio(currentSpeechAudioUrl, currentSpeechText);
+  } else if (geminiTtsCache.has(currentSpeechText)) {
+    playAudioData(geminiTtsCache.get(currentSpeechText));
+  }
 }
 
 function playMainSpeech() {
   document.querySelectorAll('.qbtn').forEach(b => b.classList.remove('active'));
   playFanfare();
-  playSpeech(figure.mainSpeech);
+  playPreloadedAudio(figure.mainAudio, figure.mainSpeech);
 }
 
-// ===== نظام صوت بطاقات الشخصيات المساندة (منفصل تماماً عن الشخصية 3D) =====
+// ===== نظام صوت بطاقات الشخصيات المساندة (من ملفات WAV مباشرةً) =====
 function setCardButtonState(btn, state) {
   if (!btn) return;
   btn.classList.remove('loading', 'playing');
   if (state === 'loading') {
     btn.classList.add('loading');
-    btn.innerHTML = '<span>⏳</span><span>جارٍ تجهيز الصوت الاحترافي...</span>';
+    btn.innerHTML = '<span>⏳</span><span>جارٍ تشغيل الصوت...</span>';
   } else if (state === 'playing') {
     btn.classList.add('playing');
     btn.innerHTML = '<span>⏸</span><span>إيقاف الصوت</span>';
@@ -887,7 +977,6 @@ function setCardButtonState(btn, state) {
 
 function stopCardSpeech() {
   cardRequestId++;
-  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
   if (cardSpeechAudio) {
     cardSpeechAudio.pause();
     cardSpeechAudio.currentTime = 0;
@@ -899,27 +988,20 @@ function stopCardSpeech() {
   }
 }
 
-function playCardBrowserSpeech(text, btn, reqId) {
-  if (!('speechSynthesis' in window)) {
-    if (reqId === cardRequestId) stopCardSpeech();
+function toggleCardSpeech(audioUrl, btn) {
+  if (activeCardBtn === btn) {
+    stopCardSpeech();
     return;
   }
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'ar-EG';
-  utterance.rate = 0.95;
-  utterance.onstart = () => {
-    if (reqId !== cardRequestId) return;
-    setCardButtonState(btn, 'playing');
-  };
-  utterance.onend = utterance.onerror = () => {
-    if (reqId === cardRequestId) stopCardSpeech();
-  };
-  window.speechSynthesis.speak(utterance);
-}
 
-function playCardAudioData(result, btn, reqId) {
-  if (reqId !== cardRequestId) return;
-  cardSpeechAudio = new Audio(`data:${result.mimeType || 'audio/wav'};base64,${result.audio}`);
+  stopSpeech();
+  stopCardSpeech();
+
+  const reqId = ++cardRequestId;
+  activeCardBtn = btn;
+  setCardButtonState(btn, 'loading');
+
+  cardSpeechAudio = new Audio(audioUrl);
   cardSpeechAudio.onplay = () => {
     if (reqId !== cardRequestId) return;
     setCardButtonState(btn, 'playing');
@@ -933,44 +1015,6 @@ function playCardAudioData(result, btn, reqId) {
   });
 }
 
-async function toggleCardSpeech(text, btn) {
-  // إذا ضغط الطالب على نفس الزر أثناء التحميل أو التشغيل -> أوقف الصوت فوراً
-  if (activeCardBtn === btn) {
-    stopCardSpeech();
-    return;
-  }
-
-  stopSpeech();
-  stopCardSpeech();
-
-  const reqId = ++cardRequestId;
-  activeCardBtn = btn;
-  setCardButtonState(btn, 'loading');
-
-  if (!GEMINI_TTS_ENDPOINT) {
-    playCardBrowserSpeech(text, btn, reqId);
-    return;
-  }
-
-  const cached = geminiTtsCache.get(text);
-  if (cached) {
-    playCardAudioData(cached, btn, reqId);
-    return;
-  }
-
-  try {
-    const result = await requestGeminiAudio(text);
-    if (reqId !== cardRequestId) return;
-    if (!result || !result.audio) throw new Error('لم يصل ملف الصوت من الخدمة');
-    geminiTtsCache.set(text, result);
-    playCardAudioData(result, btn, reqId);
-  } catch (error) {
-    if (reqId !== cardRequestId) return;
-    console.error('Card Gemini TTS:', error);
-    playCardBrowserSpeech(text, btn, reqId);
-  }
-}
-
 function renderDialogues() {
   const box = document.getElementById('questionsContainer');
   figure.dialogues.forEach(d => {
@@ -980,7 +1024,7 @@ function renderDialogues() {
     btn.onclick = () => {
       document.querySelectorAll('.qbtn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      playSpeech(d.a);
+      playPreloadedAudio(d.audio, d.a);
     };
     box.appendChild(btn);
   });
@@ -1031,7 +1075,7 @@ function renderSupportingCharacters() {
     listenBtn.type = 'button';
     listenBtn.className = 'char-listen-btn';
     listenBtn.innerHTML = '<span>🔊</span><span>اسمع نبذة</span>';
-    listenBtn.onclick = () => toggleCardSpeech(char.speech, listenBtn);
+    listenBtn.onclick = () => toggleCardSpeech(char.audio, listenBtn);
 
     body.appendChild(title);
     body.appendChild(desc);
