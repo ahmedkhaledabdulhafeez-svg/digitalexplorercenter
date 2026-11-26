@@ -40,6 +40,10 @@ a{color:inherit;text-decoration:none}
 button{font-family:inherit}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 
+/* إخفاء السكرول بار مع بقاء التمرير نشطاً */
+.no-scrollbar{scrollbar-width:none;-ms-overflow-style:none}
+.no-scrollbar::-webkit-scrollbar{display:none}
+
 /* ===== Header ===== */
 header{position:sticky;top:0;z-index:50;background:rgba(46,26,16,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .bar{max-width:1240px;margin:auto;padding:8px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
@@ -80,28 +84,28 @@ section.blk{padding:40px 0 10px}
 .frame::before{top:-6px;right:-6px;border-left:0;border-bottom:0;border-top-right-radius:28px}
 .frame::after{bottom:-6px;left:-6px;border-right:0;border-top:0;border-bottom-left-radius:28px}
 
-/* ===== 3D stage ===== */
+/* ===== 3D stage (ثابت على الأبعاد الأساسية دون تمدد) ===== */
 .stage{display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:#24130b;border:1px solid var(--line)}
-@media(min-width:900px){.stage{flex-direction:row;align-items:stretch;min-height:600px}}
+@media(min-width:900px){.stage{flex-direction:row;height:620px}}
 
 .canvas-side{position:relative;flex:1;height:430px;min-height:400px}
-@media(min-width:900px){.canvas-side{height:auto;min-height:600px}}
+@media(min-width:900px){.canvas-side{height:100%}}
 #threeCanvasContainer{width:100%;height:100%;cursor:grab;touch-action:pan-y}
 #threeCanvasContainer:active{cursor:grabbing}
 #threeCanvasContainer canvas{display:block;width:100%!important;height:100%!important}
 #modelLoadingMessage{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;color:var(--sand);font-weight:700;font-size:.95rem;pointer-events:none;text-align:center;padding:20px}
 
-/* شارة الشخصية أعلى المسرح (واضحة بالكامل على الموبايل والكمبيوتر) */
+/* شارة الشخصية أعلى المسرح */
 .badge{position:absolute;top:12px;right:12px;z-index:4;pointer-events:none;display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:99px;background:rgba(36,19,11,.88);border:1px solid var(--line);backdrop-filter:blur(8px);max-width:calc(100% - 24px)}
 .badge b{font-family:'Reem Kufi',sans-serif;color:var(--sand);font-size:.95rem;white-space:nowrap}
 .badge span{font-size:.7rem;font-weight:700;color:var(--gold);background:rgba(240,180,76,.12);padding:0 9px;border-radius:99px;border:1px solid rgba(240,180,76,.3);white-space:nowrap}
 
-/* اللوحة الجانبية (في الكمبيوتر على الشمال، وفي الموبايل تحت الشخصية مباشرة) */
-.side{width:100%;background:linear-gradient(180deg,var(--bg2),var(--panel));border-top:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:14px;overflow:visible}
-@media(min-width:900px){.side{width:385px;border-top:0;border-right:1px solid var(--line)}}
+/* اللوحة الجانبية: سكرول شغال مع إخفاء السكرول بار */
+.side{width:100%;background:linear-gradient(180deg,var(--bg2),var(--panel));border-top:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:14px}
+@media(min-width:900px){.side{width:380px;height:100%;border-top:0;border-right:1px solid var(--line);overflow-y:auto}}
 
-/* قسم أزرار التحكم والكاميرا الموحد داخل اللوحة الجانبية */
-.controls-panel{background:rgba(26,14,8,.72);border:1px solid var(--line);border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:8px}
+/* قسم أزرار التحكم والكاميرا */
+.controls-panel{background:rgba(26,14,8,.72);border:1px solid var(--line);border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:8px;flex-shrink:0}
 .controls-panel-title{font-size:.75rem;font-weight:700;color:var(--gold);display:flex;align-items:center;justify-content:space-between}
 .views-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .actions-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
@@ -110,16 +114,16 @@ section.blk{padding:40px 0 10px}
 .camera-view-button:hover,.ctl:hover{background:rgba(200,130,90,.22);border-color:var(--copper)}
 .camera-view-button.is-active,.ctl.is-active{background:var(--copper);color:#2a150b;border-color:var(--copper)}
 
-.side h3{font-family:'Reem Kufi',sans-serif;color:var(--sand);font-size:1.12rem;padding-bottom:8px;border-bottom:1px dashed var(--line)}
+.side h3{font-family:'Reem Kufi',sans-serif;color:var(--sand);font-size:1.12rem;padding-bottom:8px;border-bottom:1px dashed var(--line);flex-shrink:0}
 
-.speech-btn{width:100%;text-align:right;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 14px;border-radius:16px;border:1px solid var(--copper);background:var(--copper);color:#2a150b;cursor:pointer;transition:.3s}
+.speech-btn{width:100%;text-align:right;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 14px;border-radius:16px;border:1px solid var(--copper);background:var(--copper);color:#2a150b;cursor:pointer;transition:.3s;flex-shrink:0}
 .speech-btn:hover{background:var(--gold);border-color:var(--gold);transform:translateY(-2px)}
 .speech-btn b{display:block;font-size:.88rem}
 .speech-btn small{font-size:.72rem;font-weight:600;opacity:.85}
 .speech-btn .l{display:flex;align-items:center;gap:10px}
 
-/* صندوق عرض الكلام بدون أي سكرول بار */
-.dialogue-box{display:none;background:rgba(26,14,8,.88);border:1px solid rgba(240,180,76,.38);border-radius:16px;padding:12px 14px;animation:fadeSlide .28s ease}
+/* صندوق عرض الكلام: سكرول شغال مع إخفاء السكرول بار */
+.dialogue-box{display:none;background:rgba(26,14,8,.88);border:1px solid rgba(240,180,76,.38);border-radius:16px;padding:12px 14px;animation:fadeSlide .28s ease;flex-shrink:0}
 .dialogue-box.open{display:block}
 @keyframes fadeSlide{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
 .dialogue-box .row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px;padding-bottom:6px;border-bottom:1px dashed var(--line)}
@@ -129,13 +133,13 @@ section.blk{padding:40px 0 10px}
 @keyframes ping{50%{transform:scale(1.7);opacity:.45}}
 #btnPlayVoice{width:30px;height:30px;border-radius:50%;border:1px solid var(--copper);background:rgba(200,130,90,.18);color:var(--gold);cursor:pointer;transition:.25s;display:grid;place-items:center;flex-shrink:0}
 #btnPlayVoice:hover{background:var(--copper);color:#2a150b}
-#speechBubbleText{font-size:.83rem;color:var(--text);line-height:1.85;overflow:visible}
+#speechBubbleText{font-size:.83rem;color:var(--text);line-height:1.85;max-height:110px;overflow-y:auto}
 
 .lbl{font-size:.78rem;font-weight:700;color:var(--mute)}
 #questionsContainer{display:flex;flex-direction:column;gap:8px;margin-top:6px}
 .qbtn{width:100%;text-align:right;display:flex;gap:8px;align-items:flex-start;padding:9px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(0,0,0,.22);color:var(--text);font-size:.81rem;font-weight:600;cursor:pointer;transition:.25s}
 .qbtn:hover,.qbtn.active{border-color:var(--gold);background:rgba(240,180,76,.12)}
-.down{margin-top:auto;padding:10px 16px;border-radius:14px;text-align:center;font-weight:700;font-size:.82rem;border:1px dashed var(--copper);color:var(--gold);background:rgba(200,130,90,.08);transition:.25s}
+.down{margin-top:auto;padding:10px 16px;border-radius:14px;text-align:center;font-weight:700;font-size:.82rem;border:1px dashed var(--copper);color:var(--gold);background:rgba(200,130,90,.08);transition:.25s;flex-shrink:0}
 .down:hover{background:var(--copper);color:#2a150b}
 
 /* ===== Video ===== */
@@ -205,8 +209,8 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
           <div class="badge"><span style="background:none;border:0;padding:0;font-size:.95rem">👑</span><b>محمد علي باشا</b><span>1805 - 1848م</span></div>
         </div>
 
-        <aside class="side">
-          <!-- جميع أدوات التحكم والكاميرا هنا (تظهر تحت الشخصية مباشرة على الموبايل وفي اللوحة الجانبية على الكمبيوتر) -->
+        <aside class="side no-scrollbar">
+          <!-- أدوات التحكم والكاميرا -->
           <div class="controls-panel" role="toolbar" aria-label="التحكم في الكاميرا والشخصية">
             <div class="controls-panel-title"><span>🎮 التحكم في العرض والشخصية</span></div>
             <div class="views-grid">
@@ -228,13 +232,13 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
             <b>استمع</b>
           </button>
 
-          <!-- صندوق الكلام يظهر عند الضغط على استمع أو أي سؤال بدون سكرول -->
+          <!-- صندوق الكلام بسكرول مخفي -->
           <div id="dialogueOutputBox" class="dialogue-box" aria-live="polite">
             <div class="row">
               <div class="who"><span id="speakingIndicatorDot" class="dot"></span><span id="speakingIndicatorText">صوت الشخصية التاريخية</span></div>
               <button id="btnPlayVoice" onclick="togglePlaySpeech()" title="تشغيل / إيقاف">▶</button>
             </div>
-            <p id="speechBubbleText"></p>
+            <p id="speechBubbleText" class="no-scrollbar"></p>
           </div>
 
           <div>
@@ -297,7 +301,6 @@ let isSpeaking = false;
 let currentSpeechText = figure.mainSpeech;
 let characterHeight = 3;
 
-// متغيرات التحكم في الحركات المدمجة (Idle, Waving, Talk1, Talk2)
 let animMixer = null;
 const animActions = {};
 let activeAction = null;
@@ -311,7 +314,6 @@ const GEMINI_TTS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbx_vy-WNBWg
 
 let scene, camera, renderer, controls, charGroup;
 
-// مؤثر صوتي بسيط للخطاب
 let audioCtx = null;
 function playFanfare() {
   try {
@@ -462,7 +464,6 @@ function initThree() {
   });
 }
 
-// التبديل الناعم بين الحركات (Crossfade)
 function playCharacterMotion(name, once = false) {
   if (!animMixer) return;
   const targetKey = Object.keys(animActions).find(k => k.toLowerCase() === name.toLowerCase())
@@ -495,7 +496,6 @@ function stopTalkingLoop() {
   }
 }
 
-// التبديل التلقائي المستمر بين Talk1 و Talk2 طوال فترة التحدث
 function startTalkingLoop() {
   stopTalkingLoop();
   const talkClips = Object.keys(animActions)
@@ -527,7 +527,6 @@ function triggerWaving() {
   playCharacterMotion('Waving', true);
 }
 
-// تحميل المجسم ثلاثي الأبعاد المتحرك لمحمد علي باشا
 function buildCharacterModel() {
   if (charGroup) scene.remove(charGroup);
   charGroup = new THREE.Group();
@@ -596,7 +595,6 @@ function rotateCharacter(angle) {
   controls.update();
 }
 
-// حساب مسافة الكاميرا المناسبة لشاشة الكمبيوتر والموبايل لإظهار الشخصية كاملة بدون قص
 function getFitBodyDistance() {
   const aspect = (camera && camera.aspect) ? camera.aspect : 1;
   const portraitBoost = aspect < 1 ? Math.min(1.38, 1 + (1 - aspect) * 0.65) : 1.05;
@@ -640,7 +638,6 @@ function updateCameraButtonState(activeView) {
   });
 }
 
-// الصوت وحالة صندوق الكلام داخل الحوار
 function setSpeakingUI(active, message) {
   isSpeaking = active;
   document.getElementById('speakingIndicatorDot').classList.toggle('animate-ping', active);
@@ -734,7 +731,6 @@ function playMainSpeech() {
   playSpeech(figure.mainSpeech);
 }
 
-// أسئلة الحوار الجانبية
 function renderDialogues() {
   const box = document.getElementById('questionsContainer');
   figure.dialogues.forEach(d => {
@@ -750,7 +746,6 @@ function renderDialogues() {
   });
 }
 
-// اختبر فهمك
 function renderQuiz() {
   const box = document.getElementById('quizContainer');
   figure.quiz.forEach((qz, qIdx) => {
