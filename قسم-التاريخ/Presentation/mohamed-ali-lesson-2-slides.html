@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المستكشف الرقمي | محمد علي وبناء الدولة الحديثة</title>
+    <!-- استيراد خطوط عربية عصرية ومناسبة للطلاب -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- مكتبة Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- مكتبة أيقونات Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        tajawal: ['Tajawal', 'sans-serif'],
+                    },
+                    colors: {
+                        royal: {
+                            900: '#0a192f',
+                            800: '#112240',
+                            700: '#1d3557',
+                        },
+                        gold: {
+                            400: '#f4d35e',
+                            500: '#d4af37',
+                            600: '#b5952f',
+                        },
+                        sand: '#f8f5f0'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #0a192f;
+            overflow-x: hidden;
+            user-select: none;
+        }
+
+        /* خلفية هندسية إسلامية/تاريخية خفيفة */
+        .bg-islamic-pattern {
+            background-color: #0a192f;
+            background-image: radial-gradient(#d4af37 0.75px, transparent 0.75px), radial-gradient(#d4af37 0.75px, #0a192f 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            background-blend-mode: soft-light;
+        }
+
+        /* تأثيرات انتقال الشرائح */
+        .slide {
+            display: none;
+            animation: fadeInScale 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* شريط تمرير أنيق للمحتوى الداخلي للشرائح */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 10px;
+        }
+
+        /* تأثير بطاقات الانفوجرافيك */
+        .info-card {
+            transition: all 0.3s ease;
+        }
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(212, 175, 55, 0.25);
+        }
+    </style>
+</head>
+<body class="bg-islamic-pattern text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <!-- الشريط العلوي: هوية منصة المستكشف الرقمي وشريط التقدم -->
+    <header class="bg-royal-900/95 backdrop-blur-md border-b border-gold-500/30 text-white px-4 py-3 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2">
+            <!-- الشعار -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center text-royal-900 font-black shadow-md">
+                    <i data-lucide="compass" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <span class="text-xs text-gold-400 font-bold tracking-wider block">منصة المستكشف الرقمي</span>
+                    <h1 class="text-sm sm:text-base font-extrabold text-white">الصف الثالث الإعدادي • الدراسات الاجتماعية</h1>
+                </div>
+            </div>
+
+            <!-- قائمة الفهرس السريع -->
+            <div class="flex items-center gap-2">
+                <button onclick="toggleMenu()" class="flex items-center gap-1.5 bg-royal-800 hover:bg-royal-700 border border-gold-500/40 text-gold-400 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold transition">
+                    <i data-lucide="list" class="w-4 h-4"></i>
+                    <span>فهرس الدرس</span>
+                </button>
+                <div class="bg-gold-500/20 border border-gold-500/40 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-bold text-gold-400">
+                    شريحة <span id="current-slide-num">1</span> / <span id="total-slides-num">12</span>
+                </div>
+            </div>
+        </div>
+        <!-- شريط التقدم -->
+        <div class="w-full bg-royal-800 h-1.5 mt-2.5 rounded-full overflow-hidden max-w-6xl mx-auto">
+            <div id="progress-bar" class="bg-gradient-to-l from-gold-400 to-amber-500 h-full transition-all duration-300" style="width: 8.33%;"></div>
+        </div>
+    </header>
+
+    <!-- القائمة الجانبية المنبثقة للفهرس -->
+    <div id="toc-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border-2 border-gold-500 max-h-[85vh] overflow-y-auto custom-scroll">
+            <div class="flex justify-between items-center border-b pb-3 mb-4">
+                <h3 class="text-xl font-extrabold text-royal-900 flex items-center gap-2">
+                    <i data-lucide="map" class="w-6 h-6 text-gold-600"></i>
+                    خريطة الدرس التفاعلية
+                </h3>
+                <button onclick="toggleMenu()" class="p-1.5 rounded-full bg-slate-100 hover:bg-red-100 text-slate-600 hover:text-red-600 transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div id="toc-list" class="space-y-2">
+                <!-- يتم تعبئتها تلقائيا عبر الجافاسكربت -->
+            </div>
+        </div>
+    </div>
+
+    <!-- حاوية العرض التقديمي الرئيسية -->
+    <main class="flex-grow flex items-center justify-center p-3 sm:p-6">
+        <div class="w-full max-w-6xl bg-sand rounded-3xl shadow-2xl border-2 border-gold-500/40 overflow-hidden min-h-[72vh] flex flex-col relative">
+
+            <!-- ================= الشريحة 1: الغلاف والأهداف ================= -->
+            <section class="slide active flex-col justify-between p-6 sm:p-10 h-full flex-grow bg-gradient-to-br from-royal-900 via-royal-800 to-royal-900 text-white" data-title="مقدمة وأهداف الدرس">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto">
+                    <div class="lg:col-span-7 space-y-5">
+                        <div class="inline-flex items-center gap-2 bg-gold-500/20 border border-gold-400/50 text-gold-400 px-4 py-1.5 rounded-full text-sm font-bold">
+                            <i data-lucide="book-open" class="w-4 h-4"></i>
+                            <span>الوحدة الثانية • الدرس الثاني (١٨٠٥ - ١٨٤٨ م)</span>
+                        </div>
+                        <h2 class="text-3xl sm:text-5xl font-black leading-tight text-white">
+                            «محمد علي» وبناء <span class="text-gold-400">الدولة الحديثة</span> في مصر
+                        </h2>
+                        <p class="text-slate-300 text-base sm:text-lg leading-relaxed font-tajawal">
+                            يعد عصر «محمد علي» نقطة تحول كبرى في تاريخ مصر؛ حيث أسس الدولة الحديثة بعد قرون من الفوضى، ووضعها على طريق التقدم الاقتصادي والعلمي والعسكري لتصبح قوة إقليمية ذات سيادة ونفوذ.
+                        </p>
+
+                        <!-- بطاقة أهداف الدرس -->
+                        <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-5 mt-4">
+                            <h3 class="text-gold-400 font-extrabold text-lg mb-3 flex items-center gap-2">
+                                <i data-lucide="target" class="w-5 h-5"></i>
+                                أهداف الدرس (ماذا سنتعلم اليوم؟):
+                            </h3>
+                            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm sm:text-base">
+                                <li class="flex items-start gap-2 bg-royal-900/60 p-2.5 rounded-xl">
+                                    <span class="bg-gold-500 text-royal-900 font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-xs mt-0.5">١</span>
+                                    <span>تحليل أثر الإصلاحات الداخلية لـ«محمد علي».</span>
+                                </li>
+                                <li class="flex items-start gap-2 bg-royal-900/60 p-2.5 rounded-xl">
+                                    <span class="bg-gold-500 text-royal-900 font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-xs mt-0.5">٢</span>
+                                    <span>استنتاج أسباب حروب «محمد علي» الخارجية.</span>
+                                </li>
+                                <li class="flex items-start gap-2 bg-royal-900/60 p-2.5 rounded-xl">
+                                    <span class="bg-gold-500 text-royal-900 font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-xs mt-0.5">٣</span>
+                                    <span>تقييم تأثير سياسة «محمد علي» الخارجية على مصر.</span>
+                                </li>
+                                <li class="flex items-start gap-2 bg-royal-900/60 p-2.5 rounded-xl">
+                                    <span class="bg-gold-500 text-royal-900 font-bold w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-xs mt-0.5">٤</span>
+                                    <span>تلخيص بنود معاهدة لندن ١٨٤٠م ونتائجها.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- صورة تعبيرية: مسجد محمد علي بالقلعة -->
+                    <div class="lg:col-span-5 flex flex-col items-center">
+                        <div class="relative rounded-3xl overflow-hidden border-4 border-gold-500/60 shadow-2xl w-full max-w-md group">
+                            <img src="https://images.unsplash.com/photo-1572252009286-268acec5ca0a?auto=format&fit=crop&w=800&q=80" 
+                                 onerror="this.src='https://placehold.co/600x450/1d3557/f4d35e?text=مسجد+محمد+علي+بالقلعة'"
+                                 alt="مسجد محمد علي بالقلعة" 
+                                 class="w-full h-72 sm:h-80 object-cover group-hover:scale-105 transition duration-500">
+                            <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-royal-900 via-royal-900/80 to-transparent p-4 text-center">
+                                <span class="text-gold-400 font-bold text-sm block">تأمل واكتشف</span>
+                                <p class="text-white font-bold text-base">مسجد محمد علي بالقلعة - رمز النهضة المعمارية</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 2: أولا - الإصلاح الإداري ================= -->
+            <section class="slide flex-col p-6 sm:p-10 flex-grow" data-title="أولاً: الإصلاح الإداري">
+                <div class="flex items-center justify-between border-b-2 border-gold-500/30 pb-4 mb-6">
+                    <div>
+                        <span class="bg-royal-800 text-gold-400 px-3 py-1 rounded-lg text-xs font-bold">أولاً: سياسة «محمد علي» الداخلية</span>
+                        <h2 class="text-2xl sm:text-4xl font-black text-royal-900 mt-1">١. الإصلاح الإداري (إحكام السيطرة)</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-royal-900 text-gold-400 flex items-center justify-center shadow-md">
+                        <i data-lucide="landmark" class="w-7 h-7"></i>
+                    </div>
+                </div>
+
+                <!-- انفوجرافيك الهيكل الإداري -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 my-auto">
+                    <!-- العمود الأيمن: التقسيم الإداري -->
+                    <div class="bg-white rounded-3xl p-6 shadow-md border border-slate-200 info-card flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="bg-amber-100 text-amber-800 p-2.5 rounded-xl font-bold">
+                                    <i data-lucide="map-pin" class="w-6 h-6"></i>
+                                </span>
+                                <h3 class="text-xl font-extrabold text-royal-900">التقسيم الإداري لمصر</h3>
+                            </div>
+                            <p class="text-slate-600 mb-5 text-sm sm:text-base leading-relaxed">
+                                أعاد «محمد علي» تنظيم الإدارة <strong class="text-royal-900 bg-gold-400/30 px-1.5 rounded">بهدف تسهيل سيطرته الكاملة على شئون البلاد</strong>:
+                            </p>
+                        </div>
+
+                        <!-- رسم هرمي انفوجرافيك -->
+                        <div class="space-y-3 bg-slate-50 p-4 rounded-2xl border border-slate-200 text-center">
+                            <div class="bg-royal-900 text-gold-400 font-extrabold py-3 px-4 rounded-xl shadow">
+                                الحكومة المركزية (في القاهرة) - على رأس النظام
+                            </div>
+                            <div class="flex justify-center"><i data-lucide="arrow-down" class="text-royal-700 w-5 h-5"></i></div>
+                            <div class="bg-royal-700 text-white font-bold py-2.5 px-4 rounded-xl shadow-sm mx-4">
+                                ٧ مديريات (محافظات حالياً)
+                            </div>
+                            <div class="flex justify-center"><i data-lucide="arrow-down" class="text-royal-700 w-5 h-5"></i></div>
+                            <div class="bg-amber-100 text-royal-900 border border-amber-300 font-bold py-2 px-4 rounded-xl mx-8">
+                                يتبع كل مديرية عدد من المراكز والأقسام
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- العمود الأيسر: المجالس والدواوين -->
+                    <div class="bg-white rounded-3xl p-6 shadow-md border border-slate-200 info-card flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-3 mb-4">
+                                <span class="bg-blue-100 text-blue-800 p-2.5 rounded-xl font-bold">
+                                    <i data-lucide="users" class="w-6 h-6"></i>
+                                </span>
+                                <h3 class="text-xl font-extrabold text-royal-900">المجالس والدواوين</h3>
+                            </div>
+                            <p class="text-slate-600 mb-4 text-sm sm:text-base">
+                                أنشأ عدة مجالس ودواوين لتعاونه في تسيير شئون البلاد، ومن أهمها:
+                            </p>
+
+                            <div class="bg-gradient-to-l from-royal-900 to-royal-800 text-white p-5 rounded-2xl shadow-lg space-y-3">
+                                <div class="flex items-center justify-between border-b border-white/15 pb-2">
+                                    <span class="text-gold-400 font-black text-lg">مجلس المشورة</span>
+                                    <span class="bg-gold-500 text-royal-900 text-xs font-extrabold px-2.5 py-1 rounded-full">رأي استشاري فقط</span>
+                                </div>
+                                <p class="text-sm text-slate-200">
+                                    <strong class="text-gold-400">ممن يتألف؟</strong> من كبار موظفي الحكومة والأعيان والعلماء.
+                                </p>
+                                <div class="bg-white/10 p-3 rounded-xl text-xs sm:text-sm text-amber-200 flex items-center gap-2">
+                                    <i data-lucide="alert-circle" class="w-5 h-5 shrink-0 text-gold-400"></i>
+                                    <span>ملاحظة هامة: كان رأيه استشارياً فقط، أما الرأي النهائي والقرار فهو لـ«محمد علي».</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 3: الإصلاح العسكري (الجيش والأسطول) ================= -->
+            <section class="slide flex-col p-6 sm:p-10 flex-grow" data-title="الإصلاح العسكري (الجيش والأسطول)">
+                <div class="flex items-center justify-between border-b-2 border-gold-500/30 pb-4 mb-5">
+                    <div>
+                        <span class="bg-royal-800 text-gold-400 px-3 py-1 rounded-lg text-xs font-bold">أولاً: سياسة «محمد علي» الداخلية</span>
+                        <h2 class="text-2xl sm:text-4xl font-black text-royal-900 mt-1">٢. الإصلاح العسكري (الجيش والأسطول)</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-red-900 text-gold-400 flex items-center justify-center shadow-md">
+                        <i data-lucide="shield" class="w-7 h-7"></i>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 my-auto">
+                    <!-- قسم الجيش (7 أعمدة) -->
+                    <div class="lg:col-span-7 bg-white rounded-3xl p-5 shadow-md border border-slate-200 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xl font-black text-royal-900 flex items-center gap-2">
+                                <span class="w-3 h-8 bg-red-700 rounded-full"></span>
+                                أولاً: بناء الجيش النظامي الحديث
+                            </h3>
+                            <span class="text-xs bg-red-100 text-red-800 font-bold px-2.5 py-1 rounded-lg">للحفاظ على الحدود والاستقلال</span>
+                        </div>
+
+                        <!-- انفوجرافيك خطوات بناء الجيش -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                            <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+                                <strong class="text-royal-900 block mb-1">🎖️ تجنيد المصريين:</strong>
+                                <p class="text-slate-600 text-xs leading-relaxed">أنشأ جيشاً نظامياً من المصريين ودربهم على الأسلحة الحديثة؛ فأثبتوا كفاءتهم الحربية ونظامهم وقوة عزيمتهم.</p>
+                            </div>
+                            <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+                                <strong class="text-royal-900 block mb-1">✈️ البعثات العسكرية:</strong>
+                                <p class="text-slate-600 text-xs leading-relaxed">أرسل الضباط في بعثات إلى أوروبا لتعلم الفنون العسكرية الحديثة.</p>
+                            </div>
+                            <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+                                <strong class="text-royal-900 block mb-1">🏫 المدارس العسكرية:</strong>
+                                <p class="text-slate-600 text-xs leading-relaxed">أنشأ مدارس متخصصة مثل: <b>الفرسان، المشاة، والمدفعية</b>.</p>
+                            </div>
+                            <div class="bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
+                                <strong class="text-royal-900 block mb-1">🏭 الترسانة والديوان:</strong>
+                                <p class="text-slate-600 text-xs leading-relaxed">ترسانة لصنع الأسلحة والمدافع بالقلعة، و<b>ديوان الجهادية</b> (وزارة الدفاع حالياً).</p>
+                            </div>
+                        </div>
+
+                        <!-- مراحل تجنيد الجيش (نص إثرائي مبسط بانفوجرافيك) -->
+                        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-3.5">
+                            <span class="text-xs font-extrabold text-amber-900 block mb-2">📌 مراحل اختيار الجنود (لماذا اعتمد على المصريين؟):</span>
+                            <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                                <div class="bg-white p-2 rounded-xl border border-red-200">
+                                    <span class="font-bold text-red-700 block">١. الألبان</span>
+                                    <span class="text-slate-500 text-[11px]">فشلوا بسبب تمردهم</span>
+                                </div>
+                                <div class="bg-white p-2 rounded-xl border border-orange-200">
+                                    <span class="font-bold text-orange-700 block">٢. السودانيون</span>
+                                    <span class="text-slate-500 text-[11px]">فشلوا لعدم تأقلمهم مع المناخ</span>
+                                </div>
+                                <div class="bg-emerald-600 text-white p-2 rounded-xl shadow">
+                                    <span class="font-bold block">٣. المصريون ✅</span>
+                                    <span class="text-emerald-100 text-[11px]">نجحوا بامتياز وكفاءة</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- قسم الأسطول البحري (5 أعمدة) -->
+                    <div class="lg:col-span-5 bg-gradient-to-b from-royal-900 to-royal-800 text-white rounded-3xl p-6 shadow-lg flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="p-3 bg-blue-500/20 rounded-2xl text-blue-300">
+                                    <i data-lucide="anchor" class="w-7 h-7"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-black text-gold-400">ثانياً: الأسطول البحري</h3>
+                                    <span class="text-xs text-slate-300">السيطرة على البحرين الأحمر والمتوسط</span>
+                                </div>
+                            </div>
+
+                            <ul class="space-y-3 text-sm mt-4">
+                                <li class="flex items-start gap-3 bg-white/10 p-3 rounded-xl">
+                                    <i data-lucide="hammer" class="w-5 h-5 text-gold-400 shrink-0 mt-0.5"></i>
+                                    <span>أنشأ <b>ترسانة لصناعة السفن</b> في <b>بولاق</b> أولاً، ثم في <b>الإسكندرية</b>.</span>
+                                </li>
+                                <li class="flex items-start gap-3 bg-white/10 p-3 rounded-xl">
+                                    <i data-lucide="compass" class="w-5 h-5 text-gold-400 shrink-0 mt-0.5"></i>
+                                    <span>أنشأ إدارة خاصة للأساطيل المصرية العاملة في البحرين الأحمر والمتوسط.</span>
+                                </li>
+                                <li class="flex items-start gap-3 bg-white/10 p-3 rounded-xl">
+                                    <i data-lucide="graduation-cap" class="w-5 h-5 text-gold-400 shrink-0 mt-0.5"></i>
+                                    <span>أنشأ <b>المدرسة البحرية</b>، وأرسل الضباط البحريين في بعثات علمية إلى أوروبا.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="mt-4 bg-gold-500/20 border border-gold-400/40 rounded-xl p-3 text-xs text-gold-200 text-center">
+                            💡 معلومة إثرائية: يجمع الجيش المصري بين عراقة التاريخ وحداثة التنظيم، وهو درع الوطن في السلم والحرب.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 4: الإصلاح الاقتصادي (نظام الاحتكار) ================= -->
+            <section class="slide flex-col p-6 sm:p-10 flex-grow" data-title="الإصلاح الاقتصادي ونظام الاحتكار">
+                <div class="flex items-center justify-between border-b-2 border-gold-500/30 pb-4 mb-5">
+                    <div>
+                        <span class="bg-royal-800 text-gold-400 px-3 py-1 rounded-lg text-xs font-bold">أولاً: سياسة «محمد علي» الداخلية</span>
+                        <h2 class="text-2xl sm:text-4xl font-black text-royal-900 mt-1">٣. الإصلاح الاقتصادي (الالتزام والاحتكار)</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-800 text-gold-400 flex items-center justify-center shadow-md">
+                        <i data-lucide="coins" class="w-7 h-7"></i>
+                    </div>
+                </div>
+
+                <div class="space-y-5 my-auto">
+                    <!-- الخطوة 1: إلغاء الالتزام -->
+                    <div class="bg-white p-4 rounded-2xl border-r-8 border-emerald-600 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div>
+                            <span class="text-xs font-bold text-emerald-700">الخطوة الأولى</span>
+                            <h3 class="text-lg font-extrabold text-royal-900">١. إلغاء نظام الالتزام</h3>
+                            <p class="text-sm text-slate-600">حلت الدولة مكان الملتزم، وعادت إليها الأموال التي كان يحصلها الملتزمون.</p>
+                        </div>
+                        <span class="bg-emerald-100 text-emerald-800 px-4 py-2 rounded-xl text-xs font-bold shrink-0 text-center">توفير أموال لخزينة الدولة</span>
+                    </div>
+
+                    <!-- الخطوة 2: انفوجرافيك نظام الاحتكار -->
+                    <div class="bg-royal-900 text-white rounded-3xl p-6 shadow-xl">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                            <h3 class="text-xl font-black text-gold-400">٢. تطبيق نظام الاحتكار الاقتصادي</h3>
+                            <span class="text-xs bg-white/15 px-3 py-1 rounded-full">الدولة = المنتج والمشتري والبائع الوحيد</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+                            <div class="bg-white/10 p-4 rounded-2xl border border-white/10 text-center">
+                                <div class="w-10 h-10 bg-emerald-500/20 text-emerald-300 rounded-full flex items-center justify-center mx-auto mb-2 font-bold">🌾</div>
+                                <h4 class="font-bold text-gold-400 text-sm mb-1">في الزراعة</h4>
+                                <p class="text-xs text-slate-200">تحديد المحاصيل للفلاحين (خاصة القطن) وشراؤها منهم بسعر محدد.</p>
+                            </div>
+                            <div class="bg-white/10 p-4 rounded-2xl border border-white/10 text-center">
+                                <div class="w-10 h-10 bg-blue-500/20 text-blue-300 rounded-full flex items-center justify-center mx-auto mb-2 font-bold">🏭</div>
+                                <h4 class="font-bold text-gold-400 text-sm mb-1">في الصناعة</h4>
+                                <p class="text-xs text-slate-200">إنشاء مصانع حكومية تحت الإدارة المباشرة للدولة.</p>
+                            </div>
+                            <div class="bg-white/10 p-4 rounded-2xl border border-white/10 text-center">
+                                <div class="w-10 h-10 bg-amber-500/20 text-amber-300 rounded-full flex items-center justify-center mx-auto mb-2 font-bold">🚢</div>
+                                <h4 class="font-bold text-gold-400 text-sm mb-1">في التجارة</h4>
+                                <p class="text-xs text-slate-200">تولي بيع المنتجات داخلياً أو تصديرها للخارج لحساب الدولة.</p>
+                            </div>
+                        </div>
+
+                        <!-- الميزان: إيجابيات وسلبيات الاحتكار -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="bg-emerald-950/80 border border-emerald-500/40 p-3.5 rounded-2xl">
+                                <h5 class="text-emerald-400 font-bold text-sm mb-1 flex items-center gap-1.5">
+                                    <i data-lucide="thumbs-up" class="w-4 h-4"></i> مميزات نظام الاحتكار:
+                                </h5>
+                                <p class="text-xs text-slate-200">زيادة دخل الدولة وتمويل الجيش والمشروعات الاقتصادية الكبرى.</p>
+                            </div>
+                            <div class="bg-red-950/80 border border-red-500/40 p-3.5 rounded-2xl">
+                                <h5 class="text-red-400 font-bold text-sm mb-1 flex items-center gap-1.5">
+                                    <i data-lucide="thumbs-down" class="w-4 h-4"></i> عيوب نظام الاحتكار:
+                                </h5>
+                                <p class="text-xs text-slate-200">إرهاق الفلاحين (لانخفاض أسعار المحاصيل)، وضعف التجارة الحرة وهروب بعض التجار.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 5: الزراعة والصناعة والتجارة ================= -->
+            <section class="slide flex-col p-6 sm:p-10 flex-grow" data-title="الزراعة والصناعة والتجارة">
+                <div class="flex items-center justify-between border-b-2 border-gold-500/30 pb-4 mb-4">
+                    <div>
+                        <span class="bg-royal-800 text-gold-400 px-3 py-1 rounded-lg text-xs font-bold">تابع: الإصلاح الاقتصادي</span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-royal-900 mt-1">نهضة الزراعة والصناعة والتجارة</h2>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=300&q=80" 
+                         onerror="this.style.display='none'"
+                         alt="الزراعة والري" class="hidden sm:block w-16 h-12 object-cover rounded-xl border border-gold-500">
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 my-auto">
+                    <!-- بطاقة الزراعة -->
+                    <div class="bg-white rounded-3xl p-5 shadow-md border-t-4 border-emerald-600 info-card flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="bg-emerald-100 text-emerald-700 p-2 rounded-xl"><i data-lucide="sprout" class="w-5 h-5"></i></span>
+                                <h3 class="text-lg font-black text-royal-900">أولاً: الزراعة</h3>
+                            </div>
+                            <ul class="space-y-2.5 text-xs sm:text-sm text-slate-700">
+                                <li class="bg-slate-50 p-2.5 rounded-xl">
+                                    <strong class="text-emerald-800 block">• ملكية الأرض:</strong>
+                                    أصبح محمد علي المالك للأراضي، وأعطى الفلاح (٣-٤ أفدنة) للزراعة مقابل الضريبة، <b>فظل الفلاح أجيراً في أرضه</b> (لا تُورث إلا بقدرة الأبناء على الزراعة والدفع).
+                                </li>
+                                <li class="bg-slate-50 p-2.5 rounded-xl">
+                                    <strong class="text-emerald-800 block">• المحاصيل الزراعية:</strong>
+                                    أدخل محاصيل جديدة وتوسع في زراعة <b>القطن طويل التيلة</b>.
+                                </li>
+                                <li class="bg-slate-50 p-2.5 rounded-xl">
+                                    <strong class="text-emerald-800 block">• مشروعات الري:</strong>
+                                    حفر <b>ترعة المحمودية</b>، وأقام الجسور، وبدأ إنشاء <b>القناطر الخيرية</b> (لتطبيق الري الدائم).
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- بطاقة الصناعة -->
+                    <div class="bg-white rounded-3xl p-5 shadow-md border-t-4 border-blue-600 info-card flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="bg-blue-100 text-blue-700 p-2 rounded-xl"><i data-lucide="factory" class="w-5 h-5"></i></span>
+                                <h3 class="text-lg font-black text-royal-900">ثانياً: الصناعة</h3>
+                            </div>
+                            <p class="text-xs font-bold text-blue-800 bg-blue-50 p-2 rounded-lg mb-3">
+                                الهدف: سد احتياجات الجيش وتقليل الاعتماد على الواردات الأوروبية.
+                            </p>
+                            <ul class="space-y-2.5 text-xs sm:text-sm text-slate-700">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-blue-600 font-bold">✓</span>
+                                    <span>طور الصناعات القديمة (الغزل والنسيج والأواني الفخارية).</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-blue-600 font-bold">✓</span>
+                                    <span>استعان <b>بخبراء أوروبيين</b> للإسهام في النهضة الصناعية.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-blue-600 font-bold">✓</span>
+                                    <span>أنشأ مصانع جديدة: <b>غزل ونسج القطن والحرير، السكر، مضارب الأرز، الأسلحة، الملابس، ومدابغ الجلود</b>.</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mt-3 pt-2 border-t text-center text-xs text-slate-500">
+                            تحولت مصر لدولة صناعية كبرى في الشرق
+                        </div>
+                    </div>
+
+                    <!-- بطاقة التجارة -->
+                    <div class="bg-white rounded-3xl p-5 shadow-md border-t-4 border-amber-500 info-card flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-2 mb-3">
+                                <span class="bg-amber-100 text-amber-700 p-2 rounded-xl"><i data-lucide="ship" class="w-5 h-5"></i></span>
+                                <h3 class="text-lg font-black text-royal-900">ثالثاً: التجارة</h3>
+                            </div>
+                            <p class="text-xs sm:text-sm font-bold text-royal-900 mb-3">
+                                بم تفسر ازدهار التجارة الداخلية والخارجية في عصر محمد علي؟
+                            </p>
+                            <div class="space-y-2 text-xs sm:text-sm">
+                                <div class="bg-amber-50/70 p-2.5 rounded-xl border border-amber-200 font-semibold text-slate-800">
+                                    ١. ازدهار الزراعة والصناعة.
+                                </div>
+                                <div class="bg-amber-50/70 p-2.5 rounded-xl border border-amber-200 font-semibold text-slate-800">
+                                    ٢. استقرار الأمن الداخلي.
+                                </div>
+                                <div class="bg-amber-50/70 p-2.5 rounded-xl border border-amber-200 font-semibold text-slate-800">
+                                    ٣. تمهيد الطرق البرية (مثل طريق السويس - القاهرة) وشق الترع للربط بين المدن.
+                                </div>
+                                <div class="bg-amber-50/70 p-2.5 rounded-xl border border-amber-200 font-semibold text-slate-800">
+                                    ٤. إنشاء الأسطول المصري في البحرين الأحمر والمتوسط.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 6: الإصلاح الاجتماعي (التعليم والعمران) ================= -->
+            <section class="slide flex-col p-6 sm:p-10 flex-grow" data-title="الإصلاح الاجتماعي: التعليم والعمران">
+                <div class="flex items-center justify-between border-b-2 border-gold-500/30 pb-4 mb-5">
+                    <div>
+                        <span class="bg-royal-800 text-gold-400 px-3 py-1 rounded-lg text-xs font-bold">أولاً: سياسة «محمد علي» الداخلية</span>
+                        <h2 class="text-2xl sm:text-4xl font-black text-royal-900 mt-1">٤. الإصلاح الاجتماعي (التعليم والعمران)</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-indigo-900 text-gold-400 flex items-center justify-center shadow-md">
+                        <i data-lucide="graduation-cap" class="w-7 h-7"></i>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 my-auto">
+                    <!-- التعليم والثقافة (8 أعمدة) -->
+                    <div class="lg:col-span-8 bg-white rounded-3xl p-6 shadow-md border border-slate-200">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                            <h3 class="text-xl font-black text-indigo-950">أولاً: التعليم والثقافة</h3>
+                            <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full">الهدف: تخريج موظفين وفنيين للجيش والمصالح</span>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="bg-indigo-50/60 p-4 rounded-2xl border border-indigo-100">
+                                <h4 class="font-extrabold text-indigo-900 text-sm mb-1.5">🏛️ المدارس العليا والحديثة</h4>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    أنشأ المدارس العليا (<b>الطب، الصيدلة، الزراعة، المهندسخانة</b>) واستعان بأساتذة أجانب، ثم أنشأ <b>المدارس الابتدائية والتجهيزية</b> لإعداد التلاميذ للالتحاق بالمدارس العليا.
+                                </p>
+                            </div>
+                            <div class="bg-indigo-50/60 p-4 rounded-2xl border border-indigo-100">
+                                <h4 class="font-extrabold text-indigo-900 text-sm mb-1.5">🌍 البعثات العلمية</h4>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    أرسل البعثات العلمية في مختلف التخصصات إلى <b>أوروبا</b>؛ لإعداد نخبة من المتعلمين والخبراء المصريين.
+                                </p>
+                            </div>
+                            <div class="bg-indigo-50/60 p-4 rounded-2xl border border-indigo-100">
+                                <h4 class="font-extrabold text-indigo-900 text-sm mb-1.5">📚 حركة الترجمة والألسن</h4>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    نشطت حركة الترجمة من اللغات الأوروبية إلى اللغة العربية، فأنشأ <b>مدرسة الألسن</b>.
+                                </p>
+                            </div>
+                            <div class="bg-indigo-50/60 p-4 rounded-2xl border border-indigo-100">
+                                <h4 class="font-extrabold text-indigo-900 text-sm mb-1.5">🖨️ الديوان والمطبعة</h4>
+                                <p class="text-xs text-slate-700 leading-relaxed">
+                                    أنشأ <b>ديوان المدارس</b> (وزارة التربية والتعليم حالياً)، و<b>المطبعة الأميرية في بولاق</b> لطبع الكتب والمنشورات الحكومية.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- العمران (4 أعمدة) -->
+                    <div class="lg:col-span-4 bg-royal-900 text-white rounded-3xl p-6 shadow-lg flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xl font-black text-gold-400 mb-3 flex items-center gap-2">
+                                <i data-lucide="building-2" class="w-6 h-6"></i>
+                                ثانياً: العمران
+                            </h3>
+                            <div class="space-y-3 text-sm">
+                                <div class="bg-white/10 p-3.5 rounded-2xl">
+                                    <strong class="text-gold-400 block mb-1">🏰 الحصون والقلاع:</strong>
+                                    <p class="text-xs text-slate-200">شيد الحصون والقلاع على السواحل المصرية؛ لصد هجمات الأعداء عليها.</p>
+                                </div>
+                                <div class="bg-white/10 p-3.5 rounded-2xl">
+                                    <strong class="text-gold-400 block mb-1">👑 السرايات (القصور):</strong>
+                                    <p class="text-xs text-slate-200">شيد العديد من القصور، ومن أهمها: <b>سراي رأس التين بالإسكندرية</b>، و<b>سراي قصر النيل بالقاهرة</b>.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 rounded-2xl overflow-hidden border border-gold-500/40 relative">
+                            <img src="https://images.unsplash.com/photo-1539768942893-daf53e448371?auto=format&fit=crop&w=500&q=80" 
+                                 onerror="this.src='https://placehold.co/400x180/1d3557/f4d35e?text=قصر+رأس+التين+بالإسكندرية'"
+                                 alt="قصر رأس التين" class="w-full h-28 object-cover">
+                            <span class="block bg-black/70 text-gold-400 text-xs text-center py-1 font-bold">قصر رأس التين بالإسكندرية</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 7: ثانياً - سياسة محمد علي الخارجية (نظرة عامة) ================= -->
+            <section class="slide flex-col p-6 sm:p-10 flex-grow" data-title="ثانياً: السياسة الخارجية وحروبه">
+                <div class="flex items-center justify-between border-b-2 border-gold-500/30 pb-4 mb-5">
+                    <div>
+                        <span class="bg-red-800 text-white px-3 py-1 rounded-lg text-xs font-bold">ثانياً: سياسة «محمد علي» الخارجية</span>
+                        <h2 class="text-2xl sm:text-4xl font-black text-royal-900 mt-1">توسعات وحروب «محمد علي»</h2>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-royal-900 text-gold-400 flex items-center justify-center shadow-md">
+                        <i data-lucide="globe" class="w-7 h-7"></i>
+                    </div>
+                </div>
+
+                <!-- مقدمة السياسة الخارجية -->
+                <div class="bg-gradient-to-l from-royal-900 to-royal-800 text-white p-5 rounded-3xl mb-6 shadow-md">
+                    <p class="text-sm sm:text-base leading-relaxed">
+                        خاض «محمد علي» كثيراً من الحروب <span class="text-gold-400 font-bold">باسم السلطان العثماني</span> في البداية، ولكن طموحه في <span class="bg-gold-500 text-royal-900 px-2 py-0.5 rounded font-bold">إقامة دولة قوية تكون له ولأولاده من بعده</span> دفعه لمحاربة السلطان العثماني نفسه وتوسيع حدود دولته.
+                    </p>
+                </div>
+
+                <!-- انفوجرافيك تصنيف الحروب -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-auto">
+                    <!-- حروب بأمر السلطان -->
+                    <div class="bg-white rounded-3xl p-6 shadow-md border-2 border-amber-400">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-xs font-black">النوع الأول</span>
+                            <h3 class="text-lg font-black text-royal-900">حروب تمت بناءً على رغبة السلطان العثماني</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="bg-amber-50 p-4 rounded-2xl border border-amber-200">
+                                <h4 class="font-extrabold text-royal-900">١. حروب شبه الجزيرة العربية</h4>
+                                <p class="text-xs text-slate-600 mt-1">للقضاء على الوهابيين بعد توسع نفوذهم وتهديدهم للسلطة الدينية والسياسية للدولة العثمانية.</p>
+                            </div>
+                            <div class="bg-amber-50 p-4 rounded-2xl border border-amber-200">
+                                <h4 class="font-extrabold text-royal-900">٢. حرب المورة (اليونان)</h4>
+                                <p class="text-xs text-slate-600 mt-1">لإخماد ثورة اليونانيين في شبه جزيرة المورة ضد الدولة العثمانية.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- حروب برغبة محمد علي -->
+                    <div class="bg-white rounded-3xl p-6 shadow-md border-2 border-royal-700">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="bg-royal-800 text-gold-400 px-3 py-1 rounded-full text-xs font-black">النوع الثاني</span>
+                            <h3 class="text-lg font-black text-royal-900">حروب تمت بناءً على رغبة «محمد علي»</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="bg-slate-100 p-4 rounded-2xl border border-slate-300">
+                                <h4 class="font-extrabold text-royal-900">١. حرب السودان</h4>
+                                <p class="text-xs text-slate-600 mt-1">لتحقيق أهداف سياسية واقتصادية وعسكرية ونشر مظاهر النهضة الحديثة بها.</p>
+                            </div>
+                            <div class="bg-slate-100 p-4 rounded-2xl border border-slate-300">
+                                <h4 class="font-extrabold text-royal-900">٢. حروب الشام (١٨٣١ م)</h4>
+                                <p class="text-xs text-slate-600 mt-1">لتوسيع نفوذه السياسي وبناء دولة قوية مستقلة عن الدولة العثمانية.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 8: تفاصيل حروب محمد علي (الجزيرة - المورة - الشام) ================= -->
+            <section class="slide flex-col p-6 sm:p-10 flex-grow" data-title="تفاصيل الحروب: الجزيرة والمورة والشام">
+                <div class="flex items-center justify-between border-b-2 border-gold-500/30 pb-4 mb-4">
+                    <div>
+                        <span class="bg-red-800 text-white px-3 py-1 rounded-lg text-xs font-bold">ثانياً: سياسة «محمد علي» الخارجية</span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-royal-900 mt-1">تفاصيل ونتائج حروب «محمد علي»</h2>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 my-auto">
+                    <!-- 1. شبه الجزيرة العربية -->
+                    <div class="bg-white rounded-3xl p-5 shadow-md border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="inline-block bg-amber-100 text-amber-900 font-bold text-xs px-3 py-1 rounded-full mb-2">الحرب الأولى</span>
+                            <h3 class="text-lg font-black text-royal-900 mb-2">حروب شبه الجزيرة العربية</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
+                                <b>السبب:</b> استعان السلطان العثماني بمحمد علي للقضاء على الوهابيين بعد توسع نفوذهم وتهديدهم لسلطة الدولة العثمانية الدينية والسياسية.
+                            </p>
+                        </div>
+                        <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-2xl text-xs">
+                            <strong class="text-emerald-800 block">النتيجة:</strong>
+                            نجح «محمد علي» في هزيمتهم، وسيطر على معظم شبه الجزيرة العربية.
+                        </div>
+                    </div>
+
+                    <!-- 2. حرب المورة -->
+                    <div class="bg-white rounded-3xl p-5 shadow-md border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="inline-block bg-blue-100 text-blue-900 font-bold text-xs px-3 py-1 rounded-full mb-2">الحرب الثانية</span>
+                            <h3 class="text-lg font-black text-royal-900 mb-2">حرب المورة (اليونان)</h3>
+                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-3">
+                                أرسل محمد علي أسطولاً بقيادة ابنه <b>إبراهيم باشا</b> لإخماد الثورة، وحقق انتصارات كبيرة، ولكن تدخلت الدول الأوروبية (<b>إنجلترا، فرنسا، روسيا</b>) لمساندة الثوار اليونانيين.
+                            </p>
+                        </div>
+                        <div class="bg-red-50 border border-red-200 p-3 rounded-2xl text-xs">
+                            <strong class="text-red-800 block">النتيجة (معركة نافارين ١٨٢٧م):</strong>
+                            تحطم الأسطولان العثماني والمصري في معركة نافارين، واضطرت القوات المصرية للانسحاب.
+                        </div>
+                    </div>
+
+                    <!-- 3. حروب الشام -->
+                    <div class="bg-white rounded-3xl p-5 shadow-md border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="inline-block bg-purple-100 text-purple-900 font-bold text-xs px-3 py-1 rounded-full mb-2">الحرب الثالثة (١٨٣١ م)</span>
+                            <h3 class="text-lg font-black text-royal-900 mb-2">حروب الشام</h3>
+                            <div class="space-y-2 text-xs text-slate-700 mb-3">
+                                <p><b class="text-royal-900">• السبب الحقيقي:</b> توسيع نفوذه السياسي وبناء دولة قوية مستقلة عن الدولة العثمانية.</p>
+                                <p><b class="text-royal-900">• السبب الظاهري:</b> خلافه مع <b>عبد الله باشا والي عكا</b> لامتناعه عن إرسال الأخشاب اللازمة لإعادة بناء الأسطول المصري (وتشجيعه فلاحي مصر على الهجرة لعكا).</p>
+                            </div>
+                        </div>
+                        <div class="bg-royal-900 text-white p-3 rounded-2xl text-xs">
+                            <strong class="text-gold-400 block">النتيجة:</strong>
+                            السيطرة على مدن الشام الواحدة تلو الأخرى، وتوغل القوات المصرية في <b>آسيا الصغرى</b> مهددة <b>الأستانة</b> عاصمة الدولة العثمانية.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 9: معاهدة لندن ١٨٤٠ م ================= -->
+            <section class="slide flex-col p-6 sm:p-10 flex-grow" data-title="معاهدة لندن ١٨٤٠م ونتائجها">
+                <div class="flex items-center justify-between border-b-2 border-gold-500/30 pb-4 mb-4">
+                    <div>
+                        <span class="bg-red-800 text-white px-3 py-1 rounded-lg text-xs font-bold">نهاية المشروع التوسعي</span>
+                        <h2 class="text-2xl sm:text-4xl font-black text-royal-900 mt-1">معاهدة لندن ١٨٤٠ م</h2>
+                    </div>
+                    <span class="bg-royal-900 text-gold-400 font-black px-4 py-2 rounded-2xl text-lg shadow">١٨٤٠ م</span>
+                </div>
+
+                <!-- سبب المعاهدة -->
+                <div class="bg-amber-100 border-r-4 border-amber-600 p-3.5 rounded-xl text-xs sm:text-sm text-amber-950 font-bold mb-4">
+                    ⚠️ سبب العقد: خشيت الدول الأوروبية من توسعات «محمد علي» وزيادة نفوذه على مصالحها؛ فعقدت مع السلطان العثماني معاهدة لندن ١٨٤٠م.
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 my-auto">
+                    <!-- شروط المعاهدة (5 أعمدة) -->
+                    <div class="lg:col-span-5 bg-white rounded-3xl p-5 shadow-md border border-slate-200">
+                        <h3 class="text-lg font-black text-royal-900 mb-3 flex items-center gap-2">
+                            <i data-lucide="file-text" class="w-5 h-5 text-gold-600"></i>
+                            أهم شروط المعاهدة:
+                        </h3>
+                        <ul class="space-y-2.5 text-xs sm:text-sm text-slate-700">
+                            <li class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                <b>١.</b> احتفاظ «محمد علي» بحكم مصر ويكون <b>وراثياً في أسرته</b>، بشرط أن تظل مصر ولاية عثمانية وتدفع جزية سنوية.
+                            </li>
+                            <li class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                <b>٢.</b> احتفاظ «محمد علي» بولاية <b>عكا مدى حياته</b>.
+                            </li>
+                            <li class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                <b>٣.</b> الموافقة على الشروط خلال <b>١٠ أيام</b>، وإلا تُسحب منه ولاية عكا.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- موقف محمد علي والنتائج (7 أعمدة) -->
+                    <div class="lg:col-span-7 flex flex-col justify-between gap-4">
+                        <!-- الموقف -->
+                        <div class="bg-royal-800 text-white p-4 rounded-2xl text-xs sm:text-sm space-y-2">
+                            <h4 class="text-gold-400 font-bold">🔄 موقف «محمد علي» وتخلي فرنسا عنه:</h4>
+                            <p class="text-slate-200">
+                                رفض «محمد علي» الشروط بتشجيع من <b>فرنسا</b> (التي تخلت عنه لاحقاً لارتباطها بمصالحها مع أوروبا وإنجلترا)، فأرسلت بريطانيا أسطولها وقصفت مواني الشام، وأصدر السلطان فرماناً بعزله؛ <b>فاضطر للموافقة</b>.
+                            </p>
+                        </div>
+
+                        <!-- النتائج المترتبة -->
+                        <div class="bg-red-50 border-2 border-red-200 rounded-3xl p-4">
+                            <h4 class="text-red-900 font-black text-base mb-2">📉 النتائج المترتبة على معاهدة لندن ١٨٤٠م:</h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-bold text-red-950">
+                                <div class="bg-white p-2.5 rounded-xl shadow-sm">❌ فشل مشروع محمد علي في الاستقلال بمصر.</div>
+                                <div class="bg-white p-2.5 rounded-xl shadow-sm">🔙 انسحابه من كل الأراضي التي سيطر عليها.</div>
+                                <div class="bg-white p-2.5 rounded-xl shadow-sm">📉 تقليل عدد الجيش المصري.</div>
+                                <div class="bg-white p-2.5 rounded-xl shadow-sm">🏭 إغلاق معظم المدارس والمصانع وتدهور الصناعات الوطنية (لارتباطها بالجيش).</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 10: نصوص إثرائية وتحليلية (للمناقشة والتفكير الناقد) ================= -->
+            <section class="slide flex-col p-6 sm:p-10 flex-grow" data-title="نصوص تاريخية وتفكير ناقد">
+                <div class="flex items-center justify-between border-b-2 border-gold-500/30 pb-4 mb-5">
+                    <div>
+                        <span class="bg-indigo-800 text-white px-3 py-1 rounded-lg text-xs font-bold">طبق وتعلم • تحليل النصوص</span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-royal-900 mt-1">مواقف تاريخية وتحليل اقتصادي</h2>
+                    </div>
+                    <i data-lucide="sparkles" class="w-8 h-8 text-gold-600"></i>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-auto">
+                    <!-- النص الأول: مقولة محمد علي لوالي عكا -->
+                    <div class="bg-white rounded-3xl p-6 shadow-md border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-amber-100 text-amber-900 text-xs font-bold px-3 py-1 rounded-full">الانتماء للوطن</span>
+                            <h3 class="text-lg font-black text-royal-900 mt-2 mb-3">رسالة «محمد علي» لعبد الله باشا والي عكا</h3>
+                            <blockquote class="bg-royal-900 text-gold-300 p-4 rounded-2xl text-xs sm:text-sm italic leading-relaxed mb-3">
+                                «إني سأقدم لأستعيد الثمانية عشر ألف مصري الذين أغريتهم فحملتهم على الذهاب إليك، وسأعود بهم وبواحد فوقهم إلى مصر». (وعنى بالواحد عبد الله باشا نفسه!).
+                            </blockquote>
+                        </div>
+                        <div class="bg-slate-50 p-3 rounded-xl text-xs text-slate-700 border">
+                            <b>ماذا نستنتج؟</b> تأكيد «محمد علي» على أن المصريين ينتمون لوطنهم مصر أولاً، وشعوره بالمسئولية تجاه الدولة المصرية (رغم أن هجرة الفلاحين كانت بسبب أعباء الاحتكار والضرائب).
+                        </div>
+                    </div>
+
+                    <!-- النص الثاني: مقارنة النظام الاقتصادي قديما وحديثا -->
+                    <div class="bg-white rounded-3xl p-6 shadow-md border border-slate-200 flex flex-col justify-between">
+                        <div>
+                            <span class="bg-emerald-100 text-emerald-900 text-xs font-bold px-3 py-1 rounded-full">قارن واستنتج</span>
+                            <h3 class="text-lg font-black text-royal-900 mt-2 mb-3">الاقتصاد بين عصر «محمد علي» والعصر الحالي</h3>
+                            <div class="space-y-3 text-xs">
+                                <div class="bg-red-50 p-3 rounded-xl border border-red-200">
+                                    <strong class="text-red-900 block mb-1">في عصر «محمد علي» (الاحتكار):</strong>
+                                    الدولة هي المنتج الوحيد والمشتري الوحيد والبائع الوحيد، وتُجبر الفلاحين والتجار على البيع بسعرها.
+                                </div>
+                                <div class="bg-emerald-50 p-3 rounded-xl border border-emerald-200">
+                                    <strong class="text-emerald-900 block mb-1">في العصر الحالي (النظام المختلط):</strong>
+                                    يجمع بين الاقتصاد الحر ومشاركة الدولة؛ حيث لا تمنع القطاع الخاص من المنافسة، وتتدخل لتنظيم السوق ودعم السلع الأساسية (كالخبز والتموين).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 11: اختبر فهمك (مسابقة تفاعلية للطلاب) ================= -->
+            <section class="slide flex-col p-6 sm:p-10 flex-grow" data-title="اختبر معلوماتك (تفاعل)">
+                <div class="flex items-center justify-between border-b-2 border-gold-500/30 pb-4 mb-4">
+                    <div>
+                        <span class="bg-emerald-700 text-white px-3 py-1 rounded-lg text-xs font-bold">تدريبات المستكشف الرقمي</span>
+                        <h2 class="text-2xl sm:text-3xl font-black text-royal-900 mt-1">اختبر فهمك للدرس 🎯</h2>
+                    </div>
+                    <div class="bg-royal-900 text-gold-400 px-4 py-1.5 rounded-2xl font-bold text-sm">
+                        النتيجة: <span id="quiz-score">0</span> / 4
+                    </div>
+                </div>
+
+                <div id="quiz-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 my-auto">
+                    <!-- سؤال 1 -->
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+                        <p class="font-bold text-royal-900 text-sm mb-2.5">١. قسم «محمد علي» مصر إدارياً إلى ....... مديريات.</p>
+                        <div class="grid grid-cols-3 gap-2 text-xs font-bold">
+                            <button onclick="checkAnswer(this, false)" class="q-btn p-2 rounded-xl border hover:bg-slate-100">خمس</button>
+                            <button onclick="checkAnswer(this, true)" class="q-btn p-2 rounded-xl border hover:bg-slate-100">سبع</button>
+                            <button onclick="checkAnswer(this, false)" class="q-btn p-2 rounded-xl border hover:bg-slate-100">تسع</button>
+                        </div>
+                    </div>
+
+                    <!-- سؤال 2 -->
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+                        <p class="font-bold text-royal-900 text-sm mb-2.5">٢. تحطم الأسطول المصري والعثماني عام ١٨٢٧م في معركة:</p>
+                        <div class="grid grid-cols-3 gap-2 text-xs font-bold">
+                            <button onclick="checkAnswer(this, true)" class="q-btn p-2 rounded-xl border hover:bg-slate-100">نافارين</button>
+                            <button onclick="checkAnswer(this, false)" class="q-btn p-2 rounded-xl border hover:bg-slate-100">أبي قير</button>
+                            <button onclick="checkAnswer(this, false)" class="q-btn p-2 rounded-xl border hover:bg-slate-100">الريدانية</button>
+                        </div>
+                    </div>
+
+                    <!-- سؤال 3 -->
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+                        <p class="font-bold text-royal-900 text-sm mb-2.5">٣. أنشأ «محمد علي» المطبعة الأميرية في:</p>
+                        <div class="grid grid-cols-3 gap-2 text-xs font-bold">
+                            <button onclick="checkAnswer(this, false)" class="q-btn p-2 rounded-xl border hover:bg-slate-100">القلعة</button>
+                            <button onclick="checkAnswer(this, true)" class="q-btn p-2 rounded-xl border hover:bg-slate-100">بولاق</button>
+                            <button onclick="checkAnswer(this, false)" class="q-btn p-2 rounded-xl border hover:bg-slate-100">الإسكندرية</button>
+                        </div>
+                    </div>
+
+                    <!-- سؤال 4 -->
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+                        <p class="font-bold text-royal-900 text-sm mb-2.5">٤. أصبحت الأرض الزراعية في عصر محمد علي ملكاً للفلاحين. (صواب أم خطأ؟)</p>
+                        <div class="grid grid-cols-2 gap-2 text-xs font-bold">
+                            <button onclick="checkAnswer(this, false)" class="q-btn p-2 rounded-xl border hover:bg-slate-100">صواب ✔️</button>
+                            <button onclick="checkAnswer(this, true)" class="q-btn p-2 rounded-xl border hover:bg-slate-100">خطأ (ظل أجيراً) ❌</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="quiz-feedback" class="hidden mt-4 bg-emerald-600 text-white text-center py-2.5 px-4 rounded-2xl font-bold text-sm animate-bounce">
+                    أحسنت يا بطل المستكشف الرقمي! إجابة ممتازة 🌟
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 12: الخاتمة والملخص النهائي ================= -->
+            <section class="slide flex-col justify-center items-center text-center p-8 sm:p-12 flex-grow bg-gradient-to-br from-royal-900 via-royal-800 to-royal-900 text-white" data-title="ملخص الدرس والخاتمة">
+                <div class="w-20 h-20 rounded-3xl bg-gold-500 text-royal-900 flex items-center justify-center mb-6 shadow-xl">
+                    <i data-lucide="award" class="w-12 h-12"></i>
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-black text-gold-400 mb-4">أحسنت! أتممت رحلة تعلم الدرس بنجاح</h2>
+                <p class="max-w-2xl text-slate-200 text-base sm:text-lg leading-relaxed mb-6">
+                    «رغم فشل محمد علي في تحقيق مشروعه السياسي التوسعي بعد معاهدة لندن ١٨٤٠م، فإنه نجح في وضع قواعد الدولة المصرية الحديثة على أسس راسخة في الإدارة والجيش والاقتصاد والتعليم».
+                </p>
+
+                <div class="bg-white/10 border border-gold-400/40 rounded-2xl p-5 max-w-xl w-full mb-6">
+                    <h4 class="text-gold-400 font-bold mb-2">🔮 استعد للدرس القادم:</h4>
+                    <p class="text-sm text-slate-300">
+                        تعرضت مصر بعد «محمد علي» للعديد من التهديدات والتدخلات الأجنبية التي تعامل معها خلفاؤه بأساليب مختلفة.. فكيف واجهها خلفاء محمد علي؟
+                    </p>
+                </div>
+
+                <button onclick="goToSlide(0)" class="bg-gold-500 hover:bg-gold-400 text-royal-900 font-black px-8 py-3 rounded-2xl shadow-lg transition flex items-center gap-2">
+                    <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
+                    <span>إعادة العرض من البداية</span>
+                </button>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- شريط التحكم السفلي (السابق / التالي) -->
+    <footer class="bg-royal-900/95 border-t border-gold-500/30 px-4 py-3 text-white">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <button id="prev-btn" onclick="changeSlide(-1)" class="flex items-center gap-2 bg-royal-800 hover:bg-royal-700 disabled:opacity-40 disabled:cursor-not-allowed px-5 py-2.5 rounded-2xl font-bold text-sm transition border border-white/10">
+                <i data-lucide="chevron-right" class="w-5 h-5 text-gold-400"></i>
+                <span>السابق</span>
+            </button>
+
+            <!-- مؤشرات النقاط السريعة للشرائح -->
+            <div id="dots-container" class="hidden sm:flex items-center gap-1.5">
+                <!-- يتم إنشاؤها تلقائيا -->
+            </div>
+
+            <button id="next-btn" onclick="changeSlide(1)" class="flex items-center gap-2 bg-gradient-to-l from-gold-400 to-gold-600 hover:from-gold-300 hover:to-gold-500 text-royal-900 disabled:opacity-40 disabled:cursor-not-allowed px-6 py-2.5 rounded-2xl font-black text-sm shadow-md transition">
+                <span>التالي</span>
+                <i data-lucide="chevron-left" class="w-5 h-5"></i>
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        // تهيئة الأيقونات
+        lucide.createIcons();
+
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        let currentSlide = 0;
+        let score = 0;
+
+        document.getElementById('total-slides-num').textContent = totalSlides;
+
+        // بناء الفهرس الجانبي والنقاط السفلية
+        const tocList = document.getElementById('toc-list');
+        const dotsContainer = document.getElementById('dots-container');
+
+        slides.forEach((slide, index) => {
+            const title = slide.getAttribute('data-title') || `شريحة ${index + 1}`;
+            
+            // عنصر في الفهرس
+            const btn = document.createElement('button');
+            btn.className = 'w-full text-right px-4 py-3 rounded-xl bg-slate-50 hover:bg-amber-50 border border-slate-200 flex items-center justify-between transition font-bold text-sm text-royal-900';
+            btn.innerHTML = `<span><span class="text-gold-600 ml-2">${index + 1}.</span> ${title}</span> <i data-lucide="arrow-left" class="w-4 h-4 text-slate-400"></i>`;
+            btn.onclick = () => {
+                goToSlide(index);
+                toggleMenu();
+            };
+            tocList.appendChild(btn);
+
+            // نقطة في الشريط السفلي
+            const dot = document.createElement('button');
+            dot.className = 'w-2.5 h-2.5 rounded-full bg-white/30 transition-all duration-300';
+            dot.title = title;
+            dot.onclick = () => goToSlide(index);
+            dotsContainer.appendChild(dot);
+        });
+
+        lucide.createIcons();
+
+        function updateUI() {
+            slides.forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === currentSlide);
+            });
+
+            // تحديث العداد وشريط التقدم
+            document.getElementById('current-slide-num').textContent = currentSlide + 1;
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+
+            // تحديث الأزرار
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+
+            // تحديث النقاط
+            const dots = dotsContainer.querySelectorAll('button');
+            dots.forEach((d, idx) => {
+                if (idx === currentSlide) {
+                    d.className = 'w-7 h-2.5 rounded-full bg-gold-400 transition-all duration-300';
+                } else {
+                    d.className = 'w-2.5 h-2.5 rounded-full bg-white/30 hover:bg-white/60 transition-all duration-300';
+                }
+            });
+        }
+
+        function changeSlide(direction) {
+            const next = currentSlide + direction;
+            if (next >= 0 && next < totalSlides) {
+                currentSlide = next;
+                updateUI();
+            }
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateUI();
+        }
+
+        function toggleMenu() {
+            const modal = document.getElementById('toc-modal');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+        }
+
+        // التنقل باستخدام أسهم لوحة المفاتيح (مع مراعاة اتجاه RTL)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(1);
+            if (e.key === 'ArrowRight') changeSlide(-1);
+        });
+
+        // منطق الأسئلة التفاعلية
+        function checkAnswer(button, isCorrect) {
+            const parent = button.parentElement;
+            if (parent.dataset.answered) return; // منع الإجابة مرتين
+            parent.dataset.answered = "true";
+
+            const feedback = document.getElementById('quiz-feedback');
+            if (isCorrect) {
+                button.classList.add('bg-emerald-600', 'text-white', 'border-emerald-600');
+                score++;
+                document.getElementById('quiz-score').textContent = score;
+                feedback.textContent = "أحسنت يا بطل المستكشف الرقمي! إجابة صحيحة 🌟";
+                feedback.className = "mt-4 bg-emerald-600 text-white text-center py-2.5 px-4 rounded-2xl font-bold text-sm";
+            } else {
+                button.classList.add('bg-red-600', 'text-white', 'border-red-600');
+                feedback.textContent = "حاول التركيز أكثر! راجع الشرائح السابقة وستعرف الإجابة 💡";
+                feedback.className = "mt-4 bg-red-600 text-white text-center py-2.5 px-4 rounded-2xl font-bold text-sm";
+            }
+            feedback.classList.remove('hidden');
+        }
+
+        // التحديث الأولي
+        updateUI();
+    </script>
+</body>
+</html>
