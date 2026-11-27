@@ -277,14 +277,36 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 				
 <style>
   .ig-outer-wrap{position:relative;width:100%;margin-top:6px}
-  /* الأقواس الصفراء بره الإطار من الخارج */
-  .ig-outer-wrap::before,.ig-outer-wrap::after{content:"";position:absolute;pointer-events:none;z-index:6;border-color:#f0b44c;border-style:solid;opacity:.95;filter:drop-shadow(0 0 8px rgba(240,180,76,.4))}
-  /* القوس اللي فوق على الشمال (بره الإطار) */
-  .ig-outer-wrap::before{top:-10px;left:-10px;width:42px;height:42px;border-width:3px 0 0 3px;border-top-left-radius:20px}
-  /* القوس اللي تحت على الشمال (بره الإطار) */
-  .ig-outer-wrap::after{bottom:-10px;left:-10px;width:42px;height:42px;border-width:0 0 3px 3px;border-bottom-left-radius:20px}
-  /* القوس اللي فوق على اليمين (بره الإطار) */
-  .ig-corner-tr-out{position:absolute;top:-10px;right:-10px;width:42px;height:42px;pointer-events:none;z-index:6;border-top:3px solid #f0b44c;border-right:3px solid #f0b44c;border-top-right-radius:20px;opacity:.95;filter:drop-shadow(0 0 8px rgba(240,180,76,.4))}
+
+  /* الأقواس الصفراء بره الإطار من الخارج (قوسين بس) */
+  .ig-corner-tr-out,
+  .ig-corner-bl-out{
+    position:absolute;
+    width:46px;
+    height:46px;
+    pointer-events:none;
+    z-index:6;
+    opacity:.95;
+    filter:drop-shadow(0 0 8px rgba(240,180,76,.4));
+  }
+
+  /* القوس اللي فوق على اليمين */
+  .ig-corner-tr-out{
+    top:-6px;
+    right:-6px;
+    border-top:3px solid #f0b44c;
+    border-right:3px solid #f0b44c;
+    border-top-right-radius:20px;
+  }
+
+  /* القوس اللي تحت على الشمال */
+  .ig-corner-bl-out{
+    bottom:-6px;
+    left:-6px;
+    border-bottom:3px solid #f0b44c;
+    border-left:3px solid #f0b44c;
+    border-bottom-left-radius:20px;
+  }
 
   .ig-viewer-box{position:relative;width:100%;height:540px;max-height:75vh;border-radius:18px;overflow:hidden;background:linear-gradient(160deg,#42251a,#3a2116);user-select:none;touch-action:none}
   .ig-stage{width:100%;height:100%;display:flex;align-items:center;justify-content:center;cursor:default}
@@ -298,12 +320,13 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
   .ig-zoom-val{color:#f0b44c;font-weight:800;font-size:.82rem;min-width:48px;text-align:center;direction:ltr}
   @media(max-width:768px){
     .ig-viewer-box{height:400px}
-    .ig-outer-wrap::before,.ig-outer-wrap::after,.ig-corner-tr-out{width:32px;height:32px}
+    .ig-corner-tr-out,.ig-corner-bl-out{width:32px;height:32px}
   }
 </style>
 
 <div class="ig-outer-wrap">
   <span class="ig-corner-tr-out" aria-hidden="true"></span>
+  <span class="ig-corner-bl-out" aria-hidden="true"></span>
   <div class="frame" style="padding:14px;overflow:hidden">
     <div class="ig-viewer-box" id="igViewer">
       <div class="ig-stage" id="igStage">
