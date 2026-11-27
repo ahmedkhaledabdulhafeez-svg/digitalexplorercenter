@@ -23,8 +23,8 @@
 								.brand h1{font-family:'Reem Kufi',sans-serif;font-size:1.25rem;color:var(--sand);line-height:1.4}
 								.brand p{color:var(--gold);font-weight:600;font-size:.78rem}
 								nav{background:var(--bg2);border-bottom:1px solid var(--line)}
-								nav .in{max-width:1240px;margin:auto;display:flex;justify-content:center;gap:4px;padding:0 12px;overflow-x:auto;scrollbar-width:none}
-								nav a{white-space:nowrap;padding:5px 20px;margin:6px 0;border-radius:14px;font-size:.86rem;font-weight:600;color:var(--mute);transition:.25s}
+								nav .in{max-width:1240px;margin:auto;display:flex;justify-content:center;gap:4px;padding:0 12px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+								nav a{white-space:nowrap;flex-shrink:0;padding:5px 20px;margin:6px 0;border-radius:14px;font-size:.86rem;font-weight:600;color:var(--mute);transition:.25s}
 								nav a:hover{color:var(--sand)}
 								nav a.on{background:var(--copper);color:#2a150b}
 
@@ -177,6 +177,34 @@
 								footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);font-weight:600;font-size:.9rem;border-top:1px solid var(--line)}
 								.rv{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
 								.rv.show{opacity:1;transform:none}
+
+								/* تحسينات الموبايل والتابلت مع ضمان ظهور كافة الأقسام */
+								@media(max-width:900px){
+									html{scroll-padding-top:115px}
+									.wrap{padding:0 16px}
+									section.blk{padding:36px 0 8px}
+									.scene{width:100%;opacity:.32}
+									.hero{min-height:320px;border-radius:0 0 32px 32px}
+									.hero .in{padding:28px 18px 42px}
+									.sum,.act,.exam-box{padding:24px 18px 22px;border-radius:22px}
+									.pt{padding:18px 16px;border-radius:18px}
+									.maprow{padding:18px;gap:14px}
+								}
+								@media(max-width:768px){
+									nav .in{justify-content:flex-start;padding:0 10px;gap:2px}
+									nav a{padding:5px 14px;font-size:.82rem}
+									.bar{padding:8px 14px;gap:8px}
+									.bar img{width:42px;height:42px}
+									.brand h1{font-size:1.05rem}
+									.head{gap:12px;margin-bottom:20px}
+									.head .ic{width:44px;height:44px;font-size:1.25rem;border-radius:14px;margin:4px}
+									.ord{flex-direction:column;align-items:stretch;gap:8px}
+									select,.match-sel{width:100%;min-width:0}
+									.tf-opts{flex-direction:column;gap:8px}
+									.tf-opts label{min-width:0;width:100%}
+									.pdfv{height:65vh;min-height:360px}
+									.rv{opacity:1!important;transform:none!important}
+								}
 								@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 							</style>
 		<script>
@@ -860,11 +888,15 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 			});
 			})();
 
-			var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}})},{threshold:.1});
-			document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+			var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}})},{threshold:.02});
+			document.querySelectorAll('.rv').forEach(function(el){
+			io.observe(el);
+			var rect=el.getBoundingClientRect();
+			if(rect.top < window.innerHeight * 1.15){el.classList.add('show')}
+			});
 			var links=document.querySelectorAll('nav a'),secs=[].map.call(links,function(a){return document.querySelector(a.getAttribute('href'))});
 			var so=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(l){l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id)})}})},{rootMargin:'-35% 0px -55% 0px'});
-			secs.forEach(function(s){so.observe(s)});
+			secs.forEach(function(s){if(s)so.observe(s)});
 
 			(function(){
 			/* نشاط 1: صنّف الحضارات */
