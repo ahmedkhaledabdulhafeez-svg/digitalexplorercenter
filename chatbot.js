@@ -102,6 +102,41 @@
     `🎯 **سؤال تاريخ سريع:**\nفي عهد أي من حكام مصر تم حفر ترعة الإبراهيمية وافتتاح قناة السويس للملاحة؟\n\n*(اكتب إجابتك وسأراجعها معك!)*`
   ];
 
+  // استخراج اسم ثنائي (عربي أو إنجليزي حسب المتوفر) لرسالة الترحيب داخل نافذة الشات
+  function getTwoPartStudentName() {
+    let raw = '';
+    try {
+      const uid = window.__explorerUid || '';
+      if (uid) {
+        const savedProfile = localStorage.getItem('explorerStudentProfile_' + uid);
+        if (savedProfile) {
+          const parsed = JSON.parse(savedProfile);
+          raw = (parsed.nameAr || parsed.nameEn || '').trim();
+        }
+      }
+      if (!raw) {
+        raw = (
+          localStorage.getItem('explorerUserName') ||
+          sessionStorage.getItem('explorerUserName') ||
+          ''
+        ).trim();
+      }
+    } catch (e) {}
+
+    if (!raw) return '';
+    if (raw.includes('@')) {
+      raw = raw.split('@')[0].replace(/[._-]+/g, ' ').trim();
+    }
+    const parts = raw.split(/\s+/).filter(Boolean);
+    return parts.slice(0, 2).join(' ');
+  }
+
+  function buildOpenedChatGreetingHTML() {
+    const twoName = getTwoPartStudentName();
+    const who = twoName ? `يا <b>${twoName.replace(/</g, '&lt;')}</b>` : 'يا بطل';
+    return `أهلاً بك ${who} في <b>مركز المستكشف الرقمي</b>! 👋<br>اسألني أي سؤال في منهج الدراسات الاجتماعية للصف الثالث الإعدادي، وسأشرحه لك فوراً!`;
+  }
+
   // إضافة التنسيقات (CSS) بما فيها الرسالة المنبثقة فوق البوت
   const style = document.createElement('style');
   style.textContent = `
@@ -221,7 +256,7 @@
         <button class="de-close" id="de-bot-x" aria-label="إغلاق">✕</button>
       </div>
       <div class="de-msgs" id="de-msgs">
-        <div class="de-msg bot">أهلاً بك في <b>مركز المستكشف الرقمي</b>! 👋<br>اسألني أي سؤال في منهج الدراسات الاجتماعية للصف الثالث الإعدادي، وسأشرحه لك فوراً!</div>
+        <div class="de-msg bot" id="de-welcome-msg">${buildOpenedChatGreetingHTML()}</div>
       </div>
       <div class="de-chips" id="de-chips">
         <button type="button" data-q="اشرح لي باختصار موقع ومساحة قارات العالم">🌍 قارات العالم</button>
@@ -251,12 +286,25 @@
   const btn = document.getElementById('de-bot-btn');
   const box = document.getElementById('de-bot-box');
   const msgs = document.getElementById('de-msgs');
+  const welcomeMsgEl = document.getElementById('de-welcome-msg');
   const input = document.getElementById('de-in');
   const sendBtn = document.getElementById('de-send');
   const chipsContainer = document.getElementById('de-chips');
   const toast = document.getElementById('de-toast');
   const toastTxt = document.getElementById('de-toast-txt');
   let toastTimer = null;
+
+  function refreshOpenedGreetingIfPristine() {
+    if (welcomeMsgEl && chatHistory.length === 0) {
+      welcomeMsgEl.innerHTML = buildOpenedChatGreetingHTML();
+    }
+  }
+
+  function openChatBox() {
+    hideToast();
+    refreshOpenedGreetingIfPristine();
+    box.classList.add('open');
+  }
 
   // دالة إظهار فقاعة الإشعار فوق زر البوت عندما يكون الشات مغلقاً
   function showToast(text, duration = 6000) {
@@ -288,13 +336,15 @@
       hideToast();
       return;
     }
-    hideToast();
-    box.classList.add('open');
+    openChatBox();
   };
 
   btn.onclick = () => {
-    hideToast();
-    box.classList.toggle('open');
+    if (box.classList.contains('open')) {
+      box.classList.remove('open');
+    } else {
+      openChatBox();
+    }
   };
   document.getElementById('de-bot-x').onclick = () => box.classList.remove('open');
 
