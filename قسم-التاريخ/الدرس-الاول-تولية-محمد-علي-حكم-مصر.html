@@ -11,24 +11,24 @@
 :root{--bg:#2e1a10;--bg2:#42251a;--panel:#3a2116;--line:rgba(224,160,110,.22);--copper:#c8825a;--gold:#f0b44c;--sand:#f3dcb8;--text:#f6e8d4;--mute:#c9ae94}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:130px}
-body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;overflow-x:hidden}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;overflow-x:hidden;overscroll-behavior-y:auto}
 a{color:inherit;text-decoration:none}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 
 /* header */
-header{position:sticky;top:0;z-index:50;background:rgba(46,26,16,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header{position:sticky;top:0;z-index:50;background:rgba(46,26,16,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .bar{max-width:1240px;margin:auto;padding:8px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .bar img{width:50px;height:50px;object-fit:contain;border-radius:50%;background:#fff;padding:3px}
 .brand{text-align:center;flex:1}
 .brand h1{font-family:'Reem Kufi',sans-serif;font-size:1.25rem;color:var(--sand);line-height:1.4}
 .brand p{color:var(--gold);font-weight:600;font-size:.78rem}
 nav{background:var(--bg2);border-bottom:1px solid var(--line)}
-nav .in{max-width:1240px;margin:auto;display:flex;justify-content:center;gap:6px;padding:0 16px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-padding-inline:16px}
+nav .in{max-width:1240px;margin:auto;display:flex;justify-content:center;gap:6px;padding:0 16px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-padding-inline:16px;overscroll-behavior-x:contain}
 nav .in::-webkit-scrollbar{display:none}
 @media(max-width:820px){
   nav .in{justify-content:flex-start}
 }
-nav a{flex-shrink:0;white-space:nowrap;padding:5px 20px;margin:6px 0;border-radius:14px;font-size:.86rem;font-weight:600;color:var(--mute);transition:.25s}
+nav a{flex-shrink:0;white-space:nowrap;padding:5px 20px;margin:6px 0;border-radius:14px;font-size:.86rem;font-weight:600;color:var(--mute);transition:background-color .2s,color .2s}
 nav a:hover{color:var(--sand)}
 nav a.on{background:var(--copper);color:#2a150b}
 
@@ -196,8 +196,55 @@ select{font-family:inherit;border-radius:12px;padding:7px 12px;background:var(--
 .cube{width:84px;height:84px;border-radius:26px;display:grid;place-items:center;font-size:2.6rem;background:linear-gradient(135deg,var(--copper),var(--gold));box-shadow:0 14px 34px -8px rgba(240,180,76,.6);animation:flo 3.6s ease-in-out infinite}
 .strip{border-radius:99px;height:10px;margin-top:56px;background:repeating-linear-gradient(90deg,var(--copper) 0 18px,transparent 18px 26px,var(--gold) 26px 34px,transparent 34px 42px);opacity:.7}
 footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);font-weight:600;font-size:.9rem;border-top:1px solid var(--line)}
-.rv{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
+
+/* infographic viewer */
+.ig-outer-wrap{position:relative;width:100%;margin-top:6px}
+.ig-corner-tr-out,
+.ig-corner-bl-out{
+  position:absolute;
+  width:46px;
+  height:46px;
+  pointer-events:none;
+  z-index:6;
+  opacity:.95;
+  filter:drop-shadow(0 0 8px rgba(240,180,76,.4));
+}
+.ig-corner-tr-out{
+  top:-6px;
+  right:-6px;
+  border-top:3px solid #f0b44c;
+  border-right:3px solid #f0b44c;
+  border-top-right-radius:20px;
+}
+.ig-corner-bl-out{
+  bottom:-6px;
+  left:-6px;
+  border-bottom:3px solid #f0b44c;
+  border-left:3px solid #f0b44c;
+  border-bottom-left-radius:20px;
+}
+.ig-viewer-box{position:relative;width:100%;height:540px;max-height:75vh;border-radius:18px;overflow:hidden;background:linear-gradient(160deg,#42251a,#3a2116);user-select:none;touch-action:none}
+.ig-stage{width:100%;height:100%;display:flex;align-items:center;justify-content:center;cursor:default}
+.ig-stage.can-pan{cursor:grab}
+.ig-stage.dragging{cursor:grabbing}
+.ig-stage img{max-width:100%;max-height:100%;object-fit:contain;border-radius:12px;transform-origin:center center;transition:transform .12s ease-out;pointer-events:none;display:block}
+.ig-stage.dragging img{transition:none}
+.ig-controls{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:5;display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:99px;background:rgba(36,19,11,.88);backdrop-filter:blur(8px);border:1px solid rgba(224,160,110,.28);box-shadow:0 8px 24px rgba(0,0,0,.45)}
+.ig-btn{min-width:34px;height:34px;padding:0 10px;border-radius:99px;border:1px solid rgba(224,160,110,.3);background:#3a2116;color:#f6e8d4;font-family:'Cairo',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:.2s}
+.ig-btn:hover{background:#c8825a;color:#2a150b;border-color:#c8825a}
+.ig-zoom-val{color:#f0b44c;font-weight:800;font-size:.82rem;min-width:48px;text-align:center;direction:ltr}
+@media(max-width:768px){
+  .ig-viewer-box{height:400px}
+  .ig-corner-tr-out,.ig-corner-bl-out{width:32px;height:32px}
+}
+
+.rv{opacity:0;transform:translateY(14px);transition:opacity .45s ease-out,transform .45s ease-out}
 .rv.show{opacity:1;transform:none}
+@media(max-width:768px){
+  header{backdrop-filter:none;background:rgba(46,26,16,.97)}
+  .ig-controls{backdrop-filter:none;background:rgba(36,19,11,.95)}
+  .rv{transform:none;transition:opacity .3s ease-out}
+}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 </style>
 
@@ -295,146 +342,23 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
       </div>
     </div>
 
-<style>
-  .ig-outer-wrap{position:relative;width:100%;margin-top:6px}
-
-  /* الأقواس الصفراء بره الإطار من الخارج (قوسين بس) */
-  .ig-corner-tr-out,
-  .ig-corner-bl-out{
-    position:absolute;
-    width:46px;
-    height:46px;
-    pointer-events:none;
-    z-index:6;
-    opacity:.95;
-    filter:drop-shadow(0 0 8px rgba(240,180,76,.4));
-  }
-
-  /* القوس اللي فوق على اليمين */
-  .ig-corner-tr-out{
-    top:-6px;
-    right:-6px;
-    border-top:3px solid #f0b44c;
-    border-right:3px solid #f0b44c;
-    border-top-right-radius:20px;
-  }
-
-  /* القوس اللي تحت على الشمال */
-  .ig-corner-bl-out{
-    bottom:-6px;
-    left:-6px;
-    border-bottom:3px solid #f0b44c;
-    border-left:3px solid #f0b44c;
-    border-bottom-left-radius:20px;
-  }
-
-  .ig-viewer-box{position:relative;width:100%;height:540px;max-height:75vh;border-radius:18px;overflow:hidden;background:linear-gradient(160deg,#42251a,#3a2116);user-select:none;touch-action:none}
-  .ig-stage{width:100%;height:100%;display:flex;align-items:center;justify-content:center;cursor:default}
-  .ig-stage.can-pan{cursor:grab}
-  .ig-stage.dragging{cursor:grabbing}
-  .ig-stage img{max-width:100%;max-height:100%;object-fit:contain;border-radius:12px;transform-origin:center center;transition:transform .12s ease-out;pointer-events:none;display:block}
-  .ig-stage.dragging img{transition:none}
-  .ig-controls{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:5;display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:99px;background:rgba(36,19,11,.88);backdrop-filter:blur(8px);border:1px solid rgba(224,160,110,.28);box-shadow:0 8px 24px rgba(0,0,0,.45)}
-  .ig-btn{min-width:34px;height:34px;padding:0 10px;border-radius:99px;border:1px solid rgba(224,160,110,.3);background:#3a2116;color:#f6e8d4;font-family:'Cairo',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:.2s}
-  .ig-btn:hover{background:#c8825a;color:#2a150b;border-color:#c8825a}
-  .ig-zoom-val{color:#f0b44c;font-weight:800;font-size:.82rem;min-width:48px;text-align:center;direction:ltr}
-  @media(max-width:768px){
-    .ig-viewer-box{height:400px}
-    .ig-corner-tr-out,.ig-corner-bl-out{width:32px;height:32px}
-  }
-</style>
-
-<div class="ig-outer-wrap">
-  <span class="ig-corner-tr-out" aria-hidden="true"></span>
-  <span class="ig-corner-bl-out" aria-hidden="true"></span>
-  <div class="frame" style="padding:14px;overflow:hidden">
-    <div class="ig-viewer-box" id="igViewer">
-      <div class="ig-stage" id="igStage">
-        <img id="igImg" src="Infographie/الدرس-الاول.jpeg" alt="إنفوجرافيك الدرس">
-      </div>
-      <div class="ig-controls" aria-label="أدوات التحكم في الصورة">
-        <button type="button" class="ig-btn" id="igZoomIn" title="تكبير">+</button>
-        <span class="ig-zoom-val" id="igZoomVal">100%</span>
-        <button type="button" class="ig-btn" id="igZoomOut" title="تصغير للوضع الطبيعي">−</button>
-        <button type="button" class="ig-btn" id="igReset" title="إعادة ضبط">ضبط</button>
+    <div class="ig-outer-wrap">
+      <span class="ig-corner-tr-out" aria-hidden="true"></span>
+      <span class="ig-corner-bl-out" aria-hidden="true"></span>
+      <div class="frame" style="padding:14px;overflow:hidden">
+        <div class="ig-viewer-box" id="igViewer">
+          <div class="ig-stage" id="igStage">
+            <img id="igImg" src="Infographie/الدرس-الاول.jpeg" alt="إنفوجرافيك الدرس">
+          </div>
+          <div class="ig-controls" aria-label="أدوات التحكم في الصورة">
+            <button type="button" class="ig-btn" id="igZoomIn" title="تكبير">+</button>
+            <span class="ig-zoom-val" id="igZoomVal">100%</span>
+            <button type="button" class="ig-btn" id="igZoomOut" title="تصغير للوضع الطبيعي">−</button>
+            <button type="button" class="ig-btn" id="igReset" title="إعادة ضبط">ضبط</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-
-<script>
-(function(){
-  const stage = document.getElementById('igStage');
-  const img = document.getElementById('igImg');
-  const zoomVal = document.getElementById('igZoomVal');
-  const zoomInBtn = document.getElementById('igZoomIn');
-  const zoomOutBtn = document.getElementById('igZoomOut');
-  const resetBtn = document.getElementById('igReset');
-  if(!stage || !img) return;
-
-  let scale = 1, x = 0, y = 0;
-  let isDragging = false, startX = 0, startY = 0;
-  const MIN_SCALE = 1, MAX_SCALE = 4, STEP = 0.25;
-
-  function clampPan(){
-    if(scale <= 1){ x = 0; y = 0; return; }
-    const rect = stage.getBoundingClientRect();
-    const maxX = Math.max(0, (rect.width * (scale - 1)) / 2 + 80);
-    const maxY = Math.max(0, (rect.height * (scale - 1)) / 2 + 80);
-    x = Math.min(maxX, Math.max(-maxX, x));
-    y = Math.min(maxY, Math.max(-maxY, y));
-  }
-
-  function render(){
-    clampPan();
-    img.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
-    zoomVal.textContent = Math.round(scale * 100) + '%';
-    stage.classList.toggle('can-pan', scale > 1);
-  }
-
-  function setZoom(nextScale){
-    scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, Number(nextScale.toFixed(2))));
-    if(scale <= 1){ scale = 1; x = 0; y = 0; }
-    render();
-  }
-
-  zoomInBtn.addEventListener('click', () => setZoom(scale + STEP));
-  zoomOutBtn.addEventListener('click', () => setZoom(scale - STEP));
-  resetBtn.addEventListener('click', () => { scale = 1; x = 0; y = 0; render(); });
-
-  stage.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    setZoom(scale + (e.deltaY < 0 ? STEP : -STEP));
-  }, { passive: false });
-
-  stage.addEventListener('pointerdown', (e) => {
-    if(scale <= 1) return;
-    isDragging = true;
-    stage.classList.add('dragging');
-    stage.setPointerCapture(e.pointerId);
-    startX = e.clientX - x;
-    startY = e.clientY - y;
-  });
-
-  stage.addEventListener('pointermove', (e) => {
-    if(!isDragging) return;
-    x = e.clientX - startX;
-    y = e.clientY - startY;
-    render();
-  });
-
-  function endDrag(e){
-    if(!isDragging) return;
-    isDragging = false;
-    stage.classList.remove('dragging');
-    if(e && stage.hasPointerCapture(e.pointerId)) stage.releasePointerCapture(e.pointerId);
-  }
-
-  stage.addEventListener('pointerup', endDrag);
-  stage.addEventListener('pointercancel', endDrag);
-  stage.addEventListener('dblclick', () => setZoom(scale > 1 ? 1 : 2));
-})();
-</script>
   </section>
 
   <!-- 3) ملف PDF (تضمين من جوجل درايف) -->
@@ -695,34 +619,125 @@ if(DRIVE_ID&&DRIVE_ID!=='PUT_FILE_ID_HERE'){
   });
 })();
 
-var rvEls=document.querySelectorAll('.rv');
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}})},{threshold:0.01,rootMargin:'0px 0px -40px 0px'});
-rvEls.forEach(function(el){io.observe(el)});
-function revealFallback(){
-  var h=window.innerHeight||document.documentElement.clientHeight;
-  rvEls.forEach(function(el){
-    if(!el.classList.contains('show')&&el.getBoundingClientRect().top<h+60){
-      el.classList.add('show');
-    }
-  });
-}
-window.addEventListener('scroll',revealFallback,{passive:true});
-window.addEventListener('resize',revealFallback,{passive:true});
-window.addEventListener('load',revealFallback);
-setTimeout(revealFallback,400);
+(function(){
+  const stage = document.getElementById('igStage');
+  const img = document.getElementById('igImg');
+  const zoomVal = document.getElementById('igZoomVal');
+  const zoomInBtn = document.getElementById('igZoomIn');
+  const zoomOutBtn = document.getElementById('igZoomOut');
+  const resetBtn = document.getElementById('igReset');
+  if(!stage || !img) return;
 
-var navBox=document.querySelector('nav .in'),links=document.querySelectorAll('nav a'),secs=[].map.call(links,function(a){return document.querySelector(a.getAttribute('href'))});
-function setActiveNav(id){
-  links.forEach(function(l){
-    var active=l.getAttribute('href')==='#'+id;
-    l.classList.toggle('on',active);
-    if(active&&navBox&&navBox.scrollWidth>navBox.clientWidth){
-      l.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
-    }
+  let scale = 1, x = 0, y = 0;
+  let isDragging = false, startX = 0, startY = 0;
+  const MIN_SCALE = 1, MAX_SCALE = 4, STEP = 0.25;
+
+  function clampPan(){
+    if(scale <= 1){ x = 0; y = 0; return; }
+    const rect = stage.getBoundingClientRect();
+    const maxX = Math.max(0, (rect.width * (scale - 1)) / 2 + 80);
+    const maxY = Math.max(0, (rect.height * (scale - 1)) / 2 + 80);
+    x = Math.min(maxX, Math.max(-maxX, x));
+    y = Math.min(maxY, Math.max(-maxY, y));
+  }
+
+  function render(){
+    clampPan();
+    img.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+    zoomVal.textContent = Math.round(scale * 100) + '%';
+    stage.classList.toggle('can-pan', scale > 1);
+  }
+
+  function setZoom(nextScale){
+    scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, Number(nextScale.toFixed(2))));
+    if(scale <= 1){ scale = 1; x = 0; y = 0; }
+    render();
+  }
+
+  zoomInBtn.addEventListener('click', () => setZoom(scale + STEP));
+  zoomOutBtn.addEventListener('click', () => setZoom(scale - STEP));
+  resetBtn.addEventListener('click', () => { scale = 1; x = 0; y = 0; render(); });
+
+  stage.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    setZoom(scale + (e.deltaY < 0 ? STEP : -STEP));
+  }, { passive: false });
+
+  stage.addEventListener('pointerdown', (e) => {
+    if(scale <= 1) return;
+    isDragging = true;
+    stage.classList.add('dragging');
+    stage.setPointerCapture(e.pointerId);
+    startX = e.clientX - x;
+    startY = e.clientY - y;
   });
-}
-var so=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){setActiveNav(e.target.id)}})},{rootMargin:'-35% 0px -55% 0px'});
-secs.forEach(function(s){if(s)so.observe(s)});
+
+  stage.addEventListener('pointermove', (e) => {
+    if(!isDragging) return;
+    x = e.clientX - startX;
+    y = e.clientY - startY;
+    render();
+  });
+
+  function endDrag(e){
+    if(!isDragging) return;
+    isDragging = false;
+    stage.classList.remove('dragging');
+    if(e && stage.hasPointerCapture(e.pointerId)) stage.releasePointerCapture(e.pointerId);
+  }
+
+  stage.addEventListener('pointerup', endDrag);
+  stage.addEventListener('pointercancel', endDrag);
+  stage.addEventListener('dblclick', () => setZoom(scale > 1 ? 1 : 2));
+})();
+
+(function(){
+  var rvEls=document.querySelectorAll('.rv');
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting||e.boundingClientRect.top<window.innerHeight){
+        e.target.classList.add('show');
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:0,rootMargin:'120px 0px 120px 0px'});
+  rvEls.forEach(function(el){io.observe(el)});
+
+  var ticking=false;
+  function revealVisible(){
+    ticking=false;
+    var h=window.innerHeight||document.documentElement.clientHeight;
+    for(var i=0;i<rvEls.length;i++){
+      var el=rvEls[i];
+      if(!el.classList.contains('show')&&el.getBoundingClientRect().top<h+120){
+        el.classList.add('show');
+      }
+    }
+  }
+  function onScrollOrResize(){
+    if(!ticking){
+      ticking=true;
+      requestAnimationFrame(revealVisible);
+    }
+  }
+  window.addEventListener('scroll',onScrollOrResize,{passive:true});
+  window.addEventListener('resize',onScrollOrResize,{passive:true});
+  window.addEventListener('load',revealVisible);
+  setTimeout(revealVisible,250);
+})();
+
+(function(){
+  var links=document.querySelectorAll('nav a');
+  var secs=[].map.call(links,function(a){return document.querySelector(a.getAttribute('href'))});
+  var so=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        links.forEach(function(l){l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id)});
+      }
+    });
+  },{rootMargin:'-35% 0px -55% 0px'});
+  secs.forEach(function(s){if(s)so.observe(s)});
+})();
 
 (function(){
   /* نشاط 1: ترتيب الأحداث */
