@@ -196,58 +196,25 @@ input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(240,180,76,.15);b
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 
-  /* حماية الصور من التحميل والسحب */
+/* حماية الصور من التحميل والسحب */
 img {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
   -webkit-user-drag: none;
-  -webkit-touch-callout: none; /* يمنع قائمة الحفظ عند الضغط المطول على الموبايل */
-  pointer-events: none; /* يمنع تفاعل الماوس مع الصورة تماماً */
+  -webkit-touch-callout: none;
+  pointer-events: none;
 }
-
 </style>
 
-<script type="module">
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-  const HOME_PAGE = "./الصفحة-الرئيسية.html";
-
-  function saveUserSession(user) {
-    try {
-      sessionStorage.setItem("explorerSessionVerified", "true");
-      if (user.displayName) {
-        localStorage.setItem("explorerUserName", user.displayName);
-        sessionStorage.setItem("explorerUserName", user.displayName);
-      } else if (user.email) {
-        localStorage.setItem("explorerUserName", user.email);
-        sessionStorage.setItem("explorerUserName", user.email);
-      }
-      if (user.photoURL) {
-        localStorage.setItem("explorerUserPhoto", user.photoURL);
-        sessionStorage.setItem("explorerUserPhoto", user.photoURL);
-      }
-    } catch (e) {}
-  }
-
+<script>
   try {
     if (sessionStorage.getItem("explorerSessionVerified") === "true") {
-      window.location.replace(HOME_PAGE);
+      window.location.replace("./الصفحة-الرئيسية.html");
     }
   } catch (e) {}
-
-  try {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        saveUserSession(user);
-        window.location.replace(HOME_PAGE);
-      }
-    });
-  } catch (e) {}
 </script>
-  
 </head>
 <body>
 
@@ -409,9 +376,9 @@ img {
 <script>
 /* ===== النافذة ===== */
 var ov=document.getElementById('ov');
-var currentAuthMode='login';
+window.currentAuthMode='login';
 function openModal(t){
-  currentAuthMode=t;
+  window.currentAuthMode=t;
   var s=t==='signup';
   document.getElementById('mt').textContent=s?'إنشاء حساب جديد':'مرحباً بك مجدداً 👋';
   document.getElementById('ms').textContent=s?'انضم الآن إلى مركز المستكشف الرقمي':'سجّل الدخول لاستكمال رحلتك التعليمية الممتعة';
@@ -428,7 +395,7 @@ function closeModal(){ov.classList.remove('on');document.body.style.overflow=''}
 ov.addEventListener('click',function(e){if(e.target===ov)closeModal()});
 addEventListener('keydown',function(e){if(e.key==='Escape')closeModal()});
 
-/* ===== بيانات الإشراف والإعداد (جاهزة لإضافة الصور لاحقاً) ===== */
+/* ===== بيانات الإشراف والإعداد ===== */
 var AV='<svg viewBox="0 0 100 100"><circle cx="50" cy="38" r="17" fill="#c8825a" opacity=".85"/><path d="M14 98c0-24 16-38 36-38s36 14 36 38z" fill="#c8825a" opacity=".85"/></svg>';
 
 function card(item){
@@ -465,7 +432,7 @@ for(var i=0;i<22;i++){var p=document.createElement('span');p.className='dust';
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}})},{threshold:.1});
 document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
 
-  /* منع الكليك يمين على الصور واختصارات الحفظ */
+/* منع الكليك يمين على الصور واختصارات الحفظ */
 document.addEventListener('contextmenu', function(e) {
   if (e.target.tagName === 'IMG' || e.target.closest('.av') || e.target.closest('.core')) {
     e.preventDefault();
@@ -479,10 +446,11 @@ document.addEventListener('dragstart', function(e) {
 });
 </script>
 
-<!-- ===== ربط تسجيل الدخول وإنشاء الحساب بـ Firebase ===== -->
+<!-- ===== ربط تسجيل الدخول وإنشاء الحساب والتحويل التلقائي بـ Firebase ===== -->
 <script type="module">
   import { auth } from "./firebase-config.js";
   import {
+    onAuthStateChanged,
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
     updateProfile,
@@ -490,11 +458,36 @@ document.addEventListener('dragstart', function(e) {
     signInWithPopup
   } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+  const HOME_PAGE = "./الصفحة-الرئيسية.html";
   const form = document.getElementById("authForm");
   const errEl = document.getElementById("authError");
   const submitBtn = document.getElementById("sb");
   const googleBtn = document.getElementById("googleBtn");
   const googleProvider = new GoogleAuthProvider();
+
+  function saveUserData(user, fallbackName) {
+    const resolvedName = (user && user.displayName) || fallbackName || (user && user.email ? user.email.split("@")[0] : "");
+    const resolvedPhoto = (user && user.photoURL) || "";
+    try {
+      sessionStorage.setItem("explorerSessionVerified", "true");
+      if (resolvedName) {
+        localStorage.setItem("explorerUserName", resolvedName);
+        sessionStorage.setItem("explorerUserName", resolvedName);
+      }
+      if (resolvedPhoto) {
+        localStorage.setItem("explorerUserPhoto", resolvedPhoto);
+        sessionStorage.setItem("explorerUserPhoto", resolvedPhoto);
+      }
+    } catch (_) {}
+  }
+
+  // لو المستخدم مسجل دخول بالفعل، يتم تحويله مباشرة إلى الصفحة الرئيسية
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      saveUserData(user);
+      window.location.replace(HOME_PAGE);
+    }
+  });
 
   function getArabicError(code) {
     switch (code) {
@@ -542,15 +535,12 @@ document.addEventListener('dragstart', function(e) {
       if (isSignup) {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(userCredential.user, { displayName: fullName });
-        try { localStorage.setItem("explorerUserName", fullName); } catch (_) {}
+        saveUserData(userCredential.user, fullName);
       } else {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const savedName = userCredential.user.displayName || email.split("@")[0];
-        try { localStorage.setItem("explorerUserName", savedName); } catch (_) {}
+        saveUserData(userCredential.user, email.split("@")[0]);
       }
-      setTimeout(() => {
-        window.location.href = "الصفحة-الرئيسية.html";
-      }, 400);
+      window.location.replace(HOME_PAGE);
     } catch (error) {
       errEl.textContent = getArabicError(error.code);
       submitBtn.disabled = false;
@@ -564,9 +554,8 @@ document.addEventListener('dragstart', function(e) {
     googleBtn.disabled = true;
     try {
       const result = await signInWithPopup(auth, googleProvider);
-      const userName = result.user.displayName || result.user.email.split("@")[0];
-      try { localStorage.setItem("explorerUserName", userName); } catch (_) {}
-      window.location.href = "الصفحة-الرئيسية.html";
+      saveUserData(result.user, result.user.email ? result.user.email.split("@")[0] : "");
+      window.location.replace(HOME_PAGE);
     } catch (error) {
       errEl.textContent = getArabicError(error.code);
       googleBtn.disabled = false;
