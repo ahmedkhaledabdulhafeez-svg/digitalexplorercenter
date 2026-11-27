@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-				<title>قسم التاريخ | مركز المستكشف الرقمي</title>
+				<title>قسم الجغرافيا | مركز المستشفى الرقمي</title>
 				<link rel="icon" type="image/png" href="../favicon.png">
 					<link rel="preconnect" href="https://fonts.googleapis.com">
 						<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
@@ -20,7 +20,7 @@
 								.bar{max-width:1240px;margin:auto;padding:8px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 								.bar img{width:50px;height:50px;object-fit:contain;border-radius:50%;background:#fff;padding:3px}
 								.brand{text-align:center;flex:1}
-								.brand h1{font-family:'Reem Kufi',sans-serif;font-size:1.25rem;color:var(--sand);line-height:1.4}
+								.brand h1{font-family:'Reem Kufi',sans-serif;font-size:1.25rem;color:var(--sand);line-height:1.4;margin-bottom:6px}
 								.brand p{color:var(--gold);font-weight:600;font-size:.8rem;line-height:1.4}
 								nav{display:block;background:var(--bg2);border-bottom:1px solid var(--line)}
 								nav .in{max-width:1240px;margin:auto;display:flex;align-items:center;justify-content:center;position:relative;padding:0 20px}
@@ -34,9 +34,9 @@
 								.nav-links::-webkit-scrollbar{display:none}
 								nav a{padding:5px 14px;margin:5px 0;font-size:.82rem}
 								}
-								.hero-top-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
-								.back{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:99px;border:1.5px solid var(--copper);background:rgba(46,26,16,.55);color:var(--sand);font-weight:700;font-size:.82rem;transition:.3s}
-								.back:hover{background:var(--copper);color:#2a150b;transform:translateY(-2px)}
+								.back-btn-wrap{margin-bottom:18px;display:flex;justify-content:flex-start}
+								.back-btn{display:inline-flex;align-items:center;gap:10px;padding:10px 24px;border-radius:18px;border:1px solid rgba(200,130,90,.85);background:rgba(36,19,11,.55);color:var(--copper);font-weight:700;font-size:.95rem;transition:.25s;white-space:nowrap}
+								.back-btn:hover{background:var(--copper);color:#2a150b}
 
 								/* hero */
 								.hero{position:relative;overflow:hidden;isolation:isolate;border-radius:0 0 44px 44px;min-height:400px;display:flex;align-items:center}
@@ -44,7 +44,7 @@
 								.hero .glow{position:absolute;z-index:-1;left:-6%;top:50%;width:520px;height:520px;transform:translateY(-50%);border-radius:50%;background:radial-gradient(circle,#fffbe6 0%,#ffe08a 22%,rgba(244,169,58,0) 68%);animation:pulse 5s ease-in-out infinite}
 								.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,var(--bg),rgba(46,26,16,0) 28%)}
 								.hero .in{max-width:1240px;margin:auto;width:100%;padding:56px 24px 64px}
-								.tag{display:inline-block;border:1px solid var(--copper);color:var(--gold);padding:3px 18px;border-radius:99px;font-size:.8rem;font-weight:700;margin-bottom:0;background:rgba(200,130,90,.12)}
+								.tag{display:inline-block;border:1px solid var(--copper);color:var(--gold);padding:3px 18px;border-radius:99px;font-size:.8rem;font-weight:700;margin-bottom:14px;background:rgba(200,130,90,.12)}
 								.hero h2{font-family:'Reem Kufi',sans-serif;font-weight:700;font-size:clamp(1.9rem,4.6vw,3.2rem);line-height:1.5;color:var(--copper);max-width:640px;text-shadow:0 4px 30px rgba(240,180,76,.25)}
 								.hero p{color:var(--mute);max-width:520px;margin-top:10px}
 								@keyframes pulse{50%{opacity:.7;transform:translateY(-50%) scale(1.08)}}
@@ -130,8 +130,8 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 			<div class="bar">
 				<img src="https://upload.wikimedia.org/wikipedia/ar/f/f7/%D8%AC%D8%A7%D9%85%D8%B9%D8%A9_%D8%A3%D8%B3%D9%88%D8%A7%D9%86.png?utm_source=ar.wikipedia.org&utm_campaign=index&utm_content=original" alt="شعار جامعة أسوان">
 					<div class="brand">
-						<h1>قسم التاريخ</h1>
-						<p>مركز المستكشف الرقمي - الصف الثالث الإعدادي</p>
+						<h1>قسم الجغرافيا</h1>
+						<p>مركز المستشفى الرقمي - الصف الثالث الإعدادي</p>
 					</div>
 					<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEzagK-_Zmqbzw25mmC78SZwqlNOLOK24tSfODSl1WydvvBxkharGt-Mmz&s=10" alt="شعار كلية التربية النوعية وقسم تكنولوجيا التعليم">
 				</div>
@@ -195,14 +195,14 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 				</svg>
 			</div>
 			<div class="in">
-				<div class="hero-top-actions">
-					<a href="../الصفحة-الرئيسية.html" class="back">
-						<span>🏠</span>
-						<span>الرئيسية</span>
+				<div class="back-btn-wrap">
+					<a href="../الصفحة-الرئيسية.html" class="back-btn">
+						<span aria-hidden="true">→</span>
+						<span>العودة للقائمة الرئيسية</span>
 					</a>
-					<span class="tag">🏺 منهج التاريخ</span>
 				</div>
-				<h2>مصر تحت الحكم العثماني والصراع الاستعماري</h2>
+				<span class="tag">🏺 منهج الجغرافيا</span>
+				<h2>منهج الجغرافيا</h2>
 				<p>اختر الدرس للوصول إلى الشروحات والأنشطة التفاعلية والخطوط الزمنية.</p>
 			</div>
 		</section>
