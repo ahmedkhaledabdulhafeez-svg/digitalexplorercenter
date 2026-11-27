@@ -763,6 +763,12 @@
         }
 
         initPresentation();
+
+        function sendSlideHeight(){
+  window.parent.postMessage({ type: 'explorerSlideHeight', height: document.documentElement.scrollHeight }, '*');
+}
+window.addEventListener('load', sendSlideHeight);
+window.addEventListener('resize', sendSlideHeight);
     </script>
 </body>
 </html>
