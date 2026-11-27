@@ -350,27 +350,146 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 			</section>
 
 			<!-- 2) الإنفوجرافيك -->
-			<section id="infographic" class="blk rv">
-				<div class="head">
-					<div class="ic">
-						<i>📊</i>
-					</div>
-					<div>
-						<h2>الإنفوجرافيك</h2>
-						<p>ملخص مصور لأهم معلومات الدرس</p>
-					</div>
-				</div>
-				<div class="frame">
-					<!-- لوضع الصورة: استبدل div.info كله بـ <img src="رابط_الصورة" alt="إنفوجرافيك الدرس" style="width:100%;border-radius:18px;display:block"> -->
-					<div class="info">
-						<div>
-							<div class="big">🖼️</div>
-							<b>مساحة الإنفوجرافيك</b>
-							<small>سيتم عرض صورة الإنفوجرافيك الخاصة بالدرس هنا</small>
-						</div>
-					</div>
-				</div>
-			</section>
+<style>
+  .ig-outer-wrap{position:relative;width:100%;margin-top:6px}
+
+  /* الأقواس الصفراء بره الإطار من الخارج (قوسين بس) */
+  .ig-corner-tr-out,
+  .ig-corner-bl-out{
+    position:absolute;
+    width:46px;
+    height:46px;
+    pointer-events:none;
+    z-index:6;
+    opacity:.95;
+    filter:drop-shadow(0 0 8px rgba(240,180,76,.4));
+  }
+
+  /* القوس اللي فوق على اليمين */
+  .ig-corner-tr-out{
+    top:-6px;
+    right:-6px;
+    border-top:3px solid #f0b44c;
+    border-right:3px solid #f0b44c;
+    border-top-right-radius:20px;
+  }
+
+  /* القوس اللي تحت على الشمال */
+  .ig-corner-bl-out{
+    bottom:-6px;
+    left:-6px;
+    border-bottom:3px solid #f0b44c;
+    border-left:3px solid #f0b44c;
+    border-bottom-left-radius:20px;
+  }
+
+  .ig-viewer-box{position:relative;width:100%;height:540px;max-height:75vh;border-radius:18px;overflow:hidden;background:linear-gradient(160deg,#42251a,#3a2116);user-select:none;touch-action:none}
+  .ig-stage{width:100%;height:100%;display:flex;align-items:center;justify-content:center;cursor:default}
+  .ig-stage.can-pan{cursor:grab}
+  .ig-stage.dragging{cursor:grabbing}
+  .ig-stage img{max-width:100%;max-height:100%;object-fit:contain;border-radius:12px;transform-origin:center center;transition:transform .12s ease-out;pointer-events:none;display:block}
+  .ig-stage.dragging img{transition:none}
+  .ig-controls{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:5;display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:99px;background:rgba(36,19,11,.88);backdrop-filter:blur(8px);border:1px solid rgba(224,160,110,.28);box-shadow:0 8px 24px rgba(0,0,0,.45)}
+  .ig-btn{min-width:34px;height:34px;padding:0 10px;border-radius:99px;border:1px solid rgba(224,160,110,.3);background:#3a2116;color:#f6e8d4;font-family:'Cairo',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:.2s}
+  .ig-btn:hover{background:#c8825a;color:#2a150b;border-color:#c8825a}
+  .ig-zoom-val{color:#f0b44c;font-weight:800;font-size:.82rem;min-width:48px;text-align:center;direction:ltr}
+  @media(max-width:768px){
+    .ig-viewer-box{height:400px}
+    .ig-corner-tr-out,.ig-corner-bl-out{width:32px;height:32px}
+  }
+</style>
+
+<div class="ig-outer-wrap">
+  <span class="ig-corner-tr-out" aria-hidden="true"></span>
+  <span class="ig-corner-bl-out" aria-hidden="true"></span>
+  <div class="frame" style="padding:14px;overflow:hidden">
+    <div class="ig-viewer-box" id="igViewer">
+      <div class="ig-stage" id="igStage">
+        <img id="igImg" src="Infographie/الدرس-الثاني.jpeg" alt="إنفوجرافيك الدرس">
+      </div>
+      <div class="ig-controls" aria-label="أدوات التحكم في الصورة">
+        <button type="button" class="ig-btn" id="igZoomIn" title="تكبير">+</button>
+        <span class="ig-zoom-val" id="igZoomVal">100%</span>
+        <button type="button" class="ig-btn" id="igZoomOut" title="تصغير للوضع الطبيعي">−</button>
+        <button type="button" class="ig-btn" id="igReset" title="إعادة ضبط">ضبط</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const stage = document.getElementById('igStage');
+  const img = document.getElementById('igImg');
+  const zoomVal = document.getElementById('igZoomVal');
+  const zoomInBtn = document.getElementById('igZoomIn');
+  const zoomOutBtn = document.getElementById('igZoomOut');
+  const resetBtn = document.getElementById('igReset');
+  if(!stage || !img) return;
+
+  let scale = 1, x = 0, y = 0;
+  let isDragging = false, startX = 0, startY = 0;
+  const MIN_SCALE = 1, MAX_SCALE = 4, STEP = 0.25;
+
+  function clampPan(){
+    if(scale <= 1){ x = 0; y = 0; return; }
+    const rect = stage.getBoundingClientRect();
+    const maxX = Math.max(0, (rect.width * (scale - 1)) / 2 + 80);
+    const maxY = Math.max(0, (rect.height * (scale - 1)) / 2 + 80);
+    x = Math.min(maxX, Math.max(-maxX, x));
+    y = Math.min(maxY, Math.max(-maxY, y));
+  }
+
+  function render(){
+    clampPan();
+    img.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+    zoomVal.textContent = Math.round(scale * 100) + '%';
+    stage.classList.toggle('can-pan', scale > 1);
+  }
+
+  function setZoom(nextScale){
+    scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, Number(nextScale.toFixed(2))));
+    if(scale <= 1){ scale = 1; x = 0; y = 0; }
+    render();
+  }
+
+  zoomInBtn.addEventListener('click', () => setZoom(scale + STEP));
+  zoomOutBtn.addEventListener('click', () => setZoom(scale - STEP));
+  resetBtn.addEventListener('click', () => { scale = 1; x = 0; y = 0; render(); });
+
+  stage.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    setZoom(scale + (e.deltaY < 0 ? STEP : -STEP));
+  }, { passive: false });
+
+  stage.addEventListener('pointerdown', (e) => {
+    if(scale <= 1) return;
+    isDragging = true;
+    stage.classList.add('dragging');
+    stage.setPointerCapture(e.pointerId);
+    startX = e.clientX - x;
+    startY = e.clientY - y;
+  });
+
+  stage.addEventListener('pointermove', (e) => {
+    if(!isDragging) return;
+    x = e.clientX - startX;
+    y = e.clientY - startY;
+    render();
+  });
+
+  function endDrag(e){
+    if(!isDragging) return;
+    isDragging = false;
+    stage.classList.remove('dragging');
+    if(e && stage.hasPointerCapture(e.pointerId)) stage.releasePointerCapture(e.pointerId);
+  }
+
+  stage.addEventListener('pointerup', endDrag);
+  stage.addEventListener('pointercancel', endDrag);
+  stage.addEventListener('dblclick', () => setZoom(scale > 1 ? 1 : 2));
+})();
+</script>
 
 			<!-- 3) ملف PDF (تضمين من جوجل درايف) -->
 			<section id="pdf" class="blk rv">
