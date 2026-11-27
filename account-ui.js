@@ -2,7 +2,6 @@
   if (window.__explorerAccountUIInitialized) return;
   window.__explorerAccountUIInitialized = true;
 
-  // تحديد مسار الجذر بدقة بناءً على مسار الملف الحالي أو مكان تحميل السكريبت
   function resolveRootPrefix() {
     const pathname = window.location.pathname || "";
     if (
@@ -13,29 +12,11 @@
     ) {
       return "../";
     }
-
-    const currentScript = document.currentScript;
-    if (currentScript && currentScript.src) {
-      try {
-        const scriptUrl = new URL(currentScript.src, window.location.href);
-        const pageDir = new URL("./", window.location.href).pathname;
-        const scriptDir = new URL("./", scriptUrl.href).pathname;
-        if (pageDir !== scriptDir && pageDir.startsWith(scriptDir)) {
-          const extraDepth = pageDir
-            .slice(scriptDir.length)
-            .split("/")
-            .filter(Boolean).length;
-          if (extraDepth > 0) return "../".repeat(extraDepth);
-        }
-      } catch (e) {}
-    }
-
     return "./";
   }
 
   const rootPrefix = resolveRootPrefix();
 
-  // حقن التنسيقات الخاصة بالحساب والقائمة المنسدلة
   const styleEl = document.createElement("style");
   styleEl.id = "explorer-account-ui-style";
   styleEl.textContent = `
@@ -382,36 +363,6 @@
     return null;
   }
 
-  function scanStorage(store) {
-    if (!store) return;
-    for (let i = 0; i < store.length; i++) {
-      const k = store.key(i);
-      const v = store.getItem(k) || "";
-      if (
-        !savedPhoto &&
-        (/^https?:\/\/.+\.(png|jpg|jpeg|webp|gif)(\?.*)?$/i.test(v.trim()) ||
-          /^data:image\/(png|jpg|jpeg|webp|gif);base64,/i.test(v.trim()))
-      ) {
-        savedPhoto = v.trim();
-      }
-      if (v.trim().startsWith("{")) {
-        try {
-          const obj = JSON.parse(v);
-          if (!savedName && (obj.nameAr || obj.name || obj.displayName || obj.fullName || obj.userName)) {
-            savedName = obj.nameAr || obj.name || obj.displayName || obj.fullName || obj.userName;
-          }
-          if (
-            !savedPhoto &&
-            (obj.photoData || obj.photo || obj.photoURL || obj.avatar || obj.picture || obj.image || obj.userPhoto)
-          ) {
-            savedPhoto =
-              obj.photoData || obj.photo || obj.photoURL || obj.avatar || obj.picture || obj.image || obj.userPhoto;
-          }
-        } catch (err) {}
-      }
-    }
-  }
-
   try {
     savedName =
       localStorage.getItem("explorerUserName") ||
@@ -422,8 +373,6 @@
       sessionStorage.getItem("explorerUserPhoto") ||
       "";
     savedProfile = readCachedProfile();
-    scanStorage(localStorage);
-    scanStorage(sessionStorage);
   } catch (e) {}
 
   const trigger = document.getElementById("accountTrigger");
@@ -437,9 +386,6 @@
   const semesterInput = document.getElementById("semesterInput");
   const sectionInput = document.getElementById("sectionInput");
   const profileForm = document.getElementById("studentProfileForm");
-  const saveProfileBtn = document.getElementById("saveProfileBtn");
-  const profileStatus = document.getElementById("profileStatus");
-  const logoutBtn = document.getElementById("logoutBtn");
 
   function renderIntoCircle(el, photoUrl, fallbackLetter) {
     if (!el) return;
@@ -522,6 +468,14 @@
       e.stopPropagation();
       setMenuOpen(!menu.classList.contains("open"));
     });
+    menu.addEventListener("click", function (e) {
+      e.stopPropagation();
+    });
+    if (profileForm) {
+      profileForm.addEventListener("submit", function (e) {
+        e.stopPropagation();
+      });
+    }
     document.addEventListener("click", function (e) {
       if (!menu.contains(e.target) && !trigger.contains(e.target)) {
         setMenuOpen(false);
@@ -595,210 +549,210 @@
     });
   }
 
-  // تحميل وحدة Firebase عبر <script type="module" src="..."> لضمان تنفيذها دائماً
-  const firebaseBridge = document.createElement("script");
-  firebaseBridge.type = "module";
-  const bridgeCode = `
-    import { auth, db } from "${rootPrefix}firebase-config.js";
-    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-    import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  // استيراد Firebase كوحدة قياسية مباشرة بدون blob:
+  import(`${rootPrefix}firebase-config.js`)
+    .then(async (cfg) => {
+      const { auth, db } = cfg;
+      const [{ onAuthStateChanged, signOut }, { doc, getDoc, setDoc }] = await Promise.all([
+        import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"),
+        import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js")
+      ]);
 
-    const LOGIN_PAGE = "${rootPrefix}index.html";
-    const logoutEl = document.getElementById("logoutBtn");
-    const formEl = document.getElementById("studentProfileForm");
-    const saveBtn = document.getElementById("saveProfileBtn");
-    const statusEl = document.getElementById("profileStatus");
-    let currentUser = null;
+      const LOGIN_PAGE = `${rootPrefix}index.html`;
+      const logoutEl = document.getElementById("logoutBtn");
+      const formEl = document.getElementById("studentProfileForm");
+      const saveBtn = document.getElementById("saveProfileBtn");
+      const statusEl = document.getElementById("profileStatus");
+      let currentUser = null;
 
-    function persistProfileCache(uid, profileObj) {
-      const serialized = JSON.stringify(profileObj);
-      try {
-        localStorage.setItem("explorerStudentProfile_" + uid, serialized);
-        localStorage.setItem("explorerStudentProfile", serialized);
-        sessionStorage.setItem("explorerStudentProfile", serialized);
-        if (profileObj.nameAr) {
-          localStorage.setItem("explorerUserName", profileObj.nameAr);
-          sessionStorage.setItem("explorerUserName", profileObj.nameAr);
-        }
-      } catch (e) {}
-    }
-
-    async function loadUserProfileFromFirestore(user) {
-      const uid = user.uid;
-      window.__explorerUid = uid;
-      const fallbackName = user.displayName || user.email || "";
-
-      let cachedPhoto = "";
-      let cachedProfile = null;
-      try {
-        cachedPhoto =
-          localStorage.getItem("explorerUserPhoto_" + uid) ||
-          localStorage.getItem("explorerUserPhoto") ||
-          sessionStorage.getItem("explorerUserPhoto") ||
-          "";
-        const rawProfile =
-          localStorage.getItem("explorerStudentProfile_" + uid) ||
-          localStorage.getItem("explorerStudentProfile") ||
-          sessionStorage.getItem("explorerStudentProfile");
-        if (rawProfile) cachedProfile = JSON.parse(rawProfile);
-      } catch (e) {}
-
-      let resolvedPhoto = cachedPhoto || user.photoURL || "";
-      let resolvedProfile = {
-        nameAr: cachedProfile?.nameAr ?? user.displayName ?? "",
-        nameEn: cachedProfile?.nameEn ?? "",
-        grade: cachedProfile?.grade ?? "",
-        semester: cachedProfile?.semester ?? "",
-        section: cachedProfile?.section ?? ""
-      };
-
-      if (window.__setExplorerAccountUI) {
-        window.__setExplorerAccountUI(
-          resolvedProfile.nameAr || fallbackName,
-          resolvedPhoto,
-          resolvedProfile
-        );
-      }
-
-      try {
-        const snap = await getDoc(doc(db, "users", uid));
-        if (snap.exists()) {
-          const data = snap.data() || {};
-          if (data.photoData || data.photoURL || data.photo) {
-            resolvedPhoto = data.photoData || data.photoURL || data.photo;
-            try {
-              localStorage.setItem("explorerUserPhoto_" + uid, resolvedPhoto);
-              localStorage.setItem("explorerUserPhoto", resolvedPhoto);
-              sessionStorage.setItem("explorerUserPhoto", resolvedPhoto);
-            } catch (e) {}
-          }
-          resolvedProfile = {
-            nameAr: data.nameAr ?? data.name ?? data.displayName ?? resolvedProfile.nameAr ?? "",
-            nameEn: data.nameEn ?? resolvedProfile.nameEn ?? "",
-            grade: data.grade ?? resolvedProfile.grade ?? "",
-            semester: data.semester ?? resolvedProfile.semester ?? "",
-            section: data.section ?? resolvedProfile.section ?? ""
-          };
-          persistProfileCache(uid, resolvedProfile);
-
-          if (window.__setExplorerAccountUI) {
-            window.__setExplorerAccountUI(
-              resolvedProfile.nameAr || fallbackName,
-              resolvedPhoto,
-              resolvedProfile
-            );
-          }
-        }
-      } catch (err) {}
-    }
-
-    onAuthStateChanged(auth, (user) => {
-      if (!user) return;
-      currentUser = user;
-      const name = user.displayName || user.email || "";
-      if (name) {
+      function persistProfileCache(uid, profileObj) {
+        const serialized = JSON.stringify(profileObj);
         try {
-          localStorage.setItem("explorerUserName", name);
-          sessionStorage.setItem("explorerUserName", name);
+          localStorage.setItem("explorerStudentProfile_" + uid, serialized);
+          localStorage.setItem("explorerStudentProfile", serialized);
+          sessionStorage.setItem("explorerStudentProfile", serialized);
+          if (profileObj.nameAr) {
+            localStorage.setItem("explorerUserName", profileObj.nameAr);
+            sessionStorage.setItem("explorerUserName", profileObj.nameAr);
+          }
         } catch (e) {}
       }
-      loadUserProfileFromFirestore(user);
-    });
 
-    document.addEventListener("explorer:avatar-selected", async (e) => {
-      const dataUrl = e.detail && e.detail.dataUrl ? e.detail.dataUrl : "";
-      if (!dataUrl || !currentUser) return;
-      try {
-        localStorage.setItem("explorerUserPhoto_" + currentUser.uid, dataUrl);
-        await setDoc(
-          doc(db, "users", currentUser.uid),
-          { photoData: dataUrl, updatedAt: Date.now() },
-          { merge: true }
-        );
-        if (statusEl) {
-          statusEl.textContent = "✅ تم حفظ الصورة";
-          setTimeout(() => { statusEl.textContent = ""; }, 2500);
-        }
-      } catch (err) {
-        if (statusEl) statusEl.textContent = "⚠️ تعذر حفظ الصورة";
-      }
-    });
+      async function loadUserProfileFromFirestore(user) {
+        const uid = user.uid;
+        window.__explorerUid = uid;
+        const fallbackName = user.displayName || user.email || "";
 
-    if (formEl) {
-      formEl.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        if (!currentUser) {
-          if (statusEl) statusEl.textContent = "⚠️ جارٍ التحقق من الحساب...";
-          return;
-        }
+        let cachedPhoto = "";
+        let cachedProfile = null;
+        try {
+          cachedPhoto =
+            localStorage.getItem("explorerUserPhoto_" + uid) ||
+            localStorage.getItem("explorerUserPhoto") ||
+            sessionStorage.getItem("explorerUserPhoto") ||
+            "";
+          const rawProfile =
+            localStorage.getItem("explorerStudentProfile_" + uid) ||
+            localStorage.getItem("explorerStudentProfile") ||
+            sessionStorage.getItem("explorerStudentProfile");
+          if (rawProfile) cachedProfile = JSON.parse(rawProfile);
+        } catch (e) {}
 
-        const payload = {
-          nameAr: (document.getElementById("nameArInput")?.value || "").trim(),
-          nameEn: (document.getElementById("nameEnInput")?.value || "").trim(),
-          grade: (document.getElementById("gradeInput")?.value || "").trim(),
-          semester: (document.getElementById("semesterInput")?.value || "").trim(),
-          section: (document.getElementById("sectionInput")?.value || "").trim(),
-          updatedAt: Date.now()
+        let resolvedPhoto = cachedPhoto || user.photoURL || "";
+        let resolvedProfile = {
+          nameAr: cachedProfile?.nameAr ?? user.displayName ?? "",
+          nameEn: cachedProfile?.nameEn ?? "",
+          grade: cachedProfile?.grade ?? "",
+          semester: cachedProfile?.semester ?? "",
+          section: cachedProfile?.section ?? ""
         };
 
-        if (saveBtn) {
-          saveBtn.disabled = true;
-          saveBtn.textContent = "جاري الحفظ...";
+        if (window.__setExplorerAccountUI) {
+          window.__setExplorerAccountUI(
+            resolvedProfile.nameAr || fallbackName,
+            resolvedPhoto,
+            resolvedProfile
+          );
         }
-        if (statusEl) statusEl.textContent = "";
 
         try {
-          await setDoc(doc(db, "users", currentUser.uid), payload, { merge: true });
-          persistProfileCache(currentUser.uid, payload);
+          const snap = await getDoc(doc(db, "users", uid));
+          if (snap.exists()) {
+            const data = snap.data() || {};
+            if (data.photoData || data.photoURL || data.photo) {
+              resolvedPhoto = data.photoData || data.photoURL || data.photo;
+              try {
+                localStorage.setItem("explorerUserPhoto_" + uid, resolvedPhoto);
+                localStorage.setItem("explorerUserPhoto", resolvedPhoto);
+                sessionStorage.setItem("explorerUserPhoto", resolvedPhoto);
+              } catch (e) {}
+            }
+            resolvedProfile = {
+              nameAr: data.nameAr ?? data.name ?? data.displayName ?? resolvedProfile.nameAr ?? "",
+              nameEn: data.nameEn ?? resolvedProfile.nameEn ?? "",
+              grade: data.grade ?? resolvedProfile.grade ?? "",
+              semester: data.semester ?? resolvedProfile.semester ?? "",
+              section: data.section ?? resolvedProfile.section ?? ""
+            };
+            persistProfileCache(uid, resolvedProfile);
 
-          if (window.__setExplorerAccountUI) {
-            window.__setExplorerAccountUI(
-              payload.nameAr || currentUser.displayName || currentUser.email || "",
-              "",
-              payload
-            );
-          }
-          if (statusEl) {
-            statusEl.textContent = "✅ تم حفظ البيانات بنجاح";
-            setTimeout(() => { statusEl.textContent = ""; }, 3000);
+            if (window.__setExplorerAccountUI) {
+              window.__setExplorerAccountUI(
+                resolvedProfile.nameAr || fallbackName,
+                resolvedPhoto,
+                resolvedProfile
+              );
+            }
           }
         } catch (err) {
-          if (statusEl) statusEl.textContent = "⚠️ حدث خطأ أثناء الحفظ";
-        } finally {
-          if (saveBtn) {
-            saveBtn.disabled = false;
-            saveBtn.textContent = "💾 حفظ البيانات";
+          if (statusEl) statusEl.textContent = "⚠️ تعذر قراءة البيانات من السحابة";
+        }
+      }
+
+      onAuthStateChanged(auth, (user) => {
+        if (!user) return;
+        currentUser = user;
+        const name = user.displayName || user.email || "";
+        if (name) {
+          try {
+            localStorage.setItem("explorerUserName", name);
+            sessionStorage.setItem("explorerUserName", name);
+          } catch (e) {}
+        }
+        loadUserProfileFromFirestore(user);
+      });
+
+      document.addEventListener("explorer:avatar-selected", async (e) => {
+        const dataUrl = e.detail && e.detail.dataUrl ? e.detail.dataUrl : "";
+        if (!dataUrl || !currentUser) return;
+        try {
+          localStorage.setItem("explorerUserPhoto_" + currentUser.uid, dataUrl);
+          await setDoc(
+            doc(db, "users", currentUser.uid),
+            { photoData: dataUrl, updatedAt: Date.now() },
+            { merge: true }
+          );
+          if (statusEl) {
+            statusEl.textContent = "✅ تم حفظ الصورة";
+            setTimeout(() => { statusEl.textContent = ""; }, 2500);
           }
+        } catch (err) {
+          if (statusEl) statusEl.textContent = "⚠️ تعذر حفظ الصورة";
         }
       });
-    }
 
-    if (logoutEl) {
-      logoutEl.onclick = async function (e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        try {
-          await signOut(auth);
-        } catch (err) {}
-        try {
-          sessionStorage.removeItem("explorerSessionVerified");
-          sessionStorage.removeItem("explorerUserName");
-          sessionStorage.removeItem("explorerUserPhoto");
-          sessionStorage.removeItem("explorerStudentProfile");
-          localStorage.removeItem("explorerUserName");
-          localStorage.removeItem("explorerUserPhoto");
-          localStorage.removeItem("explorerStudentProfile");
-        } catch (err) {}
-        window.location.replace(LOGIN_PAGE);
-      };
-    }
-  `;
+      if (formEl) {
+        formEl.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (!currentUser) {
+            if (statusEl) statusEl.textContent = "⚠️ جارٍ التحقق من الحساب...";
+            return;
+          }
 
-  if (typeof Blob !== "undefined" && typeof URL !== "undefined" && URL.createObjectURL) {
-    const blob = new Blob([bridgeCode], { type: "application/javascript" });
-    firebaseBridge.src = URL.createObjectURL(blob);
-  } else {
-    firebaseBridge.textContent = bridgeCode;
-  }
-  document.body.appendChild(firebaseBridge);
+          const payload = {
+            nameAr: (document.getElementById("nameArInput")?.value || "").trim(),
+            nameEn: (document.getElementById("nameEnInput")?.value || "").trim(),
+            grade: (document.getElementById("gradeInput")?.value || "").trim(),
+            semester: (document.getElementById("semesterInput")?.value || "").trim(),
+            section: (document.getElementById("sectionInput")?.value || "").trim(),
+            updatedAt: Date.now()
+          };
+
+          if (saveBtn) {
+            saveBtn.disabled = true;
+            saveBtn.textContent = "جاري الحفظ...";
+          }
+          if (statusEl) statusEl.textContent = "";
+
+          try {
+            await setDoc(doc(db, "users", currentUser.uid), payload, { merge: true });
+            persistProfileCache(currentUser.uid, payload);
+
+            if (window.__setExplorerAccountUI) {
+              window.__setExplorerAccountUI(
+                payload.nameAr || currentUser.displayName || currentUser.email || "",
+                "",
+                payload
+              );
+            }
+            if (statusEl) {
+              statusEl.textContent = "✅ تم حفظ البيانات بنجاح";
+              setTimeout(() => { statusEl.textContent = ""; }, 3000);
+            }
+          } catch (err) {
+            if (statusEl) statusEl.textContent = "⚠️ حدث خطأ أثناء الحفظ";
+          } finally {
+            if (saveBtn) {
+              saveBtn.disabled = false;
+              saveBtn.textContent = "💾 حفظ البيانات";
+            }
+          }
+        });
+      }
+
+      if (logoutEl) {
+        logoutEl.onclick = async function (e) {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          try {
+            await signOut(auth);
+          } catch (err) {}
+          try {
+            sessionStorage.removeItem("explorerSessionVerified");
+            sessionStorage.removeItem("explorerUserName");
+            sessionStorage.removeItem("explorerUserPhoto");
+            sessionStorage.removeItem("explorerStudentProfile");
+            localStorage.removeItem("explorerUserName");
+            localStorage.removeItem("explorerUserPhoto");
+            localStorage.removeItem("explorerStudentProfile");
+          } catch (err) {}
+          window.location.replace(LOGIN_PAGE);
+        };
+      }
+    })
+    .catch(() => {
+      const statusEl = document.getElementById("profileStatus");
+      if (statusEl) statusEl.textContent = "⚠️ تعذر ربط Firebase بالصفحة";
+    });
 })();
