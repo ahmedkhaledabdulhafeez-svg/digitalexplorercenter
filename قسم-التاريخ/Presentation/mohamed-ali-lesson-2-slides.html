@@ -1062,6 +1062,31 @@
 
         // التحديث الأولي
         updateUI();
+
+        
+(function(){
+  var lastSent = 0;
+  function sendStableSlideHeight(){
+    setTimeout(function(){
+      var activeSlide = document.querySelector('.slide.active');
+      var headerEl = document.querySelector('header');
+      var navBar = document.querySelector('.bg-\\[\\#f3f7f5\\].border-t');
+      var h = (headerEl ? headerEl.offsetHeight : 80)
+            + (activeSlide ? activeSlide.offsetHeight : 650)
+            + (navBar ? navBar.offsetHeight : 70)
+            + 80;
+      if(Math.abs(h - lastSent) < 12) return;
+      lastSent = h;
+      window.parent.postMessage({ type: 'explorerSlideHeight', height: h }, '*');
+    }, 480);
+  }
+  window.addEventListener('load', sendStableSlideHeight);
+  window.addEventListener('resize', sendStableSlideHeight);
+  document.addEventListener('click', function(e){
+    if(e.target.closest('#next-btn, #prev-btn, #slide-selector, .quiz-btn')) sendStableSlideHeight();
+  });
+})();
+        
     </script>
 </body>
 </html>
