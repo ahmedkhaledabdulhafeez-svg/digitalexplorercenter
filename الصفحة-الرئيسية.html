@@ -15,6 +15,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;line-height:1.8}
+body.menu-lock{overflow:hidden;touch-action:none}
 a{color:inherit;text-decoration:none}
 img{max-width:100%}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
@@ -38,12 +39,19 @@ nav a.on{background:var(--copper);color:#2a150b}
 .account-trigger{width:40px;height:40px;padding:0;border-radius:50%;border:2px solid var(--gold);background:radial-gradient(circle at top,#5c3622,#24130b);color:var(--gold);display:grid;place-items:center;font-family:inherit;font-size:.95rem;font-weight:800;cursor:pointer;transition:.25s;box-shadow:0 0 0 2px rgba(200,130,90,.35),0 4px 12px rgba(0,0,0,.35);overflow:hidden}
 .account-trigger:hover{transform:scale(1.06);border-color:var(--sand)}
 .account-trigger img{width:100%;height:100%;object-fit:cover;object-position:center;border-radius:50%;display:block}
-.account-menu{position:fixed;top:auto;right:12px;width:min(320px,calc(100vw - 24px));max-height:calc(100vh - 110px);overflow-y:auto;background:var(--panel);border:1.5px solid var(--copper);border-radius:18px;box-shadow:0 18px 40px rgba(0,0,0,.68);padding:10px;display:none;z-index:95}
+
+.account-menu{position:fixed;top:auto;right:12px;width:min(330px,calc(100vw - 24px));max-height:calc(100vh - 115px);overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;background:var(--panel);border:1.5px solid var(--copper);border-radius:18px;box-shadow:0 18px 40px rgba(0,0,0,.72);padding:14px 12px;display:none;z-index:95}
 .account-menu.open{display:block}
-.account-menu-name{padding:6px 10px 8px;font-size:.88rem;font-weight:800;color:var(--gold);border-bottom:1px dashed var(--line);margin-bottom:8px;word-break:break-word}
-.menu-action-item{width:100%;display:flex;align-items:center;justify-content:flex-start;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:rgba(0,0,0,.22);color:var(--sand);font-family:inherit;font-size:.84rem;font-weight:700;cursor:pointer;transition:.2s;margin-bottom:8px}
+
+.account-hero-box{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding-bottom:10px;margin-bottom:10px;border-bottom:1px dashed var(--line)}
+.account-big-avatar{width:88px;height:88px;border-radius:50%;border:2.5px solid var(--gold);background:radial-gradient(circle at top,#5c3622,#24130b);color:var(--gold);display:grid;place-items:center;font-size:2rem;font-weight:800;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.45)}
+.account-big-avatar img{width:100%;height:100%;object-fit:cover;object-position:center;border-radius:50%;display:block}
+.account-menu-name{font-size:.94rem;font-weight:800;color:var(--gold);word-break:break-word;text-align:center}
+
+.menu-action-item{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 12px;border:1px solid var(--line);border-radius:12px;background:rgba(0,0,0,.22);color:var(--sand);font-family:inherit;font-size:.84rem;font-weight:700;cursor:pointer;transition:.2s;margin-bottom:10px}
 .menu-action-item:hover{background:rgba(240,180,76,.16);color:var(--gold);border-color:var(--gold)}
-.student-form{display:flex;flex-direction:column;gap:8px;padding:8px;border-radius:14px;background:rgba(0,0,0,.22);border:1px solid var(--line)}
+
+.student-form{display:flex;flex-direction:column;gap:8px;padding:10px;border-radius:14px;background:rgba(0,0,0,.22);border:1px solid var(--line)}
 .student-field{display:flex;flex-direction:column;gap:3px}
 .student-field label{font-size:.75rem;font-weight:700;color:var(--mute)}
 .student-field input{width:100%;padding:7px 10px;border-radius:10px;border:1px solid var(--line);background:rgba(46,26,16,.85);color:var(--text);font-family:inherit;font-size:.82rem;outline:none}
@@ -53,8 +61,9 @@ nav a.on{background:var(--copper);color:#2a150b}
 .save-profile-btn:hover{background:var(--gold)}
 .save-profile-btn:disabled{opacity:.65;cursor:not-allowed}
 .profile-status{font-size:.76rem;font-weight:700;text-align:center;min-height:16px;color:var(--gold)}
-.logout-item{width:100%;display:flex;align-items:center;justify-content:flex-start;gap:8px;padding:9px 10px;border:none;border-radius:12px;background:rgba(217,120,74,.12);color:#ffb49a;font-family:inherit;font-size:.84rem;font-weight:700;cursor:pointer;transition:.2s;margin-top:8px}
-.logout-item:hover{background:rgba(217,120,74,.25);color:#ffd5c6}
+
+.logout-item{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:9px 12px;border:1px solid rgba(255,77,77,.45);border-radius:12px;background:rgba(220,38,38,.18);color:#ff5252;font-family:inherit;font-size:.86rem;font-weight:800;cursor:pointer;transition:.2s;margin-top:10px;text-align:center}
+.logout-item:hover,.logout-item:focus-visible{background:rgba(220,38,38,.32);color:#ff6b6b;border-color:#ff5252}
 
 @media(min-width:760px){
   .nav-account{position:absolute;right:20px;top:50%;transform:translateY(-50%);margin-inline-end:0}
@@ -223,7 +232,11 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
     <div class="nav-account">
       <button type="button" class="account-trigger" id="accountTrigger" aria-expanded="false" aria-controls="accountMenu" aria-label="قائمة الحساب">👤</button>
       <div class="account-menu" id="accountMenu" role="menu">
-        <div class="account-menu-name" id="accountMenuName">الحساب</div>
+        <div class="account-hero-box">
+          <div class="account-big-avatar" id="accountBigAvatar">👤</div>
+          <div class="account-menu-name" id="accountMenuName">الحساب</div>
+        </div>
+
         <button type="button" class="menu-action-item" id="uploadPhotoBtn" role="menuitem">🖼️ إضافة صورة</button>
 
         <form class="student-form" id="studentProfileForm">
@@ -516,6 +529,7 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
   } catch (e) {}
 
   var trigger = document.getElementById('accountTrigger');
+  var bigAvatar = document.getElementById('accountBigAvatar');
   var menu = document.getElementById('accountMenu');
   var uploadPhotoBtn = document.getElementById('uploadPhotoBtn');
   var fileInput = document.getElementById('avatarFileInput');
@@ -525,26 +539,32 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
   var semesterInput = document.getElementById('semesterInput');
   var sectionInput = document.getElementById('sectionInput');
 
-  function applyAvatar(photoUrl, fallbackName) {
-    if (!trigger) return;
-    var labelName = fallbackName || savedName;
+  function renderIntoCircle(el, photoUrl, fallbackLetter) {
+    if (!el) return;
     if (photoUrl) {
       var img = document.createElement('img');
       img.src = photoUrl;
-      img.alt = labelName || 'صورة الحساب';
+      img.alt = 'صورة الحساب';
       img.referrerPolicy = 'no-referrer';
       img.onerror = function() {
-        trigger.textContent = labelName ? labelName.trim().charAt(0).toUpperCase() : '👤';
+        el.textContent = fallbackLetter || '👤';
       };
-      trigger.innerHTML = '';
-      trigger.appendChild(img);
-      if (uploadPhotoBtn) uploadPhotoBtn.textContent = '🖼️ تغيير الصورة';
-    } else if (labelName) {
-      trigger.textContent = labelName.trim().charAt(0).toUpperCase();
-      if (uploadPhotoBtn) uploadPhotoBtn.textContent = '🖼️ إضافة صورة';
+      el.innerHTML = '';
+      el.appendChild(img);
+    } else if (fallbackLetter) {
+      el.textContent = fallbackLetter;
     } else {
-      trigger.textContent = '👤';
-      if (uploadPhotoBtn) uploadPhotoBtn.textContent = '🖼️ إضافة صورة';
+      el.textContent = '👤';
+    }
+  }
+
+  function applyAvatar(photoUrl, fallbackName) {
+    var labelName = fallbackName || savedName;
+    var letter = labelName ? labelName.trim().charAt(0).toUpperCase() : '';
+    renderIntoCircle(trigger, photoUrl, letter);
+    renderIntoCircle(bigAvatar, photoUrl, letter);
+    if (uploadPhotoBtn) {
+      uploadPhotoBtn.textContent = photoUrl ? '🖼️ تغيير الصورة' : '🖼️ إضافة صورة';
     }
   }
 
@@ -577,29 +597,39 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
   }
 
   function positionMenu() {
-    if (!trigger || !menu || window.innerWidth >= 760) return;
+    if (!trigger || !menu) return;
     var rect = trigger.getBoundingClientRect();
-    menu.style.top = (rect.bottom + 8) + 'px';
-    menu.style.right = '12px';
-    menu.style.left = 'auto';
+    if (window.innerWidth >= 760) {
+      menu.style.top = 'calc(100% + 8px)';
+      menu.style.right = '0';
+      menu.style.left = 'auto';
+      menu.style.maxHeight = Math.max(240, window.innerHeight - rect.bottom - 20) + 'px';
+    } else {
+      menu.style.top = (rect.bottom + 8) + 'px';
+      menu.style.right = '12px';
+      menu.style.left = 'auto';
+      menu.style.maxHeight = Math.max(240, window.innerHeight - rect.bottom - 18) + 'px';
+    }
+  }
+
+  function setMenuOpen(open) {
+    if (!trigger || !menu) return;
+    menu.classList.toggle('open', open);
+    trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.body.classList.toggle('menu-lock', open);
+    if (open) positionMenu();
   }
 
   if (trigger && menu) {
     trigger.addEventListener('click', function(e) {
       e.stopPropagation();
-      var isOpen = menu.classList.toggle('open');
-      trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      if (isOpen) positionMenu();
+      setMenuOpen(!menu.classList.contains('open'));
     });
     document.addEventListener('click', function(e) {
       if (!menu.contains(e.target) && !trigger.contains(e.target)) {
-        menu.classList.remove('open');
-        trigger.setAttribute('aria-expanded', 'false');
+        setMenuOpen(false);
       }
     });
-    window.addEventListener('scroll', function() {
-      if (menu.classList.contains('open')) positionMenu();
-    }, { passive: true });
     window.addEventListener('resize', function() {
       if (menu.classList.contains('open')) positionMenu();
     });
