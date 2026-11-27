@@ -151,6 +151,7 @@ select{font-family:inherit;border-radius:12px;padding:7px 12px;background:var(--
 .maprow p{color:var(--mute);font-size:.9rem}
 
 .pdfv{aspect-ratio:auto;height:78vh;min-height:420px}
+.pptx-frame{aspect-ratio:auto;height:78vh;min-height:520px;background:#f3f7f5}
 .fg{animation:fgf 4.5s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
 @keyframes fgf{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-7px) rotate(1deg)}}
 .fl{animation:flo 3.2s ease-in-out infinite}
@@ -202,6 +203,7 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
     <a href="#chars">الشخصيات 3D</a>
     <a href="#infographic">الإنفوجرافيك</a>
     <a href="#pdf">ملف PDF</a>
+    <a href="#presentation">العرض التقديمي</a>
     <a href="#summary">ملخص الدرس</a>
     <a href="#activities">الأنشطة والاختبارات</a>
   </div></nav>
@@ -426,6 +428,22 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
       <div class="vid pdfv">
         <iframe id="pdfFrame" title="ملف الدرس PDF" loading="lazy" allow="autoplay" style="display:none"></iframe>
         <div class="info" id="pdfEmpty" style="position:absolute;inset:0;border:0"><div><div class="big">📄</div><b>مساحة ملف الـ PDF</b><small>سيظهر الملف هنا بعد وضع رقم ملف جوجل درايف في الكود</small></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- العرض التقديمي التفاعلي (تحت ملف PDF مباشرة) -->
+  <section id="presentation" class="blk rv">
+    <div class="head">
+      <div class="ic"><i>📽️</i></div>
+      <div>
+        <h2>العرض التقديمي التفاعلي</h2>
+        <p>استعرض شرائح الدرس التفاعلية والأنشطة مباشرة داخل الصفحة</p>
+      </div>
+    </div>
+    <div class="frame">
+      <div class="vid pptx-frame">
+        <iframe src="الدرس الاول موقع ومظاهر سطح قارات العالم الجديد.html" title="العرض التقديمي التفاعلي: موقع ومظاهر سطح قارات العالم الجديد" loading="lazy" allowfullscreen></iframe>
       </div>
     </div>
   </section>
