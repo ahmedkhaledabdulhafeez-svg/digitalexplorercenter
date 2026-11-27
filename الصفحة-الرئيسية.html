@@ -38,13 +38,23 @@ nav a.on{background:var(--copper);color:#2a150b}
 .account-trigger{width:40px;height:40px;padding:0;border-radius:50%;border:2px solid var(--gold);background:radial-gradient(circle at top,#5c3622,#24130b);color:var(--gold);display:grid;place-items:center;font-family:inherit;font-size:.95rem;font-weight:800;cursor:pointer;transition:.25s;box-shadow:0 0 0 2px rgba(200,130,90,.35),0 4px 12px rgba(0,0,0,.35);overflow:hidden}
 .account-trigger:hover{transform:scale(1.06);border-color:var(--sand)}
 .account-trigger img{width:100%;height:100%;object-fit:cover;object-position:center;border-radius:50%;display:block}
-.account-menu{position:fixed;top:auto;right:12px;min-width:210px;background:var(--panel);border:1.5px solid var(--copper);border-radius:14px;box-shadow:0 16px 34px rgba(0,0,0,.6);padding:6px;display:none;z-index:95}
+.account-menu{position:fixed;top:auto;right:12px;width:min(320px,calc(100vw - 24px));max-height:calc(100vh - 110px);overflow-y:auto;background:var(--panel);border:1.5px solid var(--copper);border-radius:18px;box-shadow:0 18px 40px rgba(0,0,0,.68);padding:10px;display:none;z-index:95}
 .account-menu.open{display:block}
-.account-menu-name{padding:8px 12px;font-size:.84rem;font-weight:700;color:var(--sand);border-bottom:1px dashed var(--line);margin-bottom:4px;word-break:break-word}
-.menu-action-item{width:100%;display:flex;align-items:center;justify-content:flex-start;gap:8px;padding:8px 12px;border:none;border-radius:10px;background:transparent;color:var(--sand);font-family:inherit;font-size:.84rem;font-weight:700;cursor:pointer;transition:.2s}
-.menu-action-item:hover{background:rgba(240,180,76,.16);color:var(--gold)}
-.logout-item{width:100%;display:flex;align-items:center;justify-content:flex-start;gap:8px;padding:8px 12px;border:none;border-radius:10px;background:transparent;color:#ffb49a;font-family:inherit;font-size:.84rem;font-weight:700;cursor:pointer;transition:.2s;margin-top:2px}
-.logout-item:hover{background:rgba(217,120,74,.22);color:#ffd5c6}
+.account-menu-name{padding:6px 10px 8px;font-size:.88rem;font-weight:800;color:var(--gold);border-bottom:1px dashed var(--line);margin-bottom:8px;word-break:break-word}
+.menu-action-item{width:100%;display:flex;align-items:center;justify-content:flex-start;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:rgba(0,0,0,.22);color:var(--sand);font-family:inherit;font-size:.84rem;font-weight:700;cursor:pointer;transition:.2s;margin-bottom:8px}
+.menu-action-item:hover{background:rgba(240,180,76,.16);color:var(--gold);border-color:var(--gold)}
+.student-form{display:flex;flex-direction:column;gap:8px;padding:8px;border-radius:14px;background:rgba(0,0,0,.22);border:1px solid var(--line)}
+.student-field{display:flex;flex-direction:column;gap:3px}
+.student-field label{font-size:.75rem;font-weight:700;color:var(--mute)}
+.student-field input{width:100%;padding:7px 10px;border-radius:10px;border:1px solid var(--line);background:rgba(46,26,16,.85);color:var(--text);font-family:inherit;font-size:.82rem;outline:none}
+.student-field input:focus{border-color:var(--gold)}
+.student-row-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.save-profile-btn{width:100%;padding:8px 12px;border:none;border-radius:12px;background:var(--copper);color:#2a150b;font-family:inherit;font-size:.84rem;font-weight:800;cursor:pointer;transition:.2s;margin-top:2px}
+.save-profile-btn:hover{background:var(--gold)}
+.save-profile-btn:disabled{opacity:.65;cursor:not-allowed}
+.profile-status{font-size:.76rem;font-weight:700;text-align:center;min-height:16px;color:var(--gold)}
+.logout-item{width:100%;display:flex;align-items:center;justify-content:flex-start;gap:8px;padding:9px 10px;border:none;border-radius:12px;background:rgba(217,120,74,.12);color:#ffb49a;font-family:inherit;font-size:.84rem;font-weight:700;cursor:pointer;transition:.2s;margin-top:8px}
+.logout-item:hover{background:rgba(217,120,74,.25);color:#ffd5c6}
 
 @media(min-width:760px){
   .nav-account{position:absolute;right:20px;top:50%;transform:translateY(-50%);margin-inline-end:0}
@@ -215,6 +225,34 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
       <div class="account-menu" id="accountMenu" role="menu">
         <div class="account-menu-name" id="accountMenuName">الحساب</div>
         <button type="button" class="menu-action-item" id="uploadPhotoBtn" role="menuitem">🖼️ إضافة صورة</button>
+
+        <form class="student-form" id="studentProfileForm">
+          <div class="student-field">
+            <label for="nameArInput">الاسم بالعربية</label>
+            <input type="text" id="nameArInput" placeholder="اكتب اسمك بالعربية">
+          </div>
+          <div class="student-field">
+            <label for="nameEnInput">الاسم بالإنجليزية</label>
+            <input type="text" id="nameEnInput" dir="ltr" placeholder="Full Name in English">
+          </div>
+          <div class="student-field">
+            <label for="gradeInput">الفرقة</label>
+            <input type="text" id="gradeInput" placeholder="مثال: الفرقة الرابعة">
+          </div>
+          <div class="student-row-2">
+            <div class="student-field">
+              <label for="semesterInput">الفصل الدراسي</label>
+              <input type="text" id="semesterInput" placeholder="الأول / الثاني">
+            </div>
+            <div class="student-field">
+              <label for="sectionInput">الفصل</label>
+              <input type="text" id="sectionInput" placeholder="مثال: فصل 1">
+            </div>
+          </div>
+          <button type="submit" class="save-profile-btn" id="saveProfileBtn">💾 حفظ البيانات</button>
+          <div class="profile-status" id="profileStatus"></div>
+        </form>
+
         <button type="button" class="logout-item" id="logoutBtn" role="menuitem">🚪 تسجيل خروج</button>
       </div>
       <input type="file" id="avatarFileInput" accept="image/*" style="display:none">
@@ -443,7 +481,7 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
   update();
 })();
 
-// ترحيب مخصص باسم الطالب المسجل + صورة الحساب والقائمة المنسدلة + خيار إضافة صورة
+// إدارة الحساب والبيانات الشخصية والصورة والقائمة المنسدلة
 (function(){
   var savedName = '';
   var savedPhoto = '';
@@ -479,9 +517,13 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
 
   var trigger = document.getElementById('accountTrigger');
   var menu = document.getElementById('accountMenu');
-  var logoutBtn = document.getElementById('logoutBtn');
   var uploadPhotoBtn = document.getElementById('uploadPhotoBtn');
   var fileInput = document.getElementById('avatarFileInput');
+  var nameArInput = document.getElementById('nameArInput');
+  var nameEnInput = document.getElementById('nameEnInput');
+  var gradeInput = document.getElementById('gradeInput');
+  var semesterInput = document.getElementById('semesterInput');
+  var sectionInput = document.getElementById('sectionInput');
 
   function applyAvatar(photoUrl, fallbackName) {
     if (!trigger) return;
@@ -506,14 +548,33 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
     }
   }
 
-  if (savedName) {
-    var wTag = document.getElementById('welcomeTag');
-    if (wTag) wTag.textContent = '👋 أهلاً بك يا ' + savedName + ' في مركز المستكشف';
-    var menuName = document.getElementById('accountMenuName');
-    if (menuName) menuName.textContent = savedName;
-  }
+  window.__setExplorerAccountUI = function(newName, newPhoto, profileData) {
+    var displayLabel = (profileData && profileData.nameAr) || newName || savedName;
+    if (displayLabel) {
+      savedName = displayLabel;
+      var wTag = document.getElementById('welcomeTag');
+      if (wTag) wTag.textContent = '👋 أهلاً بك يا ' + displayLabel + ' في مركز المستكشف';
+      var menuName = document.getElementById('accountMenuName');
+      if (menuName) menuName.textContent = displayLabel;
+    }
+    if (typeof newPhoto === 'string' && newPhoto) {
+      savedPhoto = newPhoto;
+    }
+    if (profileData) {
+      if (nameArInput && typeof profileData.nameAr === 'string') nameArInput.value = profileData.nameAr;
+      if (nameEnInput && typeof profileData.nameEn === 'string') nameEnInput.value = profileData.nameEn;
+      if (gradeInput && typeof profileData.grade === 'string') gradeInput.value = profileData.grade;
+      if (semesterInput && typeof profileData.semester === 'string') semesterInput.value = profileData.semester;
+      if (sectionInput && typeof profileData.section === 'string') sectionInput.value = profileData.section;
+    }
+    applyAvatar(savedPhoto, savedName);
+  };
 
-  applyAvatar(savedPhoto, savedName);
+  if (savedName) {
+    window.__setExplorerAccountUI(savedName, savedPhoto);
+  } else {
+    applyAvatar(savedPhoto, '');
+  }
 
   function positionMenu() {
     if (!trigger || !menu || window.innerWidth >= 760) return;
@@ -544,6 +605,34 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
     });
   }
 
+  function compressImageToDataUrl(file, maxSize, quality, cb) {
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      var img = new Image();
+      img.onload = function() {
+        var w = img.width;
+        var h = img.height;
+        if (w > maxSize || h > maxSize) {
+          if (w > h) {
+            h = Math.round((h * maxSize) / w);
+            w = maxSize;
+          } else {
+            w = Math.round((w * maxSize) / h);
+            h = maxSize;
+          }
+        }
+        var canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        cb(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
   if (uploadPhotoBtn && fileInput) {
     uploadPhotoBtn.addEventListener('click', function(e) {
       e.stopPropagation();
@@ -553,37 +642,22 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
     fileInput.addEventListener('change', function() {
       var file = fileInput.files && fileInput.files[0];
       if (!file) return;
-      var reader = new FileReader();
-      reader.onload = function(ev) {
-        var dataUrl = ev.target && ev.target.result ? ev.target.result : '';
+      compressImageToDataUrl(file, 240, 0.78, function(dataUrl) {
         if (!dataUrl) return;
         savedPhoto = dataUrl;
         applyAvatar(dataUrl, savedName);
         try {
           localStorage.setItem('explorerUserPhoto', dataUrl);
           sessionStorage.setItem('explorerUserPhoto', dataUrl);
+          if (window.__explorerUid) {
+            localStorage.setItem('explorerUserPhoto_' + window.__explorerUid, dataUrl);
+          }
         } catch (err) {}
-        menu.classList.remove('open');
-        trigger.setAttribute('aria-expanded', 'false');
         document.dispatchEvent(new CustomEvent('explorer:avatar-selected', {
           detail: { file: file, dataUrl: dataUrl }
         }));
-      };
-      reader.readAsDataURL(file);
+      });
       fileInput.value = '';
-    });
-  }
-
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', function() {
-      try {
-        sessionStorage.removeItem('explorerSessionVerified');
-        sessionStorage.removeItem('explorerUserName');
-        sessionStorage.removeItem('explorerUserPhoto');
-        localStorage.removeItem('explorerUserName');
-        localStorage.removeItem('explorerUserPhoto');
-      } catch (e) {}
-      window.location.href = 'index.html';
     });
   }
 })();
@@ -732,15 +806,16 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
 <script src="chatbot.js"></script>
  
 <script type="module">
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { auth, db } from "./firebase-config.js";
+  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
   const LOGIN_PAGE = "index.html";
-  const auth = getAuth();
-  const trigger = document.getElementById("accountTrigger");
-  const menuName = document.getElementById("accountMenuName");
-  const welcomeTag = document.getElementById("welcomeTag");
   const logoutBtn = document.getElementById("logoutBtn");
-  const uploadPhotoBtn = document.getElementById("uploadPhotoBtn");
+  const profileForm = document.getElementById("studentProfileForm");
+  const saveProfileBtn = document.getElementById("saveProfileBtn");
+  const profileStatus = document.getElementById("profileStatus");
+  let currentUser = null;
 
   try {
     history.pushState({ page: "home" }, "", window.location.href);
@@ -749,44 +824,163 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
     });
   } catch (e) {}
 
+  async function loadUserProfileFromFirestore(user) {
+    const uid = user.uid;
+    window.__explorerUid = uid;
+    const fallbackName = user.displayName || user.email || "";
+
+    let cachedPhoto = "";
+    let cachedProfile = null;
+    try {
+      cachedPhoto =
+        localStorage.getItem("explorerUserPhoto_" + uid) ||
+        localStorage.getItem("explorerUserPhoto") ||
+        sessionStorage.getItem("explorerUserPhoto") ||
+        "";
+      const rawProfile = localStorage.getItem("explorerStudentProfile_" + uid);
+      if (rawProfile) cachedProfile = JSON.parse(rawProfile);
+    } catch (e) {}
+
+    let resolvedPhoto = cachedPhoto || user.photoURL || "";
+    let resolvedProfile = cachedProfile || {
+      nameAr: user.displayName || "",
+      nameEn: "",
+      grade: "",
+      semester: "",
+      section: ""
+    };
+
+    if (window.__setExplorerAccountUI) {
+      window.__setExplorerAccountUI(
+        resolvedProfile.nameAr || fallbackName,
+        resolvedPhoto,
+        resolvedProfile
+      );
+    }
+
+    try {
+      const snap = await getDoc(doc(db, "users", uid));
+      if (snap.exists()) {
+        const data = snap.data() || {};
+        if (data.photoData) {
+          resolvedPhoto = data.photoData;
+          try {
+            localStorage.setItem("explorerUserPhoto_" + uid, resolvedPhoto);
+            localStorage.setItem("explorerUserPhoto", resolvedPhoto);
+            sessionStorage.setItem("explorerUserPhoto", resolvedPhoto);
+          } catch (e) {}
+        }
+        resolvedProfile = {
+          nameAr: data.nameAr ?? resolvedProfile.nameAr ?? "",
+          nameEn: data.nameEn ?? resolvedProfile.nameEn ?? "",
+          grade: data.grade ?? resolvedProfile.grade ?? "",
+          semester: data.semester ?? resolvedProfile.semester ?? "",
+          section: data.section ?? resolvedProfile.section ?? ""
+        };
+        try {
+          localStorage.setItem("explorerStudentProfile_" + uid, JSON.stringify(resolvedProfile));
+        } catch (e) {}
+
+        if (window.__setExplorerAccountUI) {
+          window.__setExplorerAccountUI(
+            resolvedProfile.nameAr || fallbackName,
+            resolvedPhoto,
+            resolvedProfile
+          );
+        }
+      }
+    } catch (err) {}
+  }
+
   onAuthStateChanged(auth, (user) => {
     if (!user) return;
-
+    currentUser = user;
     const name = user.displayName || user.email || "";
-    const localPhoto = (() => {
-      try {
-        return localStorage.getItem("explorerUserPhoto") || sessionStorage.getItem("explorerUserPhoto") || "";
-      } catch (e) {
-        return "";
-      }
-    })();
-    const photo = localPhoto || user.photoURL || "";
-
     if (name) {
-      if (menuName) menuName.textContent = name;
-      if (welcomeTag) welcomeTag.textContent = "👋 أهلاً بك يا " + name + " في مركز المستكشف";
       try {
         localStorage.setItem("explorerUserName", name);
         sessionStorage.setItem("explorerUserName", name);
       } catch (e) {}
     }
+    loadUserProfileFromFirestore(user);
+  });
 
-    if (photo && trigger) {
-      try {
-        localStorage.setItem("explorerUserPhoto", photo);
-        sessionStorage.setItem("explorerUserPhoto", photo);
-      } catch (e) {}
-      const img = document.createElement("img");
-      img.src = photo;
-      img.alt = name || "صورة الحساب";
-      img.referrerPolicy = "no-referrer";
-      img.onload = () => {
-        trigger.innerHTML = "";
-        trigger.appendChild(img);
-        if (uploadPhotoBtn) uploadPhotoBtn.textContent = "🖼️ تغيير الصورة";
-      };
+  document.addEventListener("explorer:avatar-selected", async (e) => {
+    const dataUrl = e.detail && e.detail.dataUrl ? e.detail.dataUrl : "";
+    if (!dataUrl || !currentUser) return;
+    try {
+      localStorage.setItem("explorerUserPhoto_" + currentUser.uid, dataUrl);
+      await setDoc(
+        doc(db, "users", currentUser.uid),
+        {
+          photoData: dataUrl,
+          updatedAt: Date.now()
+        },
+        { merge: true }
+      );
+      if (profileStatus) {
+        profileStatus.textContent = "✅ تم حفظ الصورة";
+        setTimeout(() => { profileStatus.textContent = ""; }, 2500);
+      }
+    } catch (err) {
+      if (profileStatus) profileStatus.textContent = "⚠️ تعذر حفظ الصورة";
     }
   });
+
+  if (profileForm) {
+    profileForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!currentUser) {
+        if (profileStatus) profileStatus.textContent = "⚠️ جارٍ التحقق من الحساب...";
+        return;
+      }
+
+      const payload = {
+        nameAr: (document.getElementById("nameArInput")?.value || "").trim(),
+        nameEn: (document.getElementById("nameEnInput")?.value || "").trim(),
+        grade: (document.getElementById("gradeInput")?.value || "").trim(),
+        semester: (document.getElementById("semesterInput")?.value || "").trim(),
+        section: (document.getElementById("sectionInput")?.value || "").trim(),
+        updatedAt: Date.now()
+      };
+
+      if (saveProfileBtn) {
+        saveProfileBtn.disabled = true;
+        saveProfileBtn.textContent = "جاري الحفظ...";
+      }
+      if (profileStatus) profileStatus.textContent = "";
+
+      try {
+        await setDoc(doc(db, "users", currentUser.uid), payload, { merge: true });
+        try {
+          localStorage.setItem("explorerStudentProfile_" + currentUser.uid, JSON.stringify(payload));
+          if (payload.nameAr) {
+            localStorage.setItem("explorerUserName", payload.nameAr);
+            sessionStorage.setItem("explorerUserName", payload.nameAr);
+          }
+        } catch (err) {}
+
+        if (window.__setExplorerAccountUI) {
+          window.__setExplorerAccountUI(
+            payload.nameAr || currentUser.displayName || currentUser.email || "",
+            "",
+            payload
+          );
+        }
+        if (profileStatus) {
+          profileStatus.textContent = "✅ تم حفظ البيانات بنجاح";
+          setTimeout(() => { profileStatus.textContent = ""; }, 3000);
+        }
+      } catch (err) {
+        if (profileStatus) profileStatus.textContent = "⚠️ حدث خطأ أثناء الحفظ";
+      } finally {
+        if (saveProfileBtn) {
+          saveProfileBtn.disabled = false;
+          saveProfileBtn.textContent = "💾 حفظ البيانات";
+        }
+      }
+    });
+  }
 
   if (logoutBtn) {
     logoutBtn.onclick = async function (e) {
