@@ -2,20 +2,38 @@
   if (window.__explorerAccountUIInitialized) return;
   window.__explorerAccountUIInitialized = true;
 
-  // تحديد مسار المجلد الحالي (للصفحات داخل مجلد فرعي أو في الجذر)
-  const pathname = window.location.pathname || "";
-  const isSubPage =
-    pathname.includes("/قسم-الجغرافيا/") ||
-    pathname.includes("/قسم-التاريخ/") ||
-    pathname.includes("/محاكاة-الشخصيات/") ||
-    pathname.includes("/الخرائط/") ||
-    (pathname.split("/").filter(Boolean).length >= 2 &&
-      !pathname.endsWith("/") &&
-      !pathname.endsWith(".html") === false &&
-      pathname.split("/").slice(-2, -1)[0] !== "fourth-year-lessons" &&
-      pathname.split("/").slice(-2, -1)[0] !== "digitalexplorercenter");
+  // تحديد مسار الجذر بدقة بناءً على مسار الملف الحالي أو مكان تحميل السكريبت
+  function resolveRootPrefix() {
+    const pathname = window.location.pathname || "";
+    if (
+      pathname.includes("/قسم-الجغرافيا/") ||
+      pathname.includes("/قسم-التاريخ/") ||
+      pathname.includes("/محاكاة-الشخصيات/") ||
+      pathname.includes("/الخرائط/")
+    ) {
+      return "../";
+    }
 
-  const rootPrefix = isSubPage ? "../" : "./";
+    const currentScript = document.currentScript;
+    if (currentScript && currentScript.src) {
+      try {
+        const scriptUrl = new URL(currentScript.src, window.location.href);
+        const pageDir = new URL("./", window.location.href).pathname;
+        const scriptDir = new URL("./", scriptUrl.href).pathname;
+        if (pageDir !== scriptDir && pageDir.startsWith(scriptDir)) {
+          const extraDepth = pageDir
+            .slice(scriptDir.length)
+            .split("/")
+            .filter(Boolean).length;
+          if (extraDepth > 0) return "../".repeat(extraDepth);
+        }
+      } catch (e) {}
+    }
+
+    return "./";
+  }
+
+  const rootPrefix = resolveRootPrefix();
 
   // حقن التنسيقات الخاصة بالحساب والقائمة المنسدلة
   const styleEl = document.createElement("style");
@@ -294,7 +312,6 @@
   `;
   document.head.appendChild(styleEl);
 
-  // إنشاء عناصر الحساب داخل شريط التنقل إذا لم تكن موجودة
   function ensureAccountDOM() {
     if (document.getElementById("accountTrigger")) return;
     const navIn = document.querySelector("nav .in") || document.querySelector("nav");
@@ -350,6 +367,20 @@
 
   let savedName = "";
   let savedPhoto = "";
+  let savedProfile = null;
+
+  function readCachedProfile() {
+    try {
+      const uid = window.__explorerUid || "";
+      const raw =
+        (uid && localStorage.getItem("explorerStudentProfile_" + uid)) ||
+        localStorage.getItem("explorerStudentProfile") ||
+        sessionStorage.getItem("explorerStudentProfile") ||
+        "";
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return null;
+  }
 
   function scanStorage(store) {
     if (!store) return;
@@ -366,15 +397,15 @@
       if (v.trim().startsWith("{")) {
         try {
           const obj = JSON.parse(v);
-          if (!savedName && (obj.name || obj.displayName || obj.fullName || obj.userName)) {
-            savedName = obj.name || obj.displayName || obj.fullName || obj.userName;
+          if (!savedName && (obj.nameAr || obj.name || obj.displayName || obj.fullName || obj.userName)) {
+            savedName = obj.nameAr || obj.name || obj.displayName || obj.fullName || obj.userName;
           }
           if (
             !savedPhoto &&
-            (obj.photo || obj.photoURL || obj.avatar || obj.picture || obj.image || obj.userPhoto)
+            (obj.photoData || obj.photo || obj.photoURL || obj.avatar || obj.picture || obj.image || obj.userPhoto)
           ) {
             savedPhoto =
-              obj.photo || obj.photoURL || obj.avatar || obj.picture || obj.image || obj.userPhoto;
+              obj.photoData || obj.photo || obj.photoURL || obj.avatar || obj.picture || obj.image || obj.userPhoto;
           }
         } catch (err) {}
       }
@@ -390,6 +421,7 @@
       localStorage.getItem("explorerUserPhoto") ||
       sessionStorage.getItem("explorerUserPhoto") ||
       "";
+    savedProfile = readCachedProfile();
     scanStorage(localStorage);
     scanStorage(sessionStorage);
   } catch (e) {}
@@ -449,6 +481,7 @@
       savedPhoto = newPhoto;
     }
     if (profileData) {
+      savedProfile = profileData;
       if (nameArInput && typeof profileData.nameAr === "string") nameArInput.value = profileData.nameAr;
       if (nameEnInput && typeof profileData.nameEn === "string") nameEnInput.value = profileData.nameEn;
       if (gradeInput && typeof profileData.grade === "string") gradeInput.value = profileData.grade;
@@ -458,11 +491,7 @@
     applyAvatar(savedPhoto, savedName);
   };
 
-  if (savedName) {
-    window.__setExplorerAccountUI(savedName, savedPhoto);
-  } else {
-    applyAvatar(savedPhoto, "");
-  }
+  window.__setExplorerAccountUI(savedName, savedPhoto, savedProfile);
 
   function positionMenu() {
     if (!trigger || !menu) return;
@@ -480,7 +509,6 @@
     }
   }
 
-  // فتح/إغلاق القائمة بدون تعطيل حركة السلايدر أو سكرول الصفحة
   function setMenuOpen(open) {
     if (!trigger || !menu) return;
     menu.classList.toggle("open", open);
@@ -567,10 +595,10 @@
     });
   }
 
-  // ربط Firebase Auth و Firestore تلقائياً
-  const moduleScript = document.createElement("script");
-  moduleScript.type = "module";
-  moduleScript.textContent = `
+  // تحميل وحدة Firebase عبر <script type="module" src="..."> لضمان تنفيذها دائماً
+  const firebaseBridge = document.createElement("script");
+  firebaseBridge.type = "module";
+  const bridgeCode = `
     import { auth, db } from "${rootPrefix}firebase-config.js";
     import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
     import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -581,6 +609,19 @@
     const saveBtn = document.getElementById("saveProfileBtn");
     const statusEl = document.getElementById("profileStatus");
     let currentUser = null;
+
+    function persistProfileCache(uid, profileObj) {
+      const serialized = JSON.stringify(profileObj);
+      try {
+        localStorage.setItem("explorerStudentProfile_" + uid, serialized);
+        localStorage.setItem("explorerStudentProfile", serialized);
+        sessionStorage.setItem("explorerStudentProfile", serialized);
+        if (profileObj.nameAr) {
+          localStorage.setItem("explorerUserName", profileObj.nameAr);
+          sessionStorage.setItem("explorerUserName", profileObj.nameAr);
+        }
+      } catch (e) {}
+    }
 
     async function loadUserProfileFromFirestore(user) {
       const uid = user.uid;
@@ -595,17 +636,20 @@
           localStorage.getItem("explorerUserPhoto") ||
           sessionStorage.getItem("explorerUserPhoto") ||
           "";
-        const rawProfile = localStorage.getItem("explorerStudentProfile_" + uid);
+        const rawProfile =
+          localStorage.getItem("explorerStudentProfile_" + uid) ||
+          localStorage.getItem("explorerStudentProfile") ||
+          sessionStorage.getItem("explorerStudentProfile");
         if (rawProfile) cachedProfile = JSON.parse(rawProfile);
       } catch (e) {}
 
       let resolvedPhoto = cachedPhoto || user.photoURL || "";
-      let resolvedProfile = cachedProfile || {
-        nameAr: user.displayName || "",
-        nameEn: "",
-        grade: "",
-        semester: "",
-        section: ""
+      let resolvedProfile = {
+        nameAr: cachedProfile?.nameAr ?? user.displayName ?? "",
+        nameEn: cachedProfile?.nameEn ?? "",
+        grade: cachedProfile?.grade ?? "",
+        semester: cachedProfile?.semester ?? "",
+        section: cachedProfile?.section ?? ""
       };
 
       if (window.__setExplorerAccountUI) {
@@ -620,8 +664,8 @@
         const snap = await getDoc(doc(db, "users", uid));
         if (snap.exists()) {
           const data = snap.data() || {};
-          if (data.photoData) {
-            resolvedPhoto = data.photoData;
+          if (data.photoData || data.photoURL || data.photo) {
+            resolvedPhoto = data.photoData || data.photoURL || data.photo;
             try {
               localStorage.setItem("explorerUserPhoto_" + uid, resolvedPhoto);
               localStorage.setItem("explorerUserPhoto", resolvedPhoto);
@@ -629,15 +673,13 @@
             } catch (e) {}
           }
           resolvedProfile = {
-            nameAr: data.nameAr ?? resolvedProfile.nameAr ?? "",
+            nameAr: data.nameAr ?? data.name ?? data.displayName ?? resolvedProfile.nameAr ?? "",
             nameEn: data.nameEn ?? resolvedProfile.nameEn ?? "",
             grade: data.grade ?? resolvedProfile.grade ?? "",
             semester: data.semester ?? resolvedProfile.semester ?? "",
             section: data.section ?? resolvedProfile.section ?? ""
           };
-          try {
-            localStorage.setItem("explorerStudentProfile_" + uid, JSON.stringify(resolvedProfile));
-          } catch (e) {}
+          persistProfileCache(uid, resolvedProfile);
 
           if (window.__setExplorerAccountUI) {
             window.__setExplorerAccountUI(
@@ -707,13 +749,7 @@
 
         try {
           await setDoc(doc(db, "users", currentUser.uid), payload, { merge: true });
-          try {
-            localStorage.setItem("explorerStudentProfile_" + currentUser.uid, JSON.stringify(payload));
-            if (payload.nameAr) {
-              localStorage.setItem("explorerUserName", payload.nameAr);
-              sessionStorage.setItem("explorerUserName", payload.nameAr);
-            }
-          } catch (err) {}
+          persistProfileCache(currentUser.uid, payload);
 
           if (window.__setExplorerAccountUI) {
             window.__setExplorerAccountUI(
@@ -748,12 +784,21 @@
           sessionStorage.removeItem("explorerSessionVerified");
           sessionStorage.removeItem("explorerUserName");
           sessionStorage.removeItem("explorerUserPhoto");
+          sessionStorage.removeItem("explorerStudentProfile");
           localStorage.removeItem("explorerUserName");
           localStorage.removeItem("explorerUserPhoto");
+          localStorage.removeItem("explorerStudentProfile");
         } catch (err) {}
         window.location.replace(LOGIN_PAGE);
       };
     }
   `;
-  document.body.appendChild(moduleScript);
+
+  if (typeof Blob !== "undefined" && typeof URL !== "undefined" && URL.createObjectURL) {
+    const blob = new Blob([bridgeCode], { type: "application/javascript" });
+    firebaseBridge.src = URL.createObjectURL(blob);
+  } else {
+    firebaseBridge.textContent = bridgeCode;
+  }
+  document.body.appendChild(firebaseBridge);
 })();
