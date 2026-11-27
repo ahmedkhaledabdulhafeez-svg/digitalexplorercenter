@@ -49,17 +49,22 @@
 			header.site-header nav { display: block; background: var(--bg2); border-bottom: 1px solid var(--line); }
 			header.site-header nav .in { max-width: 1240px; margin: auto; display: flex; align-items: center; justify-content: center; position: relative; padding: 0 20px; }
 			.nav-links { display: flex; justify-content: center; gap: 4px; }
-			.nav-links button, .nav-links a.home-back-link { display: inline-flex; align-items: center; gap: 6px; padding: 6px 22px; margin: 6px 0; border: 0; border-radius: 14px; background: none; font-family: inherit; font-size: .88rem; font-weight: 600; line-height: 1.8; color: var(--mute); cursor: pointer; transition: .25s; white-space: nowrap; flex-shrink: 0; text-decoration: none; }
-			.nav-links button:hover, .nav-links a.home-back-link:hover { color: var(--sand); }
+			.nav-links button { display: flex; align-items: center; gap: 6px; padding: 6px 22px; margin: 6px 0; border: 0; border-radius: 14px; background: none; font-family: inherit; font-size: .88rem; font-weight: 600; line-height: 1.8; color: var(--mute); cursor: pointer; transition: .25s; white-space: nowrap; flex-shrink: 0; }
+			.nav-links button:hover { color: var(--sand); }
 			.nav-links button.on { background: var(--copper); color: #2a150b; }
-			.nav-links a.home-back-link { background: rgba(240, 180, 76, 0.14); color: var(--gold); border: 1px solid rgba(240, 180, 76, 0.35); }
-			.nav-links a.home-back-link:hover { background: var(--gold); color: #2a150b; }
 
 			@media (max-width: 759px) {
 			header.site-header nav .in { justify-content: flex-start; padding: 0 10px; gap: 6px; overflow: visible; }
 			.nav-links { justify-content: flex-start; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; flex: 1; min-width: 0; }
 			.nav-links::-webkit-scrollbar { display: none; }
-			.nav-links button, .nav-links a.home-back-link { padding: 5px 14px; margin: 5px 0; font-size: .82rem; }
+			.nav-links button { padding: 5px 14px; margin: 5px 0; font-size: .82rem; }
+			}
+
+			.back-btn-wrap { margin-bottom: 18px; display: flex; justify-content: flex-start; }
+			.back-btn { display: inline-flex; align-items: center; gap: 10px; padding: 10px 24px; border-radius: 18px; border: 1px solid rgba(200,130,90,.85); background: rgba(36,19,11,.55); color: var(--copper); font-weight: 700; font-size: .95rem; transition: .25s; white-space: nowrap; text-decoration: none; }
+			.back-btn:hover { background: var(--copper); color: #2a150b; }
+			@media (max-width: 1023px) {
+			.back-btn-wrap { justify-content: center; }
 			}
 
 			.sun-glow { animation: pulseGlow 5s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
@@ -149,7 +154,7 @@
 			#country-popover { display: none !important; }
 			}
 			@media (prefers-reduced-motion: reduce) {
-- { animation: none !important; transition: none !important; }
+			*, *::before, *::after { animation: none !important; transition: none !important; }
 			}
 		</style>
 <script>
@@ -257,6 +262,13 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 
 			<div class="max-w-[1240px] mx-auto w-full px-5 sm:px-6 py-10 lg:py-14 flex flex-col lg:flex-row items-center justify-between gap-8">
 				<div class="max-w-[610px] text-center lg:text-right">
+					<div class="back-btn-wrap">
+						<a href="الصفحة-الرئيسية.html" class="back-btn">
+							<span aria-hidden="true">→</span>
+							<span>العودة للقائمة الرئيسية</span>
+						</a>
+					</div>
+
 					<span class="inline-block border border-[#c8825a] text-[#f0b44c] px-[18px] py-[3px] rounded-full text-[0.8rem] font-bold mb-4 bg-[#c8825a]/12">
 						🚀 خريطة جغرافية ومناخية كارتوغرافية ذكية
 					</span>
@@ -1003,12 +1015,7 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
     }
 
     function renderNavigationAndToolbars() {
-      document.getElementById('header-nav-tabs').innerHTML = `
-        <a href="index.html" class="home-back-link">
-          <span>🏠</span>
-          <span>القائمة الرئيسية</span>
-        </a>
-      ` + TAB_ITEMS.map((t) => `
+      document.getElementById('header-nav-tabs').innerHTML = TAB_ITEMS.map((t) => `
         <button type="button" onclick="selectTab('${t.id}')" class="${currentTab === t.id ? 'on' : ''}">
 				<span>${t.emoji}</span>
 				<span>${t.label}</span>
