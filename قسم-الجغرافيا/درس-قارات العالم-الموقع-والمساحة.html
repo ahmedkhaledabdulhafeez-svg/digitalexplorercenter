@@ -120,25 +120,29 @@
 								.pts b{color:var(--sand)}
 
 								/* interactive activities */
-								.acts{display:grid;grid-template-columns:1fr;gap:26px}
-								@media(min-width:860px){.acts{grid-template-columns:1fr 1fr;align-items:start}}
-								.act{--c:#6fc2a8;position:relative;overflow:hidden;padding:32px 28px 28px;border-radius:28px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);box-shadow:0 26px 60px rgba(0,0,0,.4)}
+								.acts{display:grid;grid-template-columns:1fr;gap:26px;align-items:stretch}
+								@media(min-width:860px){.acts{grid-template-columns:1fr 1fr}}
+								.act{--c:#6fc2a8;position:relative;overflow:hidden;padding:32px 28px 28px;border-radius:28px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);box-shadow:0 26px 60px rgba(0,0,0,.4);display:flex;flex-direction:column;height:100%}
 								.act.q{--c:#b793e6}
 								.act::before{background:var(--c)}
 								.act .ico{width:54px;height:54px;border-radius:18px;border:1px solid var(--c);background:rgba(0,0,0,.2);display:grid;place-items:center;font-size:1.6rem;margin-bottom:14px}
 								.act h3{font-family:'Reem Kufi',sans-serif;font-size:1.45rem;color:var(--c)}
 								.act .d{color:var(--mute);font-size:.9rem;margin:4px 0 18px}
-								.ord{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border-radius:16px;background:rgba(0,0,0,.22);border:1.5px solid var(--line);margin-bottom:12px;transition:.3s;font-weight:700;color:var(--sand)}
+								.act-items{display:flex;flex-direction:column;gap:12px;flex:1}
+								.ord{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:66px;padding:12px 16px;border-radius:16px;background:rgba(0,0,0,.22);border:1.5px solid var(--line);transition:.3s;font-weight:700;color:var(--sand)}
+								.ord span{flex:1;line-height:1.55;font-size:.93rem}
 								.ord.ok,.qb label.ok{border-color:#6fc2a8;background:rgba(111,194,168,.13)}
 								.ord.no,.qb label.no{border-color:#e0705a;background:rgba(224,112,90,.13)}
-								select{font-family:inherit;border-radius:12px;padding:7px 12px;background:var(--bg);color:var(--text);border:1.5px solid var(--line);cursor:pointer;min-width:118px}
+								select{font-family:inherit;border-radius:12px;padding:7px 12px;background:var(--bg);color:var(--text);border:1.5px solid var(--line);cursor:pointer;min-width:118px;flex-shrink:0}
+								.match-sel{min-width:155px}
+								.act-foot{margin-top:20px}
 								.qb{padding:16px 18px;border-radius:18px;background:rgba(0,0,0,.22);border:1.5px solid var(--line);margin-bottom:14px}
-								.qb p{font-weight:700;color:var(--sand);margin-bottom:6px;font-size:.95rem}
-								.qb label{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:12px;cursor:pointer;color:var(--mute);font-size:.92rem;border:1px solid transparent;transition:.2s}
+								.qb p{font-weight:700;color:var(--sand);margin-bottom:8px;font-size:.96rem}
+								.qb label{display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:12px;cursor:pointer;color:var(--mute);font-size:.92rem;border:1px solid transparent;transition:.2s;margin-top:4px}
 								.qb label:hover{color:var(--text)}
 								.qb input{accent-color:var(--gold);width:16px;height:16px}
-								.act .btn{width:100%;justify-content:center;cursor:pointer;margin-top:6px}
-								.act .btn.ghost{margin-top:10px}
+								.act .btn,.exam-box .btn{width:100%;justify-content:center;cursor:pointer;margin-top:6px}
+								.act .btn.ghost,.exam-box .btn.ghost{margin-top:10px}
 								.fb{min-height:1.7em;margin-top:12px;font-weight:700;font-size:.92rem;text-align:center;color:var(--sand)}
 								.maprow{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:26px;padding:22px 28px;border-radius:24px;background:rgba(111,194,168,.08);border:1.5px dashed rgba(111,194,168,.5)}
 								.maprow .e{font-size:2.2rem}
@@ -146,7 +150,25 @@
 								.maprow h3{font-family:'Reem Kufi',sans-serif;font-size:1.3rem;color:#6fc2a8}
 								.maprow p{color:var(--mute);font-size:.9rem}
 
+								/* exams section */
+								.exams-wrap{margin-top:28px;display:flex;flex-direction:column;gap:26px}
+								.exam-box{--c:#f0b44c;position:relative;overflow:hidden;padding:32px 28px 28px;border-radius:28px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);box-shadow:0 26px 60px rgba(0,0,0,.4)}
+								.exam-box.mcq{--c:#6fc2a8}
+								.exam-box::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--c)}
+								.exam-box .ico{width:54px;height:54px;border-radius:18px;border:1px solid var(--c);background:rgba(0,0,0,.2);display:grid;place-items:center;font-size:1.6rem;margin-bottom:14px}
+								.exam-box h3{font-family:'Reem Kufi',sans-serif;font-size:1.45rem;color:var(--c)}
+								.exam-box .d{color:var(--mute);font-size:.9rem;margin:4px 0 18px}
+								.tf-opts{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+								.tf-opts label{margin-top:0;flex:1;min-width:140px;background:rgba(255,255,255,.03);border:1px solid var(--line)}
+								.ans-hint{margin-top:8px;font-size:.86rem;font-weight:700;color:var(--gold);display:none}
+								.ans-hint.show{display:block}
+
 								.pdfv{aspect-ratio:auto;height:78vh;min-height:420px}
+								.pptx-box{border-radius:18px;overflow:hidden;background:#f3f7f5}
+								.pptx-box iframe{width:100%;height:1100px;min-height:850px;max-height:2400px;border:0;display:block;transition:height .25s ease}
+								@media(max-width:768px){
+									.pptx-box iframe{height:1350px;min-height:1050px;max-height:2800px}
+								}
 								.strip{border-radius:99px;height:10px;margin-top:56px;background:repeating-linear-gradient(90deg,var(--copper) 0 18px,transparent 18px 26px,var(--gold) 26px 34px,transparent 34px 42px);opacity:.7}
 								footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);font-weight:600;font-size:.9rem;border-top:1px solid var(--line)}
 								.rv{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
@@ -182,6 +204,7 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 					<a href="#video" class="on">الفيديو</a>
 					<a href="#infographic">الإنفوجرافيك</a>
 					<a href="#pdf">ملف PDF</a>
+					<a href="#presentation">العرض التقديمي</a>
 					<a href="#summary">ملخص الدرس</a>
 					<a href="#activities">الأنشطة والاختبارات</a>
 				</div>
@@ -452,6 +475,24 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 				</div>
 			</section>
 
+			<!-- العرض التقديمي (تحت ملف PDF مباشرة) -->
+			<section id="presentation" class="blk rv">
+				<div class="head">
+					<div class="ic">
+						<i>📽️</i>
+					</div>
+					<div>
+						<h2>العرض التقديمي</h2>
+						<p>تصفح العرض التقديمي الكامل للدرس مباشرة داخل الصفحة</p>
+					</div>
+				</div>
+				<div class="frame">
+					<div class="pptx-box">
+						<iframe id="slidesFrame" src="Presentation/geography-lesson-1-slides.html" title="العرض التقديمي للدرس" loading="lazy" allowfullscreen></iframe>
+					</div>
+				</div>
+			</section>
+
 			<!-- 4) ملخص الدرس -->
 			<section id="summary" class="blk rv">
 				<div class="sum">
@@ -541,7 +582,7 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 					</div>
 					<div>
 						<h2>الأنشطة والاختبارات</h2>
-						<p>طبّق ما تعلمته ثم اختبر معلوماتك</p>
+						<p>طبّق ما تعلمته في النشاطين ثم أجب عن الاختبارات</p>
 					</div>
 				</div>
 				<div class="acts">
@@ -550,87 +591,218 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 						<div class="ico">🧩</div>
 						<h3>نشاط 1: رتب القارات حسب المساحة</h3>
 						<p class="d">رتب القارات التالية من الأكبر إلى الأصغر مساحةً:</p>
-						<div class="ord" data-ans="3">
-							<span>أوروبا</span>
-							<select>
-								<option value="">الترتيب...</option>
-								<option value="1">الأولى</option>
-								<option value="2">الثانية</option>
-								<option value="3">الثالثة</option>
-								<option value="4">الرابعة</option>
-							</select>
+						<div class="act-items">
+							<div class="ord" data-ans="3">
+								<span>أوروبا</span>
+								<select>
+									<option value="">الترتيب...</option>
+									<option value="1">الأولى</option>
+									<option value="2">الثانية</option>
+									<option value="3">الثالثة</option>
+									<option value="4">الرابعة</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="1">
+								<span>آسيا</span>
+								<select>
+									<option value="">الترتيب...</option>
+									<option value="1">الأولى</option>
+									<option value="2">الثانية</option>
+									<option value="3">الثالثة</option>
+									<option value="4">الرابعة</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="4">
+								<span>أستراليا</span>
+								<select>
+									<option value="">الترتيب...</option>
+									<option value="1">الأولى</option>
+									<option value="2">الثانية</option>
+									<option value="3">الثالثة</option>
+									<option value="4">الرابعة</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="2">
+								<span>أفريقيا</span>
+								<select>
+									<option value="">الترتيب...</option>
+									<option value="1">الأولى</option>
+									<option value="2">الثانية</option>
+									<option value="3">الثالثة</option>
+									<option value="4">الرابعة</option>
+								</select>
+							</div>
 						</div>
-						<div class="ord" data-ans="1">
-							<span>آسيا</span>
-							<select>
-								<option value="">الترتيب...</option>
-								<option value="1">الأولى</option>
-								<option value="2">الثانية</option>
-								<option value="3">الثالثة</option>
-								<option value="4">الرابعة</option>
-							</select>
+						<div class="act-foot">
+							<button class="btn" id="chk1">✓ تحقق من الترتيب</button>
+							<button class="btn ghost" id="rst1">إعادة المحاولة</button>
+							<div class="fb" id="fb1" aria-live="polite"></div>
 						</div>
-						<div class="ord" data-ans="4">
-							<span>أستراليا</span>
-							<select>
-								<option value="">الترتيب...</option>
-								<option value="1">الأولى</option>
-								<option value="2">الثانية</option>
-								<option value="3">الثالثة</option>
-								<option value="4">الرابعة</option>
-							</select>
-						</div>
-						<div class="ord" data-ans="2">
-							<span>أفريقيا</span>
-							<select>
-								<option value="">الترتيب...</option>
-								<option value="1">الأولى</option>
-								<option value="2">الثانية</option>
-								<option value="3">الثالثة</option>
-								<option value="4">الرابعة</option>
-							</select>
-						</div>
-						<button class="btn" id="chk1">✓ تحقق من الترتيب</button>
-						<button class="btn ghost" id="rst1">إعادة المحاولة</button>
-						<div class="fb" id="fb1" aria-live="polite"></div>
 					</div>
 
 					<div class="act q" id="act2">
+						<div class="ico">🔗</div>
+						<h3>نشاط 2: صِل كل عبارة بما يناسبها</h3>
+						<p class="d">اختر الظاهرة أو المفهوم المناسب لكل عبارة مما يلي:</p>
+						<div class="act-items">
+							<div class="ord" data-ans="أوراسيا">
+								<span>الكتلة اليابسة الواحدة التي تتصل فيها آسيا وأوروبا</span>
+								<select class="match-sel">
+									<option value="">اختر الإجابة...</option>
+									<option value="أوراسيا">أوراسيا</option>
+									<option value="البحر المتوسط">البحر المتوسط</option>
+									<option value="جبال الأورال">جبال الأورال</option>
+									<option value="أفريقيا">أفريقيا</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="البحر المتوسط">
+								<span>المسطح المائي الذي يفصل بين قارتي أفريقيا وأوروبا</span>
+								<select class="match-sel">
+									<option value="">اختر الإجابة...</option>
+									<option value="أوراسيا">أوراسيا</option>
+									<option value="البحر المتوسط">البحر المتوسط</option>
+									<option value="جبال الأورال">جبال الأورال</option>
+									<option value="أفريقيا">أفريقيا</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="جبال الأورال">
+								<span>الحد الشرقي لأوروبا الذي يفصلها عن آسيا</span>
+								<select class="match-sel">
+									<option value="">اختر الإجابة...</option>
+									<option value="أوراسيا">أوراسيا</option>
+									<option value="البحر المتوسط">البحر المتوسط</option>
+									<option value="جبال الأورال">جبال الأورال</option>
+									<option value="أفريقيا">أفريقيا</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="أفريقيا">
+								<span>القارة التي يمر بها خط الاستواء ومدارا السرطان والجدي معاً</span>
+								<select class="match-sel">
+									<option value="">اختر الإجابة...</option>
+									<option value="أوراسيا">أوراسيا</option>
+									<option value="البحر المتوسط">البحر المتوسط</option>
+									<option value="جبال الأورال">جبال الأورال</option>
+									<option value="أفريقيا">أفريقيا</option>
+								</select>
+							</div>
+						</div>
+						<div class="act-foot">
+							<button class="btn" id="chkMatch1">✓ تحقق من التوصيل</button>
+							<button class="btn ghost" id="rstMatch1">إعادة المحاولة</button>
+							<div class="fb" id="fbMatch1" aria-live="polite"></div>
+						</div>
+					</div>
+
+				</div>
+
+				<!-- الاختبارات: 5 أسئلة صح وخطأ + 5 أسئلة اختر -->
+				<div class="exams-wrap">
+
+					<!-- اختبار 1: 5 أسئلة صح وخطأ -->
+					<div class="exam-box" id="examTF1">
+						<div class="ico">✔️</div>
+						<h3>الاختبار الأول: ضع علامة (صح) أو (خطأ) — 5 أسئلة</h3>
+						<p class="d">حدد صحة أو خطأ كل عبارة مما يلي ثم اعرض النتيجة مع الإجابات النموذجية:</p>
+
+						<div class="qb" data-tf-ans="true">
+							<p>1. تضم قارات العالم القديم آسيا وأفريقيا وأوروبا.</p>
+							<div class="tf-opts">
+								<label><input type="radio" name="g1_tf1" value="true"> صح</label>
+								<label><input type="radio" name="g1_tf1" value="false"> خطأ</label>
+							</div>
+							<div class="ans-hint">الإجابة الصحيحة: صح — هذه هي القارات التي عرفها الإنسان منذ العصور القديمة.</div>
+						</div>
+
+						<div class="qb" data-tf-ans="false">
+							<p>2. تُعد قارة أفريقيا أكبر قارات العالم مساحةً بنحو 44 مليون كم².</p>
+							<div class="tf-opts">
+								<label><input type="radio" name="g1_tf2" value="true"> صح</label>
+								<label><input type="radio" name="g1_tf2" value="false"> خطأ</label>
+							</div>
+							<div class="ans-hint">الإجابة الصحيحة: خطأ — آسيا هي أكبر قارات العالم (نحو 44 مليون كم²)، وتليها أفريقيا (نحو 30 مليون كم²).</div>
+						</div>
+
+						<div class="qb" data-tf-ans="true">
+							<p>3. تقع قارة أوروبا بالكامل في نصف الكرة الشمالي.</p>
+							<div class="tf-opts">
+								<label><input type="radio" name="g1_tf3" value="true"> صح</label>
+								<label><input type="radio" name="g1_tf3" value="false"> خطأ</label>
+							</div>
+							<div class="ans-hint">الإجابة الصحيحة: صح — تمتد أوروبا بالكامل شمال خط الاستواء.</div>
+						</div>
+
+						<div class="qb" data-tf-ans="false">
+							<p>4. يفصل البحر المتوسط بين قارتي آسيا وأفريقيا.</p>
+							<div class="tf-opts">
+								<label><input type="radio" name="g1_tf4" value="true"> صح</label>
+								<label><input type="radio" name="g1_tf4" value="false"> خطأ</label>
+							</div>
+							<div class="ans-hint">الإجابة الصحيحة: خطأ — البحر المتوسط يفصل بين أفريقيا وأوروبا، بينما يفصل البحر الأحمر وقناة السويس بين أفريقيا وآسيا.</div>
+						</div>
+
+						<div class="qb" data-tf-ans="true">
+							<p>5. يمر خط الاستواء ومدارا السرطان والجدي معاً في قارة أفريقيا.</p>
+							<div class="tf-opts">
+								<label><input type="radio" name="g1_tf5" value="true"> صح</label>
+								<label><input type="radio" name="g1_tf5" value="false"> خطأ</label>
+							</div>
+							<div class="ans-hint">الإجابة الصحيحة: صح — تنفرد أفريقيا بمرور هذه الدوائر الثلاث بها.</div>
+						</div>
+
+						<button class="btn" id="chkTF1">اعرض نتيجة صح وخطأ <span>←</span></button>
+						<button class="btn ghost" id="rstTF1">إعادة الاختبار</button>
+						<div class="fb" id="fbTF1" aria-live="polite"></div>
+					</div>
+
+					<!-- اختبار 2: 5 أسئلة اختر -->
+					<div class="exam-box mcq" id="examMCQ1">
 						<div class="ico">📝</div>
-						<h3>نشاط 2: اختبر معلوماتك</h3>
-						<p class="d">اختر الإجابة الصحيحة لكل سؤال مما يلي:</p>
+						<h3>الاختبار الثاني: اختر الإجابة الصحيحة — 5 أسئلة</h3>
+						<p class="d">اختر الإجابة الصحيحة لكل سؤال مما يلي ثم اعرض النتيجة مع الإجابات:</p>
+
 						<div class="qb">
 							<p>1. أكبر قارات العالم القديم مساحةً هي:</p>
-							<label>
-								<input type="radio" name="q1" data-ok="1"> آسيا
-							</label>
-							<label>
-								<input type="radio" name="q1"> أفريقيا
-							</label>
+							<label><input type="radio" name="g1_mcq1" data-ok="1"> آسيا</label>
+							<label><input type="radio" name="g1_mcq1"> أفريقيا</label>
+							<label><input type="radio" name="g1_mcq1"> أوروبا</label>
+							<div class="ans-hint">الإجابة الصحيحة: آسيا.</div>
 						</div>
+
 						<div class="qb">
 							<p>2. القارة التي يمر بها خط الاستواء هي:</p>
-							<label>
-								<input type="radio" name="q2"> أوروبا
-							</label>
-							<label>
-								<input type="radio" name="q2" data-ok="1"> أفريقيا
-							</label>
+							<label><input type="radio" name="g1_mcq2"> أوروبا</label>
+							<label><input type="radio" name="g1_mcq2" data-ok="1"> أفريقيا</label>
+							<label><input type="radio" name="g1_mcq2"> أمريكا الشمالية</label>
+							<div class="ans-hint">الإجابة الصحيحة: أفريقيا.</div>
 						</div>
+
 						<div class="qb">
 							<p>3. يفصل بين قارتي أفريقيا وأوروبا:</p>
-							<label>
-								<input type="radio" name="q3" data-ok="1"> البحر المتوسط
-							</label>
-							<label>
-								<input type="radio" name="q3"> البحر الأحمر
-							</label>
+							<label><input type="radio" name="g1_mcq3" data-ok="1"> البحر المتوسط</label>
+							<label><input type="radio" name="g1_mcq3"> البحر الأحمر</label>
+							<label><input type="radio" name="g1_mcq3"> المحيط الهندي</label>
+							<div class="ans-hint">الإجابة الصحيحة: البحر المتوسط.</div>
 						</div>
-						<button class="btn" id="chk2">
-							اعرض النتيجة <span>←</span>
-						</button>
-						<button class="btn ghost" id="rst2">إعادة الاختبار</button>
-						<div class="fb" id="fb2" aria-live="polite"></div>
+
+						<div class="qb">
+							<p>4. تبلغ مساحة قارة أفريقيا نحو:</p>
+							<label><input type="radio" name="g1_mcq4"> 10 ملايين كم²</label>
+							<label><input type="radio" name="g1_mcq4" data-ok="1"> 30 مليون كم²</label>
+							<label><input type="radio" name="g1_mcq4"> 44 مليون كم²</label>
+							<div class="ans-hint">الإجابة الصحيحة: 30 مليون كم².</div>
+						</div>
+
+						<div class="qb">
+							<p>5. يربط بين قارتي أفريقيا وآسيا برياً:</p>
+							<label><input type="radio" name="g1_mcq5" data-ok="1"> شبه جزيرة سيناء</label>
+							<label><input type="radio" name="g1_mcq5"> جبال الأورال</label>
+							<label><input type="radio" name="g1_mcq5"> البحر المتوسط</label>
+							<div class="ans-hint">الإجابة الصحيحة: شبه جزيرة سيناء.</div>
+						</div>
+
+						<button class="btn" id="chkMCQ1">اعرض نتيجة اختر <span>←</span></button>
+						<button class="btn ghost" id="rstMCQ1">إعادة الاختبار</button>
+						<div class="fb" id="fbMCQ1" aria-live="polite"></div>
 					</div>
 
 				</div>
@@ -668,6 +840,21 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 			}else{
 			document.getElementById('pdfOpen').style.display='none';
 			}
+
+			(function(){
+			var slidesFrame = document.getElementById('slidesFrame');
+			var lastAppliedHeight = 0;
+			window.addEventListener('message', function(e){
+			if(!slidesFrame || !e.data || e.data.type !== 'explorerSlideHeight') return;
+			var rawH = Number(e.data.height);
+			if(!rawH || isNaN(rawH) || rawH < 300) return;
+			var clampedH = Math.min(2800, Math.max(750, Math.round(rawH + 24)));
+			if(Math.abs(clampedH - lastAppliedHeight) < 12) return;
+			lastAppliedHeight = clampedH;
+			slidesFrame.style.height = clampedH + 'px';
+			});
+			})();
+
 			var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}})},{threshold:.1});
 			document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
 			var links=document.querySelectorAll('nav a'),secs=[].map.call(links,function(a){return document.querySelector(a.getAttribute('href'))});
@@ -675,29 +862,75 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 			secs.forEach(function(s){so.observe(s)});
 
 			(function(){
-			var rows=document.querySelectorAll('#act1 .ord'),fb1=document.getElementById('fb1');
+			/* نشاط 1: رتب القارات حسب المساحة */
+			var rows1=document.querySelectorAll('#act1 .ord'),fb1=document.getElementById('fb1');
 			document.getElementById('chk1').onclick=function(){
 			var ok=0,empty=0;
-			rows.forEach(function(r){var v=r.querySelector('select').value;r.classList.remove('ok','no');
+			rows1.forEach(function(r){var v=r.querySelector('select').value;r.classList.remove('ok','no');
 			if(!v){empty++;return}
 			if(v===r.dataset.ans){ok++;r.classList.add('ok')}else r.classList.add('no')});
-			fb1.textContent=empty?'اختر ترتيباً لكل قارة أولاً.':(ok===rows.length?'🎉 ممتاز! ترتيبك صحيح.':'أجبت صح على '+ok+' من '+rows.length+'، حاول تصحيح الباقي.');
+			fb1.textContent=empty?'اختر ترتيباً لكل قارة أولاً.':(ok===rows1.length?'🎉 ممتاز! ترتيبك صحيح.':'أجبت صح على '+ok+' من '+rows1.length+'، حاول تصحيح الباقي.');
 			};
-			document.getElementById('rst1').onclick=function(){rows.forEach(function(r){r.classList.remove('ok','no');r.querySelector('select').value=''});fb1.textContent=''};
+			document.getElementById('rst1').onclick=function(){rows1.forEach(function(r){r.classList.remove('ok','no');r.querySelector('select').value=''});fb1.textContent=''};
 
-			var fb2=document.getElementById('fb2'),qs=['q1','q2','q3'];
-			document.getElementById('chk2').onclick=function(){
+			/* نشاط 2: توصيل */
+			var rows2=document.querySelectorAll('#act2 .ord'),fbMatch1=document.getElementById('fbMatch1');
+			document.getElementById('chkMatch1').onclick=function(){
+			var ok=0,empty=0;
+			rows2.forEach(function(r){var v=r.querySelector('select').value;r.classList.remove('ok','no');
+			if(!v){empty++;return}
+			if(v===r.dataset.ans){ok++;r.classList.add('ok')}else r.classList.add('no')});
+			fbMatch1.textContent=empty?'اختر إجابة لكل عبارة أولاً.':(ok===rows2.length?'🎉 رائع! كل التوصيلات صحيحة.':'أجبت صح على '+ok+' من '+rows2.length+'، راجع العبارات المظللة.');
+			};
+			document.getElementById('rstMatch1').onclick=function(){rows2.forEach(function(r){r.classList.remove('ok','no');r.querySelector('select').value=''});fbMatch1.textContent=''};
+
+			/* اختبار 1: 5 أسئلة صح وخطأ */
+			var tfBlocks=document.querySelectorAll('#examTF1 .qb'),fbTF1=document.getElementById('fbTF1');
+			document.getElementById('chkTF1').onclick=function(){
 			var score=0,miss=0;
-			qs.forEach(function(q){
-			var ins=document.querySelectorAll('input[name='+q+']'),chosen=null;
+			tfBlocks.forEach(function(blk,idx){
+			var name='g1_tf'+(idx+1);
+			var ans=blk.dataset.tfAns;
+			var hint=blk.querySelector('.ans-hint');
+			var ins=blk.querySelectorAll('input[name='+name+']');
+			var chosen=null;
 			ins.forEach(function(i){i.parentNode.classList.remove('ok','no');if(i.checked)chosen=i});
 			if(!chosen){miss++;return}
+			if(hint)hint.classList.add('show');
+			if(chosen.value===ans){score++;chosen.parentNode.classList.add('ok')}
+			else{chosen.parentNode.classList.add('no');ins.forEach(function(i){if(i.value===ans)i.parentNode.classList.add('ok')})}
+			});
+			fbTF1.textContent=miss?'أجب عن جميع أسئلة صح وخطأ (5 أسئلة) أولاً.':'نتيجتك في صح وخطأ: '+score+' من '+tfBlocks.length+(score===tfBlocks.length?' 🎉 ممتاز!':' — راجع الإجابات الموضحة أسفل كل سؤال.');
+			};
+			document.getElementById('rstTF1').onclick=function(){
+			tfBlocks.forEach(function(blk){
+			blk.querySelectorAll('input').forEach(function(i){i.checked=false;i.parentNode.classList.remove('ok','no')});
+			var hint=blk.querySelector('.ans-hint');
+			if(hint)hint.classList.remove('show');
+			});
+			fbTF1.textContent='';
+			};
+
+			/* اختبار 2: 5 أسئلة اختر */
+			var fbMCQ1=document.getElementById('fbMCQ1'),mcqQs=['g1_mcq1','g1_mcq2','g1_mcq3','g1_mcq4','g1_mcq5'];
+			document.getElementById('chkMCQ1').onclick=function(){
+			var score=0,miss=0;
+			mcqQs.forEach(function(q){
+			var ins=document.querySelectorAll('input[name='+q+']'),chosen=null;
+			var hint=ins[0].closest('.qb').querySelector('.ans-hint');
+			ins.forEach(function(i){i.parentNode.classList.remove('ok','no');if(i.checked)chosen=i});
+			if(!chosen){miss++;return}
+			if(hint)hint.classList.add('show');
 			if(chosen.dataset.ok){score++;chosen.parentNode.classList.add('ok')}
 			else{chosen.parentNode.classList.add('no');ins.forEach(function(i){if(i.dataset.ok)i.parentNode.classList.add('ok')})}
 			});
-			fb2.textContent=miss?'أجب عن كل الأسئلة أولاً.':'نتيجتك: '+score+' من '+qs.length+(score===qs.length?' 🎉 أحسنت!':' — راجع الإجابات الموضحة.');
+			fbMCQ1.textContent=miss?'أجب عن جميع أسئلة اختر (5 أسئلة) أولاً.':'نتيجتك في اختر: '+score+' من '+mcqQs.length+(score===mcqQs.length?' 🎉 أحسنت!':' — راجع الإجابات الموضحة.');
 			};
-			document.getElementById('rst2').onclick=function(){document.querySelectorAll('#act2 input').forEach(function(i){i.checked=false;i.parentNode.classList.remove('ok','no')});fb2.textContent=''};
+			document.getElementById('rstMCQ1').onclick=function(){
+			document.querySelectorAll('#examMCQ1 input').forEach(function(i){i.checked=false;i.parentNode.classList.remove('ok','no')});
+			document.querySelectorAll('#examMCQ1 .ans-hint').forEach(function(h){h.classList.remove('show')});
+			fbMCQ1.textContent='';
+			};
 			})();
 		</script>
 	   <script src="../chatbot.js"></script>
