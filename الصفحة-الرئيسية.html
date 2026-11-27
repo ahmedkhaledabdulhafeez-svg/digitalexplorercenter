@@ -22,7 +22,8 @@ img{max-width:100%}
 /* ===== Header ===== */
 header{position:sticky;top:0;z-index:50;background:rgba(46,26,16,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .bar{max-width:1240px;margin:auto;padding:8px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.bar img{width:50px;height:50px;object-fit:contain;border-radius:50%;background:#fff;padding:3px}
+.right-brand-col{display:flex;flex-direction:column;align-items:center;gap:4px;position:relative;flex-shrink:0}
+.bar img.uni-logo{width:50px;height:50px;object-fit:contain;border-radius:50%;background:#fff;padding:3px}
 .brand{text-align:center}
 .brand b{font-family:'Reem Kufi',sans-serif;font-size:1.25rem;color:var(--sand);display:block;line-height:1.4}
 .brand small{color:var(--gold);font-weight:600;font-size:.8rem}
@@ -32,6 +33,16 @@ nav a{padding:6px 22px;margin:6px 0;border-radius:14px;font-size:.88rem;font-wei
 nav a:hover{color:var(--sand)}
 nav a.on{background:var(--copper);color:#2a150b}
 @media(min-width:760px){nav{display:block}}
+
+/* ===== Account Chip & Dropdown under Right Logo ===== */
+.account-trigger{display:inline-flex;align-items:center;gap:6px;padding:2px 8px 2px 3px;border-radius:999px;background:rgba(58,33,22,.9);border:1px solid var(--line);color:var(--sand);font-family:inherit;font-size:.72rem;font-weight:700;cursor:pointer;transition:.2s;max-width:170px}
+.account-trigger:hover{border-color:var(--gold);background:rgba(66,37,26,.95)}
+.account-avatar{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--gold);object-fit:cover;background:var(--bg2);color:var(--gold);display:grid;place-items:center;font-size:.7rem;font-weight:800;flex-shrink:0;overflow:hidden}
+.account-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.account-menu{position:absolute;top:100%;right:0;margin-top:6px;min-width:155px;background:var(--panel);border:1px solid var(--copper);border-radius:14px;box-shadow:0 16px 34px rgba(0,0,0,.55);padding:6px;display:none;z-index:80}
+.account-menu.open{display:block}
+.logout-item{width:100%;display:flex;align-items:center;justify-content:flex-start;gap:8px;padding:8px 12px;border:none;border-radius:10px;background:transparent;color:#ffb49a;font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;transition:.2s}
+.logout-item:hover{background:rgba(217,120,74,.2);color:#ffd5c6}
 
 /* ===== Hero ===== */
 .hero{border-radius:0 0 44px 44px;position:relative;min-height:640px;display:grid;grid-template-columns:1fr;align-items:center;overflow:hidden;isolation:isolate}
@@ -180,9 +191,18 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 
 <header>
   <div class="bar">
-    <img src="https://upload.wikimedia.org/wikipedia/ar/f/f7/%D8%AC%D8%A7%D9%85%D8%B9%D8%A9_%D8%A3%D8%B3%D9%88%D8%A7%D9%86.png?utm_source=ar.wikipedia.org&utm_campaign=index&utm_content=original" alt="شعار جامعة أسوان">
+    <div class="right-brand-col">
+      <img class="uni-logo" src="https://upload.wikimedia.org/wikipedia/ar/f/f7/%D8%AC%D8%A7%D9%85%D8%B9%D8%A9_%D8%A3%D8%B3%D9%88%D8%A7%D9%86.png?utm_source=ar.wikipedia.org&utm_campaign=index&utm_content=original" alt="شعار جامعة أسوان">
+      <button type="button" class="account-trigger" id="accountTrigger" aria-expanded="false" aria-controls="accountMenu">
+        <span class="account-avatar" id="accountAvatar">👤</span>
+        <span class="account-name" id="accountName">الحساب</span>
+      </button>
+      <div class="account-menu" id="accountMenu" role="menu">
+        <button type="button" class="logout-item" id="logoutBtn" role="menuitem">🚪 تسجيل خروج</button>
+      </div>
+    </div>
     <div class="brand"><b>مركز المستكشف الرقمي</b><small>الصف الثالث الإعدادي</small></div>
-    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEzagK-_Zmqbzw25mmC78SZwqlNOLOK24tSfODSl1WydvvBxkharGt-Mmz&s=10" alt="شعار كلية التربية النوعية وقسم تكنولوجيا التعليم">
+    <img class="uni-logo" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEzagK-_Zmqbzw25mmC78SZwqlNOLOK24tSfODSl1WydvvBxkharGt-Mmz&s=10" alt="شعار كلية التربية النوعية وقسم تكنولوجيا التعليم">
   </div>
   <nav><div class="in">
     <a href="#top" class="on">الرئيسية</a>
@@ -408,13 +428,79 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
   update();
 })();
 
-// ترحيب مخصص باسم الطالب المسجل من صفحة الهبوط
-try {
-  var savedName = localStorage.getItem('explorerUserName');
+// ترحيب مخصص باسم الطالب المسجل من صفحة الهبوط + شريحة الحساب وقائمة تسجيل الخروج
+(function(){
+  var savedName = '';
+  var savedPhoto = '';
+  try {
+    savedName = localStorage.getItem('explorerUserName') || sessionStorage.getItem('explorerUserName') || '';
+    savedPhoto = localStorage.getItem('explorerUserPhoto') || sessionStorage.getItem('explorerUserPhoto') || '';
+    if (!savedName || !savedPhoto) {
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        var v = localStorage.getItem(k) || '';
+        if (v.trim().startsWith('{')) {
+          try {
+            var obj = JSON.parse(v);
+            if (!savedName && (obj.name || obj.displayName || obj.fullName || obj.userName)) {
+              savedName = obj.name || obj.displayName || obj.fullName || obj.userName;
+            }
+            if (!savedPhoto && (obj.photo || obj.photoURL || obj.avatar || obj.picture)) {
+              savedPhoto = obj.photo || obj.photoURL || obj.avatar || obj.picture;
+            }
+          } catch (err) {}
+        }
+      }
+    }
+  } catch (e) {}
+
   if (savedName) {
-    document.getElementById('welcomeTag').textContent = '👋 أهلاً بك يا ' + savedName + ' في مركز المستكشف';
+    var wTag = document.getElementById('welcomeTag');
+    if (wTag) wTag.textContent = '👋 أهلاً بك يا ' + savedName + ' في مركز المستكشف';
+    var accName = document.getElementById('accountName');
+    if (accName) accName.textContent = savedName;
   }
-} catch (e) {}
+
+  var accAvatar = document.getElementById('accountAvatar');
+  if (accAvatar) {
+    if (savedPhoto) {
+      accAvatar.innerHTML = '<img src="' + savedPhoto.replace(/"/g, '&quot;') + '" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+    } else if (savedName) {
+      accAvatar.textContent = savedName.trim().charAt(0).toUpperCase();
+    }
+  }
+
+  var trigger = document.getElementById('accountTrigger');
+  var menu = document.getElementById('accountMenu');
+  var logoutBtn = document.getElementById('logoutBtn');
+
+  if (trigger && menu) {
+    trigger.addEventListener('click', function(e) {
+      e.stopPropagation();
+      var isOpen = menu.classList.toggle('open');
+      trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    document.addEventListener('click', function(e) {
+      if (!menu.contains(e.target) && !trigger.contains(e.target)) {
+        menu.classList.remove('open');
+        trigger.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', function() {
+      try {
+        sessionStorage.removeItem('explorerSessionVerified');
+        sessionStorage.removeItem('explorerUserName');
+        sessionStorage.removeItem('explorerUserPhoto');
+        localStorage.removeItem('explorerUserName');
+        localStorage.removeItem('explorerUserPhoto');
+      } catch (e) {}
+      window.location.href = 'index.html';
+    });
+  }
+})();
 </script>
   
   <script src="terms-data.js"></script>
