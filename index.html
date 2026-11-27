@@ -208,6 +208,46 @@ img {
 }
 
 </style>
+
+<script type="module">
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const HOME_PAGE = "./الصفحة-الرئيسية.html";
+
+  function saveUserSession(user) {
+    try {
+      sessionStorage.setItem("explorerSessionVerified", "true");
+      if (user.displayName) {
+        localStorage.setItem("explorerUserName", user.displayName);
+        sessionStorage.setItem("explorerUserName", user.displayName);
+      } else if (user.email) {
+        localStorage.setItem("explorerUserName", user.email);
+        sessionStorage.setItem("explorerUserName", user.email);
+      }
+      if (user.photoURL) {
+        localStorage.setItem("explorerUserPhoto", user.photoURL);
+        sessionStorage.setItem("explorerUserPhoto", user.photoURL);
+      }
+    } catch (e) {}
+  }
+
+  try {
+    if (sessionStorage.getItem("explorerSessionVerified") === "true") {
+      window.location.replace(HOME_PAGE);
+    }
+  } catch (e) {}
+
+  try {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        saveUserSession(user);
+        window.location.replace(HOME_PAGE);
+      }
+    });
+  } catch (e) {}
+</script>
+  
 </head>
 <body>
 
