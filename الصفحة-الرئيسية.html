@@ -26,24 +26,37 @@ header{position:sticky;top:0;z-index:50;background:rgba(46,26,16,.88);backdrop-f
 .brand{text-align:center}
 .brand b{font-family:'Reem Kufi',sans-serif;font-size:1.25rem;color:var(--sand);display:block;line-height:1.4}
 .brand small{color:var(--gold);font-weight:600;font-size:.8rem}
-nav{display:none;background:var(--bg2);border-bottom:1px solid var(--line)}
+nav{display:block;background:var(--bg2);border-bottom:1px solid var(--line)}
 nav .in{max-width:1240px;margin:auto;display:flex;align-items:center;justify-content:center;position:relative;padding:0 20px}
 .nav-links{display:flex;justify-content:center;gap:4px}
-nav a{padding:6px 22px;margin:6px 0;border-radius:14px;font-size:.88rem;font-weight:600;color:var(--mute);transition:.25s}
+nav a{padding:6px 22px;margin:6px 0;border-radius:14px;font-size:.88rem;font-weight:600;color:var(--mute);transition:.25s;white-space:nowrap;flex-shrink:0}
 nav a:hover{color:var(--sand)}
 nav a.on{background:var(--copper);color:#2a150b}
-@media(min-width:760px){nav{display:block}}
 
-/* ===== Account Avatar & Dropdown on Right of Nav ===== */
-.nav-account{position:absolute;right:20px;top:50%;transform:translateY(-50%);z-index:70}
+/* ===== Account Avatar & Dropdown (Fixed on Right on Desktop & Mobile) ===== */
+.nav-account{position:sticky;right:0;top:0;z-index:75;flex-shrink:0;margin-inline-end:10px}
 .account-trigger{width:40px;height:40px;padding:0;border-radius:50%;border:2px solid var(--gold);background:radial-gradient(circle at top,#5c3622,#24130b);color:var(--gold);display:grid;place-items:center;font-family:inherit;font-size:.95rem;font-weight:800;cursor:pointer;transition:.25s;box-shadow:0 0 0 2px rgba(200,130,90,.35),0 4px 12px rgba(0,0,0,.35);overflow:hidden}
 .account-trigger:hover{transform:scale(1.06);border-color:var(--sand)}
 .account-trigger img{width:100%;height:100%;object-fit:cover;object-position:center;border-radius:50%;display:block}
-.account-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:195px;background:var(--panel);border:1.5px solid var(--copper);border-radius:14px;box-shadow:0 16px 34px rgba(0,0,0,.55);padding:6px;display:none;z-index:80}
+.account-menu{position:fixed;top:auto;right:12px;min-width:210px;background:var(--panel);border:1.5px solid var(--copper);border-radius:14px;box-shadow:0 16px 34px rgba(0,0,0,.6);padding:6px;display:none;z-index:95}
 .account-menu.open{display:block}
 .account-menu-name{padding:8px 12px;font-size:.84rem;font-weight:700;color:var(--sand);border-bottom:1px dashed var(--line);margin-bottom:4px;word-break:break-word}
-.logout-item{width:100%;display:flex;align-items:center;justify-content:flex-start;gap:8px;padding:8px 12px;border:none;border-radius:10px;background:transparent;color:#ffb49a;font-family:inherit;font-size:.84rem;font-weight:700;cursor:pointer;transition:.2s}
+.menu-action-item{width:100%;display:flex;align-items:center;justify-content:flex-start;gap:8px;padding:8px 12px;border:none;border-radius:10px;background:transparent;color:var(--sand);font-family:inherit;font-size:.84rem;font-weight:700;cursor:pointer;transition:.2s}
+.menu-action-item:hover{background:rgba(240,180,76,.16);color:var(--gold)}
+.logout-item{width:100%;display:flex;align-items:center;justify-content:flex-start;gap:8px;padding:8px 12px;border:none;border-radius:10px;background:transparent;color:#ffb49a;font-family:inherit;font-size:.84rem;font-weight:700;cursor:pointer;transition:.2s;margin-top:2px}
 .logout-item:hover{background:rgba(217,120,74,.22);color:#ffd5c6}
+
+@media(min-width:760px){
+  .nav-account{position:absolute;right:20px;top:50%;transform:translateY(-50%);margin-inline-end:0}
+  .account-menu{position:absolute;top:calc(100% + 8px);right:0}
+}
+@media(max-width:759px){
+  nav .in{justify-content:flex-start;padding:0 10px;gap:6px;overflow:visible}
+  .nav-links{justify-content:flex-start;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;flex:1;min-width:0}
+  .nav-links::-webkit-scrollbar{display:none}
+  nav a{padding:5px 14px;margin:5px 0;font-size:.82rem}
+  .account-trigger{width:36px;height:36px;font-size:.88rem}
+}
 
 /* ===== Hero ===== */
 .hero{border-radius:0 0 44px 44px;position:relative;min-height:640px;display:grid;grid-template-columns:1fr;align-items:center;overflow:hidden;isolation:isolate}
@@ -201,8 +214,10 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
       <button type="button" class="account-trigger" id="accountTrigger" aria-expanded="false" aria-controls="accountMenu" aria-label="قائمة الحساب">👤</button>
       <div class="account-menu" id="accountMenu" role="menu">
         <div class="account-menu-name" id="accountMenuName">الحساب</div>
+        <button type="button" class="menu-action-item" id="uploadPhotoBtn" role="menuitem">🖼️ إضافة صورة</button>
         <button type="button" class="logout-item" id="logoutBtn" role="menuitem">🚪 تسجيل خروج</button>
       </div>
+      <input type="file" id="avatarFileInput" accept="image/*" style="display:none">
     </div>
     <div class="nav-links">
       <a href="#top" class="on">الرئيسية</a>
@@ -416,7 +431,6 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
     items.forEach(function(x){
       if (x.el.getBoundingClientRect().top <= offset) current = x;
     });
-    // عند الوصول لآخر الصفحة نفعّل آخر قسم
     if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
       current = items[items.length - 1];
     }
@@ -429,7 +443,7 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
   update();
 })();
 
-// ترحيب مخصص باسم الطالب المسجل من صفحة الهبوط + صورة الحساب والقائمة المنسدلة
+// ترحيب مخصص باسم الطالب المسجل + صورة الحساب والقائمة المنسدلة + خيار إضافة صورة
 (function(){
   var savedName = '';
   var savedPhoto = '';
@@ -439,7 +453,7 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
     for (var i = 0; i < store.length; i++) {
       var k = store.key(i);
       var v = store.getItem(k) || '';
-      if (!savedPhoto && /^https?:\/\/.+\.(png|jpg|jpeg|webp|gif)(\?.*)?$/i.test(v.trim())) {
+      if (!savedPhoto && (/^https?:\/\/.+\.(png|jpg|jpeg|webp|gif)(\?.*)?$/i.test(v.trim()) || /^data:image\/(png|jpg|jpeg|webp|gif);base64,/i.test(v.trim()))) {
         savedPhoto = v.trim();
       }
       if (v.trim().startsWith('{')) {
@@ -463,6 +477,35 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
     scanStorage(sessionStorage);
   } catch (e) {}
 
+  var trigger = document.getElementById('accountTrigger');
+  var menu = document.getElementById('accountMenu');
+  var logoutBtn = document.getElementById('logoutBtn');
+  var uploadPhotoBtn = document.getElementById('uploadPhotoBtn');
+  var fileInput = document.getElementById('avatarFileInput');
+
+  function applyAvatar(photoUrl, fallbackName) {
+    if (!trigger) return;
+    var labelName = fallbackName || savedName;
+    if (photoUrl) {
+      var img = document.createElement('img');
+      img.src = photoUrl;
+      img.alt = labelName || 'صورة الحساب';
+      img.referrerPolicy = 'no-referrer';
+      img.onerror = function() {
+        trigger.textContent = labelName ? labelName.trim().charAt(0).toUpperCase() : '👤';
+      };
+      trigger.innerHTML = '';
+      trigger.appendChild(img);
+      if (uploadPhotoBtn) uploadPhotoBtn.textContent = '🖼️ تغيير الصورة';
+    } else if (labelName) {
+      trigger.textContent = labelName.trim().charAt(0).toUpperCase();
+      if (uploadPhotoBtn) uploadPhotoBtn.textContent = '🖼️ إضافة صورة';
+    } else {
+      trigger.textContent = '👤';
+      if (uploadPhotoBtn) uploadPhotoBtn.textContent = '🖼️ إضافة صورة';
+    }
+  }
+
   if (savedName) {
     var wTag = document.getElementById('welcomeTag');
     if (wTag) wTag.textContent = '👋 أهلاً بك يا ' + savedName + ' في مركز المستكشف';
@@ -470,37 +513,64 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
     if (menuName) menuName.textContent = savedName;
   }
 
-  var trigger = document.getElementById('accountTrigger');
-  if (trigger) {
-    if (savedPhoto) {
-      var img = document.createElement('img');
-      img.src = savedPhoto;
-      img.alt = savedName || 'صورة الحساب';
-      img.referrerPolicy = 'no-referrer';
-      img.onerror = function() {
-        trigger.textContent = savedName ? savedName.trim().charAt(0).toUpperCase() : '👤';
-      };
-      trigger.innerHTML = '';
-      trigger.appendChild(img);
-    } else if (savedName) {
-      trigger.textContent = savedName.trim().charAt(0).toUpperCase();
-    }
-  }
+  applyAvatar(savedPhoto, savedName);
 
-  var menu = document.getElementById('accountMenu');
-  var logoutBtn = document.getElementById('logoutBtn');
+  function positionMenu() {
+    if (!trigger || !menu || window.innerWidth >= 760) return;
+    var rect = trigger.getBoundingClientRect();
+    menu.style.top = (rect.bottom + 8) + 'px';
+    menu.style.right = '12px';
+    menu.style.left = 'auto';
+  }
 
   if (trigger && menu) {
     trigger.addEventListener('click', function(e) {
       e.stopPropagation();
       var isOpen = menu.classList.toggle('open');
       trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      if (isOpen) positionMenu();
     });
     document.addEventListener('click', function(e) {
       if (!menu.contains(e.target) && !trigger.contains(e.target)) {
         menu.classList.remove('open');
         trigger.setAttribute('aria-expanded', 'false');
       }
+    });
+    window.addEventListener('scroll', function() {
+      if (menu.classList.contains('open')) positionMenu();
+    }, { passive: true });
+    window.addEventListener('resize', function() {
+      if (menu.classList.contains('open')) positionMenu();
+    });
+  }
+
+  if (uploadPhotoBtn && fileInput) {
+    uploadPhotoBtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', function() {
+      var file = fileInput.files && fileInput.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function(ev) {
+        var dataUrl = ev.target && ev.target.result ? ev.target.result : '';
+        if (!dataUrl) return;
+        savedPhoto = dataUrl;
+        applyAvatar(dataUrl, savedName);
+        try {
+          localStorage.setItem('explorerUserPhoto', dataUrl);
+          sessionStorage.setItem('explorerUserPhoto', dataUrl);
+        } catch (err) {}
+        menu.classList.remove('open');
+        trigger.setAttribute('aria-expanded', 'false');
+        document.dispatchEvent(new CustomEvent('explorer:avatar-selected', {
+          detail: { file: file, dataUrl: dataUrl }
+        }));
+      };
+      reader.readAsDataURL(file);
+      fileInput.value = '';
     });
   }
 
@@ -524,13 +594,12 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
 (function(){
   if (typeof TERMS_DB === 'undefined') return;
 
-  // دالة لخلط الجغرافيا والتاريخ بشكل متبادل (2 جغرافيا، 2 تاريخ، 3 جغرافيا، 2 تاريخ...) في تبويب "الكل"
   function buildMixedList() {
     var geo = TERMS_DB.filter(function(t){ return t.cat === 'جغرافيا'; });
     var his = TERMS_DB.filter(function(t){ return t.cat === 'تاريخ'; });
     var mixed = [];
     var gi = 0, hi = 0;
-    var pattern = [2, 2, 3, 2]; // النمط المطلوب للتبادل
+    var pattern = [2, 2, 3, 2];
     var pIdx = 0, turnGeo = true;
 
     while (gi < geo.length || hi < his.length) {
@@ -662,40 +731,7 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
 <script src="./footer.js"></script>
 <script src="chatbot.js"></script>
  
-  
-  <script type="module">
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-  const auth = getAuth();
-  const trigger = document.getElementById("accountTrigger");
-  const menuName = document.getElementById("accountMenuName");
-  const welcomeTag = document.getElementById("welcomeTag");
-
-  onAuthStateChanged(auth, (user) => {
-    if (!user) return;
-
-    const name = user.displayName || user.email || "";
-    const photo = user.photoURL || "";
-
-    if (name) {
-      if (menuName) menuName.textContent = name;
-      if (welcomeTag) welcomeTag.textContent = "👋 أهلاً بك يا " + name + " في مركز المستكشف";
-      try { localStorage.setItem("explorerUserName", name); } catch (e) {}
-    }
-
-    if (photo && trigger) {
-      try { localStorage.setItem("explorerUserPhoto", photo); } catch (e) {}
-      const img = document.createElement("img");
-      img.src = photo;
-      img.alt = name || "صورة الحساب";
-      img.referrerPolicy = "no-referrer";
-      img.onload = () => {
-        trigger.innerHTML = "";
-        trigger.appendChild(img);
-      };
-    }
-  });
-</scr<script type="module">
+<script type="module">
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
   const LOGIN_PAGE = "index.html";
@@ -704,8 +740,8 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
   const menuName = document.getElementById("accountMenuName");
   const welcomeTag = document.getElementById("welcomeTag");
   const logoutBtn = document.getElementById("logoutBtn");
+  const uploadPhotoBtn = document.getElementById("uploadPhotoBtn");
 
-  // منع الرجوع خطوة للخلف إلى صفحة الدخول من الصفحة الرئيسية
   try {
     history.pushState({ page: "home" }, "", window.location.href);
     window.addEventListener("popstate", function () {
@@ -717,7 +753,14 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
     if (!user) return;
 
     const name = user.displayName || user.email || "";
-    const photo = user.photoURL || "";
+    const localPhoto = (() => {
+      try {
+        return localStorage.getItem("explorerUserPhoto") || sessionStorage.getItem("explorerUserPhoto") || "";
+      } catch (e) {
+        return "";
+      }
+    })();
+    const photo = localPhoto || user.photoURL || "";
 
     if (name) {
       if (menuName) menuName.textContent = name;
@@ -740,6 +783,7 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
       img.onload = () => {
         trigger.innerHTML = "";
         trigger.appendChild(img);
+        if (uploadPhotoBtn) uploadPhotoBtn.textContent = "🖼️ تغيير الصورة";
       };
     }
   });
@@ -762,8 +806,5 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
     };
   }
 </script>
-
-  
-  
 </body>
 </html>
