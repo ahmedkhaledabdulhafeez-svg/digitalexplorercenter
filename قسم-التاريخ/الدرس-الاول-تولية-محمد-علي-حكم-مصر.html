@@ -124,31 +124,48 @@ section.blk{padding:46px 0 10px}
 .pts b{color:var(--sand)}
 
 /* interactive activities */
-.acts{display:grid;grid-template-columns:1fr;gap:26px}
-@media(min-width:860px){.acts{grid-template-columns:1fr 1fr;align-items:start}}
-.act{--c:#6fc2a8;position:relative;overflow:hidden;padding:32px 28px 28px;border-radius:28px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);box-shadow:0 26px 60px rgba(0,0,0,.4)}
+.acts{display:grid;grid-template-columns:1fr;gap:26px;align-items:stretch}
+@media(min-width:860px){.acts{grid-template-columns:1fr 1fr}}
+.act{--c:#6fc2a8;position:relative;overflow:hidden;padding:32px 28px 28px;border-radius:28px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);box-shadow:0 26px 60px rgba(0,0,0,.4);display:flex;flex-direction:column;height:100%}
 .act.q{--c:#b793e6}
 .act::before{background:var(--c)}
 .act .ico{width:54px;height:54px;border-radius:18px;border:1px solid var(--c);background:rgba(0,0,0,.2);display:grid;place-items:center;font-size:1.6rem;margin-bottom:14px}
 .act h3{font-family:'Reem Kufi',sans-serif;font-size:1.45rem;color:var(--c)}
 .act .d{color:var(--mute);font-size:.9rem;margin:4px 0 18px}
-.ord{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border-radius:16px;background:rgba(0,0,0,.22);border:1.5px solid var(--line);margin-bottom:12px;transition:.3s;font-weight:700;color:var(--sand)}
+.act-items{display:flex;flex-direction:column;gap:12px;flex:1}
+.ord{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:66px;padding:12px 16px;border-radius:16px;background:rgba(0,0,0,.22);border:1.5px solid var(--line);transition:.3s;font-weight:700;color:var(--sand)}
+.ord span{flex:1;line-height:1.55;font-size:.93rem}
 .ord.ok,.qb label.ok{border-color:#6fc2a8;background:rgba(111,194,168,.13)}
 .ord.no,.qb label.no{border-color:#e0705a;background:rgba(224,112,90,.13)}
-select{font-family:inherit;border-radius:12px;padding:7px 12px;background:var(--bg);color:var(--text);border:1.5px solid var(--line);cursor:pointer;min-width:118px}
+select{font-family:inherit;border-radius:12px;padding:7px 12px;background:var(--bg);color:var(--text);border:1.5px solid var(--line);cursor:pointer;min-width:118px;flex-shrink:0}
+.match-sel{min-width:155px}
+.act-foot{margin-top:20px}
 .qb{padding:16px 18px;border-radius:18px;background:rgba(0,0,0,.22);border:1.5px solid var(--line);margin-bottom:14px}
-.qb p{font-weight:700;color:var(--sand);margin-bottom:6px;font-size:.95rem}
-.qb label{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:12px;cursor:pointer;color:var(--mute);font-size:.92rem;border:1px solid transparent;transition:.2s}
+.qb p{font-weight:700;color:var(--sand);margin-bottom:8px;font-size:.96rem}
+.qb label{display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:12px;cursor:pointer;color:var(--mute);font-size:.92rem;border:1px solid transparent;transition:.2s;margin-top:4px}
 .qb label:hover{color:var(--text)}
 .qb input{accent-color:var(--gold);width:16px;height:16px}
-.act .btn{width:100%;justify-content:center;cursor:pointer;margin-top:6px}
-.act .btn.ghost{margin-top:10px}
+.act .btn,.exam-box .btn{width:100%;justify-content:center;cursor:pointer;margin-top:6px}
+.act .btn.ghost,.exam-box .btn.ghost{margin-top:10px}
 .fb{min-height:1.7em;margin-top:12px;font-weight:700;font-size:.92rem;text-align:center;color:var(--sand)}
 .maprow{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:26px;padding:22px 28px;border-radius:24px;background:rgba(111,194,168,.08);border:1.5px dashed rgba(111,194,168,.5)}
 .maprow .e{font-size:2.2rem}
 .maprow div:nth-child(2){flex:1;min-width:220px}
 .maprow h3{font-family:'Reem Kufi',sans-serif;font-size:1.3rem;color:#6fc2a8}
 .maprow p{color:var(--mute);font-size:.9rem}
+
+/* exams section */
+.exams-wrap{margin-top:28px;display:flex;flex-direction:column;gap:26px}
+.exam-box{--c:#f0b44c;position:relative;overflow:hidden;padding:32px 28px 28px;border-radius:28px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);box-shadow:0 26px 60px rgba(0,0,0,.4)}
+.exam-box.mcq{--c:#6fc2a8}
+.exam-box::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--c)}
+.exam-box .ico{width:54px;height:54px;border-radius:18px;border:1px solid var(--c);background:rgba(0,0,0,.2);display:grid;place-items:center;font-size:1.6rem;margin-bottom:14px}
+.exam-box h3{font-family:'Reem Kufi',sans-serif;font-size:1.45rem;color:var(--c)}
+.exam-box .d{color:var(--mute);font-size:.9rem;margin:4px 0 18px}
+.tf-opts{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+.tf-opts label{margin-top:0;flex:1;min-width:140px;background:rgba(255,255,255,.03);border:1px solid var(--line)}
+.ans-hint{margin-top:8px;font-size:.86rem;font-weight:700;color:var(--gold);display:none}
+.ans-hint.show{display:block}
 
 .pdfv{aspect-ratio:auto;height:78vh;min-height:420px}
 .pptx-box{border-radius:18px;overflow:hidden;background:#f3f7f5}
@@ -483,35 +500,155 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 
   <!-- 6) الأنشطة والاختبارات -->
   <section id="activities" class="blk rv">
-    <div class="head"><div class="ic"><i>🎯</i></div><div><h2>الأنشطة والاختبارات</h2><p>طبّق ما تعلمته ثم اختبر معلوماتك</p></div></div>
+    <div class="head"><div class="ic"><i>🎯</i></div><div><h2>الأنشطة والاختبارات</h2><p>طبّق ما تعلمته في النشاطين ثم أجب عن الاختبارات</p></div></div>
     <div class="acts">
 
+      <!-- نشاط 1: ترتيب الأحداث التاريخية -->
       <div class="act" id="act1">
         <div class="ico">🧩</div>
         <h3>نشاط 1: رتب الأحداث التاريخية</h3>
         <p class="d">رتب الأحداث التالية زمنياً من الأقدم إلى الأحدث:</p>
-        <div class="ord" data-ans="4"><span>مذبحة القلعة</span><select><option value="">الترتيب...</option><option value="1">الأول</option><option value="2">الثاني</option><option value="3">الثالث</option><option value="4">الرابع</option></select></div>
-        <div class="ord" data-ans="1"><span>اجتماع دار المحكمة</span><select><option value="">الترتيب...</option><option value="1">الأول</option><option value="2">الثاني</option><option value="3">الثالث</option><option value="4">الرابع</option></select></div>
-        <div class="ord" data-ans="3"><span>نفي عمر مكرم إلى دمياط</span><select><option value="">الترتيب...</option><option value="1">الأول</option><option value="2">الثاني</option><option value="3">الثالث</option><option value="4">الرابع</option></select></div>
-        <div class="ord" data-ans="2"><span>حملة فريزر على مصر</span><select><option value="">الترتيب...</option><option value="1">الأول</option><option value="2">الثاني</option><option value="3">الثالث</option><option value="4">الرابع</option></select></div>
-        <button class="btn" id="chk1">✓ تحقق من الترتيب</button>
-        <button class="btn ghost" id="rst1">إعادة المحاولة</button>
-        <div class="fb" id="fb1" aria-live="polite"></div>
+        <div class="act-items">
+          <div class="ord" data-ans="4"><span>مذبحة القلعة (مارس 1811م)</span><select><option value="">الترتيب...</option><option value="1">الأول</option><option value="2">الثاني</option><option value="3">الثالث</option><option value="4">الرابع</option></select></div>
+          <div class="ord" data-ans="1"><span>اجتماع دار المحكمة وتولية محمد علي</span><select><option value="">الترتيب...</option><option value="1">الأول</option><option value="2">الثاني</option><option value="3">الثالث</option><option value="4">الرابع</option></select></div>
+          <div class="ord" data-ans="3"><span>نفي عمر مكرم إلى دمياط (1809م)</span><select><option value="">الترتيب...</option><option value="1">الأول</option><option value="2">الثاني</option><option value="3">الثالث</option><option value="4">الرابع</option></select></div>
+          <div class="ord" data-ans="2"><span>حملة فريزر الإنجليزية (مارس 1807م)</span><select><option value="">الترتيب...</option><option value="1">الأول</option><option value="2">الثاني</option><option value="3">الثالث</option><option value="4">الرابع</option></select></div>
+        </div>
+        <div class="act-foot">
+          <button class="btn" id="chk1">✓ تحقق من الترتيب</button>
+          <button class="btn ghost" id="rst1">إعادة المحاولة</button>
+          <div class="fb" id="fb1" aria-live="polite"></div>
+        </div>
       </div>
 
+      <!-- نشاط 2: توصيل -->
       <div class="act q" id="act2">
+        <div class="ico">🔗</div>
+        <h3>نشاط 2: صِل كل عبارة بما يناسبها</h3>
+        <p class="d">اختر الشخصية أو الحدث المناسب لكل عبارة مما يلي:</p>
+        <div class="act-items">
+          <div class="ord" data-ans="دار المحكمة"><span>المكان الذي اجتمع فيه زعماء الشعب في مايو 1805م</span><select class="match-sel"><option value="">اختر الإجابة...</option><option value="دار المحكمة">دار المحكمة</option><option value="رشيد والحماد">رشيد والحماد</option><option value="عمر مكرم">عمر مكرم</option><option value="مذبحة القلعة">مذبحة القلعة</option></select></div>
+          <div class="ord" data-ans="رشيد والحماد"><span>المنطقتان اللتان تصدى أهلهما لحملة فريزر عام 1807م</span><select class="match-sel"><option value="">اختر الإجابة...</option><option value="دار المحكمة">دار المحكمة</option><option value="رشيد والحماد">رشيد والحماد</option><option value="عمر مكرم">عمر مكرم</option><option value="مذبحة القلعة">مذبحة القلعة</option></select></div>
+          <div class="ord" data-ans="عمر مكرم"><span>نقيب الأشراف الذي تم خلعه من النقابة ونفيه إلى دمياط</span><select class="match-sel"><option value="">اختر الإجابة...</option><option value="دار المحكمة">دار المحكمة</option><option value="رشيد والحماد">رشيد والحماد</option><option value="عمر مكرم">عمر مكرم</option><option value="مذبحة القلعة">مذبحة القلعة</option></select></div>
+          <div class="ord" data-ans="مذبحة القلعة"><span>الحدث الذي تخلص به محمد علي نهائياً من خطر المماليك</span><select class="match-sel"><option value="">اختر الإجابة...</option><option value="دار المحكمة">دار المحكمة</option><option value="رشيد والحماد">رشيد والحماد</option><option value="عمر مكرم">عمر مكرم</option><option value="مذبحة القلعة">مذبحة القلعة</option></select></div>
+        </div>
+        <div class="act-foot">
+          <button class="btn" id="chkMatch">✓ تحقق من التوصيل</button>
+          <button class="btn ghost" id="rstMatch">إعادة المحاولة</button>
+          <div class="fb" id="fbMatch" aria-live="polite"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- الاختبارات: 5 أسئلة صح وخطأ + 5 أسئلة اختر -->
+    <div class="exams-wrap">
+
+      <!-- اختبار 1: 5 أسئلة صح وخطأ -->
+      <div class="exam-box" id="examTF">
+        <div class="ico">✔️</div>
+        <h3>الاختبار الأول: ضع علامة (صح) أو (خطأ) — 5 أسئلة</h3>
+        <p class="d">حدد صحة أو خطأ كل عبارة مما يلي ثم اعرض النتيجة مع الإجابات النموذجية:</p>
+
+        <div class="qb" data-tf-ans="false">
+          <p>1. شهدت مصر استقراراً سياسياً كاملاً عقب خروج الحملة الفرنسية عام 1801م.</p>
+          <div class="tf-opts">
+            <label><input type="radio" name="tf1" value="true"> صح</label>
+            <label><input type="radio" name="tf1" value="false"> خطأ</label>
+          </div>
+          <div class="ans-hint">الإجابة الصحيحة: خطأ — شهدت مصر فوضى واضطرابات وصراعاً بين العثمانيين والمماليك وإنجلترا.</div>
+        </div>
+
+        <div class="qb" data-tf-ans="true">
+          <p>2. أخذ زعماء الشعب العهود والمواثيق على محمد علي بأن يحكم بالعدل وألا يبرم أمراً إلا بمشورتهم.</p>
+          <div class="tf-opts">
+            <label><input type="radio" name="tf2" value="true"> صح</label>
+            <label><input type="radio" name="tf2" value="false"> خطأ</label>
+          </div>
+          <div class="ans-hint">الإجابة الصحيحة: صح — تم ذلك في اجتماع دار المحكمة يوم 13 مايو 1805م.</div>
+        </div>
+
+        <div class="qb" data-tf-ans="false">
+          <p>3. استجابت الدولة العثمانية لنقل محمد علي إلى ولاية سالونيك عام 1806م دون أي اعتراض من الزعامة الشعبية.</p>
+          <div class="tf-opts">
+            <label><input type="radio" name="tf3" value="true"> صح</label>
+            <label><input type="radio" name="tf3" value="false"> خطأ</label>
+          </div>
+          <div class="ans-hint">الإجابة الصحيحة: خطأ — وقفت الزعامة الشعبية بجانب محمد علي فأقرت الدولة العثمانية تثبيته.</div>
+        </div>
+
+        <div class="qb" data-tf-ans="true">
+          <p>4. فشلت حملة فريزر عام 1807م واضطرت للجلاء مقابل الإفراج عن الأسرى.</p>
+          <div class="tf-opts">
+            <label><input type="radio" name="tf4" value="true"> صح</label>
+            <label><input type="radio" name="tf4" value="false"> خطأ</label>
+          </div>
+          <div class="ans-hint">الإجابة الصحيحة: صح — بفضل مقاومة أهالي رشيد والحماد.</div>
+        </div>
+
+        <div class="qb" data-tf-ans="false">
+          <p>5. تخلص محمد علي من المماليك في مذبحة القلعة عام 1805م.</p>
+          <div class="tf-opts">
+            <label><input type="radio" name="tf5" value="true"> صح</label>
+            <label><input type="radio" name="tf5" value="false"> خطأ</label>
+          </div>
+          <div class="ans-hint">الإجابة الصحيحة: خطأ — حدثت مذبحة القلعة في مارس 1811م.</div>
+        </div>
+
+        <button class="btn" id="chkTF">اعرض نتيجة صح وخطأ <span>←</span></button>
+        <button class="btn ghost" id="rstTF">إعادة الاختبار</button>
+        <div class="fb" id="fbTF" aria-live="polite"></div>
+      </div>
+
+      <!-- اختبار 2: 5 أسئلة اختر -->
+      <div class="exam-box mcq" id="examMCQ">
         <div class="ico">📝</div>
-        <h3>نشاط 2: اختبر معلوماتك</h3>
-        <p class="d">اختر الإجابة الصحيحة لكل سؤال مما يلي:</p>
-        <div class="qb"><p>1. اجتمع زعماء الشعب في مايو 1805م لتولية محمد علي في:</p>
-          <label><input type="radio" name="q1"> قلعة صلاح الدين</label><label><input type="radio" name="q1" data-ok="1"> دار المحكمة (بيت القاضي)</label></div>
-        <div class="qb"><p>2. تصدى أهالي رشيد والحماد عام 1807م لحملة:</p>
-          <label><input type="radio" name="q2" data-ok="1"> فريزر الإنجليزية</label><label><input type="radio" name="q2"> نابليون الفرنسية</label></div>
-        <div class="qb"><p>3. تخلص محمد علي من الزعامة الشعبية بنفي عمر مكرم إلى:</p>
-          <label><input type="radio" name="q3"> الإسكندرية</label><label><input type="radio" name="q3" data-ok="1"> دمياط</label></div>
-        <button class="btn" id="chk2">اعرض النتيجة <span>←</span></button>
-        <button class="btn ghost" id="rst2">إعادة الاختبار</button>
-        <div class="fb" id="fb2" aria-live="polite"></div>
+        <h3>الاختبار الثاني: اختر الإجابة الصحيحة — 5 أسئلة</h3>
+        <p class="d">اختر الإجابة الصحيحة لكل سؤال مما يلي ثم اعرض النتيجة مع الإجابات:</p>
+
+        <div class="qb">
+          <p>1. اجتمع زعماء الشعب في مايو 1805م لتولية محمد علي في:</p>
+          <label><input type="radio" name="mcq1"> قلعة صلاح الدين</label>
+          <label><input type="radio" name="mcq1" data-ok="1"> دار المحكمة (بيت القاضي)</label>
+          <label><input type="radio" name="mcq1"> قصر عابدين</label>
+          <div class="ans-hint">الإجابة الصحيحة: دار المحكمة (بيت القاضي).</div>
+        </div>
+
+        <div class="qb">
+          <p>2. القوى الثلاث التي تصارعت على حكم مصر بعد خروج الحملة الفرنسية هي العثمانيون والمماليك و:</p>
+          <label><input type="radio" name="mcq2" data-ok="1"> إنجلترا</label>
+          <label><input type="radio" name="mcq2"> إسبانيا</label>
+          <label><input type="radio" name="mcq2"> النمسا</label>
+          <div class="ans-hint">الإجابة الصحيحة: إنجلترا.</div>
+        </div>
+
+        <div class="qb">
+          <p>3. الولاية التي حاولت بريطانيا نقل محمد علي إليها عام 1806م هي:</p>
+          <label><input type="radio" name="mcq3"> الشام</label>
+          <label><input type="radio" name="mcq3" data-ok="1"> سالونيك</label>
+          <label><input type="radio" name="mcq3"> طرابلس</label>
+          <div class="ans-hint">الإجابة الصحيحة: سالونيك.</div>
+        </div>
+
+        <div class="qb">
+          <p>4. تصدى أهالي رشيد والحماد عام 1807م لحملة:</p>
+          <label><input type="radio" name="mcq4" data-ok="1"> فريزر الإنجليزية</label>
+          <label><input type="radio" name="mcq4"> نابليون الفرنسية</label>
+          <label><input type="radio" name="mcq4"> خورشيد العثمانية</label>
+          <div class="ans-hint">الإجابة الصحيحة: فريزر الإنجليزية.</div>
+        </div>
+
+        <div class="qb">
+          <p>5. تخلص محمد علي من الزعامة الشعبية عام 1809م بنفي عمر مكرم إلى:</p>
+          <label><input type="radio" name="mcq5"> الإسكندرية</label>
+          <label><input type="radio" name="mcq5" data-ok="1"> دمياط</label>
+          <label><input type="radio" name="mcq5"> أسوان</label>
+          <div class="ans-hint">الإجابة الصحيحة: دمياط.</div>
+        </div>
+
+        <button class="btn" id="chkMCQ">اعرض نتيجة اختر <span>←</span></button>
+        <button class="btn ghost" id="rstMCQ">إعادة الاختبار</button>
+        <div class="fb" id="fbMCQ" aria-live="polite"></div>
       </div>
 
     </div>
@@ -560,29 +697,80 @@ var so=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isInter
 secs.forEach(function(s){so.observe(s)});
 
 (function(){
-  var rows=document.querySelectorAll('#act1 .ord'),fb1=document.getElementById('fb1');
+  /* نشاط 1: ترتيب الأحداث */
+  var rows1=document.querySelectorAll('#act1 .ord'),fb1=document.getElementById('fb1');
   document.getElementById('chk1').onclick=function(){
     var ok=0,empty=0;
-    rows.forEach(function(r){var v=r.querySelector('select').value;r.classList.remove('ok','no');
+    rows1.forEach(function(r){var v=r.querySelector('select').value;r.classList.remove('ok','no');
       if(!v){empty++;return}
       if(v===r.dataset.ans){ok++;r.classList.add('ok')}else r.classList.add('no')});
-    fb1.textContent=empty?'اختر إجابة لكل عنصر أولاً.':(ok===rows.length?'🎉 ممتاز! كل إجاباتك صحيحة.':'أجبت صح على '+ok+' من '+rows.length+'، حاول تصحيح الباقي.');
+    fb1.textContent=empty?'اختر ترتيباً لكل حدث أولاً.':(ok===rows1.length?'🎉 ممتاز! ترتيبك الزمني صحيح بالكامل.':'أجبت صح على '+ok+' من '+rows1.length+'، حاول تصحيح الباقي.');
   };
-  document.getElementById('rst1').onclick=function(){rows.forEach(function(r){r.classList.remove('ok','no');r.querySelector('select').value=''});fb1.textContent=''};
+  document.getElementById('rst1').onclick=function(){rows1.forEach(function(r){r.classList.remove('ok','no');r.querySelector('select').value=''});fb1.textContent=''};
 
-  var fb2=document.getElementById('fb2'),qs=['q1','q2','q3'];
-  document.getElementById('chk2').onclick=function(){
+  /* نشاط 2: توصيل */
+  var rows2=document.querySelectorAll('#act2 .ord'),fbMatch=document.getElementById('fbMatch');
+  document.getElementById('chkMatch').onclick=function(){
+    var ok=0,empty=0;
+    rows2.forEach(function(r){var v=r.querySelector('select').value;r.classList.remove('ok','no');
+      if(!v){empty++;return}
+      if(v===r.dataset.ans){ok++;r.classList.add('ok')}else r.classList.add('no')});
+    fbMatch.textContent=empty?'اختر إجابة لكل عبارة أولاً.':(ok===rows2.length?'🎉 رائع! كل التوصيلات صحيحة.':'أجبت صح على '+ok+' من '+rows2.length+'، راجع العبارات المظللة.');
+  };
+  document.getElementById('rstMatch').onclick=function(){rows2.forEach(function(r){r.classList.remove('ok','no');r.querySelector('select').value=''});fbMatch.textContent=''};
+
+  /* اختبار 1: 5 أسئلة صح وخطأ */
+  var tfBlocks=document.querySelectorAll('#examTF .qb'),fbTF=document.getElementById('fbTF');
+  document.getElementById('chkTF').onclick=function(){
     var score=0,miss=0;
-    qs.forEach(function(q){
-      var ins=document.querySelectorAll('input[name='+q+']'),chosen=null;
+    tfBlocks.forEach(function(blk,idx){
+      var name='tf'+(idx+1);
+      var ans=blk.dataset.tfAns;
+      var hint=blk.querySelector('.ans-hint');
+      var ins=blk.querySelectorAll('input[name='+name+']');
+      var chosen=null;
       ins.forEach(function(i){i.parentNode.classList.remove('ok','no');if(i.checked)chosen=i});
       if(!chosen){miss++;return}
+      hint.classList.add('show');
+      if(chosen.value===ans){
+        score++;
+        chosen.parentNode.classList.add('ok');
+      }else{
+        chosen.parentNode.classList.add('no');
+        ins.forEach(function(i){if(i.value===ans)i.parentNode.classList.add('ok')});
+      }
+    });
+    fbTF.textContent=miss?'أجب عن جميع أسئلة صح وخطأ (5 أسئلة) أولاً.':'نتيجتك في صح وخطأ: '+score+' من '+tfBlocks.length+(score===tfBlocks.length?' 🎉 ممتاز!':' — راجع الإجابات الموضحة أسفل كل سؤال.');
+  };
+  document.getElementById('rstTF').onclick=function(){
+    tfBlocks.forEach(function(blk){
+      blk.querySelectorAll('input').forEach(function(i){i.checked=false;i.parentNode.classList.remove('ok','no')});
+      var hint=blk.querySelector('.ans-hint');
+      if(hint)hint.classList.remove('show');
+    });
+    fbTF.textContent='';
+  };
+
+  /* اختبار 2: 5 أسئلة اختر */
+  var fbMCQ=document.getElementById('fbMCQ'),mcqQs=['mcq1','mcq2','mcq3','mcq4','mcq5'];
+  document.getElementById('chkMCQ').onclick=function(){
+    var score=0,miss=0;
+    mcqQs.forEach(function(q){
+      var ins=document.querySelectorAll('input[name='+q+']'),chosen=null;
+      var hint=ins[0].closest('.qb').querySelector('.ans-hint');
+      ins.forEach(function(i){i.parentNode.classList.remove('ok','no');if(i.checked)chosen=i});
+      if(!chosen){miss++;return}
+      if(hint)hint.classList.add('show');
       if(chosen.dataset.ok){score++;chosen.parentNode.classList.add('ok')}
       else{chosen.parentNode.classList.add('no');ins.forEach(function(i){if(i.dataset.ok)i.parentNode.classList.add('ok')})}
     });
-    fb2.textContent=miss?'أجب عن كل الأسئلة أولاً.':'نتيجتك: '+score+' من '+qs.length+(score===qs.length?' 🎉 أحسنت!':' — راجع الإجابات الموضحة.');
+    fbMCQ.textContent=miss?'أجب عن جميع أسئلة اختر (5 أسئلة) أولاً.':'نتيجتك في اختر: '+score+' من '+mcqQs.length+(score===mcqQs.length?' 🎉 أحسنت!':' — راجع الإجابات الموضحة.');
   };
-  document.getElementById('rst2').onclick=function(){document.querySelectorAll('#act2 input').forEach(function(i){i.checked=false;i.parentNode.classList.remove('ok','no')});fb2.textContent=''};
+  document.getElementById('rstMCQ').onclick=function(){
+    document.querySelectorAll('#examMCQ input').forEach(function(i){i.checked=false;i.parentNode.classList.remove('ok','no')});
+    document.querySelectorAll('#examMCQ .ans-hint').forEach(function(h){h.classList.remove('show')});
+    fbMCQ.textContent='';
+  };
 })();
 </script>
 <script src="../chatbot.js"></script>
