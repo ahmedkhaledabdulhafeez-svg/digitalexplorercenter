@@ -152,9 +152,9 @@ select{font-family:inherit;border-radius:12px;padding:7px 12px;background:var(--
 
 .pdfv{aspect-ratio:auto;height:78vh;min-height:420px}
 .pptx-box{border-radius:18px;overflow:hidden;background:#f3f7f5}
-.pptx-box iframe{width:100%;height:1150px;min-height:920px;border:0;display:block;transition:height .25s ease}
+.pptx-box iframe{width:100%;height:1100px;min-height:850px;max-height:2400px;border:0;display:block;transition:height .25s ease}
 @media(max-width:768px){
-  .pptx-box iframe{height:1450px;min-height:1150px}
+  .pptx-box iframe{height:1350px;min-height:1050px;max-height:2800px}
 }
 .fg{animation:fgf 4.5s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
 @keyframes fgf{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-7px) rotate(1deg)}}
@@ -447,7 +447,7 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
     </div>
     <div class="frame">
       <div class="pptx-box">
-        <iframe id="slidesFrame" src="Presentation/mohamed-ali-lesson-1-slides.html" title="العرض التقديمي للدرس" loading="lazy" allowfullscreen></iframe>
+        <iframe id="slidesFrame" src="mohamed-ali-lesson-1-slides.html" title="العرض التقديمي للدرس" loading="lazy" allowfullscreen></iframe>
       </div>
     </div>
   </section>
@@ -539,12 +539,19 @@ if(DRIVE_ID&&DRIVE_ID!=='PUT_FILE_ID_HERE'){
   document.getElementById('pdfOpen').style.display='none';
 }
 
-window.addEventListener('message', function(e){
+(function(){
   var slidesFrame = document.getElementById('slidesFrame');
-  if(slidesFrame && e.data && e.data.type === 'explorerSlideHeight' && e.data.height){
-    slidesFrame.style.height = (Number(e.data.height) + 24) + 'px';
-  }
-});
+  var lastAppliedHeight = 0;
+  window.addEventListener('message', function(e){
+    if(!slidesFrame || !e.data || e.data.type !== 'explorerSlideHeight') return;
+    var rawH = Number(e.data.height);
+    if(!rawH || isNaN(rawH) || rawH < 300) return;
+    var clampedH = Math.min(2800, Math.max(750, Math.round(rawH + 24)));
+    if(Math.abs(clampedH - lastAppliedHeight) < 12) return;
+    lastAppliedHeight = clampedH;
+    slidesFrame.style.height = clampedH + 'px';
+  });
+})();
 
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}})},{threshold:.1});
 document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
