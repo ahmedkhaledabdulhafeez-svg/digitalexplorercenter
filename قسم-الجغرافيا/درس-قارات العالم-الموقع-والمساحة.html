@@ -23,10 +23,15 @@
 								.brand h1{font-family:'Reem Kufi',sans-serif;font-size:1.25rem;color:var(--sand);line-height:1.4}
 								.brand p{color:var(--gold);font-weight:600;font-size:.78rem}
 								nav{background:var(--bg2);border-bottom:1px solid var(--line)}
-								nav .in{max-width:1240px;margin:auto;display:flex;justify-content:center;gap:4px;padding:0 12px;overflow-x:auto;scrollbar-width:none}
-								nav a{white-space:nowrap;padding:5px 20px;margin:6px 0;border-radius:14px;font-size:.86rem;font-weight:600;color:var(--mute);transition:.25s}
+								nav .in{max-width:1240px;margin:auto;display:flex;justify-content:center;gap:4px;padding:0 12px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+								nav .in::-webkit-scrollbar{display:none}
+								nav a{white-space:nowrap;padding:5px 20px;margin:6px 0;border-radius:14px;font-size:.86rem;font-weight:600;color:var(--mute);transition:.25s;text-align:center}
 								nav a:hover{color:var(--sand)}
 								nav a.on{background:var(--copper);color:#2a150b}
+								@media(max-width:640px){
+									nav .in{justify-content:flex-start;gap:8px;padding:0 10px;scroll-snap-type:x mandatory}
+									nav a{flex:0 0 calc((100% - 16px) / 3);min-width:0;padding:6px 6px;margin:6px 0;font-size:.8rem;scroll-snap-align:start;overflow:hidden;text-overflow:ellipsis}
+								}
 
 								/* hero */
 								.hero{position:relative;overflow:hidden;isolation:isolate;border-radius:0 0 44px 44px;min-height:380px;display:flex;align-items:center}
@@ -121,17 +126,20 @@
 
 								/* interactive activities */
 								.acts{display:grid;grid-template-columns:1fr;gap:26px}
-								@media(min-width:860px){.acts{grid-template-columns:1fr 1fr;align-items:start}}
-								.act{--c:#6fc2a8;position:relative;overflow:hidden;padding:32px 28px 28px;border-radius:28px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);box-shadow:0 26px 60px rgba(0,0,0,.4)}
+								@media(min-width:860px){.acts{grid-template-columns:1fr 1fr;align-items:stretch}}
+								.act{--c:#6fc2a8;position:relative;overflow:hidden;padding:32px 28px 28px;border-radius:28px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);box-shadow:0 26px 60px rgba(0,0,0,.4);display:flex;flex-direction:column;height:100%}
 								.act.q{--c:#b793e6}
 								.act::before{background:var(--c)}
 								.act .ico{width:54px;height:54px;border-radius:18px;border:1px solid var(--c);background:rgba(0,0,0,.2);display:grid;place-items:center;font-size:1.6rem;margin-bottom:14px}
 								.act h3{font-family:'Reem Kufi',sans-serif;font-size:1.45rem;color:var(--c)}
 								.act .d{color:var(--mute);font-size:.9rem;margin:4px 0 18px}
-								.ord{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border-radius:16px;background:rgba(0,0,0,.22);border:1.5px solid var(--line);margin-bottom:12px;transition:.3s;font-weight:700;color:var(--sand)}
+								.act-list{display:flex;flex-direction:column;gap:12px;flex:1}
+								.ord{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:66px;padding:12px 16px;border-radius:16px;background:rgba(0,0,0,.22);border:1.5px solid var(--line);margin-bottom:0;transition:.3s;font-weight:700;color:var(--sand)}
+								.ord span{flex:1;line-height:1.5}
 								.ord.ok,.qb label.ok{border-color:#6fc2a8;background:rgba(111,194,168,.13)}
 								.ord.no,.qb label.no{border-color:#e0705a;background:rgba(224,112,90,.13)}
-								select{font-family:inherit;border-radius:12px;padding:7px 12px;background:var(--bg);color:var(--text);border:1.5px solid var(--line);cursor:pointer;min-width:118px}
+								select{font-family:inherit;border-radius:12px;padding:7px 12px;background:var(--bg);color:var(--text);border:1.5px solid var(--line);cursor:pointer;min-width:118px;max-width:190px;flex-shrink:0}
+								.act-foot{margin-top:20px}
 								.qb{padding:16px 18px;border-radius:18px;background:rgba(0,0,0,.22);border:1.5px solid var(--line);margin-bottom:14px}
 								.qb p{font-weight:700;color:var(--sand);margin-bottom:6px;font-size:.95rem}
 								.qb label{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:12px;cursor:pointer;color:var(--mute);font-size:.92rem;border:1px solid transparent;transition:.2s}
@@ -140,6 +148,28 @@
 								.act .btn{width:100%;justify-content:center;cursor:pointer;margin-top:6px}
 								.act .btn.ghost{margin-top:10px}
 								.fb{min-height:1.7em;margin-top:12px;font-weight:700;font-size:.92rem;text-align:center;color:var(--sand)}
+
+								/* exam section */
+								.exam-box{position:relative;overflow:hidden;padding:34px 28px 30px;border-radius:28px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);box-shadow:0 26px 60px rgba(0,0,0,.4)}
+								.exam-box::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--gold)}
+								.exam-grp-title{font-family:'Reem Kufi',sans-serif;font-size:1.25rem;color:var(--gold);margin:20px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+								.exam-q{padding:16px 18px;border-radius:18px;background:rgba(0,0,0,.22);border:1.5px solid var(--line);margin-bottom:14px;transition:.3s}
+								.exam-q.ok{border-color:#6fc2a8;background:rgba(111,194,168,.09)}
+								.exam-q.no{border-color:#e0705a;background:rgba(224,112,90,.09)}
+								.exam-q p{font-weight:700;color:var(--sand);margin-bottom:8px;font-size:.96rem}
+								.exam-opts{display:flex;flex-wrap:wrap;gap:10px}
+								.exam-q label{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:12px;cursor:pointer;color:var(--mute);font-size:.92rem;background:rgba(0,0,0,.18);border:1px solid transparent;transition:.2s}
+								.exam-q label:hover{color:var(--text);border-color:rgba(224,160,110,.25)}
+								.exam-q label.ok{border-color:#6fc2a8;background:rgba(111,194,168,.18);color:var(--sand)}
+								.exam-q label.no{border-color:#e0705a;background:rgba(224,112,90,.18);color:var(--sand)}
+								.exam-q input{accent-color:var(--gold);width:16px;height:16px}
+								.exam-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+								.exam-actions .btn{flex:1;min-width:200px;justify-content:center;cursor:pointer;--c:var(--gold)}
+								.exam-result{margin-top:20px;padding:20px 22px;border-radius:20px;background:rgba(0,0,0,.28);border:1.5px solid var(--line);display:none}
+								.exam-result.show{display:block}
+								.exam-score{font-family:'Reem Kufi',sans-serif;font-size:1.35rem;color:var(--gold);margin-bottom:6px;text-align:center}
+								.exam-feedback{font-size:.95rem;font-weight:700;color:var(--sand);text-align:center;line-height:1.7}
+
 								.maprow{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:26px;padding:22px 28px;border-radius:24px;background:rgba(111,194,168,.08);border:1.5px dashed rgba(111,194,168,.5)}
 								.maprow .e{font-size:2.2rem}
 								.maprow div:nth-child(2){flex:1;min-width:220px}
@@ -550,89 +580,220 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 						<div class="ico">🧩</div>
 						<h3>نشاط 1: رتب القارات حسب المساحة</h3>
 						<p class="d">رتب القارات التالية من الأكبر إلى الأصغر مساحةً:</p>
-						<div class="ord" data-ans="3">
-							<span>أوروبا</span>
-							<select>
-								<option value="">الترتيب...</option>
-								<option value="1">الأولى</option>
-								<option value="2">الثانية</option>
-								<option value="3">الثالثة</option>
-								<option value="4">الرابعة</option>
-							</select>
+						<div class="act-list">
+							<div class="ord" data-ans="3">
+								<span>أوروبا</span>
+								<select>
+									<option value="">الترتيب...</option>
+									<option value="1">الأولى</option>
+									<option value="2">الثانية</option>
+									<option value="3">الثالثة</option>
+									<option value="4">الرابعة</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="1">
+								<span>آسيا</span>
+								<select>
+									<option value="">الترتيب...</option>
+									<option value="1">الأولى</option>
+									<option value="2">الثانية</option>
+									<option value="3">الثالثة</option>
+									<option value="4">الرابعة</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="4">
+								<span>أستراليا</span>
+								<select>
+									<option value="">الترتيب...</option>
+									<option value="1">الأولى</option>
+									<option value="2">الثانية</option>
+									<option value="3">الثالثة</option>
+									<option value="4">الرابعة</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="2">
+								<span>أفريقيا</span>
+								<select>
+									<option value="">الترتيب...</option>
+									<option value="1">الأولى</option>
+									<option value="2">الثانية</option>
+									<option value="3">الثالثة</option>
+									<option value="4">الرابعة</option>
+								</select>
+							</div>
 						</div>
-						<div class="ord" data-ans="1">
-							<span>آسيا</span>
-							<select>
-								<option value="">الترتيب...</option>
-								<option value="1">الأولى</option>
-								<option value="2">الثانية</option>
-								<option value="3">الثالثة</option>
-								<option value="4">الرابعة</option>
-							</select>
+						<div class="act-foot">
+							<button class="btn" id="chk1">✓ تحقق من الترتيب</button>
+							<button class="btn ghost" id="rst1">إعادة المحاولة</button>
+							<div class="fb" id="fb1" aria-live="polite"></div>
 						</div>
-						<div class="ord" data-ans="4">
-							<span>أستراليا</span>
-							<select>
-								<option value="">الترتيب...</option>
-								<option value="1">الأولى</option>
-								<option value="2">الثانية</option>
-								<option value="3">الثالثة</option>
-								<option value="4">الرابعة</option>
-							</select>
-						</div>
-						<div class="ord" data-ans="2">
-							<span>أفريقيا</span>
-							<select>
-								<option value="">الترتيب...</option>
-								<option value="1">الأولى</option>
-								<option value="2">الثانية</option>
-								<option value="3">الثالثة</option>
-								<option value="4">الرابعة</option>
-							</select>
-						</div>
-						<button class="btn" id="chk1">✓ تحقق من الترتيب</button>
-						<button class="btn ghost" id="rst1">إعادة المحاولة</button>
-						<div class="fb" id="fb1" aria-live="polite"></div>
 					</div>
 
 					<div class="act q" id="act2">
-						<div class="ico">📝</div>
-						<h3>نشاط 2: اختبر معلوماتك</h3>
-						<p class="d">اختر الإجابة الصحيحة لكل سؤال مما يلي:</p>
-						<div class="qb">
-							<p>1. أكبر قارات العالم القديم مساحةً هي:</p>
-							<label>
-								<input type="radio" name="q1" data-ok="1"> آسيا
-							</label>
-							<label>
-								<input type="radio" name="q1"> أفريقيا
-							</label>
+						<div class="ico">🔗</div>
+						<h3>نشاط 2: وصّل كل عبارة بما يناسبها</h3>
+						<p class="d">اختر التوصيل الصحيح لكل عنصر من عناصر الدرس:</p>
+						<div class="act-list">
+							<div class="ord" data-ans="a">
+								<span>أوراسيا</span>
+								<select>
+									<option value="">وصّل بـ...</option>
+									<option value="a">اتصال آسيا وأوروبا</option>
+									<option value="b">يفصل أفريقيا عن أوروبا</option>
+									<option value="c">يمر بها الاستواء والسرطان والجدي</option>
+									<option value="d">الحد الشرقي لأوروبا</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="b">
+								<span>البحر المتوسط</span>
+								<select>
+									<option value="">وصّل بـ...</option>
+									<option value="a">اتصال آسيا وأوروبا</option>
+									<option value="b">يفصل أفريقيا عن أوروبا</option>
+									<option value="c">يمر بها الاستواء والسرطان والجدي</option>
+									<option value="d">الحد الشرقي لأوروبا</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="c">
+								<span>قارة أفريقيا</span>
+								<select>
+									<option value="">وصّل بـ...</option>
+									<option value="a">اتصال آسيا وأوروبا</option>
+									<option value="b">يفصل أفريقيا عن أوروبا</option>
+									<option value="c">يمر بها الاستواء والسرطان والجدي</option>
+									<option value="d">الحد الشرقي لأوروبا</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="d">
+								<span>جبال الأورال</span>
+								<select>
+									<option value="">وصّل بـ...</option>
+									<option value="a">اتصال آسيا وأوروبا</option>
+									<option value="b">يفصل أفريقيا عن أوروبا</option>
+									<option value="c">يمر بها الاستواء والسرطان والجدي</option>
+									<option value="d">الحد الشرقي لأوروبا</option>
+								</select>
+							</div>
 						</div>
-						<div class="qb">
-							<p>2. القارة التي يمر بها خط الاستواء هي:</p>
-							<label>
-								<input type="radio" name="q2"> أوروبا
-							</label>
-							<label>
-								<input type="radio" name="q2" data-ok="1"> أفريقيا
-							</label>
+						<div class="act-foot">
+							<button class="btn" id="chk2">✓ تحقق من التوصيل</button>
+							<button class="btn ghost" id="rst2">إعادة المحاولة</button>
+							<div class="fb" id="fb2" aria-live="polite"></div>
 						</div>
-						<div class="qb">
-							<p>3. يفصل بين قارتي أفريقيا وأوروبا:</p>
-							<label>
-								<input type="radio" name="q3" data-ok="1"> البحر المتوسط
-							</label>
-							<label>
-								<input type="radio" name="q3"> البحر الأحمر
-							</label>
-						</div>
-						<button class="btn" id="chk2">
-							اعرض النتيجة <span>←</span>
-						</button>
-						<button class="btn ghost" id="rst2">إعادة الاختبار</button>
-						<div class="fb" id="fb2" aria-live="polite"></div>
 					</div>
 
+				</div>
+
+				<!-- الاختبار: 5 صح وغلط + 5 اختر من متعدد -->
+				<div class="exam-box" style="margin-top:26px" id="lessonExam">
+					<div class="head" style="margin-bottom:10px">
+						<div class="ic">
+							<i>📝</i>
+						</div>
+						<div>
+							<h2>اختبار الدرس (10 أسئلة)</h2>
+							<p>5 أسئلة صح وخطأ + 5 أسئلة اختر من متعدد مع النتيجة والتغذية الراجعة</p>
+						</div>
+					</div>
+
+					<h3 class="exam-grp-title">أولاً: أسئلة صح وخطأ (5 أسئلة)</h3>
+
+					<div class="exam-q" data-ans="صح">
+						<p>1. تُعد آسيا أكبر قارات العالم وتبلغ مساحتها نحو 44 مليون كم².</p>
+						<div class="exam-opts">
+							<label><input type="radio" name="ex1" value="صح"> صح</label>
+							<label><input type="radio" name="ex1" value="خطأ"> خطأ</label>
+						</div>
+					</div>
+
+					<div class="exam-q" data-ans="خطأ">
+						<p>2. تقع قارة أوروبا في نصف الكرة الجنوبي بالكامل.</p>
+						<div class="exam-opts">
+							<label><input type="radio" name="ex2" value="صح"> صح</label>
+							<label><input type="radio" name="ex2" value="خطأ"> خطأ</label>
+						</div>
+					</div>
+
+					<div class="exam-q" data-ans="صح">
+						<p>3. تمتد قارة أفريقيا على جانبي خط الاستواء.</p>
+						<div class="exam-opts">
+							<label><input type="radio" name="ex3" value="صح"> صح</label>
+							<label><input type="radio" name="ex3" value="خطأ"> خطأ</label>
+						</div>
+					</div>
+
+					<div class="exam-q" data-ans="خطأ">
+						<p>4. يفصل البحر الأحمر بين قارتي أفريقيا وأوروبا.</p>
+						<div class="exam-opts">
+							<label><input type="radio" name="ex4" value="صح"> صح</label>
+							<label><input type="radio" name="ex4" value="خطأ"> خطأ</label>
+						</div>
+					</div>
+
+					<div class="exam-q" data-ans="صح">
+						<p>5. تربط شبه جزيرة سيناء بين قارتي أفريقيا وآسيا برياً.</p>
+						<div class="exam-opts">
+							<label><input type="radio" name="ex5" value="صح"> صح</label>
+							<label><input type="radio" name="ex5" value="خطأ"> خطأ</label>
+						</div>
+					</div>
+
+					<h3 class="exam-grp-title">ثانياً: أسئلة اختر من متعدد (5 أسئلة)</h3>
+
+					<div class="exam-q" data-ans="أوراسيا">
+						<p>6. تُسمى الكتلة اليابسة الواحدة التي تتصل فيها آسيا وأوروبا:</p>
+						<div class="exam-opts">
+							<label><input type="radio" name="ex6" value="أوراسيا"> أوراسيا</label>
+							<label><input type="radio" name="ex6" value="أوقيانوسيا"> أوقيانوسيا</label>
+							<label><input type="radio" name="ex6" value="أفريقيا"> أفريقيا</label>
+						</div>
+					</div>
+
+					<div class="exam-q" data-ans="أفريقيا">
+						<p>7. القارة الوحيدة التي يمر بها خط الاستواء ومدارا السرطان والجدي معاً هي:</p>
+						<div class="exam-opts">
+							<label><input type="radio" name="ex7" value="آسيا"> آسيا</label>
+							<label><input type="radio" name="ex7" value="أفريقيا"> أفريقيا</label>
+							<label><input type="radio" name="ex7" value="أوروبا"> أوروبا</label>
+						</div>
+					</div>
+
+					<div class="exam-q" data-ans="نحو 30 مليون كم²">
+						<p>8. تبلغ مساحة قارة أفريقيا نحو:</p>
+						<div class="exam-opts">
+							<label><input type="radio" name="ex8" value="نحو 10 ملايين كم²"> نحو 10 ملايين كم²</label>
+							<label><input type="radio" name="ex8" value="نحو 30 مليون كم²"> نحو 30 مليون كم²</label>
+							<label><input type="radio" name="ex8" value="نحو 44 مليون كم²"> نحو 44 مليون كم²</label>
+						</div>
+					</div>
+
+					<div class="exam-q" data-ans="جبال الأورال">
+						<p>9. الحد الشرقي الذي يفصل قارة أوروبا عن قارة آسيا هو:</p>
+						<div class="exam-opts">
+							<label><input type="radio" name="ex9" value="جبال الأورال"> جبال الأورال</label>
+							<label><input type="radio" name="ex9" value="البحر المتوسط"> البحر المتوسط</label>
+							<label><input type="radio" name="ex9" value="قناة السويس"> قناة السويس</label>
+						</div>
+					</div>
+
+					<div class="exam-q" data-ans="أوروبا">
+						<p>10. القارة التي تبلغ مساحتها نحو 10 ملايين كم² وتُعد من أصغر القارات هي:</p>
+						<div class="exam-opts">
+							<label><input type="radio" name="ex10" value="آسيا"> آسيا</label>
+							<label><input type="radio" name="ex10" value="أفريقيا"> أفريقيا</label>
+							<label><input type="radio" name="ex10" value="أوروبا"> أوروبا</label>
+						</div>
+					</div>
+
+					<div class="exam-actions">
+						<button type="button" class="btn" id="submitExam">اعرض النتيجة والتغذية الراجعة</button>
+						<button type="button" class="btn ghost" id="resetExam">إعادة الاختبار</button>
+					</div>
+
+					<div class="exam-result" id="examResult" aria-live="polite">
+						<div class="exam-score" id="examScore"></div>
+						<div class="exam-feedback" id="examFeedback"></div>
+					</div>
 				</div>
 
 				<div class="maprow">
@@ -675,29 +836,78 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 			secs.forEach(function(s){so.observe(s)});
 
 			(function(){
-			var rows=document.querySelectorAll('#act1 .ord'),fb1=document.getElementById('fb1');
+			var rows1=document.querySelectorAll('#act1 .ord'),fb1=document.getElementById('fb1');
 			document.getElementById('chk1').onclick=function(){
 			var ok=0,empty=0;
-			rows.forEach(function(r){var v=r.querySelector('select').value;r.classList.remove('ok','no');
+			rows1.forEach(function(r){var v=r.querySelector('select').value;r.classList.remove('ok','no');
 			if(!v){empty++;return}
 			if(v===r.dataset.ans){ok++;r.classList.add('ok')}else r.classList.add('no')});
-			fb1.textContent=empty?'اختر ترتيباً لكل قارة أولاً.':(ok===rows.length?'🎉 ممتاز! ترتيبك صحيح.':'أجبت صح على '+ok+' من '+rows.length+'، حاول تصحيح الباقي.');
+			fb1.textContent=empty?'اختر ترتيباً لكل قارة أولاً.':(ok===rows1.length?'🎉 ممتاز! ترتيبك صحيح.':'أجبت صح على '+ok+' من '+rows1.length+'، حاول تصحيح الباقي.');
 			};
-			document.getElementById('rst1').onclick=function(){rows.forEach(function(r){r.classList.remove('ok','no');r.querySelector('select').value=''});fb1.textContent=''};
+			document.getElementById('rst1').onclick=function(){rows1.forEach(function(r){r.classList.remove('ok','no');r.querySelector('select').value=''});fb1.textContent=''};
 
-			var fb2=document.getElementById('fb2'),qs=['q1','q2','q3'];
+			var rows2=document.querySelectorAll('#act2 .ord'),fb2=document.getElementById('fb2');
 			document.getElementById('chk2').onclick=function(){
-			var score=0,miss=0;
-			qs.forEach(function(q){
-			var ins=document.querySelectorAll('input[name='+q+']'),chosen=null;
-			ins.forEach(function(i){i.parentNode.classList.remove('ok','no');if(i.checked)chosen=i});
-			if(!chosen){miss++;return}
-			if(chosen.dataset.ok){score++;chosen.parentNode.classList.add('ok')}
-			else{chosen.parentNode.classList.add('no');ins.forEach(function(i){if(i.dataset.ok)i.parentNode.classList.add('ok')})}
-			});
-			fb2.textContent=miss?'أجب عن كل الأسئلة أولاً.':'نتيجتك: '+score+' من '+qs.length+(score===qs.length?' 🎉 أحسنت!':' — راجع الإجابات الموضحة.');
+			var ok=0,empty=0;
+			rows2.forEach(function(r){var v=r.querySelector('select').value;r.classList.remove('ok','no');
+			if(!v){empty++;return}
+			if(v===r.dataset.ans){ok++;r.classList.add('ok')}else r.classList.add('no')});
+			fb2.textContent=empty?'اختر توصيلاً لكل عنصر أولاً.':(ok===rows2.length?'🌟 رائع جداً! توصيلك صحيح بالكامل.':'أجبت صح على '+ok+' من '+rows2.length+'، جرّب مطابقة الباقي.');
 			};
-			document.getElementById('rst2').onclick=function(){document.querySelectorAll('#act2 input').forEach(function(i){i.checked=false;i.parentNode.classList.remove('ok','no')});fb2.textContent=''};
+			document.getElementById('rst2').onclick=function(){rows2.forEach(function(r){r.classList.remove('ok','no');r.querySelector('select').value=''});fb2.textContent=''};
+
+			var examCards=document.querySelectorAll('#lessonExam .exam-q');
+			var examResult=document.getElementById('examResult');
+			var examScore=document.getElementById('examScore');
+			var examFeedback=document.getElementById('examFeedback');
+			document.getElementById('submitExam').onclick=function(){
+			var score=0,missing=0;
+			examCards.forEach(function(card){
+			card.classList.remove('ok','no');
+			card.querySelectorAll('label').forEach(function(lbl){lbl.classList.remove('ok','no')});
+			var checked=card.querySelector('input[type="radio"]:checked');
+			var rightAns=card.dataset.ans;
+			if(!checked){missing++;return}
+			if(checked.value===rightAns){
+			score++;
+			card.classList.add('ok');
+			checked.parentNode.classList.add('ok');
+			}else{
+			card.classList.add('no');
+			checked.parentNode.classList.add('no');
+			card.querySelectorAll('input[type="radio"]').forEach(function(inp){
+			if(inp.value===rightAns)inp.parentNode.classList.add('ok');
+			});
+			}
+			});
+			examResult.classList.add('show');
+			if(missing>0){
+			examScore.textContent='تنبيه: يوجد '+missing+' سؤال لم يتم اختيار إجابة له';
+			examFeedback.textContent='من فضلك أجب عن جميع الأسئلة العشرة أولاً ثم اضغط على زر النتيجة للحصول على تقييمك الكامل.';
+			return;
+			}
+			var pct=Math.round((score/examCards.length)*100);
+			examScore.textContent='نتيجتك: '+score+' من '+examCards.length+' ('+pct+'%)';
+			if(score===10){
+			examFeedback.textContent='🏆 أداء مذهل ومشرّف! أتقنت معلومات الدرس بالكامل وفهمت مواقع القارات ومساحاتها والحدود الفاصلة بينها بامتياز.';
+			}else if(score>=8){
+			examFeedback.textContent='👏 ممتاز جداً! لديك فهم قوي وممتاز للدرس، راجع النقاط المظللة باللون الأخضر لتصل للدرجة الكاملة.';
+			}else if(score>=5){
+			examFeedback.textContent='👍 محاولة جيدة جداً! راجع ملخص الدرس والإنفوجرافيك حول المساحات والحدود بين القارات ثم أعد الاختبار لتحسين درجتك.';
+			}else{
+			examFeedback.textContent='💪 لا تقلق، بداية موفقة! ننصحك بمشاهدة فيديو الشرح وقراءة ملخص النقاط بتركيز، ثم إعادة المحاولة وستحقق نتيجة أفضل بكثير.';
+			}
+			};
+			document.getElementById('resetExam').onclick=function(){
+			examCards.forEach(function(card){
+			card.classList.remove('ok','no');
+			card.querySelectorAll('input[type="radio"]').forEach(function(inp){inp.checked=false});
+			card.querySelectorAll('label').forEach(function(lbl){lbl.classList.remove('ok','no')});
+			});
+			examResult.classList.remove('show');
+			examScore.textContent='';
+			examFeedback.textContent='';
+			};
 			})();
 		</script>
 	   <script src="../chatbot.js"></script>
