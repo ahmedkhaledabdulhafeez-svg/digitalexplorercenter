@@ -22,7 +22,7 @@
 									--mute: #c9ae94;
 									}
 
-									* {
+- {
 									box-sizing: border-box;
 									margin: 0;
 									padding: 0;
@@ -937,7 +937,7 @@
 									}
 
 									@media (prefers-reduced-motion: reduce) {
-									* {
+- {
 									animation: none !important;
 									transition: none !important;
 									}
@@ -1106,7 +1106,7 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 						<button type="button" id="filter-ottoman" class="filter-btn" data-era="ottoman" onclick="filterEra('ottoman')">🕌 العصر العثماني والمماليك</button>
 					</div>
 				</div>
-				<span id="characters-count-label" class="count-text">إجمالي الشخصيات: 3 شخصيات</span>
+				<span id="characters-count-label" class="count-text">إجمالي الشخصيات: 4 شخصيات</span>
 			</div>
 
 			<!-- شبكة البطاقات -->
@@ -1205,6 +1205,39 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 
 					<div class="card-footer">
 						<button type="button" class="watch-btn" onclick="openVideoModal('نابليون بونابرت', 'قائد الحملة الفرنسية على مصر وأهدافها ونتائجها.', 'https://www.youtube.com/embed/QJ3EIl0bIFQ')">
+							<span>مشاهدة فيديو الذكاء الاصطناعي</span>
+							<span class="watch-arrow" aria-hidden="true">←</span>
+						</button>
+					</div>
+				</article>
+
+				<!-- شخصية 4: إبراهيم باشا -->
+				<article class="explorer-card card-item modern" style="--c:#d9784a;">
+					<div class="card-top">
+						<div class="card-meta">
+							<div class="card-meta-text">
+								<span>ذكاء اصطناعي</span>
+								<span class="sub">· تاريخ مصر الحديث</span>
+							</div>
+							<span aria-hidden="true" style="font-size:1.4rem;">🎖️</span>
+						</div>
+
+						<button type="button" class="thumb-btn" aria-label="تشغيل فيديو محاكاة إبراهيم باشا" onclick="openVideoModal('إبراهيم باشا', 'قائد الحملات العسكرية وتوسيع نفوذ الدولة المصرية في عهد محمد علي.', 'https://www.youtube.com/embed/TW6Jk6VPNgQ?si=rM51Np4nB1Fl_9L9')">
+							<img src="https://img.youtube.com/vi/TW6Jk6VPNgQ/hqdefault.jpg" alt="إبراهيم باشا" referrerpolicy="no-referrer">
+								<div class="thumb-overlay">
+									<span class="play-circle">▶</span>
+								</div>
+							</button>
+
+						<h3 class="card-title">إبراهيم باشا</h3>
+						<p class="card-period">قائد الجيوش والتوسعات المصرية (القرن 19م)</p>
+						<p class="card-desc">
+							يروي دوره العسكري والقيادي في الحملات والمعارك الكبرى التي دعمت بناء قوة الدولة المصرية وتوسيع نفوذها.
+						</p>
+					</div>
+
+					<div class="card-footer">
+						<button type="button" class="watch-btn" onclick="openVideoModal('إبراهيم باشا', 'قائد الحملات العسكرية وتوسيع نفوذ الدولة المصرية في عهد محمد علي.', 'https://www.youtube.com/embed/TW6Jk6VPNgQ?si=rM51Np4nB1Fl_9L9')">
 							<span>مشاهدة فيديو الذكاء الاصطناعي</span>
 							<span class="watch-arrow" aria-hidden="true">←</span>
 						</button>
