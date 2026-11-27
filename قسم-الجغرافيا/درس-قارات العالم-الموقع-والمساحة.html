@@ -276,19 +276,19 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 				</div>
 				
 <style>
-  .ig-viewer-box{position:relative;width:100%;height:540px;max-height:75vh;border-radius:18px;overflow:hidden;background:#24130b;border:1px solid rgba(224,160,110,.25);user-select:none;touch-action:none}
+  .ig-viewer-box{position:relative;width:100%;height:540px;max-height:75vh;border-radius:18px;overflow:hidden;background:linear-gradient(160deg,#42251a,#3a2116);user-select:none;touch-action:none}
   .ig-stage{width:100%;height:100%;display:flex;align-items:center;justify-content:center;cursor:grab}
   .ig-stage.dragging{cursor:grabbing}
   .ig-stage img{max-width:100%;max-height:100%;object-fit:contain;border-radius:12px;transform-origin:center center;transition:transform .12s ease-out;pointer-events:none;display:block}
   .ig-stage.dragging img{transition:none}
-  .ig-controls{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:5;display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:99px;background:rgba(36,19,11,.88);backdrop-filter:blur(8px);border:1px solid rgba(224,160,110,.3);box-shadow:0 8px 24px rgba(0,0,0,.45)}
-  .ig-btn{min-width:34px;height:34px;padding:0 10px;border-radius:99px;border:1px solid rgba(224,160,110,.35);background:#3a2116;color:#f6e8d4;font-family:'Cairo',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:.2s}
+  .ig-controls{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:5;display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:99px;background:rgba(36,19,11,.88);backdrop-filter:blur(8px);border:1px solid rgba(224,160,110,.28);box-shadow:0 8px 24px rgba(0,0,0,.45)}
+  .ig-btn{min-width:34px;height:34px;padding:0 10px;border-radius:99px;border:1px solid rgba(224,160,110,.3);background:#3a2116;color:#f6e8d4;font-family:'Cairo',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:.2s}
   .ig-btn:hover{background:#c8825a;color:#2a150b;border-color:#c8825a}
   .ig-zoom-val{color:#f0b44c;font-weight:800;font-size:.82rem;min-width:48px;text-align:center;direction:ltr}
   @media(max-width:768px){.ig-viewer-box{height:400px}}
 </style>
 
-<div class="frame" style="padding:0;background:transparent;border:none;box-shadow:none">
+<div class="frame" style="padding:14px;overflow:hidden">
   <div class="ig-viewer-box" id="igViewer">
     <div class="ig-stage" id="igStage">
       <img id="igImg" src="images/الدرس-الاول.jpeg" alt="إنفوجرافيك الدرس">
