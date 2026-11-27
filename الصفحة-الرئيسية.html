@@ -34,16 +34,15 @@ nav a:hover{color:var(--sand)}
 nav a.on{background:var(--copper);color:#2a150b}
 @media(min-width:760px){nav{display:block}}
 
-/* ===== Account Chip & Dropdown in Nav under Right Logo ===== */
-.nav-account{position:relative;margin:4px 0}
-.account-trigger{display:inline-flex;align-items:center;gap:10px;padding:4px 14px 4px 6px;border-radius:999px;background:rgba(46,26,16,.85);border:1.5px solid var(--gold);color:var(--sand);font-family:inherit;font-size:.86rem;font-weight:700;cursor:pointer;transition:.25s;box-shadow:0 4px 14px rgba(0,0,0,.3)}
-.account-trigger:hover{background:rgba(200,130,90,.2);border-color:var(--sand)}
-.account-avatar{width:38px;height:38px;border-radius:50%;border:2px solid var(--gold);background:radial-gradient(circle at top,#5c3622,#24130b);color:var(--gold);display:grid;place-items:center;font-size:.95rem;font-weight:800;flex-shrink:0;overflow:hidden;box-shadow:0 0 0 2px rgba(200,130,90,.35)}
-.account-avatar img{width:100%;height:100%;object-fit:cover;object-position:center;border-radius:50%;display:block}
-.account-name{max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.account-menu{position:absolute;top:calc(100% + 6px);right:0;min-width:170px;background:var(--panel);border:1.5px solid var(--copper);border-radius:14px;box-shadow:0 16px 34px rgba(0,0,0,.55);padding:6px;display:none;z-index:80}
+/* ===== Account Avatar & Dropdown in Nav ===== */
+.nav-account{position:relative;margin:4px 0;flex-shrink:0}
+.account-trigger{width:42px;height:42px;padding:0;border-radius:50%;border:2px solid var(--gold);background:radial-gradient(circle at top,#5c3622,#24130b);color:var(--gold);display:grid;place-items:center;font-family:inherit;font-size:1rem;font-weight:800;cursor:pointer;transition:.25s;box-shadow:0 0 0 2px rgba(200,130,90,.35),0 4px 14px rgba(0,0,0,.35);overflow:hidden}
+.account-trigger:hover{transform:scale(1.06);border-color:var(--sand)}
+.account-trigger img{width:100%;height:100%;object-fit:cover;object-position:center;border-radius:50%;display:block}
+.account-menu{position:absolute;top:calc(100% + 8px);right:0;min-width:195px;background:var(--panel);border:1.5px solid var(--copper);border-radius:14px;box-shadow:0 16px 34px rgba(0,0,0,.55);padding:6px;display:none;z-index:80}
 .account-menu.open{display:block}
-.logout-item{width:100%;display:flex;align-items:center;justify-content:flex-start;gap:8px;padding:9px 12px;border:none;border-radius:10px;background:transparent;color:#ffb49a;font-family:inherit;font-size:.84rem;font-weight:700;cursor:pointer;transition:.2s}
+.account-menu-name{padding:8px 12px;font-size:.84rem;font-weight:700;color:var(--sand);border-bottom:1px dashed var(--line);margin-bottom:4px;word-break:break-word}
+.logout-item{width:100%;display:flex;align-items:center;justify-content:flex-start;gap:8px;padding:8px 12px;border:none;border-radius:10px;background:transparent;color:#ffb49a;font-family:inherit;font-size:.84rem;font-weight:700;cursor:pointer;transition:.2s}
 .logout-item:hover{background:rgba(217,120,74,.22);color:#ffd5c6}
 
 /* ===== Hero ===== */
@@ -206,11 +205,9 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
       <a href="#glossary">بنك المصطلحات</a>
     </div>
     <div class="nav-account">
-      <button type="button" class="account-trigger" id="accountTrigger" aria-expanded="false" aria-controls="accountMenu">
-        <span class="account-avatar" id="accountAvatar">👤</span>
-        <span class="account-name" id="accountName">الحساب</span>
-      </button>
+      <button type="button" class="account-trigger" id="accountTrigger" aria-expanded="false" aria-controls="accountMenu" aria-label="قائمة الحساب">👤</button>
       <div class="account-menu" id="accountMenu" role="menu">
+        <div class="account-menu-name" id="accountMenuName">الحساب</div>
         <button type="button" class="logout-item" id="logoutBtn" role="menuitem">🚪 تسجيل خروج</button>
       </div>
     </div>
@@ -432,7 +429,7 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
   update();
 })();
 
-// ترحيب مخصص باسم الطالب المسجل من صفحة الهبوط + شريحة الحساب في شريط التنقل
+// ترحيب مخصص باسم الطالب المسجل من صفحة الهبوط + صورة الحساب والقائمة المنسدلة
 (function(){
   var savedName = '';
   var savedPhoto = '';
@@ -469,28 +466,27 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
   if (savedName) {
     var wTag = document.getElementById('welcomeTag');
     if (wTag) wTag.textContent = '👋 أهلاً بك يا ' + savedName + ' في مركز المستكشف';
-    var accName = document.getElementById('accountName');
-    if (accName) accName.textContent = savedName;
+    var menuName = document.getElementById('accountMenuName');
+    if (menuName) menuName.textContent = savedName;
   }
 
-  var accAvatar = document.getElementById('accountAvatar');
-  if (accAvatar) {
+  var trigger = document.getElementById('accountTrigger');
+  if (trigger) {
     if (savedPhoto) {
       var img = document.createElement('img');
       img.src = savedPhoto;
       img.alt = savedName || 'صورة الحساب';
       img.referrerPolicy = 'no-referrer';
       img.onerror = function() {
-        accAvatar.textContent = savedName ? savedName.trim().charAt(0).toUpperCase() : '👤';
+        trigger.textContent = savedName ? savedName.trim().charAt(0).toUpperCase() : '👤';
       };
-      accAvatar.innerHTML = '';
-      accAvatar.appendChild(img);
+      trigger.innerHTML = '';
+      trigger.appendChild(img);
     } else if (savedName) {
-      accAvatar.textContent = savedName.trim().charAt(0).toUpperCase();
+      trigger.textContent = savedName.trim().charAt(0).toUpperCase();
     }
   }
 
-  var trigger = document.getElementById('accountTrigger');
   var menu = document.getElementById('accountMenu');
   var logoutBtn = document.getElementById('logoutBtn');
 
