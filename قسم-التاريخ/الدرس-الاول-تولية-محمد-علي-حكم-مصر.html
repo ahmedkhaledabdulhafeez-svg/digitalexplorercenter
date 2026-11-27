@@ -151,7 +151,11 @@ select{font-family:inherit;border-radius:12px;padding:7px 12px;background:var(--
 .maprow p{color:var(--mute);font-size:.9rem}
 
 .pdfv{aspect-ratio:auto;height:78vh;min-height:420px}
-.pptx-frame{aspect-ratio:auto;height:78vh;min-height:520px;background:#f3f7f5}
+.pptx-box{border-radius:18px;overflow:hidden;background:#f3f7f5}
+.pptx-box iframe{width:100%;height:1150px;min-height:920px;border:0;display:block;transition:height .25s ease}
+@media(max-width:768px){
+  .pptx-box iframe{height:1450px;min-height:1150px}
+}
 .fg{animation:fgf 4.5s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
 @keyframes fgf{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-7px) rotate(1deg)}}
 .fl{animation:flo 3.2s ease-in-out infinite}
@@ -432,18 +436,18 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
     </div>
   </section>
 
-  <!-- العرض التقديمي التفاعلي (تحت ملف PDF مباشرة) -->
+  <!-- العرض التقديمي (تحت ملف PDF مباشرة) -->
   <section id="presentation" class="blk rv">
     <div class="head">
       <div class="ic"><i>📽️</i></div>
       <div>
-        <h2>العرض التقديمي التفاعلي</h2>
-        <p>استعرض شرائح الدرس التفاعلية والأنشطة مباشرة داخل الصفحة</p>
+        <h2>العرض التقديمي</h2>
+        <p>تصفح العرض التقديمي الكامل للدرس مباشرة داخل الصفحة</p>
       </div>
     </div>
     <div class="frame">
-      <div class="vid pptx-frame">
-        <iframe src="Presentation/mohamed-ali-lesson-1-slides.html" title="العرض التقديمي التفاعلي: تولية محمد علي حكم مصر" loading="lazy" allowfullscreen></iframe>
+      <div class="pptx-box">
+        <iframe id="slidesFrame" src="mohamed-ali-lesson-1-slides.html" title="العرض التقديمي للدرس" loading="lazy" allowfullscreen></iframe>
       </div>
     </div>
   </section>
@@ -534,6 +538,14 @@ if(DRIVE_ID&&DRIVE_ID!=='PUT_FILE_ID_HERE'){
 }else{
   document.getElementById('pdfOpen').style.display='none';
 }
+
+window.addEventListener('message', function(e){
+  var slidesFrame = document.getElementById('slidesFrame');
+  if(slidesFrame && e.data && e.data.type === 'explorerSlideHeight' && e.data.height){
+    slidesFrame.style.height = (Number(e.data.height) + 24) + 'px';
+  }
+});
+
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}})},{threshold:.1});
 document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
 var links=document.querySelectorAll('nav a'),secs=[].map.call(links,function(a){return document.querySelector(a.getAttribute('href'))});
