@@ -124,25 +124,29 @@
 								.pts b{color:var(--sand)}
 
 								/* interactive activities */
-								.acts{display:grid;grid-template-columns:1fr;gap:26px}
-								@media(min-width:860px){.acts{grid-template-columns:1fr 1fr;align-items:start}}
-								.act{--c:#6fc2a8;position:relative;overflow:hidden;padding:32px 28px 28px;border-radius:28px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);box-shadow:0 26px 60px rgba(0,0,0,.4)}
+								.acts{display:grid;grid-template-columns:1fr;gap:26px;align-items:stretch}
+								@media(min-width:860px){.acts{grid-template-columns:1fr 1fr}}
+								.act{--c:#6fc2a8;position:relative;overflow:hidden;padding:32px 28px 28px;border-radius:28px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);box-shadow:0 26px 60px rgba(0,0,0,.4);display:flex;flex-direction:column;height:100%}
 								.act.q{--c:#b793e6}
 								.act::before{background:var(--c)}
 								.act .ico{width:54px;height:54px;border-radius:18px;border:1px solid var(--c);background:rgba(0,0,0,.2);display:grid;place-items:center;font-size:1.6rem;margin-bottom:14px}
 								.act h3{font-family:'Reem Kufi',sans-serif;font-size:1.45rem;color:var(--c)}
 								.act .d{color:var(--mute);font-size:.9rem;margin:4px 0 18px}
-								.ord{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border-radius:16px;background:rgba(0,0,0,.22);border:1.5px solid var(--line);margin-bottom:12px;transition:.3s;font-weight:700;color:var(--sand)}
+								.act-items{display:flex;flex-direction:column;gap:12px;flex:1}
+								.ord{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:66px;padding:12px 16px;border-radius:16px;background:rgba(0,0,0,.22);border:1.5px solid var(--line);transition:.3s;font-weight:700;color:var(--sand)}
+								.ord span{flex:1;line-height:1.55;font-size:.93rem}
 								.ord.ok,.qb label.ok{border-color:#6fc2a8;background:rgba(111,194,168,.13)}
 								.ord.no,.qb label.no{border-color:#e0705a;background:rgba(224,112,90,.13)}
-								select{font-family:inherit;border-radius:12px;padding:7px 12px;background:var(--bg);color:var(--text);border:1.5px solid var(--line);cursor:pointer;min-width:118px}
+								select{font-family:inherit;border-radius:12px;padding:7px 12px;background:var(--bg);color:var(--text);border:1.5px solid var(--line);cursor:pointer;min-width:118px;flex-shrink:0}
+								.match-sel{min-width:155px}
+								.act-foot{margin-top:20px}
 								.qb{padding:16px 18px;border-radius:18px;background:rgba(0,0,0,.22);border:1.5px solid var(--line);margin-bottom:14px}
-								.qb p{font-weight:700;color:var(--sand);margin-bottom:6px;font-size:.95rem}
-								.qb label{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:12px;cursor:pointer;color:var(--mute);font-size:.92rem;border:1px solid transparent;transition:.2s}
+								.qb p{font-weight:700;color:var(--sand);margin-bottom:8px;font-size:.96rem}
+								.qb label{display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:12px;cursor:pointer;color:var(--mute);font-size:.92rem;border:1px solid transparent;transition:.2s;margin-top:4px}
 								.qb label:hover{color:var(--text)}
 								.qb input{accent-color:var(--gold);width:16px;height:16px}
-								.act .btn{width:100%;justify-content:center;cursor:pointer;margin-top:6px}
-								.act .btn.ghost{margin-top:10px}
+								.act .btn,.exam-box .btn{width:100%;justify-content:center;cursor:pointer;margin-top:6px}
+								.act .btn.ghost,.exam-box .btn.ghost{margin-top:10px}
 								.fb{min-height:1.7em;margin-top:12px;font-weight:700;font-size:.92rem;text-align:center;color:var(--sand)}
 								.maprow{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:26px;padding:22px 28px;border-radius:24px;background:rgba(111,194,168,.08);border:1.5px dashed rgba(111,194,168,.5)}
 								.maprow .e{font-size:2.2rem}
@@ -150,7 +154,25 @@
 								.maprow h3{font-family:'Reem Kufi',sans-serif;font-size:1.3rem;color:#6fc2a8}
 								.maprow p{color:var(--mute);font-size:.9rem}
 
+								/* exams section */
+								.exams-wrap{margin-top:28px;display:flex;flex-direction:column;gap:26px}
+								.exam-box{--c:#f0b44c;position:relative;overflow:hidden;padding:32px 28px 28px;border-radius:28px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);box-shadow:0 26px 60px rgba(0,0,0,.4)}
+								.exam-box.mcq{--c:#6fc2a8}
+								.exam-box::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--c)}
+								.exam-box .ico{width:54px;height:54px;border-radius:18px;border:1px solid var(--c);background:rgba(0,0,0,.2);display:grid;place-items:center;font-size:1.6rem;margin-bottom:14px}
+								.exam-box h3{font-family:'Reem Kufi',sans-serif;font-size:1.45rem;color:var(--c)}
+								.exam-box .d{color:var(--mute);font-size:.9rem;margin:4px 0 18px}
+								.tf-opts{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+								.tf-opts label{margin-top:0;flex:1;min-width:140px;background:rgba(255,255,255,.03);border:1px solid var(--line)}
+								.ans-hint{margin-top:8px;font-size:.86rem;font-weight:700;color:var(--gold);display:none}
+								.ans-hint.show{display:block}
+
 								.pdfv{aspect-ratio:auto;height:78vh;min-height:420px}
+								.pptx-box{border-radius:18px;overflow:hidden;background:#f3f7f5}
+								.pptx-box iframe{width:100%;height:1100px;min-height:850px;max-height:2400px;border:0;display:block;transition:height .25s ease}
+								@media(max-width:768px){
+									.pptx-box iframe{height:1350px;min-height:1050px;max-height:2800px}
+								}
 								.fg{animation:fgf 4.5s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
 								@keyframes fgf{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-7px) rotate(1deg)}}
 								.fl{animation:flo 3.2s ease-in-out infinite}
@@ -210,6 +232,7 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 					<a href="#chars">الشخصيات 3D</a>
 					<a href="#infographic">الإنفوجرافيك</a>
 					<a href="#pdf">ملف PDF</a>
+					<a href="#presentation">العرض التقديمي</a>
 					<a href="#summary">ملخص الدرس</a>
 					<a href="#activities">الأنشطة والاختبارات</a>
 				</div>
@@ -539,6 +562,24 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 				</div>
 			</section>
 
+			<!-- العرض التقديمي (تحت ملف PDF مباشرة) -->
+			<section id="presentation" class="blk rv">
+				<div class="head">
+					<div class="ic">
+						<i>📽️</i>
+					</div>
+					<div>
+						<h2>العرض التقديمي</h2>
+						<p>تصفح العرض التقديمي الكامل للدرس مباشرة داخل الصفحة</p>
+					</div>
+				</div>
+				<div class="frame">
+					<div class="pptx-box">
+						<iframe id="slidesFrame" src="Presentation/mohamed-ali-lesson-3-slides.html" title="العرض التقديمي للدرس" loading="lazy" allowfullscreen></iframe>
+					</div>
+				</div>
+			</section>
+
 			<!-- 4) ملخص الدرس -->
 			<section id="summary" class="blk rv">
 				<div class="sum">
@@ -628,96 +669,229 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 					</div>
 					<div>
 						<h2>الأنشطة والاختبارات</h2>
-						<p>طبّق ما تعلمته ثم اختبر معلوماتك</p>
+						<p>طبّق ما تعلمته في النشاطين ثم أجب عن الاختبارات</p>
 					</div>
 				</div>
 				<div class="acts">
 
+					<!-- نشاط 1: ربط الحاكم بالحدث -->
 					<div class="act" id="act1">
 						<div class="ico">🧩</div>
 						<h3>نشاط 1: اربط الحاكم بالحدث</h3>
 						<p class="d">اختر الحدث المناسب لكل حاكم من خلفاء محمد علي:</p>
-						<div class="ord" data-ans="b">
-							<span>الخديو إسماعيل</span>
-							<select>
-								<option value="">اختر الحدث...</option>
-								<option value="a">منح امتياز حفر قناة السويس</option>
-								<option value="b">افتتاح قناة السويس للملاحة</option>
-								<option value="c">مد خط سكة حديد القاهرة - الإسكندرية</option>
-								<option value="d">بدء الاحتلال البريطاني لمصر</option>
-							</select>
+						<div class="act-items">
+							<div class="ord" data-ans="b">
+								<span>الخديو إسماعيل</span>
+								<select>
+									<option value="">اختر الحدث...</option>
+									<option value="a">منح امتياز حفر قناة السويس</option>
+									<option value="b">افتتاح قناة السويس للملاحة</option>
+									<option value="c">مد خط سكة حديد القاهرة - الإسكندرية</option>
+									<option value="d">بدء الاحتلال البريطاني لمصر</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="d">
+								<span>الخديو توفيق</span>
+								<select>
+									<option value="">اختر الحدث...</option>
+									<option value="a">منح امتياز حفر قناة السويس</option>
+									<option value="b">افتتاح قناة السويس للملاحة</option>
+									<option value="c">مد خط سكة حديد القاهرة - الإسكندرية</option>
+									<option value="d">بدء الاحتلال البريطاني لمصر</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="c">
+								<span>عباس الأول</span>
+								<select>
+									<option value="">اختر الحدث...</option>
+									<option value="a">منح امتياز حفر قناة السويس</option>
+									<option value="b">افتتاح قناة السويس للملاحة</option>
+									<option value="c">مد خط سكة حديد القاهرة - الإسكندرية</option>
+									<option value="d">بدء الاحتلال البريطاني لمصر</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="a">
+								<span>سعيد</span>
+								<select>
+									<option value="">اختر الحدث...</option>
+									<option value="a">منح امتياز حفر قناة السويس</option>
+									<option value="b">افتتاح قناة السويس للملاحة</option>
+									<option value="c">مد خط سكة حديد القاهرة - الإسكندرية</option>
+									<option value="d">بدء الاحتلال البريطاني لمصر</option>
+								</select>
+							</div>
 						</div>
-						<div class="ord" data-ans="d">
-							<span>الخديو توفيق</span>
-							<select>
-								<option value="">اختر الحدث...</option>
-								<option value="a">منح امتياز حفر قناة السويس</option>
-								<option value="b">افتتاح قناة السويس للملاحة</option>
-								<option value="c">مد خط سكة حديد القاهرة - الإسكندرية</option>
-								<option value="d">بدء الاحتلال البريطاني لمصر</option>
-							</select>
+						<div class="act-foot">
+							<button class="btn" id="chk1">✓ تحقق من الإجابات</button>
+							<button class="btn ghost" id="rst1">إعادة المحاولة</button>
+							<div class="fb" id="fb1" aria-live="polite"></div>
 						</div>
-						<div class="ord" data-ans="c">
-							<span>عباس الأول</span>
-							<select>
-								<option value="">اختر الحدث...</option>
-								<option value="a">منح امتياز حفر قناة السويس</option>
-								<option value="b">افتتاح قناة السويس للملاحة</option>
-								<option value="c">مد خط سكة حديد القاهرة - الإسكندرية</option>
-								<option value="d">بدء الاحتلال البريطاني لمصر</option>
-							</select>
-						</div>
-						<div class="ord" data-ans="a">
-							<span>سعيد</span>
-							<select>
-								<option value="">اختر الحدث...</option>
-								<option value="a">منح امتياز حفر قناة السويس</option>
-								<option value="b">افتتاح قناة السويس للملاحة</option>
-								<option value="c">مد خط سكة حديد القاهرة - الإسكندرية</option>
-								<option value="d">بدء الاحتلال البريطاني لمصر</option>
-							</select>
-						</div>
-						<button class="btn" id="chk1">✓ تحقق من الإجابات</button>
-						<button class="btn ghost" id="rst1">إعادة المحاولة</button>
-						<div class="fb" id="fb1" aria-live="polite"></div>
 					</div>
 
+					<!-- نشاط 2: توصيل -->
 					<div class="act q" id="act2">
+						<div class="ico">🔗</div>
+						<h3>نشاط 2: صِل كل عبارة بما يناسبها</h3>
+						<p class="d">اختر العنصر أو الحدث المناسب لكل عبارة مما يلي:</p>
+						<div class="act-items">
+							<div class="ord" data-ans="فرديناند ديلسبس">
+								<span>الفرنسي الذي منحه سعيد امتياز حفر قناة السويس</span>
+								<select class="match-sel">
+									<option value="">اختر الإجابة...</option>
+									<option value="فرديناند ديلسبس">فرديناند ديلسبس</option>
+									<option value="صندوق الدين">صندوق الدين</option>
+									<option value="الرقابة الثنائية">الرقابة الثنائية</option>
+									<option value="الثورة العرابية">الثورة العرابية</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="صندوق الدين">
+								<span>أُنشئ عام 1876م لسداد الديون الأجنبية وتدخل في المالية</span>
+								<select class="match-sel">
+									<option value="">اختر الإجابة...</option>
+									<option value="فرديناند ديلسبس">فرديناند ديلسبس</option>
+									<option value="صندوق الدين">صندوق الدين</option>
+									<option value="الرقابة الثنائية">الرقابة الثنائية</option>
+									<option value="الثورة العرابية">الثورة العرابية</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="الرقابة الثنائية">
+								<span>نظام فرضت فيه إنجلترا وفرنسا مراقبين على الإيرادات والمصروفات</span>
+								<select class="match-sel">
+									<option value="">اختر الإجابة...</option>
+									<option value="فرديناند ديلسبس">فرديناند ديلسبس</option>
+									<option value="صندوق الدين">صندوق الدين</option>
+									<option value="الرقابة الثنائية">الرقابة الثنائية</option>
+									<option value="الثورة العرابية">الثورة العرابية</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="الثورة العرابية">
+								<span>اندلعت (1881 - 1882م) في عهد توفيق احتجاجاً على التدخل الأجنبي</span>
+								<select class="match-sel">
+									<option value="">اختر الإجابة...</option>
+									<option value="فرديناند ديلسبس">فرديناند ديلسبس</option>
+									<option value="صندوق الدين">صندوق الدين</option>
+									<option value="الرقابة الثنائية">الرقابة الثنائية</option>
+									<option value="الثورة العرابية">الثورة العرابية</option>
+								</select>
+							</div>
+						</div>
+						<div class="act-foot">
+							<button class="btn" id="chkMatch3">✓ تحقق من التوصيل</button>
+							<button class="btn ghost" id="rstMatch3">إعادة المحاولة</button>
+							<div class="fb" id="fbMatch3" aria-live="polite"></div>
+						</div>
+					</div>
+
+				</div>
+
+				<!-- الاختبارات: 5 أسئلة صح وخطأ + 5 أسئلة اختر -->
+				<div class="exams-wrap">
+
+					<!-- اختبار 1: 5 أسئلة صح وخطأ -->
+					<div class="exam-box" id="examTF3">
+						<div class="ico">✔️</div>
+						<h3>الاختبار الأول: ضع علامة (صح) أو (خطأ) — 5 أسئلة</h3>
+						<p class="d">حدد صحة أو خطأ كل عبارة مما يلي ثم اعرض النتيجة مع الإجابات النموذجية:</p>
+
+						<div class="qb" data-tf-ans="true">
+							<p>1. وافق عباس الأول على مد أول خط سكة حديد يربط بين القاهرة والإسكندرية.</p>
+							<div class="tf-opts">
+								<label><input type="radio" name="l3_tf1" value="true"> صح</label>
+								<label><input type="radio" name="l3_tf1" value="false"> خطأ</label>
+							</div>
+							<div class="ans-hint">الإجابة الصحيحة: صح — حدث ذلك خلال فترة حكم عباس الأول (1848 - 1854م).</div>
+						</div>
+
+						<div class="qb" data-tf-ans="false">
+							<p>2. افتُتحت قناة السويس للملاحة العالمية في عهد سعيد عام 1854م.</p>
+							<div class="tf-opts">
+								<label><input type="radio" name="l3_tf2" value="true"> صح</label>
+								<label><input type="radio" name="l3_tf2" value="false"> خطأ</label>
+							</div>
+							<div class="ans-hint">الإجابة الصحيحة: خطأ — افتُتحت قناة السويس عام 1869م في عهد الخديو إسماعيل.</div>
+						</div>
+
+						<div class="qb" data-tf-ans="true">
+							<p>3. أدى الإسراف في الاقتراض من الخارج إلى ازدياد التدخل الأجنبي في شؤون مصر.</p>
+							<div class="tf-opts">
+								<label><input type="radio" name="l3_tf3" value="true"> صح</label>
+								<label><input type="radio" name="l3_tf3" value="false"> خطأ</label>
+							</div>
+							<div class="ans-hint">الإجابة الصحيحة: صح — ومن مظاهره صندوق الدين والرقابة الثنائية.</div>
+						</div>
+
+						<div class="qb" data-tf-ans="false">
+							<p>4. عُزل الخديو إسماعيل وتولى الحكم بعده سعيد مباشرة.</p>
+							<div class="tf-opts">
+								<label><input type="radio" name="l3_tf4" value="true"> صح</label>
+								<label><input type="radio" name="l3_tf4" value="false"> خطأ</label>
+							</div>
+							<div class="ans-hint">الإجابة الصحيحة: خطأ — عُزل إسماعيل عام 1879م وتولى ابنه توفيق.</div>
+						</div>
+
+						<div class="qb" data-tf-ans="true">
+							<p>5. بدأ الاحتلال البريطاني لمصر عام 1882م في عهد الخديو توفيق.</p>
+							<div class="tf-opts">
+								<label><input type="radio" name="l3_tf5" value="true"> صح</label>
+								<label><input type="radio" name="l3_tf5" value="false"> خطأ</label>
+							</div>
+							<div class="ans-hint">الإجابة الصحيحة: صح — عقب أحداث الثورة العرابية.</div>
+						</div>
+
+						<button class="btn" id="chkTF3">اعرض نتيجة صح وخطأ <span>←</span></button>
+						<button class="btn ghost" id="rstTF3">إعادة الاختبار</button>
+						<div class="fb" id="fbTF3" aria-live="polite"></div>
+					</div>
+
+					<!-- اختبار 2: 5 أسئلة اختر -->
+					<div class="exam-box mcq" id="examMCQ3">
 						<div class="ico">📝</div>
-						<h3>نشاط 2: اختبر معلوماتك</h3>
-						<p class="d">اختر الإجابة الصحيحة لكل سؤال مما يلي:</p>
+						<h3>الاختبار الثاني: اختر الإجابة الصحيحة — 5 أسئلة</h3>
+						<p class="d">اختر الإجابة الصحيحة لكل سؤال مما يلي ثم اعرض النتيجة مع الإجابات:</p>
+
 						<div class="qb">
 							<p>1. افتُتحت قناة السويس للملاحة عام:</p>
-							<label>
-								<input type="radio" name="q1"> 1882م
-							</label>
-							<label>
-								<input type="radio" name="q1" data-ok="1"> 1869م
-							</label>
+							<label><input type="radio" name="l3_mcq1"> 1882م</label>
+							<label><input type="radio" name="l3_mcq1" data-ok="1"> 1869م</label>
+							<label><input type="radio" name="l3_mcq1"> 1854م</label>
+							<div class="ans-hint">الإجابة الصحيحة: 1869م.</div>
 						</div>
+
 						<div class="qb">
 							<p>2. منح الخديو سعيد امتياز حفر قناة السويس إلى:</p>
-							<label>
-								<input type="radio" name="q2" data-ok="1"> فرديناند ديلسبس
-							</label>
-							<label>
-								<input type="radio" name="q2"> نابليون بونابرت
-							</label>
+							<label><input type="radio" name="l3_mcq2" data-ok="1"> فرديناند ديلسبس</label>
+							<label><input type="radio" name="l3_mcq2"> نابليون بونابرت</label>
+							<label><input type="radio" name="l3_mcq2"> اللورد كرومر</label>
+							<div class="ans-hint">الإجابة الصحيحة: فرديناند ديلسبس.</div>
 						</div>
+
 						<div class="qb">
 							<p>3. بدأ الاحتلال البريطاني لمصر عام:</p>
-							<label>
-								<input type="radio" name="q3"> 1805م
-							</label>
-							<label>
-								<input type="radio" name="q3" data-ok="1"> 1882م
-							</label>
+							<label><input type="radio" name="l3_mcq3"> 1805م</label>
+							<label><input type="radio" name="l3_mcq3" data-ok="1"> 1882م</label>
+							<label><input type="radio" name="l3_mcq3"> 1869م</label>
+							<div class="ans-hint">الإجابة الصحيحة: 1882م.</div>
 						</div>
-						<button class="btn" id="chk2">
-							اعرض النتيجة <span>←</span>
-						</button>
-						<button class="btn ghost" id="rst2">إعادة الاختبار</button>
-						<div class="fb" id="fb2" aria-live="polite"></div>
+
+						<div class="qb">
+							<p>4. أُنشئ صندوق الدين في مصر عام:</p>
+							<label><input type="radio" name="l3_mcq4"> 1854م</label>
+							<label><input type="radio" name="l3_mcq4" data-ok="1"> 1876م</label>
+							<label><input type="radio" name="l3_mcq4"> 1882م</label>
+							<div class="ans-hint">الإجابة الصحيحة: 1876م.</div>
+						</div>
+
+						<div class="qb">
+							<p>5. تولى الحكم في مصر بعد عزل الخديو إسماعيل عام 1879م:</p>
+							<label><input type="radio" name="l3_mcq5"> سعيد</label>
+							<label><input type="radio" name="l3_mcq5" data-ok="1"> توفيق</label>
+							<label><input type="radio" name="l3_mcq5"> عباس الأول</label>
+							<div class="ans-hint">الإجابة الصحيحة: توفيق.</div>
+						</div>
+
+						<button class="btn" id="chkMCQ3">اعرض نتيجة اختر <span>←</span></button>
+						<button class="btn ghost" id="rstMCQ3">إعادة الاختبار</button>
+						<div class="fb" id="fbMCQ3" aria-live="polite"></div>
 					</div>
 
 				</div>
@@ -744,6 +918,21 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 			}else{
 			document.getElementById('pdfOpen').style.display='none';
 			}
+
+			(function(){
+			var slidesFrame = document.getElementById('slidesFrame');
+			var lastAppliedHeight = 0;
+			window.addEventListener('message', function(e){
+			if(!slidesFrame || !e.data || e.data.type !== 'explorerSlideHeight') return;
+			var rawH = Number(e.data.height);
+			if(!rawH || isNaN(rawH) || rawH < 300) return;
+			var clampedH = Math.min(2800, Math.max(750, Math.round(rawH + 24)));
+			if(Math.abs(clampedH - lastAppliedHeight) < 12) return;
+			lastAppliedHeight = clampedH;
+			slidesFrame.style.height = clampedH + 'px';
+			});
+			})();
+
 			var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}})},{threshold:.1});
 			document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
 			var links=document.querySelectorAll('nav a'),secs=[].map.call(links,function(a){return document.querySelector(a.getAttribute('href'))});
@@ -751,29 +940,75 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 			secs.forEach(function(s){so.observe(s)});
 
 			(function(){
-			var rows=document.querySelectorAll('#act1 .ord'),fb1=document.getElementById('fb1');
+			/* نشاط 1: ربط الحاكم بالحدث */
+			var rows1=document.querySelectorAll('#act1 .ord'),fb1=document.getElementById('fb1');
 			document.getElementById('chk1').onclick=function(){
 			var ok=0,empty=0;
-			rows.forEach(function(r){var v=r.querySelector('select').value;r.classList.remove('ok','no');
+			rows1.forEach(function(r){var v=r.querySelector('select').value;r.classList.remove('ok','no');
 			if(!v){empty++;return}
 			if(v===r.dataset.ans){ok++;r.classList.add('ok')}else r.classList.add('no')});
-			fb1.textContent=empty?'اختر إجابة لكل عنصر أولاً.':(ok===rows.length?'🎉 ممتاز! كل إجاباتك صحيحة.':'أجبت صح على '+ok+' من '+rows.length+'، حاول تصحيح الباقي.');
+			fb1.textContent=empty?'اختر إجابة لكل عنصر أولاً.':(ok===rows1.length?'🎉 ممتاز! كل إجاباتك صحيحة.':'أجبت صح على '+ok+' من '+rows1.length+'، حاول تصحيح الباقي.');
 			};
-			document.getElementById('rst1').onclick=function(){rows.forEach(function(r){r.classList.remove('ok','no');r.querySelector('select').value=''});fb1.textContent=''};
+			document.getElementById('rst1').onclick=function(){rows1.forEach(function(r){r.classList.remove('ok','no');r.querySelector('select').value=''});fb1.textContent=''};
 
-			var fb2=document.getElementById('fb2'),qs=['q1','q2','q3'];
-			document.getElementById('chk2').onclick=function(){
+			/* نشاط 2: توصيل */
+			var rows2=document.querySelectorAll('#act2 .ord'),fbMatch3=document.getElementById('fbMatch3');
+			document.getElementById('chkMatch3').onclick=function(){
+			var ok=0,empty=0;
+			rows2.forEach(function(r){var v=r.querySelector('select').value;r.classList.remove('ok','no');
+			if(!v){empty++;return}
+			if(v===r.dataset.ans){ok++;r.classList.add('ok')}else r.classList.add('no')});
+			fbMatch3.textContent=empty?'اختر إجابة لكل عبارة أولاً.':(ok===rows2.length?'🎉 رائع! كل التوصيلات صحيحة.':'أجبت صح على '+ok+' من '+rows2.length+'، راجع العبارات المظللة.');
+			};
+			document.getElementById('rstMatch3').onclick=function(){rows2.forEach(function(r){r.classList.remove('ok','no');r.querySelector('select').value=''});fbMatch3.textContent=''};
+
+			/* اختبار 1: 5 أسئلة صح وخطأ */
+			var tfBlocks=document.querySelectorAll('#examTF3 .qb'),fbTF3=document.getElementById('fbTF3');
+			document.getElementById('chkTF3').onclick=function(){
 			var score=0,miss=0;
-			qs.forEach(function(q){
-			var ins=document.querySelectorAll('input[name='+q+']'),chosen=null;
+			tfBlocks.forEach(function(blk,idx){
+			var name='l3_tf'+(idx+1);
+			var ans=blk.dataset.tfAns;
+			var hint=blk.querySelector('.ans-hint');
+			var ins=blk.querySelectorAll('input[name='+name+']');
+			var chosen=null;
 			ins.forEach(function(i){i.parentNode.classList.remove('ok','no');if(i.checked)chosen=i});
 			if(!chosen){miss++;return}
+			if(hint)hint.classList.add('show');
+			if(chosen.value===ans){score++;chosen.parentNode.classList.add('ok')}
+			else{chosen.parentNode.classList.add('no');ins.forEach(function(i){if(i.value===ans)i.parentNode.classList.add('ok')})}
+			});
+			fbTF3.textContent=miss?'أجب عن جميع أسئلة صح وخطأ (5 أسئلة) أولاً.':'نتيجتك في صح وخطأ: '+score+' من '+tfBlocks.length+(score===tfBlocks.length?' 🎉 ممتاز!':' — راجع الإجابات الموضحة أسفل كل سؤال.');
+			};
+			document.getElementById('rstTF3').onclick=function(){
+			tfBlocks.forEach(function(blk){
+			blk.querySelectorAll('input').forEach(function(i){i.checked=false;i.parentNode.classList.remove('ok','no')});
+			var hint=blk.querySelector('.ans-hint');
+			if(hint)hint.classList.remove('show');
+			});
+			fbTF3.textContent='';
+			};
+
+			/* اختبار 2: 5 أسئلة اختر */
+			var fbMCQ3=document.getElementById('fbMCQ3'),mcqQs=['l3_mcq1','l3_mcq2','l3_mcq3','l3_mcq4','l3_mcq5'];
+			document.getElementById('chkMCQ3').onclick=function(){
+			var score=0,miss=0;
+			mcqQs.forEach(function(q){
+			var ins=document.querySelectorAll('input[name='+q+']'),chosen=null;
+			var hint=ins[0].closest('.qb').querySelector('.ans-hint');
+			ins.forEach(function(i){i.parentNode.classList.remove('ok','no');if(i.checked)chosen=i});
+			if(!chosen){miss++;return}
+			if(hint)hint.classList.add('show');
 			if(chosen.dataset.ok){score++;chosen.parentNode.classList.add('ok')}
 			else{chosen.parentNode.classList.add('no');ins.forEach(function(i){if(i.dataset.ok)i.parentNode.classList.add('ok')})}
 			});
-			fb2.textContent=miss?'أجب عن كل الأسئلة أولاً.':'نتيجتك: '+score+' من '+qs.length+(score===qs.length?' 🎉 أحسنت!':' — راجع الإجابات الموضحة.');
+			fbMCQ3.textContent=miss?'أجب عن جميع أسئلة اختر (5 أسئلة) أولاً.':'نتيجتك في اختر: '+score+' من '+mcqQs.length+(score===mcqQs.length?' 🎉 أحسنت!':' — راجع الإجابات الموضحة.');
 			};
-			document.getElementById('rst2').onclick=function(){document.querySelectorAll('#act2 input').forEach(function(i){i.checked=false;i.parentNode.classList.remove('ok','no')});fb2.textContent=''};
+			document.getElementById('rstMCQ3').onclick=function(){
+			document.querySelectorAll('#examMCQ3 input').forEach(function(i){i.checked=false;i.parentNode.classList.remove('ok','no')});
+			document.querySelectorAll('#examMCQ3 .ans-hint').forEach(function(h){h.classList.remove('show')});
+			fbMCQ3.textContent='';
+			};
 			})();
 		</script>
 	  <script src="../chatbot.js"></script>
