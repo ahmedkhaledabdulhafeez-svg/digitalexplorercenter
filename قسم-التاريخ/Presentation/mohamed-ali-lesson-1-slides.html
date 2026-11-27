@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المستكشف الرقمي | تولية محمد علي حكم مصر وتثبيت دعائم حكمه</title>
+    <!-- مكتبة Tailwind CSS للتصميم المتجاوب -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- خطوط عربية واضحة ومريحة للطلاب (Cairo للعناوين و Tajawal للنصوص) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- مكتبة FontAwesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'cairo': ['Cairo', 'sans-serif'],
+                        'tajawal': ['Tajawal', 'sans-serif'],
+                    },
+                    colors: {
+                        'royal-navy': '#0d2b45',
+                        'nile-teal': '#0f6b6e',
+                        'pharaoh-gold': '#c98a1c',
+                        'sand-light': '#f6f2e9',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f6f2e9;
+            /* خلفية تاريخية مصرية هادئة مستوحاة من خرائط النيل والعمارة العثمانية والمصرية */
+            background-image:
+                radial-gradient(circle at 10% 15%, rgba(201, 138, 28, 0.09) 0%, transparent 30%),
+                radial-gradient(circle at 90% 85%, rgba(15, 107, 110, 0.09) 0%, transparent 34%),
+                radial-gradient(rgba(13, 43, 69, 0.09) 1.5px, transparent 1.5px);
+            background-size: 100% 100%, 100% 100%, 34px 34px;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Cairo', sans-serif;
+        }
+
+        /* حركة انتقال الشرائح */
+        .slide {
+            display: none;
+            animation: fadeSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .slide.active {
+            display: block;
+        }
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px) scale(0.99);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* حركة لطيفة للعناصر البصرية */
+        .float-slow {
+            animation: floatSlow 5s ease-in-out infinite;
+        }
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-7px); }
+        }
+
+        /* بطاقات الإنفوجرافيك والصور */
+        .history-card {
+            transition: all 0.3s ease;
+        }
+        .history-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 26px -6px rgba(13, 43, 69, 0.14);
+        }
+
+        .photo-box {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.25rem;
+            box-shadow: 0 10px 24px -6px rgba(13, 43, 69, 0.22);
+        }
+        .photo-box img {
+            transition: transform 0.6s ease;
+        }
+        .photo-box:hover img {
+            transform: scale(1.04);
+        }
+
+        /* تخصيص شريط التمرير */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #eae3d2;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0d2b45;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between text-slate-800 select-none">
+
+    <!-- الشريط العلوي لمنصة المستكشف الرقمي -->
+    <header class="bg-white/95 backdrop-blur-md shadow-sm border-b border-amber-200/80 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            <!-- هوية المنصة والدرس -->
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#0d2b45] to-[#0f6b6e] flex items-center justify-center text-amber-400 shadow-md border border-amber-400/30">
+                    <i class="fa-solid fa-landmark-dome text-xl"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span class="font-heading font-black text-sm sm:text-base text-[#0d2b45]">منصة المستكشف الرقمي</span>
+                        <span class="text-xs font-bold text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300">الصف الثالث الإعدادي</span>
+                    </div>
+                    <h1 class="text-xs sm:text-sm font-bold text-[#0f6b6e] mt-0.5">الوحدة الثانية • الدرس الأول: تولية «محمد علي» حكم مصر وتثبيت دعائم حكمه</h1>
+                </div>
+            </div>
+
+            <!-- مؤشر الشرائح وأدوات التحكم -->
+            <div class="flex items-center gap-3">
+                <div class="hidden lg:flex items-center gap-1.5" id="slide-dots">
+                    <!-- يتم توليد النقاط تلقائياً -->
+                </div>
+                <div class="bg-[#f6f2e9] px-3.5 py-1.5 rounded-xl font-heading font-bold text-sm text-[#0d2b45] border border-amber-300">
+                    شريحة <span id="current-slide-num" class="text-amber-700 text-base">1</span> من <span id="total-slides-num">9</span>
+                </div>
+                <button onclick="toggleFullscreen()" title="ملء الشاشة" class="p-2.5 text-[#0d2b45] hover:text-amber-700 hover:bg-amber-50 rounded-xl border border-slate-200 transition">
+                    <i class="fa-solid fa-expand text-base"></i>
+                </button>
+            </div>
+        </div>
+        <!-- شريط التقدم العلوي -->
+        <div class="w-full h-1.5 bg-slate-200">
+            <div id="progress-bar" class="h-full bg-gradient-to-l from-amber-500 via-[#0f6b6e] to-[#0d2b45] transition-all duration-300" style="width: 11%;"></div>
+        </div>
+    </header>
+
+    <!-- الحاوية الرئيسية للشرائح -->
+    <main class="flex-grow flex items-center justify-center p-3 sm:p-6">
+        <div class="w-full max-w-6xl bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-amber-200/80 overflow-hidden min-h-[560px] flex flex-col justify-between relative">
+
+            <!-- ================= الشريحة 1: الغلاف الترحيبي ================= -->
+            <section class="slide active p-6 sm:p-12 bg-gradient-to-bl from-[#0d2b45] via-[#133e63] to-[#081b2c] text-white relative overflow-hidden" data-title="مقدمة الدرس">
+                <!-- نمط زخرفي خفيف -->
+                <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#eab308 1.5px, transparent 1.5px); background-size: 26px 26px;"></div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex items-center gap-2 bg-amber-500/20 border border-amber-400/40 text-amber-300 px-4 py-1.5 rounded-full font-bold text-sm">
+                            <i class="fa-solid fa-crown"></i>
+                            <span>المستكشف الرقمي • الدراسات الاجتماعية (الفصل الدراسي الأول)</span>
+                        </div>
+                        <h2 class="text-3xl sm:text-5xl font-black leading-tight text-white">
+                            الدرس الأول: <br>
+                            <span class="text-amber-400">تولية «محمد علي» حكم مصر وتثبيت دعائم حكمه</span>
+                        </h2>
+                        <p class="text-base sm:text-lg text-slate-200 leading-relaxed font-medium">
+                            نتعرف معاً على أحوال مصر بعد خروج الحملة الفرنسية (1801م)، وثورة الشعب المصري (1804م)، ودور الزعامة الشعبية في تولية 
+                            <strong class="text-amber-300">محمد علي</strong> عام (1805م)، والتحديات التي واجهته وكيف ثبّت دعائم حكمه.
+                        </p>
+
+                        <!-- بطاقات سريعة لمحاور الدرس -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+                            <div class="bg-white/10 backdrop-blur-md border border-white/15 p-3 rounded-2xl text-center">
+                                <i class="fa-solid fa-chess-board text-amber-400 text-xl mb-1"></i>
+                                <div class="font-bold text-xs sm:text-sm text-white">أحوال مصر 1801م</div>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-md border border-white/15 p-3 rounded-2xl text-center">
+                                <i class="fa-solid fa-users text-emerald-300 text-xl mb-1"></i>
+                                <div class="font-bold text-xs sm:text-sm text-white">إرادة الشعب 1805م</div>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-md border border-white/15 p-3 rounded-2xl text-center">
+                                <i class="fa-solid fa-shield-halved text-amber-300 text-xl mb-1"></i>
+                                <div class="font-bold text-xs sm:text-sm text-white">تحديات الحكم</div>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-md border border-white/15 p-3 rounded-2xl text-center">
+                                <i class="fa-solid fa-fort-awesome text-cyan-300 text-xl mb-1"></i>
+                                <div class="font-bold text-xs sm:text-sm text-white">تثبيت الحكم</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- صورة محمد علي باشا في الغلاف -->
+                    <div class="lg:col-span-5 flex flex-col items-center">
+                        <div class="photo-box w-full h-64 sm:h-72 float-slow border-2 border-amber-400/40 bg-slate-800 flex items-center justify-center relative">
+                            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Mehmet_Al%C3%AD,_pach%C3%A1_de_Egipto,_por_David_Wilkie.jpg"
+                                 onerror="this.style.display='none'; document.getElementById('mohamed-ali-fallback').classList.remove('hidden');"
+                                 alt="لوحة تاريخية لمحمد علي باشا والي مصر"
+                                 class="w-full h-full object-cover object-top">
+                            <!-- بديل بصري مضمون يظهر تلقائياً إذا تعذر تحميل الصورة -->
+                            <div id="mohamed-ali-fallback" class="hidden w-full h-full bg-gradient-to-br from-[#0d2b45] to-[#1b4965] flex flex-col items-center justify-center p-5 text-center">
+                                <div class="w-24 h-24 rounded-full bg-amber-500/20 border-2 border-amber-400 flex items-center justify-center text-amber-300 text-4xl mb-3">
+                                    <i class="fa-solid fa-user-tie"></i>
+                                </div>
+                                <div class="font-heading font-black text-xl text-amber-300">محمد علي باشا</div>
+                                <div class="text-xs text-slate-200 mt-1">والي مصر (1805 – 1848م)</div>
+                            </div>
+                            <span class="absolute bottom-3 right-3 bg-black/75 backdrop-blur-sm text-amber-300 text-xs font-bold px-3 py-1 rounded-full">
+                                <i class="fa-solid fa-crown ml-1"></i> محمد علي باشا والي مصر
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 2: أهداف الدرس وتأمل واكتشف ================= -->
+            <section class="slide p-6 sm:p-10" data-title="أهداف الدرس">
+                <div class="text-center max-w-2xl mx-auto mb-6">
+                    <span class="bg-amber-100 text-amber-900 font-bold text-xs px-3 py-1 rounded-full border border-amber-300">خريطة التعلم</span>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold text-[#0d2b45] mt-2">أهداف الدرس</h2>
+                    <p class="text-slate-600 mt-1 text-sm sm:text-base">في نهاية هذا الدرس على منصة المستكشف الرقمي، ستكون قادراً على أن:</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="history-card bg-[#f6f2e9] p-4 rounded-2xl border border-amber-200 flex items-start gap-3.5">
+                        <div class="w-11 h-11 shrink-0 rounded-xl bg-[#0d2b45] text-amber-400 flex items-center justify-center text-lg shadow">
+                            <i class="fa-solid fa-timeline"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-sm sm:text-base text-[#0d2b45]">1. تلخيص أحوال مصر بعد خروج الحملة الفرنسية</h3>
+                            <p class="text-slate-600 text-xs sm:text-sm mt-1 leading-relaxed">تلخص الصراع بين القوى الثلاث والاضطرابات بعد عام 1801م.</p>
+                        </div>
+                    </div>
+
+                    <div class="history-card bg-[#f6f2e9] p-4 rounded-2xl border border-amber-200 flex items-start gap-3.5">
+                        <div class="w-11 h-11 shrink-0 rounded-xl bg-[#0f6b6e] text-white flex items-center justify-center text-lg shadow">
+                            <i class="fa-solid fa-handshake"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-sm sm:text-base text-[#0d2b45]">2. شرح دور الشعب المصري في تولية محمد علي</h3>
+                            <p class="text-slate-600 text-xs sm:text-sm mt-1 leading-relaxed">تشرح ثورة 1804م واجتماع الزعامة الشعبية وتولية محمد علي عام 1805م.</p>
+                        </div>
+                    </div>
+
+                    <div class="history-card bg-[#f6f2e9] p-4 rounded-2xl border border-amber-200 flex items-start gap-3.5">
+                        <div class="w-11 h-11 shrink-0 rounded-xl bg-amber-600 text-white flex items-center justify-center text-lg shadow">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-sm sm:text-base text-[#0d2b45]">3. تحليل التحديات التي واجهت محمد علي</h3>
+                            <p class="text-slate-600 text-xs sm:text-sm mt-1 leading-relaxed">تحلل فرمان النقل وحملة فريزر والزعامة الشعبية وخطر المماليك.</p>
+                        </div>
+                    </div>
+
+                    <div class="history-card bg-amber-50 p-4 rounded-2xl border border-amber-300 flex items-start gap-3.5">
+                        <div class="w-11 h-11 shrink-0 rounded-xl bg-amber-500 text-white flex items-center justify-center text-lg shadow">
+                            <i class="fa-solid fa-lightbulb"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-sm sm:text-base text-[#0d2b45]">4. إبداء الرأي في سياسة محمد علي</h3>
+                            <p class="text-slate-600 text-xs sm:text-sm mt-1 leading-relaxed">تُعبّر عن رأيك في السياسة التي اتبعها محمد علي لمواجهة التحديات وتثبيت حكمه.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- صندوق تأمل واكتشف -->
+                <div class="mt-5 bg-gradient-to-l from-amber-100/80 to-[#f6f2e9] border-r-4 border-amber-600 p-4 rounded-2xl text-xs sm:text-sm text-slate-700 leading-relaxed">
+                    <strong class="text-[#0d2b45] font-heading"><i class="fa-solid fa-compass text-amber-700 ml-1"></i> تأمل واكتشف:</strong>
+                    عاشت مصر خلال الحكم العثماني فترة مظلمة فكرياً وثقافياً وعلمياً واقتصادياً، وبمجيء الحملة الفرنسية تراجعت سيطرة العثمانيين. فكيف كانت أحوال مصر بعد خروج الحملة الفرنسية؟ ومن تولى الحكم؟
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 3: أولاً - أحوال مصر بعد خروج الحملة الفرنسية (1801م) ================= -->
+            <section class="slide p-6 sm:p-10" data-title="أولاً: أحوال مصر بعد 1801م">
+                <div class="mb-5">
+                    <span class="bg-[#0d2b45] text-amber-300 font-bold px-3 py-1 rounded-lg text-xs">أولاً: أحوال مصر بعد خروج الحملة الفرنسية (1801م)</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0d2b45] mt-1">صراع ثلاث قوى وغياب الاستقرار وانتشار الفوضى</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+                    <!-- إنجلترا -->
+                    <div class="history-card bg-white p-5 rounded-2xl border-2 border-[#0d2b45]/20 shadow-sm space-y-2.5">
+                        <div class="w-11 h-11 rounded-xl bg-[#0d2b45] text-amber-400 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-ship"></i>
+                        </div>
+                        <h3 class="font-extrabold text-lg text-[#0d2b45]">1. إنجلترا</h3>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            بقيت قواتها في <strong>الإسكندرية</strong> لحماية مصالحها وتأمين طريق التجارة إلى الهند، ثم انسحبت وسلّمت الإسكندرية للعثمانيين بعد <strong>صلح أميان عام 1802م</strong>.
+                        </p>
+                    </div>
+
+                    <!-- الدولة العثمانية -->
+                    <div class="history-card bg-white p-5 rounded-2xl border-2 border-amber-300 shadow-sm space-y-2.5">
+                        <div class="w-11 h-11 rounded-xl bg-amber-600 text-white flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-landmark"></i>
+                        </div>
+                        <h3 class="font-extrabold text-lg text-[#0d2b45]">2. الدولة العثمانية</h3>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            سعت لاستعادة سيطرتها والقضاء على المماليك وعينت <strong>خسرو باشا</strong> والياً، وبسبب تأخر مرتبات الجنود كان الوالي يرهق المصريين بالضرائب أو يثور عليه الجنود ويعزلونه أو يقتلونه وينهبون البلاد.
+                        </p>
+                    </div>
+
+                    <!-- المماليك -->
+                    <div class="history-card bg-white p-5 rounded-2xl border-2 border-[#0f6b6e]/25 shadow-sm space-y-2.5">
+                        <div class="w-11 h-11 rounded-xl bg-[#0f6b6e] text-white flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-horse-head"></i>
+                        </div>
+                        <h3 class="font-extrabold text-lg text-[#0d2b45]">3. المماليك</h3>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            رأوا أحقيتهم في الحكم لجهودهم في إجلاء الفرنسيين، لكن خسائرهم وانقسامهم أضعفهم، ومع ذلك سيطر <strong>البرديسي</strong> على الحكم وسط هذا الصراع دون النظر لمصلحة الشعب.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 4: ثانياً - ثورة الشعب المصري (1804م) ================= -->
+            <section class="slide p-6 sm:p-10" data-title="ثانياً: ثورة الشعب المصري 1804م">
+                <div class="mb-5">
+                    <span class="bg-amber-700 text-white font-bold px-3 py-1 rounded-lg text-xs">ثانياً: ثورة الشعب المصري (1804م)</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0d2b45] mt-1">رفض الضرائب الباهظة وبداية كسب «محمد علي» ثقة المصريين</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <div class="lg:col-span-7 space-y-4">
+                        <div class="history-card bg-[#f6f2e9] p-5 rounded-2xl border-r-4 border-amber-600 shadow-sm space-y-2.5 text-sm text-slate-700 leading-relaxed">
+                            <p>
+                                • فرض <strong>البرديسي</strong> ضرائب باهظة لدفع رواتب الجنود وجمعها بالقوة؛ فثار المصريون وتجمهروا في <strong>الجامع الأزهر</strong> وحوله.
+                            </p>
+                            <p>
+                                • تدخل <strong>«محمد علي»</strong> وسار إلى الثوار ووعد العلماء بالسعي لإلغاء الضريبة؛ فهدأت الثورة ودعا له الأهالي.
+                            </p>
+                            <p>
+                                • حاصر «محمد علي» بجنوده دار البرديسي؛ مما اضطره لمغادرة القاهرة عام <strong>1804م</strong>، ثم عُيّن <strong>خورشيد باشا</strong> والياً على مصر.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 bg-amber-50/90 p-5 rounded-2xl border-2 border-amber-300 space-y-3">
+                        <div class="photo-box h-40 w-full bg-slate-200 relative">
+                            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/The_Al-Azhar_Mosque_in_Cairo_15.jpg"
+                                 onerror="this.src='https://placehold.co/600x320/0d2b45/fbbf24?text=الجامع+الأزهر+بالقاهرة';"
+                                 alt="الجامع الأزهر في القاهرة"
+                                 class="w-full h-full object-cover">
+                            <span class="absolute bottom-2 right-2 bg-black/75 text-amber-300 text-[11px] font-bold px-2.5 py-0.5 rounded-full">
+                                <i class="fa-solid fa-mosque ml-1"></i> الجامع الأزهر بالقاهرة
+                            </span>
+                        </div>
+                        <h3 class="font-extrabold text-base text-[#0d2b45] flex items-center gap-2">
+                            <i class="fa-solid fa-user-check text-amber-700"></i>
+                            <span>تذكر أن — من هو «محمد علي»؟</span>
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            ضابط من أصل <strong>ألباني</strong>، جاء إلى مصر ضمن فرقة عسكرية أرسلها السلطان العثماني لطرد الفرنسيين، ثم أصبح قائداً لهذه الفرقة، وتمكن لاحقاً من تولي حكم مصر عام <strong>1805م</strong>.
+                        </p>
+                        <div class="bg-white/90 p-3 rounded-xl border border-amber-200 text-xs text-slate-700">
+                            <strong class="text-[#0d2b45]"><i class="fa-solid fa-lightbulb text-amber-600 ml-1"></i> نقطة تحول:</strong>
+                            وقوف «محمد علي» إلى جانب الأهالي ووعده للعلماء جعله يكتسب ثقة المصريين مبكراً.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 5: ثالثاً - دور الشعب المصري في تولية محمد علي (1805م) ================= -->
+            <section class="slide p-6 sm:p-10" data-title="ثالثاً: تولية محمد علي 1805م">
+                <div class="mb-5">
+                    <span class="bg-[#0f6b6e] text-white font-bold px-3 py-1 rounded-lg text-xs">ثالثاً: دور الشعب المصري في تولية «محمد علي» (1805م)</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0d2b45] mt-1">انتصار إرادة الشعب المصري في اختيار واليه</h2>
+                </div>
+
+                <!-- إنفوجرافيك خطوات تولية محمد علي 1805م -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="history-card bg-[#f6f2e9] p-4 rounded-2xl border border-amber-200 space-y-2">
+                        <span class="inline-block bg-[#0d2b45] text-amber-300 text-xs font-bold px-2.5 py-0.5 rounded-full">1. ظلم خورشيد باشا</span>
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            فرض ضرائب باهظة وانتشر جنوده ينهبون ويقتلون ويصادرون الأموال؛ فزاد غضب الشعب المصري.
+                        </p>
+                    </div>
+
+                    <div class="history-card bg-teal-50/80 p-4 rounded-2xl border border-teal-200 space-y-2">
+                        <span class="inline-block bg-[#0f6b6e] text-white text-xs font-bold px-2.5 py-0.5 rounded-full">2. سياسة «محمد علي»</span>
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            ظهر بمظهر العادل الحكيم الرافض لظلم الوالي وأمر جنوده بعدم الاعتداء؛ فكسب ثقة المصريين.
+                        </p>
+                    </div>
+
+                    <div class="history-card bg-amber-50/90 p-4 rounded-2xl border border-amber-300 space-y-2">
+                        <span class="inline-block bg-amber-700 text-white text-xs font-bold px-2.5 py-0.5 rounded-full">3. اجتماع بيت القاضي</span>
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            اجتمع المشايخ والعلماء في <strong>بيت القاضي</strong> ثم توجهوا إلى «محمد علي» بالأزبكية وقرروا توليته بشروطهم.
+                        </p>
+                    </div>
+
+                    <div class="history-card bg-[#0d2b45] text-white p-4 rounded-2xl border border-[#0d2b45] space-y-2">
+                        <span class="inline-block bg-amber-400 text-[#0d2b45] text-xs font-black px-2.5 py-0.5 rounded-full">4. الفرمان العثماني (1805م)</span>
+                        <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                            ألبسه <strong>عمر مكرم</strong> و<strong>الشيخ الشرقاوي</strong> قفطان الولاية، وحاصر «محمد علي» خورشيد في القلعة، فأصدر السلطان فرماناً بتوليته عام <strong>1805م</strong>.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-5 bg-emerald-50 border border-emerald-200 p-4 rounded-2xl text-xs sm:text-sm text-emerald-950 font-bold flex items-center gap-3">
+                    <i class="fa-solid fa-award text-emerald-700 text-xl"></i>
+                    <span>لأول مرة في تاريخ مصر الحديث يُعزل والٍ وتُفرض شروط على والٍ جديد بإرادة الشعب المصري وزعامته!</span>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 6: رابعاً - التحديات (1/2) نقل محمد علي وحملة فريزر ================= -->
+            <section class="slide p-6 sm:p-10" data-title="رابعاً: تحديات الحكم (1/2)">
+                <div class="mb-5">
+                    <span class="bg-[#0d2b45] text-amber-300 font-bold px-3 py-1 rounded-lg text-xs">رابعاً: التحديات التي واجهت «محمد علي» (1/2)</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0d2b45] mt-1">محاولة نقل «محمد علي» إلى سالونيك (1806م) وحملة فريزر (1807م)</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- 1. محاولة نقل محمد علي إلى سالونيك 1806م -->
+                    <div class="history-card bg-white p-5 rounded-2xl border-2 border-amber-200 shadow-sm space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-[#0d2b45] text-amber-400 flex items-center justify-center text-lg font-bold">1</div>
+                            <h3 class="font-extrabold text-lg text-[#0d2b45]">محاولة نقل «محمد علي» إلى سالونيك (1806م)</h3>
+                        </div>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            أصدر السلطان العثماني فرماناً عام <strong>1806م</strong> بتعيين موسى باشا ونقل «محمد علي» إلى <strong>سالونيك</strong>؛ فاستعان «محمد علي» بالمشايخ والعلماء الذين كتبوا للسلطان بإلغاء الفرمان وتثبيته؛ فتراجع السلطان وثبّته والياً على مصر.
+                        </p>
+                    </div>
+
+                    <!-- 2. حملة فريزر 1807م -->
+                    <div class="history-card bg-white p-5 rounded-2xl border-2 border-teal-200 shadow-sm space-y-3">
+                        <div class="photo-box h-36 w-full bg-slate-200 relative">
+                            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Citadel_of_Qaitbay,_Rosetta,_Egypt_63.jpg"
+                                 onerror="this.src='https://placehold.co/600x300/0f6b6e/ffffff?text=مدينة+رشيد+التاريخية';"
+                                 alt="مدينة رشيد التاريخية في مصر"
+                                 class="w-full h-full object-cover">
+                            <span class="absolute bottom-2 right-2 bg-black/75 text-amber-300 text-[11px] font-bold px-2.5 py-0.5 rounded-full">
+                                <i class="fa-solid fa-fort-awesome ml-1"></i> رشيد وأحداث 1807م
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-[#0f6b6e] text-white flex items-center justify-center text-lg font-bold">2</div>
+                            <h3 class="font-extrabold text-lg text-[#0d2b45]">حملة فريزر الإنجليزية (1807م)</h3>
+                        </div>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            أرسلت إنجلترا حملة بقيادة <strong>فريزر</strong> عام <strong>1807م</strong> لاحتلال مصر ومساعدة <strong>محمد بك الألفي</strong> (الذي توفي قبل وصولها). استولت على الإسكندرية وفشلت في <strong>رشيد والحماد</strong> لبسالة الأهالي وانضمام جيش «محمد علي» لأهالي الحماد، فانسحبت الحملة في العام نفسه.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 7: رابعاً - التحديات (2/2) الزعامة الشعبية وخطر المماليك ================= -->
+            <section class="slide p-6 sm:p-10" data-title="رابعاً: تحديات الحكم (2/2)">
+                <div class="mb-5">
+                    <span class="bg-rose-800 text-white font-bold px-3 py-1 rounded-lg text-xs">رابعاً: التحديات التي واجهت «محمد علي» (2/2)</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0d2b45] mt-1">الزعامة الشعبية (1809م) وخطر المماليك ومذبحة القلعة (1811م)</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- 3. الزعامة الشعبية 1809م -->
+                    <div class="history-card bg-white p-5 rounded-2xl border-2 border-amber-300 shadow-sm space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-700 text-white flex items-center justify-center text-lg font-bold">3</div>
+                            <h3 class="font-extrabold text-lg text-[#0d2b45]">الزعامة الشعبية (1809م)</h3>
+                        </div>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            بسبب أزمة مالية لتوفير رواتب الجنود فرض «محمد علي» ضرائب جديدة؛ فتضامن العلماء بزعامة <strong>السيد عمر مكرم</strong> مع الأهالي في الأزهر ورفضوا التفاوض حتى تُلغى الضرائب. فأدرك خطورتها على انفراده بالحكم، فعزل عمر مكرم ونفاه إلى <strong>دمياط عام 1809م</strong> وعين <strong>الشيخ السادات</strong> نقيباً للأشراف.
+                        </p>
+                    </div>
+
+                    <!-- 4. خطر المماليك 1811م -->
+                    <div class="history-card bg-white p-5 rounded-2xl border-2 border-rose-200 shadow-sm space-y-3">
+                        <div class="photo-box h-36 w-full bg-slate-200 relative">
+                            <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Citadel_of_Saladin1.jpg"
+                                 onerror="this.src='https://placehold.co/600x300/0d2b45/fbbf24?text=قلعة+صلاح+الدين+ومسجد+محمد+علي';"
+                                 alt="قلعة صلاح الدين الأيوبي ومسجد محمد علي بالقاهرة"
+                                 class="w-full h-full object-cover">
+                            <span class="absolute bottom-2 right-2 bg-black/75 text-amber-300 text-[11px] font-bold px-2.5 py-0.5 rounded-full">
+                                <i class="fa-solid fa-chess-rook ml-1"></i> قلعة صلاح الدين بالقاهرة
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-rose-800 text-white flex items-center justify-center text-lg font-bold">4</div>
+                            <h3 class="font-extrabold text-lg text-[#0d2b45]">خطر المماليك — مذبحة القلعة (مارس 1811م)</h3>
+                        </div>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            بعد صراعات ومطاردات، دعا «محمد علي» في <strong>مارس 1811م</strong> كبار رجال الدولة وأمراء المماليك إلى حفل في <strong>القلعة</strong>، ثم أغلقت الأبواب وتخلص جنوده من أمراء المماليك فيما عُرف بـ <strong>«مذبحة القلعة»</strong>، وطارد الباقين في الصعيد حتى أجلاهم.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 8: ملخص زمني للتحديات وتثبيت الحكم ================= -->
+            <section class="slide p-6 sm:p-10" data-title="الخط الزمني والملخص">
+                <div class="mb-5">
+                    <span class="bg-[#0f6b6e] text-white font-bold px-3 py-1 rounded-lg text-xs">إنفوجرافيك زمني • تثبيت دعائم الحكم</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0d2b45] mt-1">أبرز محطات الدرس في تسلسل زمني</h2>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="bg-[#f6f2e9] p-4 rounded-2xl border-r-4 border-[#0d2b45]">
+                        <div class="font-heading font-black text-amber-700 text-lg">1801م – 1802م</div>
+                        <div class="font-bold text-sm text-[#0d2b45] mt-0.5">خروج الحملة الفرنسية وصلح أميان</div>
+                        <p class="text-xs text-slate-600 mt-1">صراع ثلاث قوى (إنجلترا، العثمانيون، المماليك) وانسحاب الإنجليز بعد صلح أميان 1802م.</p>
+                    </div>
+
+                    <div class="bg-[#f6f2e9] p-4 rounded-2xl border-r-4 border-amber-600">
+                        <div class="font-heading font-black text-amber-700 text-lg">1804م</div>
+                        <div class="font-bold text-sm text-[#0d2b45] mt-0.5">ثورة الشعب المصري ضد البرديسي</div>
+                        <p class="text-xs text-slate-600 mt-1">وقوف «محمد علي» إلى جانب الأهالي ومغادرة البرديسي وتعيين خورشيد باشا.</p>
+                    </div>
+
+                    <div class="bg-[#f6f2e9] p-4 rounded-2xl border-r-4 border-[#0f6b6e]">
+                        <div class="font-heading font-black text-teal-800 text-lg">1805م</div>
+                        <div class="font-bold text-sm text-[#0d2b45] mt-0.5">تولية «محمد علي» بإرادة الشعب</div>
+                        <p class="text-xs text-slate-600 mt-1">اجتماع بيت القاضي وصدور الفرمان العثماني بتولية «محمد علي» وعزل خورشيد.</p>
+                    </div>
+
+                    <div class="bg-[#f6f2e9] p-4 rounded-2xl border-r-4 border-amber-600">
+                        <div class="font-heading font-black text-amber-700 text-lg">1806م</div>
+                        <div class="font-bold text-sm text-[#0d2b45] mt-0.5">إحباط فرمان نقل «محمد علي»</div>
+                        <p class="text-xs text-slate-600 mt-1">تدخل العلماء والمشايخ دفع السلطان العثماني لتثبيته والياً على مصر.</p>
+                    </div>
+
+                    <div class="bg-[#f6f2e9] p-4 rounded-2xl border-r-4 border-[#0f6b6e]">
+                        <div class="font-heading font-black text-teal-800 text-lg">1807م</div>
+                        <div class="font-bold text-sm text-[#0d2b45] mt-0.5">فشل حملة فريزر الإنجليزية</div>
+                        <p class="text-xs text-slate-600 mt-1">صمود الأهالي في رشيد والحماد وانضمام جيش «محمد علي» وانسحاب الحملة.</p>
+                    </div>
+
+                    <div class="bg-[#f6f2e9] p-4 rounded-2xl border-r-4 border-rose-700">
+                        <div class="font-heading font-black text-rose-800 text-lg">1809م – 1811م</div>
+                        <div class="font-bold text-sm text-[#0d2b45] mt-0.5">نفي عمر مكرم ومذبحة القلعة</div>
+                        <p class="text-xs text-slate-600 mt-1">نفي عمر مكرم إلى دمياط (1809م) والتخلص من خطر المماليك في مذبحة القلعة (1811م).</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 9: اختبر معلوماتك (مهارات التفكير) ================= -->
+            <section class="slide p-6 sm:p-10" data-title="اختبر معلوماتك">
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-3">
+                    <div>
+                        <span class="bg-amber-100 text-amber-900 font-bold px-3 py-1 rounded-lg text-xs border border-amber-300">مهارات التفكير • المستكشف الرقمي</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0d2b45] mt-1">اختبر نفسك: تثبيت حكم «محمد علي»</h2>
+                    </div>
+                    <div id="quiz-score-badge" class="bg-[#0d2b45] text-white px-4 py-2 rounded-xl font-bold text-sm shadow">
+                        النتيجة: <span id="score-val" class="text-amber-400">0</span> / 4
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="quiz-container">
+                    <!-- سؤال 1 -->
+                    <div class="bg-[#f6f2e9] p-4 rounded-2xl border border-amber-200 space-y-2.5" data-answered="false">
+                        <p class="font-bold text-[#0d2b45] text-sm">1. انسحبت القوات الإنجليزية من مصر بعد خروج الحملة الفرنسية بموجب صلح ...................</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="checkAnswer(this, true)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">أميان (1802م)</button>
+                            <button onclick="checkAnswer(this, false)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">لندن (1840م)</button>
+                        </div>
+                    </div>
+
+                    <!-- سؤال 2 -->
+                    <div class="bg-[#f6f2e9] p-4 rounded-2xl border border-amber-200 space-y-2.5" data-answered="false">
+                        <p class="font-bold text-[#0d2b45] text-sm">2. اجتمع زعماء الشعب والعلماء في ................... وقرروا تولية «محمد علي» عام 1805م.</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="checkAnswer(this, true)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">بيت القاضي</button>
+                            <button onclick="checkAnswer(this, false)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">قصر عابدين</button>
+                        </div>
+                    </div>
+
+                    <!-- سؤال 3 -->
+                    <div class="bg-[#f6f2e9] p-4 rounded-2xl border border-amber-200 space-y-2.5" data-answered="false">
+                        <p class="font-bold text-[#0d2b45] text-sm">3. أصدر السلطان العثماني عام 1806م فرماناً بنقل «محمد علي» إلى ولاية ...................</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="checkAnswer(this, false)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">الشام</button>
+                            <button onclick="checkAnswer(this, true)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">سالونيك</button>
+                        </div>
+                    </div>
+
+                    <!-- سؤال 4 -->
+                    <div class="bg-[#f6f2e9] p-4 rounded-2xl border border-amber-200 space-y-2.5" data-answered="false">
+                        <p class="font-bold text-[#0d2b45] text-sm">4. تخلص «محمد علي» من خطر المماليك نهائياً في ...................</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="checkAnswer(this, true)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">مذبحة القلعة (1811م)</button>
+                            <button onclick="checkAnswer(this, false)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">حملة فريزر (1807م)</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- رسالة التقييم وإعادة المحاولة -->
+                <div class="mt-5 flex flex-wrap items-center justify-between bg-amber-50 border border-amber-200 p-4 rounded-2xl gap-3">
+                    <div id="quiz-feedback" class="text-sm font-bold text-[#0d2b45]">
+                        اختر الإجابة الصحيحة لكل سؤال لاختبار معلوماتك يا بطل المستكشف الرقمي!
+                    </div>
+                    <button onclick="resetQuiz()" class="bg-white hover:bg-slate-100 text-[#0d2b45] border border-slate-300 px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm">
+                        <i class="fa-solid fa-rotate-right ml-1"></i> إعادة الأسئلة
+                    </button>
+                </div>
+            </section>
+
+            <!-- شريط التنقل السفلي داخل العرض -->
+            <div class="bg-[#f6f2e9] border-t border-amber-200/80 px-6 py-4 flex items-center justify-between gap-2">
+                <button id="prev-btn" onclick="changeSlide(-1)" class="flex items-center gap-2 bg-white hover:bg-slate-100 disabled:opacity-40 disabled:pointer-events-none text-[#0d2b45] font-bold px-5 py-2.5 rounded-xl border border-slate-300 shadow-sm transition">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <span>السابق</span>
+                </button>
+
+                <!-- قائمة منسدلة للتنقل السريع -->
+                <select id="slide-selector" onchange="goToSlide(parseInt(this.value))" class="bg-white border border-amber-300 text-[#0d2b45] text-xs sm:text-sm font-bold rounded-xl px-3 sm:px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-500 max-w-[200px] sm:max-w-none">
+                    <!-- يتم ملؤها تلقائياً -->
+                </select>
+
+                <button id="next-btn" onclick="changeSlide(1)" class="flex items-center gap-2 bg-[#0d2b45] hover:bg-[#0f6b6e] disabled:opacity-40 disabled:pointer-events-none text-white font-bold px-6 py-2.5 rounded-xl shadow-md transition">
+                    <span>التالي</span>
+                    <i class="fa-solid fa-arrow-left text-amber-400"></i>
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- تذييل الصفحة -->
+    <footer class="text-center py-3 text-xs text-[#0d2b45]/80 font-bold">
+        منصة المستكشف الرقمي • الدراسات الاجتماعية للصف الثالث الإعدادي • استخدم أسهم لوحة المفاتيح للتنقل بين الشرائح
+    </footer>
+
+    <script>
+        // إدارة الشرائح والتنقل
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const currentSlideNum = document.getElementById('current-slide-num');
+        const totalSlidesNum = document.getElementById('total-slides-num');
+        const progressBar = document.getElementById('progress-bar');
+        const slideDotsContainer = document.getElementById('slide-dots');
+        const slideSelector = document.getElementById('slide-selector');
+
+        function initPresentation() {
+            totalSlidesNum.textContent = totalSlides;
+
+            slides.forEach((slide, index) => {
+                const dot = document.createElement('button');
+                dot.className = `h-2.5 rounded-full transition-all duration-300 ${index === 0 ? 'w-7 bg-[#0d2b45]' : 'w-2.5 bg-slate-300 hover:bg-amber-500'}`;
+                dot.title = slide.getAttribute('data-title');
+                dot.onclick = () => goToSlide(index);
+                slideDotsContainer.appendChild(dot);
+
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${index + 1}. ${slide.getAttribute('data-title')}`;
+                slideSelector.appendChild(option);
+            });
+
+            updateUI();
+        }
+
+        function goToSlide(index) {
+            if (index < 0 || index >= totalSlides) return;
+            slides[currentSlide].classList.remove('active');
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+            updateUI();
+        }
+
+        function changeSlide(step) {
+            goToSlide(currentSlide + step);
+        }
+
+        function updateUI() {
+            currentSlideNum.textContent = currentSlide + 1;
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+            slideSelector.value = currentSlide;
+
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            const dots = slideDotsContainer.children;
+            for (let i = 0; i < dots.length; i++) {
+                if (i === currentSlide) {
+                    dots[i].className = 'h-2.5 w-7 bg-[#0d2b45] rounded-full transition-all duration-300';
+                } else {
+                    dots[i].className = 'h-2.5 w-2.5 bg-slate-300 hover:bg-amber-500 rounded-full transition-all duration-300';
+                }
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                changeSlide(1);
+            } else if (e.key === 'ArrowRight') {
+                changeSlide(-1);
+            }
+        });
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // منطق الأسئلة التفاعلية
+        let score = 0;
+        let answeredCount = 0;
+
+        function checkAnswer(btn, isCorrect) {
+            const card = btn.closest('[data-answered]');
+            if (card.getAttribute('data-answered') === 'true') return;
+
+            card.setAttribute('data-answered', 'true');
+            answeredCount++;
+
+            const buttons = card.querySelectorAll('.quiz-btn');
+            buttons.forEach(b => b.disabled = true);
+
+            if (isCorrect) {
+                score++;
+                btn.classList.remove('bg-white', 'border-slate-300');
+                btn.classList.add('bg-emerald-600', 'text-white', 'border-emerald-700');
+                btn.innerHTML += ' <i class="fa-solid fa-check mr-1"></i>';
+            } else {
+                btn.classList.remove('bg-white', 'border-slate-300');
+                btn.classList.add('bg-rose-600', 'text-white', 'border-rose-700');
+                btn.innerHTML += ' <i class="fa-solid fa-xmark mr-1"></i>';
+            }
+
+            document.getElementById('score-val').textContent = score;
+
+            if (answeredCount === 4) {
+                const feedback = document.getElementById('quiz-feedback');
+                if (score === 4) {
+                    feedback.innerHTML = '🎉 ممتاز يا بطل المستكشف الرقمي! حصلت على الدرجة النهائية (4/4).';
+                    feedback.className = 'text-sm font-extrabold text-emerald-700';
+                } else {
+                    feedback.innerHTML = `أحسنت المحاولة! نتيجتك ${score} من 4. راجع الشرائح وحاول مرة أخرى.`;
+                    feedback.className = 'text-sm font-bold text-amber-900';
+                }
+            }
+        }
+
+        function resetQuiz() {
+            score = 0;
+            answeredCount = 0;
+            document.getElementById('score-val').textContent = '0';
+            document.getElementById('quiz-feedback').textContent = 'اختر الإجابة الصحيحة لكل سؤال لاختبار معلوماتك يا بطل المستكشف الرقمي!';
+            document.getElementById('quiz-feedback').className = 'text-sm font-bold text-[#0d2b45]';
+
+            const cards = document.querySelectorAll('#quiz-container [data-answered]');
+            cards.forEach(card => {
+                card.setAttribute('data-answered', 'false');
+                const buttons = card.querySelectorAll('.quiz-btn');
+                buttons.forEach(b => {
+                    b.disabled = false;
+                    b.className = 'quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition';
+                    b.innerHTML = b.textContent.trim();
+                });
+            });
+        }
+
+        initPresentation();
+    </script>
+</body>
+</html>
