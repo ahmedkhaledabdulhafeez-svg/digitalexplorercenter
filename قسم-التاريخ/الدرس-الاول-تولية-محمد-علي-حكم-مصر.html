@@ -11,24 +11,20 @@
 :root{--bg:#2e1a10;--bg2:#42251a;--panel:#3a2116;--line:rgba(224,160,110,.22);--copper:#c8825a;--gold:#f0b44c;--sand:#f3dcb8;--text:#f6e8d4;--mute:#c9ae94}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:130px}
-body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;overflow-x:hidden;overscroll-behavior-y:auto}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 
 /* header */
-header{position:sticky;top:0;z-index:50;background:rgba(46,26,16,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header{position:sticky;top:0;z-index:50;background:rgba(46,26,16,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .bar{max-width:1240px;margin:auto;padding:8px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .bar img{width:50px;height:50px;object-fit:contain;border-radius:50%;background:#fff;padding:3px}
 .brand{text-align:center;flex:1}
 .brand h1{font-family:'Reem Kufi',sans-serif;font-size:1.25rem;color:var(--sand);line-height:1.4}
 .brand p{color:var(--gold);font-weight:600;font-size:.78rem}
 nav{background:var(--bg2);border-bottom:1px solid var(--line)}
-nav .in{max-width:1240px;margin:auto;display:flex;justify-content:center;gap:6px;padding:0 16px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-padding-inline:16px;overscroll-behavior-x:contain}
-nav .in::-webkit-scrollbar{display:none}
-@media(max-width:820px){
-  nav .in{justify-content:flex-start}
-}
-nav a{flex-shrink:0;white-space:nowrap;padding:5px 20px;margin:6px 0;border-radius:14px;font-size:.86rem;font-weight:600;color:var(--mute);transition:background-color .2s,color .2s}
+nav .in{max-width:1240px;margin:auto;display:flex;justify-content:center;gap:4px;padding:0 12px;overflow-x:auto;scrollbar-width:none}
+nav a{white-space:nowrap;padding:5px 20px;margin:6px 0;border-radius:14px;font-size:.86rem;font-weight:600;color:var(--mute);transition:.25s}
 nav a:hover{color:var(--sand)}
 nav a.on{background:var(--copper);color:#2a150b}
 
@@ -128,29 +124,25 @@ section.blk{padding:46px 0 10px}
 .pts b{color:var(--sand)}
 
 /* interactive activities */
-.acts{display:grid;grid-template-columns:1fr;gap:26px;align-items:stretch}
-@media(min-width:860px){.acts{grid-template-columns:1fr 1fr}}
-.act{--c:#6fc2a8;position:relative;overflow:hidden;padding:32px 28px 28px;border-radius:28px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);box-shadow:0 26px 60px rgba(0,0,0,.4);display:flex;flex-direction:column;height:100%}
+.acts{display:grid;grid-template-columns:1fr;gap:26px}
+@media(min-width:860px){.acts{grid-template-columns:1fr 1fr;align-items:start}}
+.act{--c:#6fc2a8;position:relative;overflow:hidden;padding:32px 28px 28px;border-radius:28px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);box-shadow:0 26px 60px rgba(0,0,0,.4)}
 .act.q{--c:#b793e6}
 .act::before{background:var(--c)}
 .act .ico{width:54px;height:54px;border-radius:18px;border:1px solid var(--c);background:rgba(0,0,0,.2);display:grid;place-items:center;font-size:1.6rem;margin-bottom:14px}
 .act h3{font-family:'Reem Kufi',sans-serif;font-size:1.45rem;color:var(--c)}
 .act .d{color:var(--mute);font-size:.9rem;margin:4px 0 18px}
-.act-items{display:flex;flex-direction:column;gap:12px;flex:1}
-.ord{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:66px;padding:12px 16px;border-radius:16px;background:rgba(0,0,0,.22);border:1.5px solid var(--line);transition:.3s;font-weight:700;color:var(--sand)}
-.ord span{flex:1;line-height:1.55;font-size:.93rem}
+.ord{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border-radius:16px;background:rgba(0,0,0,.22);border:1.5px solid var(--line);margin-bottom:12px;transition:.3s;font-weight:700;color:var(--sand)}
 .ord.ok,.qb label.ok{border-color:#6fc2a8;background:rgba(111,194,168,.13)}
 .ord.no,.qb label.no{border-color:#e0705a;background:rgba(224,112,90,.13)}
-select{font-family:inherit;border-radius:12px;padding:7px 12px;background:var(--bg);color:var(--text);border:1.5px solid var(--line);cursor:pointer;min-width:118px;flex-shrink:0}
-.match-sel{min-width:155px}
-.act-foot{margin-top:20px}
+select{font-family:inherit;border-radius:12px;padding:7px 12px;background:var(--bg);color:var(--text);border:1.5px solid var(--line);cursor:pointer;min-width:118px}
 .qb{padding:16px 18px;border-radius:18px;background:rgba(0,0,0,.22);border:1.5px solid var(--line);margin-bottom:14px}
-.qb p{font-weight:700;color:var(--sand);margin-bottom:8px;font-size:.96rem}
-.qb label{display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:12px;cursor:pointer;color:var(--mute);font-size:.92rem;border:1px solid transparent;transition:.2s;margin-top:4px}
+.qb p{font-weight:700;color:var(--sand);margin-bottom:6px;font-size:.95rem}
+.qb label{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:12px;cursor:pointer;color:var(--mute);font-size:.92rem;border:1px solid transparent;transition:.2s}
 .qb label:hover{color:var(--text)}
 .qb input{accent-color:var(--gold);width:16px;height:16px}
-.act .btn,.exam-box .btn{width:100%;justify-content:center;cursor:pointer;margin-top:6px}
-.act .btn.ghost,.exam-box .btn.ghost{margin-top:10px}
+.act .btn{width:100%;justify-content:center;cursor:pointer;margin-top:6px}
+.act .btn.ghost{margin-top:10px}
 .fb{min-height:1.7em;margin-top:12px;font-weight:700;font-size:.92rem;text-align:center;color:var(--sand)}
 .maprow{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:26px;padding:22px 28px;border-radius:24px;background:rgba(111,194,168,.08);border:1.5px dashed rgba(111,194,168,.5)}
 .maprow .e{font-size:2.2rem}
@@ -158,25 +150,7 @@ select{font-family:inherit;border-radius:12px;padding:7px 12px;background:var(--
 .maprow h3{font-family:'Reem Kufi',sans-serif;font-size:1.3rem;color:#6fc2a8}
 .maprow p{color:var(--mute);font-size:.9rem}
 
-/* exams section */
-.exams-wrap{margin-top:28px;display:flex;flex-direction:column;gap:26px}
-.exam-box{--c:#f0b44c;position:relative;overflow:hidden;padding:32px 28px 28px;border-radius:28px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);box-shadow:0 26px 60px rgba(0,0,0,.4)}
-.exam-box.mcq{--c:#6fc2a8}
-.exam-box::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--c)}
-.exam-box .ico{width:54px;height:54px;border-radius:18px;border:1px solid var(--c);background:rgba(0,0,0,.2);display:grid;place-items:center;font-size:1.6rem;margin-bottom:14px}
-.exam-box h3{font-family:'Reem Kufi',sans-serif;font-size:1.45rem;color:var(--c)}
-.exam-box .d{color:var(--mute);font-size:.9rem;margin:4px 0 18px}
-.tf-opts{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
-.tf-opts label{margin-top:0;flex:1;min-width:140px;background:rgba(255,255,255,.03);border:1px solid var(--line)}
-.ans-hint{margin-top:8px;font-size:.86rem;font-weight:700;color:var(--gold);display:none}
-.ans-hint.show{display:block}
-
 .pdfv{aspect-ratio:auto;height:78vh;min-height:420px}
-.pptx-box{border-radius:18px;overflow:hidden;background:#f3f7f5}
-.pptx-box iframe{width:100%;height:1100px;min-height:850px;max-height:2400px;border:0;display:block;transition:height .25s ease}
-@media(max-width:768px){
-  .pptx-box iframe{height:1350px;min-height:1050px;max-height:2800px}
-}
 .fg{animation:fgf 4.5s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
 @keyframes fgf{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-7px) rotate(1deg)}}
 .fl{animation:flo 3.2s ease-in-out infinite}
@@ -196,55 +170,8 @@ select{font-family:inherit;border-radius:12px;padding:7px 12px;background:var(--
 .cube{width:84px;height:84px;border-radius:26px;display:grid;place-items:center;font-size:2.6rem;background:linear-gradient(135deg,var(--copper),var(--gold));box-shadow:0 14px 34px -8px rgba(240,180,76,.6);animation:flo 3.6s ease-in-out infinite}
 .strip{border-radius:99px;height:10px;margin-top:56px;background:repeating-linear-gradient(90deg,var(--copper) 0 18px,transparent 18px 26px,var(--gold) 26px 34px,transparent 34px 42px);opacity:.7}
 footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);font-weight:600;font-size:.9rem;border-top:1px solid var(--line)}
-
-/* infographic viewer */
-.ig-outer-wrap{position:relative;width:100%;margin-top:6px}
-.ig-corner-tr-out,
-.ig-corner-bl-out{
-  position:absolute;
-  width:46px;
-  height:46px;
-  pointer-events:none;
-  z-index:6;
-  opacity:.95;
-  filter:drop-shadow(0 0 8px rgba(240,180,76,.4));
-}
-.ig-corner-tr-out{
-  top:-6px;
-  right:-6px;
-  border-top:3px solid #f0b44c;
-  border-right:3px solid #f0b44c;
-  border-top-right-radius:20px;
-}
-.ig-corner-bl-out{
-  bottom:-6px;
-  left:-6px;
-  border-bottom:3px solid #f0b44c;
-  border-left:3px solid #f0b44c;
-  border-bottom-left-radius:20px;
-}
-.ig-viewer-box{position:relative;width:100%;height:540px;max-height:75vh;border-radius:18px;overflow:hidden;background:linear-gradient(160deg,#42251a,#3a2116);user-select:none;touch-action:none}
-.ig-stage{width:100%;height:100%;display:flex;align-items:center;justify-content:center;cursor:default}
-.ig-stage.can-pan{cursor:grab}
-.ig-stage.dragging{cursor:grabbing}
-.ig-stage img{max-width:100%;max-height:100%;object-fit:contain;border-radius:12px;transform-origin:center center;transition:transform .12s ease-out;pointer-events:none;display:block}
-.ig-stage.dragging img{transition:none}
-.ig-controls{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:5;display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:99px;background:rgba(36,19,11,.88);backdrop-filter:blur(8px);border:1px solid rgba(224,160,110,.28);box-shadow:0 8px 24px rgba(0,0,0,.45)}
-.ig-btn{min-width:34px;height:34px;padding:0 10px;border-radius:99px;border:1px solid rgba(224,160,110,.3);background:#3a2116;color:#f6e8d4;font-family:'Cairo',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:.2s}
-.ig-btn:hover{background:#c8825a;color:#2a150b;border-color:#c8825a}
-.ig-zoom-val{color:#f0b44c;font-weight:800;font-size:.82rem;min-width:48px;text-align:center;direction:ltr}
-@media(max-width:768px){
-  .ig-viewer-box{height:400px}
-  .ig-corner-tr-out,.ig-corner-bl-out{width:32px;height:32px}
-}
-
-.rv{opacity:0;transform:translateY(14px);transition:opacity .45s ease-out,transform .45s ease-out}
+.rv{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
 .rv.show{opacity:1;transform:none}
-@media(max-width:768px){
-  header{backdrop-filter:none;background:rgba(46,26,16,.97)}
-  .ig-controls{backdrop-filter:none;background:rgba(36,19,11,.95)}
-  .rv{transform:none;transition:opacity .3s ease-out}
-}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 </style>
 
@@ -275,7 +202,6 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
     <a href="#chars">الشخصيات 3D</a>
     <a href="#infographic">الإنفوجرافيك</a>
     <a href="#pdf">ملف PDF</a>
-    <a href="#presentation">العرض التقديمي</a>
     <a href="#summary">ملخص الدرس</a>
     <a href="#activities">الأنشطة والاختبارات</a>
   </div></nav>
@@ -325,300 +251,91 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
       </div>
       <div class="ch-go">
         <div class="cube">🏛️</div>
-        <a href="../الشخصيات-التاريخية/عمر-مكرم/omar-makram-3D.html" class="btn" style="--c:#f0b44c">استكشف الشخصيات 3D <span>←</span></a>
+        <a href="../الشخصيات-التاريخية/عمر-مكرم/omar-makram-3D.html" noreferrer" class="btn" style="--c:#f0b44c">استكشف الشخصيات 3D <span>←</span></a>
       </div>
     </div>
   </section>
 
   <!-- 2) الإنفوجرافيك -->
-  <section id="infographic" class="blk rv">
-    <div class="head">
-      <div class="ic">
-        <i>📊</i>
-      </div>
-      <div>
-        <h2>الإنفوجرافيك</h2>
-        <p>ملخص مصور لأهم معلومات الدرس</p>
-      </div>
-    </div>
+			<section id="infographic" class="blk rv">
+				<div class="head">
+					<div class="ic">
+						<i>📊</i>
+					</div>
+					<div>
+						<h2>الإنفوجرافيك</h2>
+						<p>ملخص مصور لأهم معلومات الدرس</p>
+					</div>
+				</div>
 
-    <div class="ig-outer-wrap">
-      <span class="ig-corner-tr-out" aria-hidden="true"></span>
-      <span class="ig-corner-bl-out" aria-hidden="true"></span>
-      <div class="frame" style="padding:14px;overflow:hidden">
-        <div class="ig-viewer-box" id="igViewer">
-          <div class="ig-stage" id="igStage">
-            <img id="igImg" src="Infographie/الدرس-الاول.jpeg" alt="إنفوجرافيك الدرس">
-          </div>
-          <div class="ig-controls" aria-label="أدوات التحكم في الصورة">
-            <button type="button" class="ig-btn" id="igZoomIn" title="تكبير">+</button>
-            <span class="ig-zoom-val" id="igZoomVal">100%</span>
-            <button type="button" class="ig-btn" id="igZoomOut" title="تصغير للوضع الطبيعي">−</button>
-            <button type="button" class="ig-btn" id="igReset" title="إعادة ضبط">ضبط</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<style>
+  .ig-outer-wrap{position:relative;width:100%;margin-top:6px}
 
-  <!-- 3) ملف PDF (تضمين من جوجل درايف) -->
-  <section id="pdf" class="blk rv">
-    <div class="head"><div class="ic"><i>📄</i></div><div><h2>ملف الدرس PDF</h2><p>اقرأ ملخص الدرس مباشرة داخل الصفحة</p></div></div>
-    <div class="pdf">
-      <div class="doc">PDF</div>
-      <div>
-        <h3>مذكرة درس تولية محمد علي حكم مصر</h3>
-        <p>ملف مكتوب يجمع أهم النقاط والمعلومات التي وردت في الدرس.</p>
-        <div class="row">
-          <a id="pdfOpen" href="#" target="_blank" rel="noopener noreferrer" class="btn">فتح الملف في صفحة جديدة <span>←</span></a>
-        </div>
-      </div>
-    </div>
-    <div class="frame" style="margin-top:28px">
-      <div class="vid pdfv">
-        <iframe id="pdfFrame" title="ملف الدرس PDF" loading="lazy" allow="autoplay" style="display:none"></iframe>
-        <div class="info" id="pdfEmpty" style="position:absolute;inset:0;border:0"><div><div class="big">📄</div><b>مساحة ملف الـ PDF</b><small>سيظهر الملف هنا بعد وضع رقم ملف جوجل درايف في الكود</small></div></div>
-      </div>
-    </div>
-  </section>
+  /* الأقواس الصفراء بره الإطار من الخارج (قوسين بس) */
+  .ig-corner-tr-out,
+  .ig-corner-bl-out{
+    position:absolute;
+    width:46px;
+    height:46px;
+    pointer-events:none;
+    z-index:6;
+    opacity:.95;
+    filter:drop-shadow(0 0 8px rgba(240,180,76,.4));
+  }
 
-  <!-- العرض التقديمي (تحت ملف PDF مباشرة) -->
-  <section id="presentation" class="blk rv">
-    <div class="head">
-      <div class="ic"><i>📽️</i></div>
-      <div>
-        <h2>العرض التقديمي</h2>
-        <p>تصفح العرض التقديمي الكامل للدرس مباشرة داخل الصفحة</p>
-      </div>
-    </div>
-    <div class="frame">
-      <div class="pptx-box">
-        <iframe id="slidesFrame" src="Presentation/mohamed-ali-lesson-1-slides.html" title="العرض التقديمي للدرس" loading="lazy" allowfullscreen></iframe>
-      </div>
-    </div>
-  </section>
+  /* القوس اللي فوق على اليمين */
+  .ig-corner-tr-out{
+    top:-6px;
+    right:-6px;
+    border-top:3px solid #f0b44c;
+    border-right:3px solid #f0b44c;
+    border-top-right-radius:20px;
+  }
 
-  <!-- 3) ملخص الدرس -->
-  <section id="summary" class="blk rv">
-    <div class="sum">
-      <div class="head"><div class="ic"><i>📖</i></div><div><h2>ملخص أهم نقاط الدرس</h2><p>راجع أهم ما جاء في الشرح قبل حل الأنشطة</p></div></div>
+  /* القوس اللي تحت على الشمال */
+  .ig-corner-bl-out{
+    bottom:-6px;
+    left:-6px;
+    border-bottom:3px solid #f0b44c;
+    border-left:3px solid #f0b44c;
+    border-bottom-left-radius:20px;
+  }
 
-      <div class="pt">
-        <h3>أولاً: أحوال مصر قبل تولية محمد علي (1801 - 1805م)</h3>
-        <p>شهدت مصر فترة من الفوضى والاضطرابات عقب خروج الحملة الفرنسية بسبب الصراع على السلطة بين ثلاث قوى: <b>العثمانيون، والمماليك، وإنجلترا</b>، مما أدى إلى تعدد الولاة وتدهور الأحوال الاقتصادية وفرض الضرائب الباهظة.</p>
-        <div class="note"><b>موقف محمد علي من ثورة الشعب (مارس 1804م):</b> خشي أن تصيب الثورة جنوده، فجاهر بالانضمام إلى العلماء والمشايخ، واختلط بالأهالي الساخطين، وتعهد ببذل قصارى جهده لرفع الضرائب عن الناس، واقترح تعيين <b>خورشيد باشا</b> والياً على مصر؛ مما أكسبه عطف الشعب وثقة زعمائه.</div>
+  .ig-viewer-box{position:relative;width:100%;height:540px;max-height:75vh;border-radius:18px;overflow:hidden;background:linear-gradient(160deg,#42251a,#3a2116);user-select:none;touch-action:none}
+  .ig-stage{width:100%;height:100%;display:flex;align-items:center;justify-content:center;cursor:default}
+  .ig-stage.can-pan{cursor:grab}
+  .ig-stage.dragging{cursor:grabbing}
+  .ig-stage img{max-width:100%;max-height:100%;object-fit:contain;border-radius:12px;transform-origin:center center;transition:transform .12s ease-out;pointer-events:none;display:block}
+  .ig-stage.dragging img{transition:none}
+  .ig-controls{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);z-index:5;display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:99px;background:rgba(36,19,11,.88);backdrop-filter:blur(8px);border:1px solid rgba(224,160,110,.28);box-shadow:0 8px 24px rgba(0,0,0,.45)}
+  .ig-btn{min-width:34px;height:34px;padding:0 10px;border-radius:99px;border:1px solid rgba(224,160,110,.3);background:#3a2116;color:#f6e8d4;font-family:'Cairo',sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;transition:.2s}
+  .ig-btn:hover{background:#c8825a;color:#2a150b;border-color:#c8825a}
+  .ig-zoom-val{color:#f0b44c;font-weight:800;font-size:.82rem;min-width:48px;text-align:center;direction:ltr}
+  @media(max-width:768px){
+    .ig-viewer-box{height:400px}
+    .ig-corner-tr-out,.ig-corner-bl-out{width:32px;height:32px}
+  }
+</style>
+
+<div class="ig-outer-wrap">
+  <span class="ig-corner-tr-out" aria-hidden="true"></span>
+  <span class="ig-corner-bl-out" aria-hidden="true"></span>
+  <div class="frame" style="padding:14px;overflow:hidden">
+    <div class="ig-viewer-box" id="igViewer">
+      <div class="ig-stage" id="igStage">
+        <img id="igImg" src="Infographie/الدرس-الاول.jpeg" alt="إنفوجرافيك الدرس">
       </div>
-
-      <div class="pt">
-        <h3>ثانياً: اجتماع دار المحكمة وتولية محمد علي (13 مايو 1805م)</h3>
-        <p>اجتمع زعماء الشعب من العلماء ونقباء الطوائف بـ <b>دار المحكمة (بيت القاضي)</b>، وقرروا عزل الوالي العثماني خورشيد باشا وتعيين محمد علي والياً على مصر، وأخذوا عليه العهود والمواثيق بأن <b>يحكم بالعدل وألا يبرم أمراً إلا بمشورتهم</b>.</p>
-        <div class="note tipb">💡 يعد يوم 13 مايو 1805م يوماً مهماً في تاريخ مصر الحديث؛ لأنه أول مرة يُعزل فيها والٍ ويُعين آخر بإرادة الشعب وشروطه.</div>
-      </div>
-
-      <div class="pt">
-        <h3>ثالثاً: المشكلات التي واجهت محمد علي لتثبيت حكمه</h3>
-        <ul class="pts">
-          <li><span class="n">1</span><span><b>محاولة نقله إلى ولاية سالونيك (1806م):</b> استجابت الدولة العثمانية لضغوط بريطانيا وأصدرت فرماناً بنقل محمد علي وتعيين موسى باشا، لكن <b>الزعامة الشعبية</b> وقفت بجانبه فأقرت الدولة العثمانية تثبيته.</span></li>
-          <li><span class="n">2</span><span><b>حملة فريزر الإنجليزية (مارس 1807م):</b> أرسلتها بريطانيا لاحتلال مصر وخلع محمد علي وتعيين محمد بك الألفي، وفشلت بفضل مقاومة أهالي <b>رشيد والحماد</b>، فاضطر فريزر للجلاء مقابل الإفراج عن الأسرى.</span></li>
-          <li><span class="n">3</span><span><b>القضاء على الزعامة الشعبية (1809م):</b> استغل محمد علي انقسام القيادات الشعبية حول تقدير مكانة <b>عمر مكرم</b>، فقام بخلعه من نقابة الأشراف ونفيه إلى دمياط لينفرد بالحكم دون وصاية.</span></li>
-          <li><span class="n">4</span><span><b>التخلص من المماليك (مذبحة القلعة - مارس 1811م):</b> دبر لهم مكيدة بدعوتهم لحضور حفل بالقلعة بمناسبة خروج الجيش بقيادة ابنه طوسون إلى الحجاز، وبذلك انفرد محمد علي تماماً بحكم مصر.</span></li>
-        </ul>
+      <div class="ig-controls" aria-label="أدوات التحكم في الصورة">
+        <button type="button" class="ig-btn" id="igZoomIn" title="تكبير">+</button>
+        <span class="ig-zoom-val" id="igZoomVal">100%</span>
+        <button type="button" class="ig-btn" id="igZoomOut" title="تصغير للوضع الطبيعي">−</button>
+        <button type="button" class="ig-btn" id="igReset" title="إعادة ضبط">ضبط</button>
       </div>
     </div>
-  </section>
-
-  <!-- 6) الأنشطة والاختبارات -->
-  <section id="activities" class="blk rv">
-    <div class="head"><div class="ic"><i>🎯</i></div><div><h2>الأنشطة والاختبارات</h2><p>طبّق ما تعلمته في النشاطين ثم أجب عن الاختبارات</p></div></div>
-    <div class="acts">
-
-      <!-- نشاط 1: ترتيب الأحداث التاريخية -->
-      <div class="act" id="act1">
-        <div class="ico">🧩</div>
-        <h3>نشاط 1: رتب الأحداث التاريخية</h3>
-        <p class="d">رتب الأحداث التالية زمنياً من الأقدم إلى الأحدث:</p>
-        <div class="act-items">
-          <div class="ord" data-ans="4"><span>مذبحة القلعة (مارس 1811م)</span><select><option value="">الترتيب...</option><option value="1">الأول</option><option value="2">الثاني</option><option value="3">الثالث</option><option value="4">الرابع</option></select></div>
-          <div class="ord" data-ans="1"><span>اجتماع دار المحكمة وتولية محمد علي</span><select><option value="">الترتيب...</option><option value="1">الأول</option><option value="2">الثاني</option><option value="3">الثالث</option><option value="4">الرابع</option></select></div>
-          <div class="ord" data-ans="3"><span>نفي عمر مكرم إلى دمياط (1809م)</span><select><option value="">الترتيب...</option><option value="1">الأول</option><option value="2">الثاني</option><option value="3">الثالث</option><option value="4">الرابع</option></select></div>
-          <div class="ord" data-ans="2"><span>حملة فريزر الإنجليزية (مارس 1807م)</span><select><option value="">الترتيب...</option><option value="1">الأول</option><option value="2">الثاني</option><option value="3">الثالث</option><option value="4">الرابع</option></select></div>
-        </div>
-        <div class="act-foot">
-          <button class="btn" id="chk1">✓ تحقق من الترتيب</button>
-          <button class="btn ghost" id="rst1">إعادة المحاولة</button>
-          <div class="fb" id="fb1" aria-live="polite"></div>
-        </div>
-      </div>
-
-      <!-- نشاط 2: توصيل -->
-      <div class="act q" id="act2">
-        <div class="ico">🔗</div>
-        <h3>نشاط 2: صِل كل عبارة بما يناسبها</h3>
-        <p class="d">اختر الشخصية أو الحدث المناسب لكل عبارة مما يلي:</p>
-        <div class="act-items">
-          <div class="ord" data-ans="دار المحكمة"><span>المكان الذي اجتمع فيه زعماء الشعب في مايو 1805م</span><select class="match-sel"><option value="">اختر الإجابة...</option><option value="دار المحكمة">دار المحكمة</option><option value="رشيد والحماد">رشيد والحماد</option><option value="عمر مكرم">عمر مكرم</option><option value="مذبحة القلعة">مذبحة القلعة</option></select></div>
-          <div class="ord" data-ans="رشيد والحماد"><span>المنطقتان اللتان تصدى أهلهما لحملة فريزر عام 1807م</span><select class="match-sel"><option value="">اختر الإجابة...</option><option value="دار المحكمة">دار المحكمة</option><option value="رشيد والحماد">رشيد والحماد</option><option value="عمر مكرم">عمر مكرم</option><option value="مذبحة القلعة">مذبحة القلعة</option></select></div>
-          <div class="ord" data-ans="عمر مكرم"><span>نقيب الأشراف الذي تم خلعه من النقابة ونفيه إلى دمياط</span><select class="match-sel"><option value="">اختر الإجابة...</option><option value="دار المحكمة">دار المحكمة</option><option value="رشيد والحماد">رشيد والحماد</option><option value="عمر مكرم">عمر مكرم</option><option value="مذبحة القلعة">مذبحة القلعة</option></select></div>
-          <div class="ord" data-ans="مذبحة القلعة"><span>الحدث الذي تخلص به محمد علي نهائياً من خطر المماليك</span><select class="match-sel"><option value="">اختر الإجابة...</option><option value="دار المحكمة">دار المحكمة</option><option value="رشيد والحماد">رشيد والحماد</option><option value="عمر مكرم">عمر مكرم</option><option value="مذبحة القلعة">مذبحة القلعة</option></select></div>
-        </div>
-        <div class="act-foot">
-          <button class="btn" id="chkMatch">✓ تحقق من التوصيل</button>
-          <button class="btn ghost" id="rstMatch">إعادة المحاولة</button>
-          <div class="fb" id="fbMatch" aria-live="polite"></div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- الاختبارات: 5 أسئلة صح وخطأ + 5 أسئلة اختر -->
-    <div class="exams-wrap">
-
-      <!-- اختبار 1: 5 أسئلة صح وخطأ -->
-      <div class="exam-box" id="examTF">
-        <div class="ico">✔️</div>
-        <h3>الاختبار الأول: ضع علامة (صح) أو (خطأ) — 5 أسئلة</h3>
-        <p class="d">حدد صحة أو خطأ كل عبارة مما يلي ثم اعرض النتيجة مع الإجابات النموذجية:</p>
-
-        <div class="qb" data-tf-ans="false">
-          <p>1. شهدت مصر استقراراً سياسياً كاملاً عقب خروج الحملة الفرنسية عام 1801م.</p>
-          <div class="tf-opts">
-            <label><input type="radio" name="tf1" value="true"> صح</label>
-            <label><input type="radio" name="tf1" value="false"> خطأ</label>
-          </div>
-          <div class="ans-hint">الإجابة الصحيحة: خطأ — شهدت مصر فوضى واضطرابات وصراعاً بين العثمانيين والمماليك وإنجلترا.</div>
-        </div>
-
-        <div class="qb" data-tf-ans="true">
-          <p>2. أخذ زعماء الشعب العهود والمواثيق على محمد علي بأن يحكم بالعدل وألا يبرم أمراً إلا بمشورتهم.</p>
-          <div class="tf-opts">
-            <label><input type="radio" name="tf2" value="true"> صح</label>
-            <label><input type="radio" name="tf2" value="false"> خطأ</label>
-          </div>
-          <div class="ans-hint">الإجابة الصحيحة: صح — تم ذلك في اجتماع دار المحكمة يوم 13 مايو 1805م.</div>
-        </div>
-
-        <div class="qb" data-tf-ans="false">
-          <p>3. استجابت الدولة العثمانية لنقل محمد علي إلى ولاية سالونيك عام 1806م دون أي اعتراض من الزعامة الشعبية.</p>
-          <div class="tf-opts">
-            <label><input type="radio" name="tf3" value="true"> صح</label>
-            <label><input type="radio" name="tf3" value="false"> خطأ</label>
-          </div>
-          <div class="ans-hint">الإجابة الصحيحة: خطأ — وقفت الزعامة الشعبية بجانب محمد علي فأقرت الدولة العثمانية تثبيته.</div>
-        </div>
-
-        <div class="qb" data-tf-ans="true">
-          <p>4. فشلت حملة فريزر عام 1807م واضطرت للجلاء مقابل الإفراج عن الأسرى.</p>
-          <div class="tf-opts">
-            <label><input type="radio" name="tf4" value="true"> صح</label>
-            <label><input type="radio" name="tf4" value="false"> خطأ</label>
-          </div>
-          <div class="ans-hint">الإجابة الصحيحة: صح — بفضل مقاومة أهالي رشيد والحماد.</div>
-        </div>
-
-        <div class="qb" data-tf-ans="false">
-          <p>5. تخلص محمد علي من المماليك في مذبحة القلعة عام 1805م.</p>
-          <div class="tf-opts">
-            <label><input type="radio" name="tf5" value="true"> صح</label>
-            <label><input type="radio" name="tf5" value="false"> خطأ</label>
-          </div>
-          <div class="ans-hint">الإجابة الصحيحة: خطأ — حدثت مذبحة القلعة في مارس 1811م.</div>
-        </div>
-
-        <button class="btn" id="chkTF">اعرض نتيجة صح وخطأ <span>←</span></button>
-        <button class="btn ghost" id="rstTF">إعادة الاختبار</button>
-        <div class="fb" id="fbTF" aria-live="polite"></div>
-      </div>
-
-      <!-- اختبار 2: 5 أسئلة اختر -->
-      <div class="exam-box mcq" id="examMCQ">
-        <div class="ico">📝</div>
-        <h3>الاختبار الثاني: اختر الإجابة الصحيحة — 5 أسئلة</h3>
-        <p class="d">اختر الإجابة الصحيحة لكل سؤال مما يلي ثم اعرض النتيجة مع الإجابات:</p>
-
-        <div class="qb">
-          <p>1. اجتمع زعماء الشعب في مايو 1805م لتولية محمد علي في:</p>
-          <label><input type="radio" name="mcq1"> قلعة صلاح الدين</label>
-          <label><input type="radio" name="mcq1" data-ok="1"> دار المحكمة (بيت القاضي)</label>
-          <label><input type="radio" name="mcq1"> قصر عابدين</label>
-          <div class="ans-hint">الإجابة الصحيحة: دار المحكمة (بيت القاضي).</div>
-        </div>
-
-        <div class="qb">
-          <p>2. القوى الثلاث التي تصارعت على حكم مصر بعد خروج الحملة الفرنسية هي العثمانيون والمماليك و:</p>
-          <label><input type="radio" name="mcq2" data-ok="1"> إنجلترا</label>
-          <label><input type="radio" name="mcq2"> إسبانيا</label>
-          <label><input type="radio" name="mcq2"> النمسا</label>
-          <div class="ans-hint">الإجابة الصحيحة: إنجلترا.</div>
-        </div>
-
-        <div class="qb">
-          <p>3. الولاية التي حاولت بريطانيا نقل محمد علي إليها عام 1806م هي:</p>
-          <label><input type="radio" name="mcq3"> الشام</label>
-          <label><input type="radio" name="mcq3" data-ok="1"> سالونيك</label>
-          <label><input type="radio" name="mcq3"> طرابلس</label>
-          <div class="ans-hint">الإجابة الصحيحة: سالونيك.</div>
-        </div>
-
-        <div class="qb">
-          <p>4. تصدى أهالي رشيد والحماد عام 1807م لحملة:</p>
-          <label><input type="radio" name="mcq4" data-ok="1"> فريزر الإنجليزية</label>
-          <label><input type="radio" name="mcq4"> نابليون الفرنسية</label>
-          <label><input type="radio" name="mcq4"> خورشيد العثمانية</label>
-          <div class="ans-hint">الإجابة الصحيحة: فريزر الإنجليزية.</div>
-        </div>
-
-        <div class="qb">
-          <p>5. تخلص محمد علي من الزعامة الشعبية عام 1809م بنفي عمر مكرم إلى:</p>
-          <label><input type="radio" name="mcq5"> الإسكندرية</label>
-          <label><input type="radio" name="mcq5" data-ok="1"> دمياط</label>
-          <label><input type="radio" name="mcq5"> أسوان</label>
-          <div class="ans-hint">الإجابة الصحيحة: دمياط.</div>
-        </div>
-
-        <button class="btn" id="chkMCQ">اعرض نتيجة اختر <span>←</span></button>
-        <button class="btn ghost" id="rstMCQ">إعادة الاختبار</button>
-        <div class="fb" id="fbMCQ" aria-live="polite"></div>
-      </div>
-
-    </div>
-  </section>
-
-</main>
-
-<!-- ==================== الفوتر ==================== -->
-<div class="strip" style="width: 100%; border-radius: 0; margin-top: 50px;"></div>
-<footer>
-  <p style="margin: 0 0 6px;">تصميم وإعداد: طلاب الفرقة الرابعة - قسم تكنولوجيا التعليم | جامعة أسوان</p>
-  <p style="margin: 0; font-size: 0.8rem; opacity: 0.75;">جميع الحقوق محفوظة © مركز المستكشف الرقمي</p>
-</footer>
+  </div>
+</div>
 
 <script>
-/* ضع هنا رقم ملف جوجل درايف (الجزء الموجود بين /d/ و /view في رابط الملف) */
-var DRIVE_ID='1087L28DHvIPTW13RURCu8Qxp3MLi81Ge';
-if(DRIVE_ID&&DRIVE_ID!=='PUT_FILE_ID_HERE'){
-  var fr=document.getElementById('pdfFrame');
-  fr.src='https://drive.google.com/file/d/'+DRIVE_ID+'/preview';
-  fr.style.display='block';
-  document.getElementById('pdfEmpty').style.display='none';
-  document.getElementById('pdfOpen').href='https://drive.google.com/file/d/'+DRIVE_ID+'/view';
-}else{
-  document.getElementById('pdfOpen').style.display='none';
-}
-
-(function(){
-  var slidesFrame = document.getElementById('slidesFrame');
-  var lastAppliedHeight = 0;
-  window.addEventListener('message', function(e){
-    if(!slidesFrame || !e.data || e.data.type !== 'explorerSlideHeight') return;
-    var rawH = Number(e.data.height);
-    if(!rawH || isNaN(rawH) || rawH < 300) return;
-    var clampedH = Math.min(2800, Math.max(750, Math.round(rawH + 24)));
-    if(Math.abs(clampedH - lastAppliedHeight) < 12) return;
-    lastAppliedHeight = clampedH;
-    slidesFrame.style.height = clampedH + 'px';
-  });
-})();
-
 (function(){
   const stage = document.getElementById('igStage');
   const img = document.getElementById('igImg');
@@ -690,130 +407,145 @@ if(DRIVE_ID&&DRIVE_ID!=='PUT_FILE_ID_HERE'){
   stage.addEventListener('pointercancel', endDrag);
   stage.addEventListener('dblclick', () => setZoom(scale > 1 ? 1 : 2));
 })();
+</script>
+
+  <!-- 3) ملف PDF (تضمين من جوجل درايف) -->
+  <section id="pdf" class="blk rv">
+    <div class="head"><div class="ic"><i>📄</i></div><div><h2>ملف الدرس PDF</h2><p>اقرأ ملخص الدرس مباشرة داخل الصفحة</p></div></div>
+    <div class="pdf">
+      <div class="doc">PDF</div>
+      <div>
+        <h3>مذكرة درس تولية محمد علي حكم مصر</h3>
+        <p>ملف مكتوب يجمع أهم النقاط والمعلومات التي وردت في الدرس.</p>
+        <div class="row">
+          <a id="pdfOpen" href="#" target="_blank" rel="noopener noreferrer" class="btn">فتح الملف في صفحة جديدة <span>←</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="frame" style="margin-top:28px">
+      <div class="vid pdfv">
+        <iframe id="pdfFrame" title="ملف الدرس PDF" loading="lazy" allow="autoplay" style="display:none"></iframe>
+        <div class="info" id="pdfEmpty" style="position:absolute;inset:0;border:0"><div><div class="big">📄</div><b>مساحة ملف الـ PDF</b><small>سيظهر الملف هنا بعد وضع رقم ملف جوجل درايف في الكود</small></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3) ملخص الدرس -->
+  <section id="summary" class="blk rv">
+    <div class="sum">
+      <div class="head"><div class="ic"><i>📖</i></div><div><h2>ملخص أهم نقاط الدرس</h2><p>راجع أهم ما جاء في الشرح قبل حل الأنشطة</p></div></div>
+
+      <div class="pt">
+        <h3>أولاً: أحوال مصر قبل تولية محمد علي (1801 - 1805م)</h3>
+        <p>شهدت مصر فترة من الفوضى والاضطرابات عقب خروج الحملة الفرنسية بسبب الصراع على السلطة بين ثلاث قوى: <b>العثمانيون، والمماليك، وإنجلترا</b>، مما أدى إلى تعدد الولاة وتدهور الأحوال الاقتصادية وفرض الضرائب الباهظة.</p>
+        <div class="note"><b>موقف محمد علي من ثورة الشعب (مارس 1804م):</b> خشي أن تصيب الثورة جنوده، فجاهر بالانضمام إلى العلماء والمشايخ، واختلط بالأهالي الساخطين، وتعهد ببذل قصارى جهده لرفع الضرائب عن الناس، واقترح تعيين <b>خورشيد باشا</b> والياً على مصر؛ مما أكسبه عطف الشعب وثقة زعمائه.</div>
+      </div>
+
+      <div class="pt">
+        <h3>ثانياً: اجتماع دار المحكمة وتولية محمد علي (13 مايو 1805م)</h3>
+        <p>اجتمع زعماء الشعب من العلماء ونقباء الطوائف بـ <b>دار المحكمة (بيت القاضي)</b>، وقرروا عزل الوالي العثماني خورشيد باشا وتعيين محمد علي والياً على مصر، وأخذوا عليه العهود والمواثيق بأن <b>يحكم بالعدل وألا يبرم أمراً إلا بمشورتهم</b>.</p>
+        <div class="note tipb">💡 يعد يوم 13 مايو 1805م يوماً مهماً في تاريخ مصر الحديث؛ لأنه أول مرة يُعزل فيها والٍ ويُعين آخر بإرادة الشعب وشروطه.</div>
+      </div>
+
+      <div class="pt">
+        <h3>ثالثاً: المشكلات التي واجهت محمد علي لتثبيت حكمه</h3>
+        <ul class="pts">
+          <li><span class="n">1</span><span><b>محاولة نقله إلى ولاية سالونيك (1806م):</b> استجابت الدولة العثمانية لضغوط بريطانيا وأصدرت فرماناً بنقل محمد علي وتعيين موسى باشا، لكن <b>الزعامة الشعبية</b> وقفت بجانبه فأقرت الدولة العثمانية تثبيته.</span></li>
+          <li><span class="n">2</span><span><b>حملة فريزر الإنجليزية (مارس 1807م):</b> أرسلتها بريطانيا لاحتلال مصر وخلع محمد علي وتعيين محمد بك الألفي، وفشلت بفضل مقاومة أهالي <b>رشيد والحماد</b>، فاضطر فريزر للجلاء مقابل الإفراج عن الأسرى.</span></li>
+          <li><span class="n">3</span><span><b>القضاء على الزعامة الشعبية (1809م):</b> استغل محمد علي انقسام القيادات الشعبية حول تقدير مكانة <b>عمر مكرم</b>، فقام بخلعه من نقابة الأشراف ونفيه إلى دمياط لينفرد بالحكم دون وصاية.</span></li>
+          <li><span class="n">4</span><span><b>التخلص من المماليك (مذبحة القلعة - مارس 1811م):</b> دبر لهم مكيدة بدعوتهم لحضور حفل بالقلعة بمناسبة خروج الجيش بقيادة ابنه طوسون إلى الحجاز، وبذلك انفرد محمد علي تماماً بحكم مصر.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6) الأنشطة والاختبارات -->
+  <section id="activities" class="blk rv">
+    <div class="head"><div class="ic"><i>🎯</i></div><div><h2>الأنشطة والاختبارات</h2><p>طبّق ما تعلمته ثم اختبر معلوماتك</p></div></div>
+    <div class="acts">
+
+      <div class="act" id="act1">
+        <div class="ico">🧩</div>
+        <h3>نشاط 1: رتب الأحداث التاريخية</h3>
+        <p class="d">رتب الأحداث التالية زمنياً من الأقدم إلى الأحدث:</p>
+        <div class="ord" data-ans="4"><span>مذبحة القلعة</span><select><option value="">الترتيب...</option><option value="1">الأول</option><option value="2">الثاني</option><option value="3">الثالث</option><option value="4">الرابع</option></select></div>
+        <div class="ord" data-ans="1"><span>اجتماع دار المحكمة</span><select><option value="">الترتيب...</option><option value="1">الأول</option><option value="2">الثاني</option><option value="3">الثالث</option><option value="4">الرابع</option></select></div>
+        <div class="ord" data-ans="3"><span>نفي عمر مكرم إلى دمياط</span><select><option value="">الترتيب...</option><option value="1">الأول</option><option value="2">الثاني</option><option value="3">الثالث</option><option value="4">الرابع</option></select></div>
+        <div class="ord" data-ans="2"><span>حملة فريزر على مصر</span><select><option value="">الترتيب...</option><option value="1">الأول</option><option value="2">الثاني</option><option value="3">الثالث</option><option value="4">الرابع</option></select></div>
+        <button class="btn" id="chk1">✓ تحقق من الترتيب</button>
+        <button class="btn ghost" id="rst1">إعادة المحاولة</button>
+        <div class="fb" id="fb1" aria-live="polite"></div>
+      </div>
+
+      <div class="act q" id="act2">
+        <div class="ico">📝</div>
+        <h3>نشاط 2: اختبر معلوماتك</h3>
+        <p class="d">اختر الإجابة الصحيحة لكل سؤال مما يلي:</p>
+        <div class="qb"><p>1. اجتمع زعماء الشعب في مايو 1805م لتولية محمد علي في:</p>
+          <label><input type="radio" name="q1"> قلعة صلاح الدين</label><label><input type="radio" name="q1" data-ok="1"> دار المحكمة (بيت القاضي)</label></div>
+        <div class="qb"><p>2. تصدى أهالي رشيد والحماد عام 1807م لحملة:</p>
+          <label><input type="radio" name="q2" data-ok="1"> فريزر الإنجليزية</label><label><input type="radio" name="q2"> نابليون الفرنسية</label></div>
+        <div class="qb"><p>3. تخلص محمد علي من الزعامة الشعبية بنفي عمر مكرم إلى:</p>
+          <label><input type="radio" name="q3"> الإسكندرية</label><label><input type="radio" name="q3" data-ok="1"> دمياط</label></div>
+        <button class="btn" id="chk2">اعرض النتيجة <span>←</span></button>
+        <button class="btn ghost" id="rst2">إعادة الاختبار</button>
+        <div class="fb" id="fb2" aria-live="polite"></div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- ==================== الفوتر ==================== -->
+<div class="strip" style="width: 100%; border-radius: 0; margin-top: 50px;"></div>
+<footer>
+  <p style="margin: 0 0 6px;">تصميم وإعداد: طلاب الفرقة الرابعة - قسم تكنولوجيا التعليم | جامعة أسوان</p>
+  <p style="margin: 0; font-size: 0.8rem; opacity: 0.75;">جميع الحقوق محفوظة © مركز المستكشف الرقمي</p>
+</footer>
+
+<script>
+/* ضع هنا رقم ملف جوجل درايف (الجزء الموجود بين /d/ و /view في رابط الملف) */
+var DRIVE_ID='1087L28DHvIPTW13RURCu8Qxp3MLi81Ge';
+if(DRIVE_ID&&DRIVE_ID!=='PUT_FILE_ID_HERE'){
+  var fr=document.getElementById('pdfFrame');
+  fr.src='https://drive.google.com/file/d/'+DRIVE_ID+'/preview';
+  fr.style.display='block';
+  document.getElementById('pdfEmpty').style.display='none';
+  document.getElementById('pdfOpen').href='https://drive.google.com/file/d/'+DRIVE_ID+'/view';
+}else{
+  document.getElementById('pdfOpen').style.display='none';
+}
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}})},{threshold:.1});
+document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+var links=document.querySelectorAll('nav a'),secs=[].map.call(links,function(a){return document.querySelector(a.getAttribute('href'))});
+var so=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(l){l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id)})}})},{rootMargin:'-35% 0px -55% 0px'});
+secs.forEach(function(s){so.observe(s)});
 
 (function(){
-  var rvEls=document.querySelectorAll('.rv');
-  var io=new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      if(e.isIntersecting||e.boundingClientRect.top<window.innerHeight){
-        e.target.classList.add('show');
-        io.unobserve(e.target);
-      }
-    });
-  },{threshold:0,rootMargin:'120px 0px 120px 0px'});
-  rvEls.forEach(function(el){io.observe(el)});
-
-  var ticking=false;
-  function revealVisible(){
-    ticking=false;
-    var h=window.innerHeight||document.documentElement.clientHeight;
-    for(var i=0;i<rvEls.length;i++){
-      var el=rvEls[i];
-      if(!el.classList.contains('show')&&el.getBoundingClientRect().top<h+120){
-        el.classList.add('show');
-      }
-    }
-  }
-  function onScrollOrResize(){
-    if(!ticking){
-      ticking=true;
-      requestAnimationFrame(revealVisible);
-    }
-  }
-  window.addEventListener('scroll',onScrollOrResize,{passive:true});
-  window.addEventListener('resize',onScrollOrResize,{passive:true});
-  window.addEventListener('load',revealVisible);
-  setTimeout(revealVisible,250);
-})();
-
-(function(){
-  var links=document.querySelectorAll('nav a');
-  var secs=[].map.call(links,function(a){return document.querySelector(a.getAttribute('href'))});
-  var so=new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      if(e.isIntersecting){
-        links.forEach(function(l){l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id)});
-      }
-    });
-  },{rootMargin:'-35% 0px -55% 0px'});
-  secs.forEach(function(s){if(s)so.observe(s)});
-})();
-
-(function(){
-  /* نشاط 1: ترتيب الأحداث */
-  var rows1=document.querySelectorAll('#act1 .ord'),fb1=document.getElementById('fb1');
+  var rows=document.querySelectorAll('#act1 .ord'),fb1=document.getElementById('fb1');
   document.getElementById('chk1').onclick=function(){
     var ok=0,empty=0;
-    rows1.forEach(function(r){var v=r.querySelector('select').value;r.classList.remove('ok','no');
+    rows.forEach(function(r){var v=r.querySelector('select').value;r.classList.remove('ok','no');
       if(!v){empty++;return}
       if(v===r.dataset.ans){ok++;r.classList.add('ok')}else r.classList.add('no')});
-    fb1.textContent=empty?'اختر ترتيباً لكل حدث أولاً.':(ok===rows1.length?'🎉 ممتاز! ترتيبك الزمني صحيح بالكامل.':'أجبت صح على '+ok+' من '+rows1.length+'، حاول تصحيح الباقي.');
+    fb1.textContent=empty?'اختر إجابة لكل عنصر أولاً.':(ok===rows.length?'🎉 ممتاز! كل إجاباتك صحيحة.':'أجبت صح على '+ok+' من '+rows.length+'، حاول تصحيح الباقي.');
   };
-  document.getElementById('rst1').onclick=function(){rows1.forEach(function(r){r.classList.remove('ok','no');r.querySelector('select').value=''});fb1.textContent=''};
+  document.getElementById('rst1').onclick=function(){rows.forEach(function(r){r.classList.remove('ok','no');r.querySelector('select').value=''});fb1.textContent=''};
 
-  /* نشاط 2: توصيل */
-  var rows2=document.querySelectorAll('#act2 .ord'),fbMatch=document.getElementById('fbMatch');
-  document.getElementById('chkMatch').onclick=function(){
-    var ok=0,empty=0;
-    rows2.forEach(function(r){var v=r.querySelector('select').value;r.classList.remove('ok','no');
-      if(!v){empty++;return}
-      if(v===r.dataset.ans){ok++;r.classList.add('ok')}else r.classList.add('no')});
-    fbMatch.textContent=empty?'اختر إجابة لكل عبارة أولاً.':(ok===rows2.length?'🎉 رائع! كل التوصيلات صحيحة.':'أجبت صح على '+ok+' من '+rows2.length+'، راجع العبارات المظللة.');
-  };
-  document.getElementById('rstMatch').onclick=function(){rows2.forEach(function(r){r.classList.remove('ok','no');r.querySelector('select').value=''});fbMatch.textContent=''};
-
-  /* اختبار 1: 5 أسئلة صح وخطأ */
-  var tfBlocks=document.querySelectorAll('#examTF .qb'),fbTF=document.getElementById('fbTF');
-  document.getElementById('chkTF').onclick=function(){
+  var fb2=document.getElementById('fb2'),qs=['q1','q2','q3'];
+  document.getElementById('chk2').onclick=function(){
     var score=0,miss=0;
-    tfBlocks.forEach(function(blk,idx){
-      var name='tf'+(idx+1);
-      var ans=blk.dataset.tfAns;
-      var hint=blk.querySelector('.ans-hint');
-      var ins=blk.querySelectorAll('input[name='+name+']');
-      var chosen=null;
-      ins.forEach(function(i){i.parentNode.classList.remove('ok','no');if(i.checked)chosen=i});
-      if(!chosen){miss++;return}
-      hint.classList.add('show');
-      if(chosen.value===ans){
-        score++;
-        chosen.parentNode.classList.add('ok');
-      }else{
-        chosen.parentNode.classList.add('no');
-        ins.forEach(function(i){if(i.value===ans)i.parentNode.classList.add('ok')});
-      }
-    });
-    fbTF.textContent=miss?'أجب عن جميع أسئلة صح وخطأ (5 أسئلة) أولاً.':'نتيجتك في صح وخطأ: '+score+' من '+tfBlocks.length+(score===tfBlocks.length?' 🎉 ممتاز!':' — راجع الإجابات الموضحة أسفل كل سؤال.');
-  };
-  document.getElementById('rstTF').onclick=function(){
-    tfBlocks.forEach(function(blk){
-      blk.querySelectorAll('input').forEach(function(i){i.checked=false;i.parentNode.classList.remove('ok','no')});
-      var hint=blk.querySelector('.ans-hint');
-      if(hint)hint.classList.remove('show');
-    });
-    fbTF.textContent='';
-  };
-
-  /* اختبار 2: 5 أسئلة اختر */
-  var fbMCQ=document.getElementById('fbMCQ'),mcqQs=['mcq1','mcq2','mcq3','mcq4','mcq5'];
-  document.getElementById('chkMCQ').onclick=function(){
-    var score=0,miss=0;
-    mcqQs.forEach(function(q){
+    qs.forEach(function(q){
       var ins=document.querySelectorAll('input[name='+q+']'),chosen=null;
-      var hint=ins[0].closest('.qb').querySelector('.ans-hint');
       ins.forEach(function(i){i.parentNode.classList.remove('ok','no');if(i.checked)chosen=i});
       if(!chosen){miss++;return}
-      if(hint)hint.classList.add('show');
       if(chosen.dataset.ok){score++;chosen.parentNode.classList.add('ok')}
       else{chosen.parentNode.classList.add('no');ins.forEach(function(i){if(i.dataset.ok)i.parentNode.classList.add('ok')})}
     });
-    fbMCQ.textContent=miss?'أجب عن جميع أسئلة اختر (5 أسئلة) أولاً.':'نتيجتك في اختر: '+score+' من '+mcqQs.length+(score===mcqQs.length?' 🎉 أحسنت!':' — راجع الإجابات الموضحة.');
+    fb2.textContent=miss?'أجب عن كل الأسئلة أولاً.':'نتيجتك: '+score+' من '+qs.length+(score===qs.length?' 🎉 أحسنت!':' — راجع الإجابات الموضحة.');
   };
-  document.getElementById('rstMCQ').onclick=function(){
-    document.querySelectorAll('#examMCQ input').forEach(function(i){i.checked=false;i.parentNode.classList.remove('ok','no')});
-    document.querySelectorAll('#examMCQ .ans-hint').forEach(function(h){h.classList.remove('show')});
-    fbMCQ.textContent='';
-  };
+  document.getElementById('rst2').onclick=function(){document.querySelectorAll('#act2 input').forEach(function(i){i.checked=false;i.parentNode.classList.remove('ok','no')});fb2.textContent=''};
 })();
 </script>
 <script src="../chatbot.js"></script>
