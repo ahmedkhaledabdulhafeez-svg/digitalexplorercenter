@@ -1,358 +1,872 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-	<head>
-		<meta charset="UTF-8">
-			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-				<title>قسم الجغرافيا | مركز المستكشف الرقمي</title>
-                  <link rel="icon" type="image/png" href="../favicon.png">
-		            <link rel="preconnect" href="https://fonts.googleapis.com">
-						<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
-							<style>
-								:root{--bg:#2e1a10;--bg2:#42251a;--panel:#3a2116;--line:rgba(224,160,110,.22);--copper:#c8825a;--gold:#f0b44c;--sand:#f3dcb8;--text:#f6e8d4;--mute:#c9ae94}
-								*{box-sizing:border-box;margin:0;padding:0}
-								html{scroll-behavior:smooth}
-								body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;overflow-x:hidden}
-								a{color:inherit;text-decoration:none}
-								:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>قسم الجغرافيا | مركز المستكشف الرقمي</title>
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Reem+Kufi:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#2e1a10; --bg2:#42251a; --panel:#3a2116; --line:rgba(224,160,110,.22);
+      --copper:#c8825a; --gold:#f0b44c; --sand:#f3dcb8; --text:#f6e8d4; --mute:#c9ae94;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;overflow-x:hidden}
+    body.menu-lock{overflow:hidden;touch-action:none}
+    a{color:inherit;text-decoration:none}
+    :focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 
-								/* header */
-								header{position:sticky;top:0;z-index:50;background:rgba(46,26,16,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-								.bar{max-width:1240px;margin:auto;padding:8px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-								.bar img{width:50px;height:50px;object-fit:contain;border-radius:50%;background:#fff;padding:3px}
-								.brand{text-align:center;flex:1}
-								.brand h1{font-family:'Reem Kufi',sans-serif;font-size:1.3rem;color:var(--sand);line-height:1.4}
-								.brand p{color:var(--gold);font-weight:600;font-size:.78rem}
-								.back{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:14px;border:1.5px solid var(--copper);color:var(--copper);font-weight:700;font-size:.85rem;transition:.3s}
-								.back:hover{background:var(--copper);color:#2a150b;transform:translateY(-2px)}
+    /* ===== Header (مطابق للصفحة الرئيسية) ===== */
+    header{position:sticky;top:0;z-index:50;background:rgba(46,26,16,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .bar{max-width:1240px;margin:auto;padding:8px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .bar img{width:50px;height:50px;object-fit:contain;border-radius:50%;background:#fff;padding:3px}
+    .brand{text-align:center}
+    .brand b{font-family:'Reem Kufi',sans-serif;font-size:1.25rem;color:var(--sand);display:block;line-height:1.4}
+    .brand small{color:var(--gold);font-weight:600;font-size:.8rem}
+    nav{display:block;background:var(--bg2);border-bottom:1px solid var(--line)}
+    nav .in{max-width:1240px;margin:auto;display:flex;align-items:center;justify-content:center;position:relative;padding:0 20px}
+    .nav-links{display:flex;justify-content:center;gap:4px}
+    nav a{padding:6px 22px;margin:6px 0;border-radius:14px;font-size:.88rem;font-weight:600;color:var(--mute);transition:.25s;white-space:nowrap;flex-shrink:0}
+    nav a:hover{color:var(--sand)}
+    nav a.on{background:var(--copper);color:#2a150b}
 
-								/* hero */
-								.hero{position:relative;overflow:hidden;isolation:isolate;border-radius:0 0 44px 44px;min-height:400px;display:flex;align-items:center}
-								.hero .sky{position:absolute;inset:0;z-index:-2;background:linear-gradient(180deg,#d9741f,#f4a93a 55%,#ffd98a)}
-								.hero .glow{position:absolute;z-index:-1;left:-6%;top:50%;width:520px;height:520px;transform:translateY(-50%);border-radius:50%;background:radial-gradient(circle,#fffbe6 0%,#ffe08a 22%,rgba(244,169,58,0) 68%);animation:pulse 5s ease-in-out infinite}
-								.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(270deg,var(--bg) 0%,rgba(46,26,16,.95) 45%,rgba(46,26,16,.3) 80%,rgba(46,26,16,.1) 100%),linear-gradient(0deg,var(--bg),rgba(46,26,16,0) 30%)}
-								.hero .in{max-width:1240px;margin:auto;width:100%;padding:56px 24px 64px}
-								.tag{display:inline-block;border:1px solid var(--copper);color:var(--gold);padding:3px 18px;border-radius:99px;font-size:.8rem;font-weight:700;margin-bottom:14px;background:rgba(200,130,90,.12)}
-								.hero h2{font-family:'Reem Kufi',sans-serif;font-weight:700;font-size:clamp(1.9rem,4.6vw,3.2rem);line-height:1.5;color:var(--copper);max-width:640px;text-shadow:0 4px 30px rgba(240,180,76,.25)}
-								.hero p{color:var(--mute);max-width:520px;margin-top:10px}
-								@keyframes pulse{50%{opacity:.7;transform:translateY(-50%) scale(1.08)}}
+    /* ===== Account Avatar & Dropdown ===== */
+    .nav-account{position:sticky;right:0;top:0;z-index:75;flex-shrink:0;margin-inline-end:10px}
+    .account-trigger{width:40px;height:40px;padding:0;border-radius:50%;border:2px solid var(--gold);background:radial-gradient(circle at top,#5c3622,#24130b);color:var(--gold);display:grid;place-items:center;font-family:inherit;font-size:.95rem;font-weight:800;cursor:pointer;transition:.25s;box-shadow:0 0 0 2px rgba(200,130,90,.35),0 4px 12px rgba(0,0,0,.35);overflow:hidden}
+    .account-trigger:hover{transform:scale(1.06);border-color:var(--sand)}
+    .account-trigger img{width:100%;height:100%;object-fit:cover;object-position:center;border-radius:50%;display:block}
 
-								.hero .scene{position:absolute;inset:0;z-index:-2}
-								.hero .scene svg{width:100%;height:100%;display:block}
-								.rays{transform-box:view-box;transform-origin:150px 330px;animation:sway 12s ease-in-out infinite alternate}
-								@keyframes sway{from{transform:rotate(-5deg)}to{transform:rotate(7deg)}}
+    .account-menu{position:fixed;top:auto;right:12px;width:min(330px,calc(100vw - 24px));max-height:calc(100vh - 115px);overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;background:var(--panel);border:1.5px solid var(--copper);border-radius:18px;box-shadow:0 18px 40px rgba(0,0,0,.72);padding:14px 12px;display:none;z-index:95}
+    .account-menu.open{display:block}
 
-								/* lesson cards */
-								.wrap{max-width:1240px;margin:auto;padding:46px 20px 20px}
-								.list{display:flex;flex-direction:column;gap:34px}
-								.lc{--c:var(--gold);position:relative;display:block;min-height:340px;border-radius:32px;overflow:hidden;isolation:isolate;
-								background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);
-								box-shadow:0 26px 60px rgba(0,0,0,.4);transition:transform .4s,box-shadow .4s,border-color .4s}
-								.lc:nth-child(2){--c:#d9784a}.lc:nth-child(3){--c:#6fc2a8}
-								.lc:hover{transform:translateY(-8px);border-color:var(--c);box-shadow:0 34px 70px rgba(0,0,0,.5),0 0 50px -12px var(--c)}
-								.lc::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--c);z-index:3}
-								.art{position:absolute;inset:0 auto 0 0;width:62%;z-index:-1;overflow:hidden}
-								.art svg{width:100%;height:100%;display:block;transition:transform .8s}
-								.lc:hover .art svg{transform:scale(1.06)}
-								.art::after{content:"";position:absolute;inset:0;background:linear-gradient(270deg,#3a2116 0%,rgba(58,33,22,.92) 12%,rgba(58,33,22,.35) 55%,rgba(58,33,22,0) 100%)}
-								.tx{width:52%;margin-left:auto;padding:48px 46px;display:flex;flex-direction:column;justify-content:center;min-height:340px}
-								.chip{align-self:flex-start;font-size:.8rem;font-weight:700;padding:3px 18px;border-radius:99px;color:var(--c);border:1px solid var(--c);background:rgba(0,0,0,.22)}
-								.tx h3{font-family:'Reem Kufi',sans-serif;font-size:clamp(1.7rem,3.2vw,2.4rem);color:var(--sand);line-height:1.5;margin:14px 0 8px;transition:.3s}
-								.lc:hover h3{color:var(--c)}
-								.tx p{color:var(--mute);font-size:1rem;max-width:460px;margin-bottom:26px}
-								.go{align-self:flex-start;display:inline-flex;align-items:center;gap:12px;padding:12px 30px;border-radius:18px;background:var(--c);color:#2a150b;font-weight:800;border:1.5px solid var(--c);transition:.3s}
-								.lc:hover .go{background:transparent;color:var(--c)}
-								.go span:last-child{transition:.3s}
-								.lc:hover .go span:last-child{transform:translateX(-6px)}
+    .account-hero-box{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding-bottom:10px;margin-bottom:10px;border-bottom:1px dashed var(--line)}
+    .account-big-avatar{width:88px;height:88px;border-radius:50%;border:2.5px solid var(--gold);background:radial-gradient(circle at top,#5c3622,#24130b);color:var(--gold);display:grid;place-items:center;font-size:2rem;font-weight:800;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.45)}
+    .account-big-avatar img{width:100%;height:100%;object-fit:cover;object-position:center;border-radius:50%;display:block}
+    .account-menu-name{font-size:.94rem;font-weight:800;color:var(--gold);word-break:break-word;text-align:center}
 
-								/* scene motion */
-								.sunc{animation:sp 5s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
-								@keyframes sp{50%{opacity:.7;transform:scale(1.1)}}
-								.spin{transform-origin:300px 200px;animation:rot 40s linear infinite}
-								@keyframes rot{to{transform:rotate(360deg)}}
-								.ship{animation:bob 4s ease-in-out infinite;transform-origin:300px 270px}
-								@keyframes bob{50%{transform:translateY(-8px) rotate(2deg)}}
-								.bd{animation:fl 14s ease-in-out infinite alternate}
-								@keyframes fl{from{transform:translateX(40px)}to{transform:translateX(-120px)}}
+    .menu-action-item{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 12px;border:1px solid var(--line);border-radius:12px;background:rgba(0,0,0,.22);color:var(--sand);font-family:inherit;font-size:.84rem;font-weight:700;cursor:pointer;transition:.2s;margin-bottom:10px}
+    .menu-action-item:hover{background:rgba(240,180,76,.16);color:var(--gold);border-color:var(--gold)}
 
-								.strip{border-radius:99px;height:10px;margin-top:50px;background:repeating-linear-gradient(90deg,var(--copper) 0 18px,transparent 18px 26px,var(--gold) 26px 34px,transparent 34px 42px);opacity:.7}
-								footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);font-weight:600;font-size:.9rem;border-top:1px solid var(--line)}
-								.rv{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
-								.rv.show{opacity:1;transform:none}
+    .student-form{display:flex;flex-direction:column;gap:8px;padding:10px;border-radius:14px;background:rgba(0,0,0,.22);border:1px solid var(--line)}
+    .student-field{display:flex;flex-direction:column;gap:3px}
+    .student-field label{font-size:.75rem;font-weight:700;color:var(--mute)}
+    .student-field input{width:100%;padding:7px 10px;border-radius:10px;border:1px solid var(--line);background:rgba(46,26,16,.85);color:var(--text);font-family:inherit;font-size:.82rem;outline:none}
+    .student-field input:focus{border-color:var(--gold)}
+    .student-row-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .save-profile-btn{width:100%;padding:8px 12px;border:none;border-radius:12px;background:var(--copper);color:#2a150b;font-family:inherit;font-size:.84rem;font-weight:800;cursor:pointer;transition:.2s;margin-top:2px}
+    .save-profile-btn:hover{background:var(--gold)}
+    .save-profile-btn:disabled{opacity:.65;cursor:not-allowed}
+    .profile-status{font-size:.76rem;font-weight:700;text-align:center;min-height:16px;color:var(--gold)}
 
-								@media(max-width:780px){
-								.lc{min-height:0}
-								.art{position:relative;inset:auto;width:100%;height:220px}
-								.art::after{background:linear-gradient(0deg,#3a2116 0%,rgba(58,33,22,.5) 45%,rgba(58,33,22,0) 100%)}
-								.tx{width:100%;min-height:0;padding:10px 26px 30px}
-								.back span:first-child{display:none}
-								}
-								@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
-							</style>
-<script>
-if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
-  var s=document.createElement("style");s.id="pre-s";
-  s.textContent="html,body{overflow:hidden!important;background:#2e1a10!important}#auth-preloader{position:fixed;inset:0;z-index:999999;background:radial-gradient(circle at center,#4a2a1c 0%,#2e1a10 75%,#22120a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .4s ease,visibility .4s ease}#auth-preloader.hide{opacity:0;visibility:hidden;pointer-events:none}#auth-preloader .loader-orb{position:relative;width:155px;height:155px;display:grid;place-items:center}#auth-preloader .loader-halo{position:absolute;inset:-24%;border-radius:50%;background:radial-gradient(circle,rgba(240,180,76,.38),transparent 65%);animation:authHaloPulse 2.4s ease-in-out infinite}#auth-preloader .loader-ring-outer{position:absolute;inset:0;border-radius:50%;border:2.5px dashed rgba(240,180,76,.65);animation:authSpin 14s linear infinite}#auth-preloader .loader-ring-inner{position:absolute;inset:10px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 65%,#f0b44c 100%);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3.5px),#000 calc(100% - 2.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 3.5px),#000 calc(100% - 2.5px));animation:authSpinReverse 2.2s linear infinite}#auth-preloader .loader-core{position:relative;z-index:2;width:112px;height:112px;border-radius:50%;padding:12px;background:rgba(255,255,255,.08);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1.5px solid rgba(240,180,76,.45);box-shadow:0 0 40px rgba(240,180,76,.35),inset 0 0 20px rgba(255,255,255,.1);display:grid;place-items:center;overflow:hidden;animation:authFloat 2.6s ease-in-out infinite}#auth-preloader .loader-core::after{content:'';position:absolute;inset:-40%;background:linear-gradient(110deg,transparent 40%,rgba(255,255,255,.38) 50%,transparent 60%);animation:authSweep 2s ease-in-out infinite}#auth-preloader img{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 12px rgba(0,0,0,.5))}#auth-preloader .loader-title{font-family:'Reem Kufi','Cairo',system-ui,sans-serif;font-size:1.45rem;font-weight:700;color:#f0b44c;text-shadow:0 2px 14px rgba(240,180,76,.3);margin-top:4px}#auth-preloader .loader-sub{font-family:'Cairo',system-ui,sans-serif;color:#f3dcb8;font-size:.92rem;font-weight:600;opacity:.88}@keyframes authSpin{to{transform:rotate(360deg)}}@keyframes authSpinReverse{to{transform:rotate(-360deg)}}@keyframes authFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}@keyframes authHaloPulse{0%,100%{opacity:.65;transform:scale(.95)}50%{opacity:1;transform:scale(1.06)}}@keyframes authSweep{0%{transform:translateX(-70%)}100%{transform:translateX(70%)}}";
-  document.head.appendChild(s);
-  var d=document.createElement("div");d.id="auth-preloader";
-  d.innerHTML='<div class="loader-orb"><span class="loader-halo"></span><span class="loader-ring-outer"></span><span class="loader-ring-inner"></span><div class="loader-core"><img src="https://i.postimg.cc/ZnF2Hzfs/almstkshf-alrqmy.png" alt="مركز المستكشف الرقمي"></div></div><div class="loader-title">مركز المستكشف الرقمي</div><div class="loader-sub">جاري تجهيز بيئة التعلم...</div>';
-  document.documentElement.appendChild(d);
-}
-</script>
-<script type="module" src="../auth-guard.js"></script>
-<noscript><meta http-equiv="refresh" content="0;url=../index.html"></noscript>
-						</head>
-	<body>
+    .logout-item{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:9px 12px;border:1px solid rgba(255,77,77,.45);border-radius:12px;background:rgba(220,38,38,.18);color:#ff5252;font-family:inherit;font-size:.86rem;font-weight:800;cursor:pointer;transition:.2s;margin-top:10px;text-align:center}
+    .logout-item:hover,.logout-item:focus-visible{background:rgba(220,38,38,.32);color:#ff6b6b;border-color:#ff5252}
 
-		<header>
-			<div class="bar">
-				<img src="https://i.postimg.cc/ZnF2Hzfs/almstkshf-alrqmy.png" alt="شعار جامعة أسوان">
-					<div class="brand">
-						<h1>قسم الجغرافيا</h1>
-						<p>مركز المستكشف الرقمي - الصف الثالث الإعدادي</p>
-					</div>
-					<a href="../الصفحة-الرئيسية.html" class="back">
-						<span>الرئيسية</span>
-						<span>🏠</span>
-					</a>
-				</div>
-		</header>
+    @media(min-width:760px){
+      .nav-account{position:absolute;right:20px;top:50%;transform:translateY(-50%);margin-inline-end:0}
+      .account-menu{position:absolute;top:calc(100% + 8px);right:0}
+    }
+    @media(max-width:759px){
+      nav .in{justify-content:flex-start;padding:0 10px;gap:6px;overflow:visible}
+      .nav-links{justify-content:flex-start;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;flex:1;min-width:0}
+      .nav-links::-webkit-scrollbar{display:none}
+      nav a{padding:5px 14px;margin:5px 0;font-size:.82rem}
+      .account-trigger{width:36px;height:36px;font-size:.88rem}
+    }
 
-		<section class="hero">
-			<div class="scene" aria-hidden="true">
-				<svg viewBox="0 0 1200 640" preserveAspectRatio="xMinYMid slice">
-					<defs>
-						<linearGradient id="hsky" x1="0" y1="0" x2="0" y2="1">
-							<stop offset="0" stop-color="#d9741f"/>
-							<stop offset=".45" stop-color="#f4a93a"/>
-							<stop offset=".8" stop-color="#ffd98a"/>
-							<stop offset="1" stop-color="#fff0c4"/>
-						</linearGradient>
-						<radialGradient id="hglow">
-							<stop offset="0" stop-color="#fffbe6"/>
-							<stop offset=".25" stop-color="#ffe08a" stop-opacity=".9"/>
-							<stop offset="1" stop-color="#f4a93a" stop-opacity="0"/>
-						</radialGradient>
-						<linearGradient id="hpl" x1="0" x2="1">
-							<stop offset="0" stop-color="#e4a85c"/>
-							<stop offset="1" stop-color="#b8743a"/>
-						</linearGradient>
-						<linearGradient id="hpr" x1="0" x2="1">
-							<stop offset="0" stop-color="#8a4f26"/>
-							<stop offset="1" stop-color="#5e3218"/>
-						</linearGradient>
-						<linearGradient id="hd1" x1="0" y1="0" x2="0" y2="1">
-							<stop offset="0" stop-color="#e2a458"/>
-							<stop offset="1" stop-color="#8f5427"/>
-						</linearGradient>
-						<linearGradient id="hd2" x1="0" y1="0" x2="0" y2="1">
-							<stop offset="0" stop-color="#b87a3f"/>
-							<stop offset="1" stop-color="#5a3318"/>
-						</linearGradient>
-					</defs>
-					<rect width="1200" height="640" fill="url(#hsky)"/>
-					<circle class="sunc" cx="150" cy="330" r="330" fill="url(#hglow)"/>
-					<circle class="sunc" cx="150" cy="330" r="62" fill="#fffbe6"/>
-					<g class="rays" stroke="#fff3c0" stroke-opacity=".35" stroke-width="3">
-						<path d="M150 330 L760 120"/>
-						<path d="M150 330 L820 250"/>
-						<path d="M150 330 L760 380"/>
-						<path d="M150 330 L600 40"/>
-					</g>
-					<polygon points="700,430 820,330 940,430" fill="#c98e4e" opacity=".75"/>
-					<polygon points="880,430 960,355 1040,430" fill="#b57c40" opacity=".7"/>
-					<polygon points="470,470 690,150 910,470" fill="url(#hpl)"/>
-					<polygon points="690,150 910,470 690,470" fill="url(#hpr)"/>
-					<g stroke="#7a4421" stroke-opacity=".35" stroke-width="2">
-						<path d="M520 400 H860"/>
-						<path d="M570 330 H810"/>
-						<path d="M620 260 H760"/>
-						<path d="M660 205 H720"/>
-					</g>
-					<g class="bd" fill="none" stroke="#5a3318" stroke-width="3" stroke-linecap="round">
-						<path d="M330 150 q10 -12 20 0 q10 -12 20 0"/>
-						<path d="M400 120 q8 -10 16 0 q8 -10 16 0"/>
-						<path d="M290 195 q8 -10 16 0 q8 -10 16 0"/>
-						<path d="M440 185 q7 -9 14 0 q7 -9 14 0"/>
-					</g>
-					<path d="M0 480 C150 430 300 470 450 450 C600 430 750 500 1200 460 L1200 640 L0 640Z" fill="url(#hd1)"/>
-					<path d="M0 540 C200 500 350 560 560 530 C800 500 950 570 1200 540 L1200 640 L0 640Z" fill="url(#hd2)"/>
-				</svg>
-			</div>
-			<div class="in">
-				<span class="tag">🌍 منهج الجغرافيا الكامل</span>
-				<h2>استكشف العالم، القارات، والحضارات</h2>
-				<p>اختر الدرس للوصول إلى الشروحات والأنشطة التفاعلية والخرائط.</p>
-			</div>
-		</section>
+    /* ===== Hero ===== */
+    .hero{position:relative;overflow:hidden;isolation:isolate;border-radius:0 0 44px 44px;min-height:400px;display:flex;align-items:center}
+    .hero .sky{position:absolute;inset:0;z-index:-2;background:linear-gradient(180deg,#d9741f,#f4a93a 55%,#ffd98a)}
+    .hero .glow{position:absolute;z-index:-1;left:-6%;top:50%;width:520px;height:520px;transform:translateY(-50%);border-radius:50%;background:radial-gradient(circle,#fffbe6 0%,#ffe08a 22%,rgba(244,169,58,0) 68%);animation:pulse 5s ease-in-out infinite}
+    .hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(270deg,var(--bg) 0%,rgba(46,26,16,.95) 45%,rgba(46,26,16,.3) 80%,rgba(46,26,16,.1) 100%),linear-gradient(0deg,var(--bg),rgba(46,26,16,0) 30%)}
+    .hero .in{max-width:1240px;margin:auto;width:100%;padding:56px 24px 64px}
+    .hero-top-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+    .back{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:99px;border:1.5px solid var(--copper);background:rgba(46,26,16,.55);color:var(--sand);font-weight:700;font-size:.82rem;transition:.3s}
+    .back:hover{background:var(--copper);color:#2a150b;transform:translateY(-2px)}
+    .tag{display:inline-block;border:1px solid var(--copper);color:var(--gold);padding:3px 18px;border-radius:99px;font-size:.8rem;font-weight:700;background:rgba(200,130,90,.12)}
+    .hero h2{font-family:'Reem Kufi',sans-serif;font-weight:700;font-size:clamp(1.9rem,4.6vw,3.2rem);line-height:1.5;color:var(--copper);max-width:640px;text-shadow:0 4px 30px rgba(240,180,76,.25)}
+    .hero p{color:var(--mute);max-width:520px;margin-top:10px}
+    @keyframes pulse{50%{opacity:.7;transform:translateY(-50%) scale(1.08)}}
 
-		<main class="wrap">
-			<div class="list">
+    .hero .scene{position:absolute;inset:0;z-index:-2}
+    .hero .scene svg{width:100%;height:100%;display:block}
+    .rays{transform-box:view-box;transform-origin:150px 330px;animation:sway 12s ease-in-out infinite alternate}
+    @keyframes sway{from{transform:rotate(-5deg)}to{transform:rotate(7deg)}}
 
-				<!-- الدرس الأول -->
-				<a href="درس-قارات العالم-الموقع-والمساحة.html" class="lc rv">
-					<div class="art" aria-hidden="true">
-						<svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
-							<defs>
-								<linearGradient id="s1" x1="0" y1="0" x2="0" y2="1">
-									<stop offset="0" stop-color="#d9741f"/>
-									<stop offset=".6" stop-color="#f4a93a"/>
-									<stop offset="1" stop-color="#ffe3a0"/>
-								</linearGradient>
-								<radialGradient id="g1">
-									<stop offset="0" stop-color="#fffbe6"/>
-									<stop offset=".3" stop-color="#ffe08a" stop-opacity=".85"/>
-									<stop offset="1" stop-color="#f4a93a" stop-opacity="0"/>
-								</radialGradient>
-								<radialGradient id="gl" cx=".35" cy=".3" r=".8">
-									<stop offset="0" stop-color="#e8b36a"/>
-									<stop offset="1" stop-color="#8a4f26"/>
-								</radialGradient>
-							</defs>
-							<rect width="600" height="400" fill="url(#s1)"/>
-							<circle class="sunc" cx="110" cy="130" r="230" fill="url(#g1)"/>
-							<circle cx="300" cy="200" r="128" fill="url(#gl)"/>
-							<g class="spin">
-								<path d="M250 130c20-14 45-8 55 6s-6 26-24 28-44 10-46-8 3-20 15-26z" fill="#5e3218"/>
-								<path d="M300 205c22-8 48 4 52 26s-10 48-26 52-32-24-34-44 0-30 8-34z" fill="#5e3218"/>
-								<path d="M335 150c14-8 32-2 36 12s-14 20-28 18-14-22-8-30z" fill="#5e3218"/>
-								<path d="M215 215c14-6 30 2 30 16s-16 22-28 16-8-26-2-32z" fill="#5e3218"/>
-							</g>
-							<ellipse cx="300" cy="200" rx="190" ry="48" fill="none" stroke="#fff3c0" stroke-opacity=".7" stroke-width="3" transform="rotate(-18 300 200)"/>
-							<path d="M0 330C120 300 240 340 380 320S540 330 600 320V400H0Z" fill="#b87a3f"/>
-							<path d="M0 370C160 345 300 385 600 355V400H0Z" fill="#5a3318"/>
-						</svg>
-					</div>
-					<div class="tx">
-						<span class="chip">الدرس الأول</span>
-						<h3>قارات العالم القديم</h3>
-						<p>دراسة موقع ومساحة وخصائص قارات العالم القديم (آسيا وأفريقيا وأوروبا).</p>
-						<span class="go">
-							<span>عرض الدرس</span>
-							<span>←</span>
-						</span>
-					</div>
-				</a>
+    /* ===== Lesson Cards ===== */
+    .wrap{max-width:1240px;margin:auto;padding:46px 20px 20px}
+    .list{display:flex;flex-direction:column;gap:34px}
+    .lc{--c:var(--gold);position:relative;display:block;min-height:340px;border-radius:32px;overflow:hidden;isolation:isolate;
+      background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);
+      box-shadow:0 26px 60px rgba(0,0,0,.4);transition:transform .4s,box-shadow .4s,border-color .4s}
+    .lc:nth-child(2){--c:#d9784a}.lc:nth-child(3){--c:#6fc2a8}
+    .lc:hover{transform:translateY(-8px);border-color:var(--c);box-shadow:0 34px 70px rgba(0,0,0,.5),0 0 50px -12px var(--c)}
+    .lc::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--c);z-index:3}
+    .art{position:absolute;inset:0 auto 0 0;width:62%;z-index:-1;overflow:hidden}
+    .art svg{width:100%;height:100%;display:block;transition:transform .8s}
+    .lc:hover .art svg{transform:scale(1.06)}
+    .art::after{content:"";position:absolute;inset:0;background:linear-gradient(270deg,#3a2116 0%,rgba(58,33,22,.92) 12%,rgba(58,33,22,.35) 55%,rgba(58,33,22,0) 100%)}
+    .tx{width:52%;margin-left:auto;padding:48px 46px;display:flex;flex-direction:column;justify-content:center;min-height:340px}
+    .chip{align-self:flex-start;font-size:.8rem;font-weight:700;padding:3px 18px;border-radius:99px;color:var(--c);border:1px solid var(--c);background:rgba(0,0,0,.22)}
+    .tx h3{font-family:'Reem Kufi',sans-serif;font-size:clamp(1.7rem,3.2vw,2.4rem);color:var(--sand);line-height:1.5;margin:14px 0 8px;transition:.3s}
+    .lc:hover h3{color:var(--c)}
+    .tx p{color:var(--mute);font-size:1rem;max-width:460px;margin-bottom:26px}
+    .go{align-self:flex-start;display:inline-flex;align-items:center;gap:12px;padding:12px 30px;border-radius:18px;background:var(--c);color:#2a150b;font-weight:800;border:1.5px solid var(--c);transition:.3s}
+    .lc:hover .go{background:transparent;color:var(--c)}
+    .go span:last-child{transition:.3s}
+    .lc:hover .go span:last-child{transform:translateX(-6px)}
 
-				<!-- الدرس الثاني -->
-				<a href="الدرس-الثاني-الحضارات-لقديمة-في-الأمريكتين.html" target="_top" class="lc rv">
-					<div class="art" aria-hidden="true">
-						<svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
-							<defs>
-								<linearGradient id="s2" x1="0" y1="0" x2="0" y2="1">
-									<stop offset="0" stop-color="#8a3a1c"/>
-									<stop offset=".5" stop-color="#e8782a"/>
-									<stop offset="1" stop-color="#ffc66b"/>
-								</linearGradient>
-								<radialGradient id="g2">
-									<stop offset="0" stop-color="#fffbe6"/>
-									<stop offset=".3" stop-color="#ffd27a" stop-opacity=".85"/>
-									<stop offset="1" stop-color="#e8782a" stop-opacity="0"/>
-								</radialGradient>
-								<linearGradient id="st" x1="0" x2="1">
-									<stop offset="0" stop-color="#c98e4e"/>
-									<stop offset="1" stop-color="#8a4f26"/>
-								</linearGradient>
-							</defs>
-							<rect width="600" height="400" fill="url(#s2)"/>
-							<circle class="sunc" cx="130" cy="190" r="220" fill="url(#g2)"/>
-							<circle cx="130" cy="190" r="48" fill="#fffbe6"/>
-							<path d="M0 300c60-40 110-20 160-40s110-30 170-6 120-4 270 30V400H0Z" fill="#4a3a1c"/>
-							<polygon points="200,330 230,290 370,290 400,330" fill="url(#st)"/>
-							<polygon points="225,290 250,255 350,255 375,290" fill="#b57c40"/>
-							<polygon points="250,255 272,222 328,222 350,255" fill="url(#st)"/>
-							<polygon points="272,222 288,194 312,194 328,222" fill="#b57c40"/>
-							<rect x="284" y="172" width="32" height="22" rx="2" fill="#8a4f26"/>
-							<path d="M290 330v-28h20v28z" fill="#5e3218"/>
-							<g stroke="#5e3218" stroke-opacity=".4" stroke-width="2">
-								<path d="M232 312H368"/>
-								<path d="M256 275H344"/>
-								<path d="M276 240H324"/>
-							</g>
-							<path d="M0 340c80-24 160-6 240-20s200-6 360 20V400H0Z" fill="#2e2310"/>
-							<g class="bd" fill="none" stroke="#3a2116" stroke-width="3" stroke-linecap="round">
-								<path d="M360 90q8-10 16 0q8-10 16 0"/>
-								<path d="M410 120q6-8 12 0q6-8 12 0"/>
-							</g>
-						</svg>
-					</div>
-					<div class="tx">
-						<span class="chip">الدرس الثاني</span>
-						<h3>الحضارات القديمة في الأمريكتين</h3>
-						<p>التعرف على أهم الحضارات القديمة في أمريكا الشمالية والجنوبية ومظاهرها.</p>
-						<span class="go">
-							<span>عرض الدرس</span>
-							<span>←</span>
-						</span>
-					</div>
-				</a>
+    /* scene motion */
+    .sunc{animation:sp 5s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+    @keyframes sp{50%{opacity:.7;transform:scale(1.1)}}
+    .spin{transform-origin:300px 200px;animation:rot 40s linear infinite}
+    @keyframes rot{to{transform:rotate(360deg)}}
+    .ship{animation:bob 4s ease-in-out infinite;transform-origin:300px 270px}
+    @keyframes bob{50%{transform:translateY(-8px) rotate(2deg)}}
+    .bd{animation:fl 14s ease-in-out infinite alternate}
+    @keyframes fl{from{transform:translateX(40px)}to{transform:translateX(-120px)}}
 
-				<!-- الدرس الثالث -->
-				<a href="الدرس-الثالث-الكشوف-الجغرافية-لقارات-العالم-الجديد.html" target="_top" class="lc rv">
-					<div class="art" aria-hidden="true">
-						<svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
-							<defs>
-								<linearGradient id="s3" x1="0" y1="0" x2="0" y2="1">
-									<stop offset="0" stop-color="#b8502a"/>
-									<stop offset=".5" stop-color="#f4a93a"/>
-									<stop offset="1" stop-color="#ffe3a0"/>
-								</linearGradient>
-								<radialGradient id="g3">
-									<stop offset="0" stop-color="#fffbe6"/>
-									<stop offset=".3" stop-color="#ffe08a" stop-opacity=".85"/>
-									<stop offset="1" stop-color="#f4a93a" stop-opacity="0"/>
-								</radialGradient>
-								<linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
-									<stop offset="0" stop-color="#b8743a"/>
-									<stop offset="1" stop-color="#3a2116"/>
-								</linearGradient>
-							</defs>
-							<rect width="600" height="400" fill="url(#s3)"/>
-							<circle class="sunc" cx="120" cy="250" r="230" fill="url(#g3)"/>
-							<circle cx="120" cy="250" r="50" fill="#fffbe6"/>
-							<rect y="262" width="600" height="138" fill="url(#sea)"/>
-							<g class="ship">
-								<path d="M210 262h180l-26 36H236z" fill="#4a2a16"/>
-								<path d="M300 262V120" stroke="#3a2116" stroke-width="5"/>
-								<path d="M300 128c60 8 84 50 78 100H300z" fill="#fbe6bd"/>
-								<path d="M300 140c-48 8-70 44-64 88h64z" fill="#f3d19a"/>
-								<path d="M300 120l36 10-36 10z" fill="#c8825a"/>
-							</g>
-							<g fill="none" stroke="#f0b44c" stroke-opacity=".55" stroke-width="3" stroke-linecap="round">
-								<path d="M30 300q30-12 60 0t60 0"/>
-								<path d="M380 320q30-12 60 0t60 0"/>
-								<path d="M200 350q30-12 60 0t60 0"/>
-							</g>
-							<g class="bd" fill="none" stroke="#5a3318" stroke-width="3" stroke-linecap="round">
-								<path d="M400 80q8-10 16 0q8-10 16 0"/>
-								<path d="M450 110q6-8 12 0q6-8 12 0"/>
-							</g>
-						</svg>
-					</div>
-					<div class="tx">
-						<span class="chip">الدرس الثالث</span>
-						<h3>الكشوف الجغرافية لقارات العالم الجديد</h3>
-						<p>رحلات الكشف الجغرافي وأهم المستكشفين ودوافع الكشوف ونتائجها.</p>
-						<span class="go">
-							<span>عرض الدرس</span>
-							<span>←</span>
-						</span>
-					</div>
-				</a>
+    .strip{border-radius:99px;height:10px;margin-top:50px;background:repeating-linear-gradient(90deg,var(--copper) 0 18px,transparent 18px 26px,var(--gold) 26px 34px,transparent 34px 42px);opacity:.7}
+    footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);font-weight:600;font-size:.9rem;border-top:1px solid var(--line)}
+    .rv{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
+    .rv.show{opacity:1;transform:none}
 
-			</div>
-		</main>
+    @media(max-width:780px){
+      .lc{min-height:0}
+      .art{position:relative;inset:auto;width:100%;height:220px}
+      .art::after{background:linear-gradient(0deg,#3a2116 0%,rgba(58,33,22,.5) 45%,rgba(58,33,22,0) 100%)}
+      .tx{width:100%;min-height:0;padding:10px 26px 30px}
+    }
+    @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+  </style>
+  <script>
+    if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
+      var s=document.createElement("style");s.id="pre-s";
+      s.textContent="html,body{overflow:hidden!important;background:#2e1a10!important}#auth-preloader{position:fixed;inset:0;z-index:999999;background:radial-gradient(circle at center,#4a2a1c 0%,#2e1a10 75%,#22120a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .4s ease,visibility .4s ease}#auth-preloader.hide{opacity:0;visibility:hidden;pointer-events:none}#auth-preloader .loader-orb{position:relative;width:155px;height:155px;display:grid;place-items:center}#auth-preloader .loader-halo{position:absolute;inset:-24%;border-radius:50%;background:radial-gradient(circle,rgba(240,180,76,.38),transparent 65%);animation:authHaloPulse 2.4s ease-in-out infinite}#auth-preloader .loader-ring-outer{position:absolute;inset:0;border-radius:50%;border:2.5px dashed rgba(240,180,76,.65);animation:authSpin 14s linear infinite}#auth-preloader .loader-ring-inner{position:absolute;inset:10px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 65%,#f0b44c 100%);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3.5px),#000 calc(100% - 2.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 3.5px),#000 calc(100% - 2.5px));animation:authSpinReverse 2.2s linear infinite}#auth-preloader .loader-core{position:relative;z-index:2;width:112px;height:112px;border-radius:50%;padding:12px;background:rgba(255,255,255,.08);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1.5px solid rgba(240,180,76,.45);box-shadow:0 0 40px rgba(240,180,76,.35),inset 0 0 20px rgba(255,255,255,.1);display:grid;place-items:center;overflow:hidden;animation:authFloat 2.6s ease-in-out infinite}#auth-preloader .loader-core::after{content:'';position:absolute;inset:-40%;background:linear-gradient(110deg,transparent 40%,rgba(255,255,255,.38) 50%,transparent 60%);animation:authSweep 2s ease-in-out infinite}#auth-preloader img{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 6px 12px rgba(0,0,0,.5))}#auth-preloader .loader-title{font-family:'Reem Kufi','Cairo',system-ui,sans-serif;font-size:1.45rem;font-weight:700;color:#f0b44c;text-shadow:0 2px 14px rgba(240,180,76,.3);margin-top:4px}#auth-preloader .loader-sub{font-family:'Cairo',system-ui,sans-serif;color:#f3dcb8;font-size:.92rem;font-weight:600;opacity:.88}@keyframes authSpin{to{transform:rotate(360deg)}}@keyframes authSpinReverse{to{transform:rotate(-360deg)}}@keyframes authFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}@keyframes authHaloPulse{0%,100%{opacity:.65;transform:scale(.95)}50%{opacity:1;transform:scale(1.06)}}@keyframes authSweep{0%{transform:translateX(-70%)}100%{transform:translateX(70%)}}";
+      document.head.appendChild(s);
+      var d=document.createElement("div");d.id="auth-preloader";
+      d.innerHTML='<div class="loader-orb"><span class="loader-halo"></span><span class="loader-ring-outer"></span><span class="loader-ring-inner"></span><div class="loader-core"><img src="https://i.postimg.cc/ZnF2Hzfs/almstkshf-alrqmy.png" alt="مركز المستكشف الرقمي"></div></div><div class="loader-title">مركز المستكشف الرقمي</div><div class="loader-sub">جاري تجهيز بيئة التعلم...</div>';
+      document.documentElement.appendChild(d);
+    }
+  </script>
+  <script type="module" src="../auth-guard.js"></script>
+  <noscript><meta http-equiv="refresh" content="0;url=../index.html"></noscript>
+</head>
+<body>
 
-<!-- ==================== الفوتر ==================== -->
-<div class="strip" style="width: 100%; border-radius: 0; margin-top: 50px;"></div>
-<footer>
-  <p style="margin: 0 0 6px;">تصميم وإعداد: طلاب الفرقة الرابعة - قسم تكنولوجيا التعليم | جامعة أسوان</p>
-  <p style="margin: 0; font-size: 0.8rem; opacity: 0.75;">جميع الحقوق محفوظة © مركز المستكشف الرقمي</p>
-</footer>
+  <header>
+    <div class="bar">
+      <img src="https://upload.wikimedia.org/wikipedia/ar/f/f7/%D8%AC%D8%A7%D9%85%D8%B9%D8%A9_%D8%A3%D8%B3%D9%88%D8%A7%D9%86.png?utm_source=ar.wikipedia.org&utm_campaign=index&utm_content=original" alt="شعار جامعة أسوان">
+      <div class="brand"><b>مركز المستكشف الرقمي</b><small>الصف الثالث الإعدادي - قسم الجغرافيا</small></div>
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEzagK-_Zmqbzw25mmC78SZwqlNOLOK24tSfODSl1WydvvBxkharGt-Mmz&s=10" alt="شعار كلية التربية النوعية وقسم تكنولوجيا التعليم">
+    </div>
+    <nav><div class="in">
+      <div class="nav-account">
+        <button type="button" class="account-trigger" id="accountTrigger" aria-expanded="false" aria-controls="accountMenu" aria-label="قائمة الحساب">👤</button>
+        <div class="account-menu" id="accountMenu" role="menu">
+          <div class="account-hero-box">
+            <div class="account-big-avatar" id="accountBigAvatar">👤</div>
+            <div class="account-menu-name" id="accountMenuName">الحساب</div>
+          </div>
 
-		<script>
-			var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}})},{threshold:.1});
-			document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
-		</script>
-	  <script src="../chatbot.js"></script>
-	</body>
+          <button type="button" class="menu-action-item" id="uploadPhotoBtn" role="menuitem">🖼️ إضافة صورة</button>
+
+          <form class="student-form" id="studentProfileForm">
+            <div class="student-field">
+              <label for="nameArInput">الاسم بالعربية</label>
+              <input type="text" id="nameArInput" placeholder="اكتب اسمك بالعربية">
+            </div>
+            <div class="student-field">
+              <label for="nameEnInput">الاسم بالإنجليزية</label>
+              <input type="text" id="nameEnInput" dir="ltr" placeholder="Full Name in English">
+            </div>
+            <div class="student-field">
+              <label for="gradeInput">الفرقة</label>
+              <input type="text" id="gradeInput" placeholder="مثال: الفرقة الرابعة">
+            </div>
+            <div class="student-row-2">
+              <div class="student-field">
+                <label for="semesterInput">الفصل الدراسي</label>
+                <input type="text" id="semesterInput" placeholder="الأول / الثاني">
+              </div>
+              <div class="student-field">
+                <label for="sectionInput">الفصل</label>
+                <input type="text" id="sectionInput" placeholder="مثال: فصل 1">
+              </div>
+            </div>
+            <button type="submit" class="save-profile-btn" id="saveProfileBtn">💾 حفظ البيانات</button>
+            <div class="profile-status" id="profileStatus"></div>
+          </form>
+
+          <button type="button" class="logout-item" id="logoutBtn" role="menuitem">🚪 تسجيل خروج</button>
+        </div>
+        <input type="file" id="avatarFileInput" accept="image/*" style="display:none">
+      </div>
+      <div class="nav-links">
+        <a href="#lesson-1" class="on">الدرس الأول</a>
+        <a href="#lesson-2">الدرس الثاني</a>
+        <a href="#lesson-3">الدرس الثالث</a>
+      </div>
+    </div></nav>
+  </header>
+
+  <section class="hero">
+    <div class="scene" aria-hidden="true">
+      <svg viewBox="0 0 1200 640" preserveAspectRatio="xMinYMid slice">
+        <defs>
+          <linearGradient id="hsky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#d9741f"/>
+            <stop offset=".45" stop-color="#f4a93a"/>
+            <stop offset=".8" stop-color="#ffd98a"/>
+            <stop offset="1" stop-color="#fff0c4"/>
+          </linearGradient>
+          <radialGradient id="hglow">
+            <stop offset="0" stop-color="#fffbe6"/>
+            <stop offset=".25" stop-color="#ffe08a" stop-opacity=".9"/>
+            <stop offset="1" stop-color="#f4a93a" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="hpl" x1="0" x2="1">
+            <stop offset="0" stop-color="#e4a85c"/>
+            <stop offset="1" stop-color="#b8743a"/>
+          </linearGradient>
+          <linearGradient id="hpr" x1="0" x2="1">
+            <stop offset="0" stop-color="#8a4f26"/>
+            <stop offset="1" stop-color="#5e3218"/>
+          </linearGradient>
+          <linearGradient id="hd1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#e2a458"/>
+            <stop offset="1" stop-color="#8f5427"/>
+          </linearGradient>
+          <linearGradient id="hd2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#b87a3f"/>
+            <stop offset="1" stop-color="#5a3318"/>
+          </linearGradient>
+        </defs>
+        <rect width="1200" height="640" fill="url(#hsky)"/>
+        <circle class="sunc" cx="150" cy="330" r="330" fill="url(#hglow)"/>
+        <circle class="sunc" cx="150" cy="330" r="62" fill="#fffbe6"/>
+        <g class="rays" stroke="#fff3c0" stroke-opacity=".35" stroke-width="3">
+          <path d="M150 330 L760 120"/>
+          <path d="M150 330 L820 250"/>
+          <path d="M150 330 L760 380"/>
+          <path d="M150 330 L600 40"/>
+        </g>
+        <polygon points="700,430 820,330 940,430" fill="#c98e4e" opacity=".75"/>
+        <polygon points="880,430 960,355 1040,430" fill="#b57c40" opacity=".7"/>
+        <polygon points="470,470 690,150 910,470" fill="url(#hpl)"/>
+        <polygon points="690,150 910,470 690,470" fill="url(#hpr)"/>
+        <g stroke="#7a4421" stroke-opacity=".35" stroke-width="2">
+          <path d="M520 400 H860"/>
+          <path d="M570 330 H810"/>
+          <path d="M620 260 H760"/>
+          <path d="M660 205 H720"/>
+        </g>
+        <g class="bd" fill="none" stroke="#5a3318" stroke-width="3" stroke-linecap="round">
+          <path d="M330 150 q10 -12 20 0 q10 -12 20 0"/>
+          <path d="M400 120 q8 -10 16 0 q8 -10 16 0"/>
+          <path d="M290 195 q8 -10 16 0 q8 -10 16 0"/>
+          <path d="M440 185 q7 -9 14 0 q7 -9 14 0"/>
+        </g>
+        <path d="M0 480 C150 430 300 470 450 450 C600 430 750 500 1200 460 L1200 640 L0 640Z" fill="url(#hd1)"/>
+        <path d="M0 540 C200 500 350 560 560 530 C800 500 950 570 1200 540 L1200 640 L0 640Z" fill="url(#hd2)"/>
+      </svg>
+    </div>
+    <div class="in">
+      <div class="hero-top-actions">
+        <a href="../الصفحة-الرئيسية.html" class="back">
+          <span>🏠</span>
+          <span>الرئيسية</span>
+        </a>
+        <span class="tag">🌍 منهج الجغرافيا الكامل</span>
+      </div>
+      <h2>استكشف العالم، القارات، والحضارات</h2>
+      <p>اختر الدرس للوصول إلى الشروحات والأنشطة التفاعلية والخرائط.</p>
+    </div>
+  </section>
+
+  <main class="wrap">
+    <div class="list">
+
+      <!-- الدرس الأول -->
+      <a id="lesson-1" href="درس-قارات العالم-الموقع-والمساحة.html" class="lc rv">
+        <div class="art" aria-hidden="true">
+          <svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="s1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#d9741f"/>
+                <stop offset=".6" stop-color="#f4a93a"/>
+                <stop offset="1" stop-color="#ffe3a0"/>
+              </linearGradient>
+              <radialGradient id="g1">
+                <stop offset="0" stop-color="#fffbe6"/>
+                <stop offset=".3" stop-color="#ffe08a" stop-opacity=".85"/>
+                <stop offset="1" stop-color="#f4a93a" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="gl" cx=".35" cy=".3" r=".8">
+                <stop offset="0" stop-color="#e8b36a"/>
+                <stop offset="1" stop-color="#8a4f26"/>
+              </radialGradient>
+            </defs>
+            <rect width="600" height="400" fill="url(#s1)"/>
+            <circle class="sunc" cx="110" cy="130" r="230" fill="url(#g1)"/>
+            <circle cx="300" cy="200" r="128" fill="url(#gl)"/>
+            <g class="spin">
+              <path d="M250 130c20-14 45-8 55 6s-6 26-24 28-44 10-46-8 3-20 15-26z" fill="#5e3218"/>
+              <path d="M300 205c22-8 48 4 52 26s-10 48-26 52-32-24-34-44 0-30 8-34z" fill="#5e3218"/>
+              <path d="M335 150c14-8 32-2 36 12s-14 20-28 18-14-22-8-30z" fill="#5e3218"/>
+              <path d="M215 215c14-6 30 2 30 16s-16 22-28 16-8-26-2-32z" fill="#5e3218"/>
+            </g>
+            <ellipse cx="300" cy="200" rx="190" ry="48" fill="none" stroke="#fff3c0" stroke-opacity=".7" stroke-width="3" transform="rotate(-18 300 200)"/>
+            <path d="M0 330C120 300 240 340 380 320S540 330 600 320V400H0Z" fill="#b87a3f"/>
+            <path d="M0 370C160 345 300 385 600 355V400H0Z" fill="#5a3318"/>
+          </svg>
+        </div>
+        <div class="tx">
+          <span class="chip">الدرس الأول</span>
+          <h3>قارات العالم القديم</h3>
+          <p>دراسة موقع ومساحة وخصائص قارات العالم القديم (آسيا وأفريقيا وأوروبا).</p>
+          <span class="go">
+            <span>عرض الدرس</span>
+            <span>←</span>
+          </span>
+        </div>
+      </a>
+
+      <!-- الدرس الثاني -->
+      <a id="lesson-2" href="الدرس-الثاني-الحضارات-لقديمة-في-الأمريكتين.html" target="_top" class="lc rv">
+        <div class="art" aria-hidden="true">
+          <svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="s2" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#8a3a1c"/>
+                <stop offset=".5" stop-color="#e8782a"/>
+                <stop offset="1" stop-color="#ffc66b"/>
+              </linearGradient>
+              <radialGradient id="g2">
+                <stop offset="0" stop-color="#fffbe6"/>
+                <stop offset=".3" stop-color="#ffd27a" stop-opacity=".85"/>
+                <stop offset="1" stop-color="#e8782a" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="st" x1="0" x2="1">
+                <stop offset="0" stop-color="#c98e4e"/>
+                <stop offset="1" stop-color="#8a4f26"/>
+              </linearGradient>
+            </defs>
+            <rect width="600" height="400" fill="url(#s2)"/>
+            <circle class="sunc" cx="130" cy="190" r="220" fill="url(#g2)"/>
+            <circle cx="130" cy="190" r="48" fill="#fffbe6"/>
+            <path d="M0 300c60-40 110-20 160-40s110-30 170-6 120-4 270 30V400H0Z" fill="#4a3a1c"/>
+            <polygon points="200,330 230,290 370,290 400,330" fill="url(#st)"/>
+            <polygon points="225,290 250,255 350,255 375,290" fill="#b57c40"/>
+            <polygon points="250,255 272,222 328,222 350,255" fill="url(#st)"/>
+            <polygon points="272,222 288,194 312,194 328,222" fill="#b57c40"/>
+            <rect x="284" y="172" width="32" height="22" rx="2" fill="#8a4f26"/>
+            <path d="M290 330v-28h20v28z" fill="#5e3218"/>
+            <g stroke="#5e3218" stroke-opacity=".4" stroke-width="2">
+              <path d="M232 312H368"/>
+              <path d="M256 275H344"/>
+              <path d="M276 240H324"/>
+            </g>
+            <path d="M0 340c80-24 160-6 240-20s200-6 360 20V400H0Z" fill="#2e2310"/>
+            <g class="bd" fill="none" stroke="#3a2116" stroke-width="3" stroke-linecap="round">
+              <path d="M360 90q8-10 16 0q8-10 16 0"/>
+              <path d="M410 120q6-8 12 0q6-8 12 0"/>
+            </g>
+          </svg>
+        </div>
+        <div class="tx">
+          <span class="chip">الدرس الثاني</span>
+          <h3>الحضارات القديمة في الأمريكتين</h3>
+          <p>التعرف على أهم الحضارات القديمة في أمريكا الشمالية والجنوبية ومظاهرها.</p>
+          <span class="go">
+            <span>عرض الدرس</span>
+            <span>←</span>
+          </span>
+        </div>
+      </a>
+
+      <!-- الدرس الثالث -->
+      <a id="lesson-3" href="الدرس-الثالث-الكشوف-الجغرافية-لقارات-العالم-الجديد.html" target="_top" class="lc rv">
+        <div class="art" aria-hidden="true">
+          <svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="s3" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#b8502a"/>
+                <stop offset=".5" stop-color="#f4a93a"/>
+                <stop offset="1" stop-color="#ffe3a0"/>
+              </linearGradient>
+              <radialGradient id="g3">
+                <stop offset="0" stop-color="#fffbe6"/>
+                <stop offset=".3" stop-color="#ffe08a" stop-opacity=".85"/>
+                <stop offset="1" stop-color="#f4a93a" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#b8743a"/>
+                <stop offset="1" stop-color="#3a2116"/>
+              </linearGradient>
+            </defs>
+            <rect width="600" height="400" fill="url(#s3)"/>
+            <circle class="sunc" cx="120" cy="250" r="230" fill="url(#g3)"/>
+            <circle cx="120" cy="250" r="50" fill="#fffbe6"/>
+            <rect y="262" width="600" height="138" fill="url(#sea)"/>
+            <g class="ship">
+              <path d="M210 262h180l-26 36H236z" fill="#4a2a16"/>
+              <path d="M300 262V120" stroke="#3a2116" stroke-width="5"/>
+              <path d="M300 128c60 8 84 50 78 100H300z" fill="#fbe6bd"/>
+              <path d="M300 140c-48 8-70 44-64 88h64z" fill="#f3d19a"/>
+              <path d="M300 120l36 10-36 10z" fill="#c8825a"/>
+            </g>
+            <g fill="none" stroke="#f0b44c" stroke-opacity=".55" stroke-width="3" stroke-linecap="round">
+              <path d="M30 300q30-12 60 0t60 0"/>
+              <path d="M380 320q30-12 60 0t60 0"/>
+              <path d="M200 350q30-12 60 0t60 0"/>
+            </g>
+            <g class="bd" fill="none" stroke="#5a3318" stroke-width="3" stroke-linecap="round">
+              <path d="M400 80q8-10 16 0q8-10 16 0"/>
+              <path d="M450 110q6-8 12 0q6-8 12 0"/>
+            </g>
+          </svg>
+        </div>
+        <div class="tx">
+          <span class="chip">الدرس الثالث</span>
+          <h3>الكشوف الجغرافية لقارات العالم الجديد</h3>
+          <p>رحلات الكشف الجغرافي وأهم المستكشفين ودوافع الكشوف ونتائجها.</p>
+          <span class="go">
+            <span>عرض الدرس</span>
+            <span>←</span>
+          </span>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <!-- ==================== الفوتر ==================== -->
+  <div class="strip" style="width: 100%; border-radius: 0; margin-top: 50px;"></div>
+  <footer>
+    <p style="margin: 0 0 6px;">تصميم وإعداد: طلاب الفرقة الرابعة - قسم تكنولوجيا التعليم | جامعة أسوان</p>
+    <p style="margin: 0; font-size: 0.8rem; opacity: 0.75;">جميع الحقوق محفوظة © مركز المستكشف الرقمي</p>
+  </footer>
+
+  <script>
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}})},{threshold:.1});
+    document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+
+    // تمييز الدرس الحالي في شريط التنقل أثناء السكرول
+    (function(){
+      var links = Array.prototype.slice.call(document.querySelectorAll('nav a[href^="#"]'));
+      var items = links.map(function(a){
+        return { a: a, el: document.getElementById(a.getAttribute('href').slice(1)) };
+      }).filter(function(x){ return x.el; });
+      var ticking = false;
+
+      function update(){
+        ticking = false;
+        var header = document.querySelector('header');
+        var offset = (header ? header.offsetHeight : 0) + 140;
+        var current = items[0];
+        items.forEach(function(x){
+          if (x.el.getBoundingClientRect().top <= offset) current = x;
+        });
+        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+          current = items[items.length - 1];
+        }
+        items.forEach(function(x){ x.a.classList.toggle('on', x === current); });
+      }
+      window.addEventListener('scroll', function(){
+        if (!ticking) { ticking = true; requestAnimationFrame(update); }
+      }, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+
+    // إدارة الحساب والبيانات الشخصية والصورة والقائمة المنسدلة
+    (function(){
+      var savedName = '';
+      var savedPhoto = '';
+
+      function scanStorage(store) {
+        if (!store) return;
+        for (var i = 0; i < store.length; i++) {
+          var k = store.key(i);
+          var v = store.getItem(k) || '';
+          if (!savedPhoto && (/^https?:\/\/.+\.(png|jpg|jpeg|webp|gif)(\?.*)?$/i.test(v.trim()) || /^data:image\/(png|jpg|jpeg|webp|gif);base64,/i.test(v.trim()))) {
+            savedPhoto = v.trim();
+          }
+          if (v.trim().startsWith('{')) {
+            try {
+              var obj = JSON.parse(v);
+              if (!savedName && (obj.name || obj.displayName || obj.fullName || obj.userName)) {
+                savedName = obj.name || obj.displayName || obj.fullName || obj.userName;
+              }
+              if (!savedPhoto && (obj.photo || obj.photoURL || obj.avatar || obj.picture || obj.image || obj.userPhoto)) {
+                savedPhoto = obj.photo || obj.photoURL || obj.avatar || obj.picture || obj.image || obj.userPhoto;
+              }
+            } catch (err) {}
+          }
+        }
+      }
+
+      try {
+        savedName = localStorage.getItem('explorerUserName') || sessionStorage.getItem('explorerUserName') || '';
+        savedPhoto = localStorage.getItem('explorerUserPhoto') || sessionStorage.getItem('explorerUserPhoto') || '';
+        scanStorage(localStorage);
+        scanStorage(sessionStorage);
+      } catch (e) {}
+
+      var trigger = document.getElementById('accountTrigger');
+      var bigAvatar = document.getElementById('accountBigAvatar');
+      var menu = document.getElementById('accountMenu');
+      var uploadPhotoBtn = document.getElementById('uploadPhotoBtn');
+      var fileInput = document.getElementById('avatarFileInput');
+      var nameArInput = document.getElementById('nameArInput');
+      var nameEnInput = document.getElementById('nameEnInput');
+      var gradeInput = document.getElementById('gradeInput');
+      var semesterInput = document.getElementById('semesterInput');
+      var sectionInput = document.getElementById('sectionInput');
+
+      function renderIntoCircle(el, photoUrl, fallbackLetter) {
+        if (!el) return;
+        if (photoUrl) {
+          var img = document.createElement('img');
+          img.src = photoUrl;
+          img.alt = 'صورة الحساب';
+          img.referrerPolicy = 'no-referrer';
+          img.onerror = function() {
+            el.textContent = fallbackLetter || '👤';
+          };
+          el.innerHTML = '';
+          el.appendChild(img);
+        } else if (fallbackLetter) {
+          el.textContent = fallbackLetter;
+        } else {
+          el.textContent = '👤';
+        }
+      }
+
+      function applyAvatar(photoUrl, fallbackName) {
+        var labelName = fallbackName || savedName;
+        var letter = labelName ? labelName.trim().charAt(0).toUpperCase() : '';
+        renderIntoCircle(trigger, photoUrl, letter);
+        renderIntoCircle(bigAvatar, photoUrl, letter);
+        if (uploadPhotoBtn) {
+          uploadPhotoBtn.textContent = photoUrl ? '🖼️ تغيير الصورة' : '🖼️ إضافة صورة';
+        }
+      }
+
+      window.__setExplorerAccountUI = function(newName, newPhoto, profileData) {
+        var displayLabel = (profileData && profileData.nameAr) || newName || savedName;
+        if (displayLabel) {
+          savedName = displayLabel;
+          var menuName = document.getElementById('accountMenuName');
+          if (menuName) menuName.textContent = displayLabel;
+        }
+        if (typeof newPhoto === 'string' && newPhoto) {
+          savedPhoto = newPhoto;
+        }
+        if (profileData) {
+          if (nameArInput && typeof profileData.nameAr === 'string') nameArInput.value = profileData.nameAr;
+          if (nameEnInput && typeof profileData.nameEn === 'string') nameEnInput.value = profileData.nameEn;
+          if (gradeInput && typeof profileData.grade === 'string') gradeInput.value = profileData.grade;
+          if (semesterInput && typeof profileData.semester === 'string') semesterInput.value = profileData.semester;
+          if (sectionInput && typeof profileData.section === 'string') sectionInput.value = profileData.section;
+        }
+        applyAvatar(savedPhoto, savedName);
+      };
+
+      if (savedName) {
+        window.__setExplorerAccountUI(savedName, savedPhoto);
+      } else {
+        applyAvatar(savedPhoto, '');
+      }
+
+      function positionMenu() {
+        if (!trigger || !menu) return;
+        var rect = trigger.getBoundingClientRect();
+        if (window.innerWidth >= 760) {
+          menu.style.top = 'calc(100% + 8px)';
+          menu.style.right = '0';
+          menu.style.left = 'auto';
+          menu.style.maxHeight = Math.max(240, window.innerHeight - rect.bottom - 20) + 'px';
+        } else {
+          menu.style.top = (rect.bottom + 8) + 'px';
+          menu.style.right = '12px';
+          menu.style.left = 'auto';
+          menu.style.maxHeight = Math.max(240, window.innerHeight - rect.bottom - 18) + 'px';
+        }
+      }
+
+      function setMenuOpen(open) {
+        if (!trigger || !menu) return;
+        menu.classList.toggle('open', open);
+        trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        document.body.classList.toggle('menu-lock', open);
+        if (open) positionMenu();
+      }
+
+      if (trigger && menu) {
+        trigger.addEventListener('click', function(e) {
+          e.stopPropagation();
+          setMenuOpen(!menu.classList.contains('open'));
+        });
+        document.addEventListener('click', function(e) {
+          if (!menu.contains(e.target) && !trigger.contains(e.target)) {
+            setMenuOpen(false);
+          }
+        });
+        window.addEventListener('resize', function() {
+          if (menu.classList.contains('open')) positionMenu();
+        });
+      }
+
+      function compressImageToDataUrl(file, maxSize, quality, cb) {
+        var reader = new FileReader();
+        reader.onload = function(ev) {
+          var img = new Image();
+          img.onload = function() {
+            var w = img.width;
+            var h = img.height;
+            if (w > maxSize || h > maxSize) {
+              if (w > h) {
+                h = Math.round((h * maxSize) / w);
+                w = maxSize;
+              } else {
+                w = Math.round((w * maxSize) / h);
+                h = maxSize;
+              }
+            }
+            var canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, w, h);
+            cb(canvas.toDataURL('image/jpeg', quality));
+          };
+          img.src = ev.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      if (uploadPhotoBtn && fileInput) {
+        uploadPhotoBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          fileInput.click();
+        });
+
+        fileInput.addEventListener('change', function() {
+          var file = fileInput.files && fileInput.files[0];
+          if (!file) return;
+          compressImageToDataUrl(file, 240, 0.78, function(dataUrl) {
+            if (!dataUrl) return;
+            savedPhoto = dataUrl;
+            applyAvatar(dataUrl, savedName);
+            try {
+              localStorage.setItem('explorerUserPhoto', dataUrl);
+              sessionStorage.setItem('explorerUserPhoto', dataUrl);
+              if (window.__explorerUid) {
+                localStorage.setItem('explorerUserPhoto_' + window.__explorerUid, dataUrl);
+              }
+            } catch (err) {}
+            document.dispatchEvent(new CustomEvent('explorer:avatar-selected', {
+              detail: { file: file, dataUrl: dataUrl }
+            }));
+          });
+          fileInput.value = '';
+        });
+      }
+    })();
+  </script>
+  <script src="../chatbot.js"></script>
+
+  <script type="module">
+    import { auth, db } from "../firebase-config.js";
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const LOGIN_PAGE = "../index.html";
+    const logoutBtn = document.getElementById("logoutBtn");
+    const profileForm = document.getElementById("studentProfileForm");
+    const saveProfileBtn = document.getElementById("saveProfileBtn");
+    const profileStatus = document.getElementById("profileStatus");
+    let currentUser = null;
+
+    async function loadUserProfileFromFirestore(user) {
+      const uid = user.uid;
+      window.__explorerUid = uid;
+      const fallbackName = user.displayName || user.email || "";
+
+      let cachedPhoto = "";
+      let cachedProfile = null;
+      try {
+        cachedPhoto =
+          localStorage.getItem("explorerUserPhoto_" + uid) ||
+          localStorage.getItem("explorerUserPhoto") ||
+          sessionStorage.getItem("explorerUserPhoto") ||
+          "";
+        const rawProfile = localStorage.getItem("explorerStudentProfile_" + uid);
+        if (rawProfile) cachedProfile = JSON.parse(rawProfile);
+      } catch (e) {}
+
+      let resolvedPhoto = cachedPhoto || user.photoURL || "";
+      let resolvedProfile = cachedProfile || {
+        nameAr: user.displayName || "",
+        nameEn: "",
+        grade: "",
+        semester: "",
+        section: ""
+      };
+
+      if (window.__setExplorerAccountUI) {
+        window.__setExplorerAccountUI(
+          resolvedProfile.nameAr || fallbackName,
+          resolvedPhoto,
+          resolvedProfile
+        );
+      }
+
+      try {
+        const snap = await getDoc(doc(db, "users", uid));
+        if (snap.exists()) {
+          const data = snap.data() || {};
+          if (data.photoData) {
+            resolvedPhoto = data.photoData;
+            try {
+              localStorage.setItem("explorerUserPhoto_" + uid, resolvedPhoto);
+              localStorage.setItem("explorerUserPhoto", resolvedPhoto);
+              sessionStorage.setItem("explorerUserPhoto", resolvedPhoto);
+            } catch (e) {}
+          }
+          resolvedProfile = {
+            nameAr: data.nameAr ?? resolvedProfile.nameAr ?? "",
+            nameEn: data.nameEn ?? resolvedProfile.nameEn ?? "",
+            grade: data.grade ?? resolvedProfile.grade ?? "",
+            semester: data.semester ?? resolvedProfile.semester ?? "",
+            section: data.section ?? resolvedProfile.section ?? ""
+          };
+          try {
+            localStorage.setItem("explorerStudentProfile_" + uid, JSON.stringify(resolvedProfile));
+          } catch (e) {}
+
+          if (window.__setExplorerAccountUI) {
+            window.__setExplorerAccountUI(
+              resolvedProfile.nameAr || fallbackName,
+              resolvedPhoto,
+              resolvedProfile
+            );
+          }
+        }
+      } catch (err) {}
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) return;
+      currentUser = user;
+      const name = user.displayName || user.email || "";
+      if (name) {
+        try {
+          localStorage.setItem("explorerUserName", name);
+          sessionStorage.setItem("explorerUserName", name);
+        } catch (e) {}
+      }
+      loadUserProfileFromFirestore(user);
+    });
+
+    document.addEventListener("explorer:avatar-selected", async (e) => {
+      const dataUrl = e.detail && e.detail.dataUrl ? e.detail.dataUrl : "";
+      if (!dataUrl || !currentUser) return;
+      try {
+        localStorage.setItem("explorerUserPhoto_" + currentUser.uid, dataUrl);
+        await setDoc(
+          doc(db, "users", currentUser.uid),
+          {
+            photoData: dataUrl,
+            updatedAt: Date.now()
+          },
+          { merge: true }
+        );
+        if (profileStatus) {
+          profileStatus.textContent = "✅ تم حفظ الصورة";
+          setTimeout(() => { profileStatus.textContent = ""; }, 2500);
+        }
+      } catch (err) {
+        if (profileStatus) profileStatus.textContent = "⚠️ تعذر حفظ الصورة";
+      }
+    });
+
+    if (profileForm) {
+      profileForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (!currentUser) {
+          if (profileStatus) profileStatus.textContent = "⚠️ جارٍ التحقق من الحساب...";
+          return;
+        }
+
+        const payload = {
+          nameAr: (document.getElementById("nameArInput")?.value || "").trim(),
+          nameEn: (document.getElementById("nameEnInput")?.value || "").trim(),
+          grade: (document.getElementById("gradeInput")?.value || "").trim(),
+          semester: (document.getElementById("semesterInput")?.value || "").trim(),
+          section: (document.getElementById("sectionInput")?.value || "").trim(),
+          updatedAt: Date.now()
+        };
+
+        if (saveProfileBtn) {
+          saveProfileBtn.disabled = true;
+          saveProfileBtn.textContent = "جاري الحفظ...";
+        }
+        if (profileStatus) profileStatus.textContent = "";
+
+        try {
+          await setDoc(doc(db, "users", currentUser.uid), payload, { merge: true });
+          try {
+            localStorage.setItem("explorerStudentProfile_" + currentUser.uid, JSON.stringify(payload));
+            if (payload.nameAr) {
+              localStorage.setItem("explorerUserName", payload.nameAr);
+              sessionStorage.setItem("explorerUserName", payload.nameAr);
+            }
+          } catch (err) {}
+
+          if (window.__setExplorerAccountUI) {
+            window.__setExplorerAccountUI(
+              payload.nameAr || currentUser.displayName || currentUser.email || "",
+              "",
+              payload
+            );
+          }
+          if (profileStatus) {
+            profileStatus.textContent = "✅ تم حفظ البيانات بنجاح";
+            setTimeout(() => { profileStatus.textContent = ""; }, 3000);
+          }
+        } catch (err) {
+          if (profileStatus) profileStatus.textContent = "⚠️ حدث خطأ أثناء الحفظ";
+        } finally {
+          if (saveProfileBtn) {
+            saveProfileBtn.disabled = false;
+            saveProfileBtn.textContent = "💾 حفظ البيانات";
+          }
+        }
+      });
+    }
+
+    if (logoutBtn) {
+      logoutBtn.onclick = async function (e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        try {
+          await signOut(auth);
+        } catch (err) {}
+        try {
+          sessionStorage.removeItem("explorerSessionVerified");
+          sessionStorage.removeItem("explorerUserName");
+          sessionStorage.removeItem("explorerUserPhoto");
+          localStorage.removeItem("explorerUserName");
+          localStorage.removeItem("explorerUserPhoto");
+        } catch (err) {}
+        window.location.replace(LOGIN_PAGE);
+      };
+    }
+  </script>
+</body>
 </html>
