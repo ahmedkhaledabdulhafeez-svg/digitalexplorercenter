@@ -661,6 +661,8 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
 </script>
 <script src="./footer.js"></script>
 <script src="chatbot.js"></script>
+ 
+  
   <script type="module">
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
@@ -693,6 +695,75 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
       };
     }
   });
+</scr<script type="module">
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const LOGIN_PAGE = "index.html";
+  const auth = getAuth();
+  const trigger = document.getElementById("accountTrigger");
+  const menuName = document.getElementById("accountMenuName");
+  const welcomeTag = document.getElementById("welcomeTag");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  // منع الرجوع خطوة للخلف إلى صفحة الدخول من الصفحة الرئيسية
+  try {
+    history.pushState({ page: "home" }, "", window.location.href);
+    window.addEventListener("popstate", function () {
+      history.pushState({ page: "home" }, "", window.location.href);
+    });
+  } catch (e) {}
+
+  onAuthStateChanged(auth, (user) => {
+    if (!user) return;
+
+    const name = user.displayName || user.email || "";
+    const photo = user.photoURL || "";
+
+    if (name) {
+      if (menuName) menuName.textContent = name;
+      if (welcomeTag) welcomeTag.textContent = "👋 أهلاً بك يا " + name + " في مركز المستكشف";
+      try {
+        localStorage.setItem("explorerUserName", name);
+        sessionStorage.setItem("explorerUserName", name);
+      } catch (e) {}
+    }
+
+    if (photo && trigger) {
+      try {
+        localStorage.setItem("explorerUserPhoto", photo);
+        sessionStorage.setItem("explorerUserPhoto", photo);
+      } catch (e) {}
+      const img = document.createElement("img");
+      img.src = photo;
+      img.alt = name || "صورة الحساب";
+      img.referrerPolicy = "no-referrer";
+      img.onload = () => {
+        trigger.innerHTML = "";
+        trigger.appendChild(img);
+      };
+    }
+  });
+
+  if (logoutBtn) {
+    logoutBtn.onclick = async function (e) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      try {
+        await signOut(auth);
+      } catch (err) {}
+      try {
+        sessionStorage.removeItem("explorerSessionVerified");
+        sessionStorage.removeItem("explorerUserName");
+        sessionStorage.removeItem("explorerUserPhoto");
+        localStorage.removeItem("explorerUserName");
+        localStorage.removeItem("explorerUserPhoto");
+      } catch (err) {}
+      window.location.replace(LOGIN_PAGE);
+    };
+  }
 </script>
+
+  
+  
 </body>
 </html>
