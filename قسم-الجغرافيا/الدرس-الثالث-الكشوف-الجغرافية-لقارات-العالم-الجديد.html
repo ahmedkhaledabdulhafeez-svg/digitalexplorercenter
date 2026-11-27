@@ -23,10 +23,15 @@
 								.brand h1{font-family:'Reem Kufi',sans-serif;font-size:1.25rem;color:var(--sand);line-height:1.4}
 								.brand p{color:var(--gold);font-weight:600;font-size:.78rem}
 								nav{background:var(--bg2);border-bottom:1px solid var(--line)}
-								nav .in{max-width:1240px;margin:auto;display:flex;justify-content:center;gap:4px;padding:0 12px;overflow-x:auto;scrollbar-width:none}
-								nav a{white-space:nowrap;padding:5px 20px;margin:6px 0;border-radius:14px;font-size:.86rem;font-weight:600;color:var(--mute);transition:.25s}
+								nav .in{max-width:1240px;margin:auto;display:flex;justify-content:center;gap:4px;padding:0 12px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
+								nav .in::-webkit-scrollbar{display:none}
+								nav a{white-space:nowrap;padding:5px 20px;margin:6px 0;border-radius:14px;font-size:.86rem;font-weight:600;color:var(--mute);transition:.25s;text-align:center}
 								nav a:hover{color:var(--sand)}
 								nav a.on{background:var(--copper);color:#2a150b}
+								@media(max-width:640px){
+									nav .in{justify-content:flex-start;gap:8px;padding:0 10px;scroll-snap-type:x mandatory}
+									nav a{flex:0 0 calc((100% - 16px) / 3);min-width:0;padding:6px 6px;margin:6px 0;font-size:.8rem;scroll-snap-align:center;overflow:hidden;text-overflow:ellipsis}
+								}
 
 								/* hero */
 								.hero{position:relative;overflow:hidden;isolation:isolate;border-radius:0 0 44px 44px;min-height:380px;display:flex;align-items:center}
@@ -125,17 +130,20 @@
 
 								/* interactive activities */
 								.acts{display:grid;grid-template-columns:1fr;gap:26px}
-								@media(min-width:860px){.acts{grid-template-columns:1fr 1fr;align-items:start}}
-								.act{--c:#6fc2a8;position:relative;overflow:hidden;padding:32px 28px 28px;border-radius:28px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);box-shadow:0 26px 60px rgba(0,0,0,.4)}
+								@media(min-width:860px){.acts{grid-template-columns:1fr 1fr;align-items:stretch}}
+								.act{--c:#6fc2a8;position:relative;overflow:hidden;padding:32px 28px 28px;border-radius:28px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);box-shadow:0 26px 60px rgba(0,0,0,.4);display:flex;flex-direction:column;height:100%}
 								.act.q{--c:#b793e6}
 								.act::before{background:var(--c)}
 								.act .ico{width:54px;height:54px;border-radius:18px;border:1px solid var(--c);background:rgba(0,0,0,.2);display:grid;place-items:center;font-size:1.6rem;margin-bottom:14px}
 								.act h3{font-family:'Reem Kufi',sans-serif;font-size:1.45rem;color:var(--c)}
 								.act .d{color:var(--mute);font-size:.9rem;margin:4px 0 18px}
-								.ord{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border-radius:16px;background:rgba(0,0,0,.22);border:1.5px solid var(--line);margin-bottom:12px;transition:.3s;font-weight:700;color:var(--sand)}
+								.act-list{display:flex;flex-direction:column;gap:12px;flex:1}
+								.ord{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:66px;padding:12px 16px;border-radius:16px;background:rgba(0,0,0,.22);border:1.5px solid var(--line);margin-bottom:0;transition:.3s;font-weight:700;color:var(--sand)}
+								.ord span{flex:1;line-height:1.5}
 								.ord.ok,.qb label.ok{border-color:#6fc2a8;background:rgba(111,194,168,.13)}
 								.ord.no,.qb label.no{border-color:#e0705a;background:rgba(224,112,90,.13)}
-								select{font-family:inherit;border-radius:12px;padding:7px 12px;background:var(--bg);color:var(--text);border:1.5px solid var(--line);cursor:pointer;min-width:118px}
+								select{font-family:inherit;border-radius:12px;padding:7px 12px;background:var(--bg);color:var(--text);border:1.5px solid var(--line);cursor:pointer;min-width:118px;max-width:58%;flex-shrink:0}
+								.act-foot{margin-top:20px}
 								.qb{padding:16px 18px;border-radius:18px;background:rgba(0,0,0,.22);border:1.5px solid var(--line);margin-bottom:14px}
 								.qb p{font-weight:700;color:var(--sand);margin-bottom:6px;font-size:.95rem}
 								.qb label{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:12px;cursor:pointer;color:var(--mute);font-size:.92rem;border:1px solid transparent;transition:.2s}
@@ -144,6 +152,28 @@
 								.act .btn{width:100%;justify-content:center;cursor:pointer;margin-top:6px}
 								.act .btn.ghost{margin-top:10px}
 								.fb{min-height:1.7em;margin-top:12px;font-weight:700;font-size:.92rem;text-align:center;color:var(--sand)}
+
+								/* exam section */
+								.exam-box{position:relative;overflow:hidden;padding:34px 28px 30px;border-radius:28px;background:linear-gradient(160deg,var(--bg2),var(--panel));border:1px solid var(--line);box-shadow:0 26px 60px rgba(0,0,0,.4)}
+								.exam-box::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--gold)}
+								.exam-grp-title{font-family:'Reem Kufi',sans-serif;font-size:1.25rem;color:var(--gold);margin:20px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+								.exam-q{padding:16px 18px;border-radius:18px;background:rgba(0,0,0,.22);border:1.5px solid var(--line);margin-bottom:14px;transition:.3s}
+								.exam-q.ok{border-color:#6fc2a8;background:rgba(111,194,168,.09)}
+								.exam-q.no{border-color:#e0705a;background:rgba(224,112,90,.09)}
+								.exam-q p{font-weight:700;color:var(--sand);margin-bottom:8px;font-size:.96rem}
+								.exam-opts{display:flex;flex-wrap:wrap;gap:10px}
+								.exam-q label{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:12px;cursor:pointer;color:var(--mute);font-size:.92rem;background:rgba(0,0,0,.18);border:1px solid transparent;transition:.2s}
+								.exam-q label:hover{color:var(--text);border-color:rgba(224,160,110,.25)}
+								.exam-q label.ok{border-color:#6fc2a8;background:rgba(111,194,168,.18);color:var(--sand)}
+								.exam-q label.no{border-color:#e0705a;background:rgba(224,112,90,.18);color:var(--sand)}
+								.exam-q input{accent-color:var(--gold);width:16px;height:16px}
+								.exam-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+								.exam-actions .btn{flex:1;min-width:200px;justify-content:center;cursor:pointer;--c:var(--gold)}
+								.exam-result{margin-top:20px;padding:20px 22px;border-radius:20px;background:rgba(0,0,0,.28);border:1.5px solid var(--line);display:none}
+								.exam-result.show{display:block}
+								.exam-score{font-family:'Reem Kufi',sans-serif;font-size:1.35rem;color:var(--gold);margin-bottom:6px;text-align:center}
+								.exam-feedback{font-size:.95rem;font-weight:700;color:var(--sand);text-align:center;line-height:1.7}
+
 								.maprow{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:26px;padding:22px 28px;border-radius:24px;background:rgba(111,194,168,.08);border:1.5px dashed rgba(111,194,168,.5)}
 								.maprow .e{font-size:2.2rem}
 								.maprow div:nth-child(2){flex:1;min-width:220px}
@@ -153,12 +183,10 @@
 								.pdfv{aspect-ratio:auto;height:78vh;min-height:420px}
 								.ship{animation:bob 4s ease-in-out infinite;transform-origin:300px 270px}
 								@keyframes bob{50%{transform:translateY(-8px) rotate(2deg)}}
-								.ord select{max-width:58%}
 								.strip{border-radius:99px;height:10px;margin-top:56px;background:repeating-linear-gradient(90deg,var(--copper) 0 18px,transparent 18px 26px,var(--gold) 26px 34px,transparent 34px 42px);opacity:.7}
 								footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);font-weight:600;font-size:.9rem;border-top:1px solid var(--line)}
-								.rv{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
+								.rv{opacity:1;transform:none}
 								.rv.show{opacity:1;transform:none}
-								@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 							</style>
 		<script>
 if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
@@ -185,7 +213,7 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 					<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKef2y4Gj5p9F4KYzTy5-bZHM7TrsaiJUKUmKuojkA_cj7t2uzMuf8V-ub6boEFPktNlPZQbwTJmHCGoRrYb2dx8pLcqz81LnJAEEJYEQ&s=10" alt="شعار كلية التربية النوعية">
   </div>
 			<nav>
-				<div class="in">
+				<div class="in" id="navTrack">
 					<a href="#video" class="on">الفيديو</a>
 					<a href="#infographic">الإنفوجرافيك</a>
 					<a href="#pdf">ملف PDF</a>
@@ -283,6 +311,17 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 			</section>
 
 			<!-- 2) الإنفوجرافيك -->
+			<section id="infographic" class="blk rv">
+				<div class="head">
+					<div class="ic">
+						<i>📊</i>
+					</div>
+					<div>
+						<h2>الإنفوجرافيك</h2>
+						<p>ملخص مصور لأهم معلومات الدرس</p>
+					</div>
+				</div>
+
 <style>
   .ig-outer-wrap{position:relative;width:100%;margin-top:6px}
 
@@ -423,6 +462,7 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
   stage.addEventListener('dblclick', () => setZoom(scale > 1 ? 1 : 2));
 })();
 </script>
+			</section>
 
 			<!-- 3) ملف PDF (تضمين من جوجل درايف) -->
 			<section id="pdf" class="blk rv">
@@ -578,89 +618,220 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 						<div class="ico">🧩</div>
 						<h3>نشاط 1: اربط المستكشف بإنجازه</h3>
 						<p class="d">اختر الإنجاز المناسب لكل مستكشف:</p>
-						<div class="ord" data-ans="c">
-							<span>ماجلان</span>
-							<select>
-								<option value="">اختر الإنجاز...</option>
-								<option value="a">اكتشاف الأمريكتين</option>
-								<option value="b">الوصول إلى الهند بحراً</option>
-								<option value="c">أول رحلة حول العالم</option>
-								<option value="d">سُمّيت أمريكا باسمه</option>
-							</select>
+						<div class="act-list">
+							<div class="ord" data-ans="c">
+								<span>ماجلان</span>
+								<select>
+									<option value="">اختر الإنجاز...</option>
+									<option value="a">اكتشاف الأمريكتين</option>
+									<option value="b">الوصول إلى الهند بحراً</option>
+									<option value="c">أول رحلة حول العالم</option>
+									<option value="d">سُمّيت أمريكا باسمه</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="a">
+								<span>كولومبوس</span>
+								<select>
+									<option value="">اختر الإنجاز...</option>
+									<option value="a">اكتشاف الأمريكتين</option>
+									<option value="b">الوصول إلى الهند بحراً</option>
+									<option value="c">أول رحلة حول العالم</option>
+									<option value="d">سُمّيت أمريكا باسمه</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="d">
+								<span>أميريجو فسبوتشي</span>
+								<select>
+									<option value="">اختر الإنجاز...</option>
+									<option value="a">اكتشاف الأمريكتين</option>
+									<option value="b">الوصول إلى الهند بحراً</option>
+									<option value="c">أول رحلة حول العالم</option>
+									<option value="d">سُمّيت أمريكا باسمه</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="b">
+								<span>فاسكو دا جاما</span>
+								<select>
+									<option value="">اختر الإنجاز...</option>
+									<option value="a">اكتشاف الأمريكتين</option>
+									<option value="b">الوصول إلى الهند بحراً</option>
+									<option value="c">أول رحلة حول العالم</option>
+									<option value="d">سُمّيت أمريكا باسمه</option>
+								</select>
+							</div>
 						</div>
-						<div class="ord" data-ans="a">
-							<span>كولومبوس</span>
-							<select>
-								<option value="">اختر الإنجاز...</option>
-								<option value="a">اكتشاف الأمريكتين</option>
-								<option value="b">الوصول إلى الهند بحراً</option>
-								<option value="c">أول رحلة حول العالم</option>
-								<option value="d">سُمّيت أمريكا باسمه</option>
-							</select>
+						<div class="act-foot">
+							<button class="btn" id="chk1">✓ تحقق من الإجابات</button>
+							<button class="btn ghost" id="rst1">إعادة المحاولة</button>
+							<div class="fb" id="fb1" aria-live="polite"></div>
 						</div>
-						<div class="ord" data-ans="d">
-							<span>أميريجو فسبوتشي</span>
-							<select>
-								<option value="">اختر الإنجاز...</option>
-								<option value="a">اكتشاف الأمريكتين</option>
-								<option value="b">الوصول إلى الهند بحراً</option>
-								<option value="c">أول رحلة حول العالم</option>
-								<option value="d">سُمّيت أمريكا باسمه</option>
-							</select>
-						</div>
-						<div class="ord" data-ans="b">
-							<span>فاسكو دا جاما</span>
-							<select>
-								<option value="">اختر الإنجاز...</option>
-								<option value="a">اكتشاف الأمريكتين</option>
-								<option value="b">الوصول إلى الهند بحراً</option>
-								<option value="c">أول رحلة حول العالم</option>
-								<option value="d">سُمّيت أمريكا باسمه</option>
-							</select>
-						</div>
-						<button class="btn" id="chk1">✓ تحقق من الإجابات</button>
-						<button class="btn ghost" id="rst1">إعادة المحاولة</button>
-						<div class="fb" id="fb1" aria-live="polite"></div>
 					</div>
 
 					<div class="act q" id="act2">
-						<div class="ico">📝</div>
-						<h3>نشاط 2: اختبر معلوماتك</h3>
-						<p class="d">اختر الإجابة الصحيحة لكل سؤال مما يلي:</p>
-						<div class="qb">
-							<p>1. وصل إلى الأمريكتين عام 1492م المستكشف:</p>
-							<label>
-								<input type="radio" name="q1" data-ok="1"> كولومبوس
-							</label>
-							<label>
-								<input type="radio" name="q1"> فاسكو دا جاما
-							</label>
+						<div class="ico">🔗</div>
+						<h3>نشاط 2: وصّل كل عبارة بما يناسبها</h3>
+						<p class="d">اختر التوصيل الصحيح لكل مستكشف أو أداة من الدرس:</p>
+						<div class="act-list">
+							<div class="ord" data-ans="a">
+								<span>كريستوفر كولومبوس (1492م)</span>
+								<select>
+									<option value="">وصّل بـ...</option>
+									<option value="a">وصل إلى جزر الكاريبي</option>
+									<option value="b">وصل للهند عبر رأس الرجاء الصالح</option>
+									<option value="c">أول رحلة بحرية حول العالم</option>
+									<option value="d">ساعدت في الملاحة البحرية</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="b">
+								<span>فاسكو دا جاما (1498م)</span>
+								<select>
+									<option value="">وصّل بـ...</option>
+									<option value="a">وصل إلى جزر الكاريبي</option>
+									<option value="b">وصل للهند عبر رأس الرجاء الصالح</option>
+									<option value="c">أول رحلة بحرية حول العالم</option>
+									<option value="d">ساعدت في الملاحة البحرية</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="c">
+								<span>ماجلان (1519م)</span>
+								<select>
+									<option value="">وصّل بـ...</option>
+									<option value="a">وصل إلى جزر الكاريبي</option>
+									<option value="b">وصل للهند عبر رأس الرجاء الصالح</option>
+									<option value="c">أول رحلة بحرية حول العالم</option>
+									<option value="d">ساعدت في الملاحة البحرية</option>
+								</select>
+							</div>
+							<div class="ord" data-ans="d">
+								<span>البوصلة والإسطرلاب</span>
+								<select>
+									<option value="">وصّل بـ...</option>
+									<option value="a">وصل إلى جزر الكاريبي</option>
+									<option value="b">وصل للهند عبر رأس الرجاء الصالح</option>
+									<option value="c">أول رحلة بحرية حول العالم</option>
+									<option value="d">ساعدت في الملاحة البحرية</option>
+								</select>
+							</div>
 						</div>
-						<div class="qb">
-							<p>2. وصل فاسكو دا جاما بحراً عن طريق رأس الرجاء الصالح إلى:</p>
-							<label>
-								<input type="radio" name="q2"> أمريكا الشمالية
-							</label>
-							<label>
-								<input type="radio" name="q2" data-ok="1"> الهند
-							</label>
+						<div class="act-foot">
+							<button class="btn" id="chk2">✓ تحقق من التوصيل</button>
+							<button class="btn ghost" id="rst2">إعادة المحاولة</button>
+							<div class="fb" id="fb2" aria-live="polite"></div>
 						</div>
-						<div class="qb">
-							<p>3. من الدوافع الاقتصادية للكشوف الجغرافية:</p>
-							<label>
-								<input type="radio" name="q3" data-ok="1"> البحث عن طرق بحرية لتجارة التوابل
-							</label>
-							<label>
-								<input type="radio" name="q3"> تقليل التجارة مع الشرق
-							</label>
-						</div>
-						<button class="btn" id="chk2">
-							اعرض النتيجة <span>←</span>
-						</button>
-						<button class="btn ghost" id="rst2">إعادة الاختبار</button>
-						<div class="fb" id="fb2" aria-live="polite"></div>
 					</div>
 
+				</div>
+
+				<!-- الاختبار: 5 صح وغلط + 5 اختر من متعدد -->
+				<div class="exam-box" style="margin-top:26px" id="lessonExam">
+					<div class="head" style="margin-bottom:10px">
+						<div class="ic">
+							<i>📝</i>
+						</div>
+						<div>
+							<h2>اختبار الدرس (10 أسئلة)</h2>
+							<p>5 أسئلة صح وخطأ + 5 أسئلة اختر من متعدد مع النتيجة والتغذية الراجعة</p>
+						</div>
+					</div>
+
+					<h3 class="exam-grp-title">أولاً: أسئلة صح وخطأ (5 أسئلة)</h3>
+
+					<div class="exam-q" data-ans="صح">
+						<p>1. بدأت الكشوف الجغرافية الأوروبية منذ القرن الخامس عشر الميلادي.</p>
+						<div class="exam-opts">
+							<label><input type="radio" name="ex1" value="صح"> صح</label>
+							<label><input type="radio" name="ex1" value="خطأ"> خطأ</label>
+						</div>
+					</div>
+
+					<div class="exam-q" data-ans="صح">
+						<p>2. وصل فاسكو دا جاما إلى الهند بحراً عن طريق رأس الرجاء الصالح عام 1498م.</p>
+						<div class="exam-opts">
+							<label><input type="radio" name="ex2" value="صح"> صح</label>
+							<label><input type="radio" name="ex2" value="خطأ"> خطأ</label>
+						</div>
+					</div>
+
+					<div class="exam-q" data-ans="خطأ">
+						<p>3. أدرك كولومبوس منذ وصوله عام 1492م أن الأرض المكتشفة قارة جديدة منفصلة تماماً عن الهند.</p>
+						<div class="exam-opts">
+							<label><input type="radio" name="ex3" value="صح"> صح</label>
+							<label><input type="radio" name="ex3" value="خطأ"> خطأ</label>
+						</div>
+					</div>
+
+					<div class="exam-q" data-ans="صح">
+						<p>4. قاد ماجلان أول رحلة بحرية حول العالم عام 1519م.</p>
+						<div class="exam-opts">
+							<label><input type="radio" name="ex4" value="صح"> صح</label>
+							<label><input type="radio" name="ex4" value="خطأ"> خطأ</label>
+						</div>
+					</div>
+
+					<div class="exam-q" data-ans="خطأ">
+						<p>5. أدت الكشوف الجغرافية إلى تراجع التجارة وانتقال مركزها بعيداً عن المحيط الأطلسي.</p>
+						<div class="exam-opts">
+							<label><input type="radio" name="ex5" value="صح"> صح</label>
+							<label><input type="radio" name="ex5" value="خطأ"> خطأ</label>
+						</div>
+					</div>
+
+					<h3 class="exam-grp-title">ثانياً: أسئلة اختر من متعدد (5 أسئلة)</h3>
+
+					<div class="exam-q" data-ans="أميريجو فسبوتشي">
+						<p>6. المستكشف الذي أدرك أن الأراضي المكتشفة قارة جديدة وسُميت «أمريكا» باسمه هو:</p>
+						<div class="exam-opts">
+							<label><input type="radio" name="ex6" value="أميريجو فسبوتشي"> أميريجو فسبوتشي</label>
+							<label><input type="radio" name="ex6" value="فاسكو دا جاما"> فاسكو دا جاما</label>
+							<label><input type="radio" name="ex6" value="بارتولوميو دياز"> بارتولوميو دياز</label>
+						</div>
+					</div>
+
+					<div class="exam-q" data-ans="البحث عن طرق بحرية جديدة للتجارة والتوابل">
+						<p>7. يتمثل الدافع الاقتصادي الرئيسي للكشوف الجغرافية في:</p>
+						<div class="exam-opts">
+							<label><input type="radio" name="ex7" value="البحث عن طرق بحرية جديدة للتجارة والتوابل"> البحث عن طرق بحرية جديدة للتجارة والتوابل</label>
+							<label><input type="radio" name="ex7" value="بناء السدود في الأنهار"> بناء السدود في الأنهار</label>
+							<label><input type="radio" name="ex7" value="إغلاق الموانئ الأوروبية"> إغلاق الموانئ الأوروبية</label>
+						</div>
+					</div>
+
+					<div class="exam-q" data-ans="جزر الكاريبي">
+						<p>8. وصل كريستوفر كولومبوس عام 1492م إلى:</p>
+						<div class="exam-opts">
+							<label><input type="radio" name="ex8" value="جزر الكاريبي"> جزر الكاريبي</label>
+							<label><input type="radio" name="ex8" value="جزر اليابان"> جزر اليابان</label>
+							<label><input type="radio" name="ex8" value="مدغشقر"> مدغشقر</label>
+						</div>
+					</div>
+
+					<div class="exam-q" data-ans="البوصلة والإسطرلاب">
+						<p>9. من الأدوات التي ساعدت المستكشفين على نجاح رحلاتهم البحرية:</p>
+						<div class="exam-opts">
+							<label><input type="radio" name="ex9" value="البوصلة والإسطرلاب"> البوصلة والإسطرلاب</label>
+							<label><input type="radio" name="ex9" value="السكة الحديدية"> السكة الحديدية</label>
+							<label><input type="radio" name="ex9" value="الغواصات النووية"> الغواصات النووية</label>
+						</div>
+					</div>
+
+					<div class="exam-q" data-ans="تبادل المحاصيل والحيوانات بين العالمين">
+						<p>10. من النتائج الحضارية والجغرافية للكشوف الجغرافية:</p>
+						<div class="exam-opts">
+							<label><input type="radio" name="ex10" value="تبادل المحاصيل والحيوانات بين العالمين"> تبادل المحاصيل والحيوانات بين العالمين</label>
+							<label><input type="radio" name="ex10" value="اختفاء المحيط الأطلسي"> اختفاء المحيط الأطلسي</label>
+							<label><input type="radio" name="ex10" value="توقف الرحلات البحرية"> توقف الرحلات البحرية</label>
+						</div>
+					</div>
+
+					<div class="exam-actions">
+						<button type="button" class="btn" id="submitExam">اعرض النتيجة والتغذية الراجعة</button>
+						<button type="button" class="btn ghost" id="resetExam">إعادة الاختبار</button>
+					</div>
+
+					<div class="exam-result" id="examResult" aria-live="polite">
+						<div class="exam-score" id="examScore"></div>
+						<div class="exam-feedback" id="examFeedback"></div>
+					</div>
 				</div>
 
 				<div class="maprow">
@@ -696,36 +867,123 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 			}else{
 			document.getElementById('pdfOpen').style.display='none';
 			}
-			var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}})},{threshold:.1});
-			document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
-			var links=document.querySelectorAll('nav a'),secs=[].map.call(links,function(a){return document.querySelector(a.getAttribute('href'))});
-			var so=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(l){l.classList.toggle('on',l.getAttribute('href')==='#'+e.target.id)})}})},{rootMargin:'-35% 0px -55% 0px'});
-			secs.forEach(function(s){so.observe(s)});
+
+			var navTrack=document.getElementById('navTrack');
+			var links=document.querySelectorAll('nav a');
+			var secs=[].map.call(links,function(a){return document.querySelector(a.getAttribute('href'))}).filter(Boolean);
+			var lastActiveId='';
+
+			function setActiveNav(id){
+				if(!id||id===lastActiveId)return;
+				lastActiveId=id;
+				links.forEach(function(l){
+					var isMatch=l.getAttribute('href')==='#'+id;
+					l.classList.toggle('on',isMatch);
+					if(isMatch&&navTrack){
+						var targetScroll=l.offsetLeft-(navTrack.clientWidth/2)+(l.offsetWidth/2);
+						navTrack.scrollTo({left:targetScroll,behavior:'smooth'});
+					}
+				});
+			}
+
+			function updateNavOnScroll(){
+				var headerH=(document.querySelector('header')?document.querySelector('header').offsetHeight:120)+40;
+				var currentId=secs[0]?secs[0].id:'';
+				for(var i=0;i<secs.length;i++){
+					var rect=secs[i].getBoundingClientRect();
+					if(rect.top<=headerH){
+						currentId=secs[i].id;
+					}
+				}
+				if((window.innerHeight+window.scrollY)>=document.documentElement.scrollHeight-20&&secs.length){
+					currentId=secs[secs.length-1].id;
+				}
+				setActiveNav(currentId);
+			}
+
+			window.addEventListener('scroll',updateNavOnScroll,{passive:true});
+			window.addEventListener('resize',updateNavOnScroll,{passive:true});
+			links.forEach(function(l){
+				l.addEventListener('click',function(){
+					var targetId=l.getAttribute('href').replace('#','');
+					setActiveNav(targetId);
+				});
+			});
+			updateNavOnScroll();
 
 			(function(){
-			var rows=document.querySelectorAll('#act1 .ord'),fb1=document.getElementById('fb1');
+			var rows1=document.querySelectorAll('#act1 .ord'),fb1=document.getElementById('fb1');
 			document.getElementById('chk1').onclick=function(){
 			var ok=0,empty=0;
-			rows.forEach(function(r){var v=r.querySelector('select').value;r.classList.remove('ok','no');
+			rows1.forEach(function(r){var v=r.querySelector('select').value;r.classList.remove('ok','no');
 			if(!v){empty++;return}
 			if(v===r.dataset.ans){ok++;r.classList.add('ok')}else r.classList.add('no')});
-			fb1.textContent=empty?'اختر إجابة لكل عنصر أولاً.':(ok===rows.length?'🎉 ممتاز! كل إجاباتك صحيحة.':'أجبت صح على '+ok+' من '+rows.length+'، حاول تصحيح الباقي.');
+			fb1.textContent=empty?'اختر إجابة لكل عنصر أولاً.':(ok===rows1.length?'🎉 ممتاز! كل إجاباتك صحيحة.':'أجبت صح على '+ok+' من '+rows1.length+'، حاول تصحيح الباقي.');
 			};
-			document.getElementById('rst1').onclick=function(){rows.forEach(function(r){r.classList.remove('ok','no');r.querySelector('select').value=''});fb1.textContent=''};
+			document.getElementById('rst1').onclick=function(){rows1.forEach(function(r){r.classList.remove('ok','no');r.querySelector('select').value=''});fb1.textContent=''};
 
-			var fb2=document.getElementById('fb2'),qs=['q1','q2','q3'];
+			var rows2=document.querySelectorAll('#act2 .ord'),fb2=document.getElementById('fb2');
 			document.getElementById('chk2').onclick=function(){
-			var score=0,miss=0;
-			qs.forEach(function(q){
-			var ins=document.querySelectorAll('input[name='+q+']'),chosen=null;
-			ins.forEach(function(i){i.parentNode.classList.remove('ok','no');if(i.checked)chosen=i});
-			if(!chosen){miss++;return}
-			if(chosen.dataset.ok){score++;chosen.parentNode.classList.add('ok')}
-			else{chosen.parentNode.classList.add('no');ins.forEach(function(i){if(i.dataset.ok)i.parentNode.classList.add('ok')})}
-			});
-			fb2.textContent=miss?'أجب عن كل الأسئلة أولاً.':'نتيجتك: '+score+' من '+qs.length+(score===qs.length?' 🎉 أحسنت!':' — راجع الإجابات الموضحة.');
+			var ok=0,empty=0;
+			rows2.forEach(function(r){var v=r.querySelector('select').value;r.classList.remove('ok','no');
+			if(!v){empty++;return}
+			if(v===r.dataset.ans){ok++;r.classList.add('ok')}else r.classList.add('no')});
+			fb2.textContent=empty?'اختر توصيلاً لكل عنصر أولاً.':(ok===rows2.length?'🌟 رائع جداً! توصيلك صحيح بالكامل.':'أجبت صح على '+ok+' من '+rows2.length+'، جرّب مطابقة الباقي.');
 			};
-			document.getElementById('rst2').onclick=function(){document.querySelectorAll('#act2 input').forEach(function(i){i.checked=false;i.parentNode.classList.remove('ok','no')});fb2.textContent=''};
+			document.getElementById('rst2').onclick=function(){rows2.forEach(function(r){r.classList.remove('ok','no');r.querySelector('select').value=''});fb2.textContent=''};
+
+			var examCards=document.querySelectorAll('#lessonExam .exam-q');
+			var examResult=document.getElementById('examResult');
+			var examScore=document.getElementById('examScore');
+			var examFeedback=document.getElementById('examFeedback');
+			document.getElementById('submitExam').onclick=function(){
+			var score=0,missing=0;
+			examCards.forEach(function(card){
+			card.classList.remove('ok','no');
+			card.querySelectorAll('label').forEach(function(lbl){lbl.classList.remove('ok','no')});
+			var checked=card.querySelector('input[type="radio"]:checked');
+			var rightAns=card.dataset.ans;
+			if(!checked){missing++;return}
+			if(checked.value===rightAns){
+			score++;
+			card.classList.add('ok');
+			checked.parentNode.classList.add('ok');
+			}else{
+			card.classList.add('no');
+			checked.parentNode.classList.add('no');
+			card.querySelectorAll('input[type="radio"]').forEach(function(inp){
+			if(inp.value===rightAns)inp.parentNode.classList.add('ok');
+			});
+			}
+			});
+			examResult.classList.add('show');
+			if(missing>0){
+			examScore.textContent='تنبيه: يوجد '+missing+' سؤال لم يتم اختيار إجابة له';
+			examFeedback.textContent='من فضلك أجب عن جميع الأسئلة العشرة أولاً ثم اضغط على زر النتيجة للحصول على تقييمك الكامل.';
+			return;
+			}
+			var pct=Math.round((score/examCards.length)*100);
+			examScore.textContent='نتيجتك: '+score+' من '+examCards.length+' ('+pct+'%)';
+			if(score===10){
+			examFeedback.textContent='🏆 أداء مذهل ومشرّف! أتقنت معلومات الكشوف الجغرافية بالكامل، من كولومبوس وفاسكو دا جاما إلى ماجلان وأميريجو فسبوتشي بامتياز.';
+			}else if(score>=8){
+			examFeedback.textContent='👏 ممتاز جداً! لديك فهم قوي وممتاز للدرس، راجع النقاط المظللة باللون الأخضر لتصل للدرجة الكاملة.';
+			}else if(score>=5){
+			examFeedback.textContent='👍 محاولة جيدة جداً! راجع ملخص الدرس والإنفوجرافيك حول رحلات المستكشفين ونتائج الكشوف ثم أعد الاختبار لتحسين درجتك.';
+			}else{
+			examFeedback.textContent='💪 لا تقلق، بداية موفقة! ننصحك بمشاهدة جزأي الشرح وقراءة ملخص النقاط بتركيز، ثم إعادة المحاولة وستحقق نتيجة أفضل بكثير.';
+			}
+			};
+			document.getElementById('resetExam').onclick=function(){
+			examCards.forEach(function(card){
+			card.classList.remove('ok','no');
+			card.querySelectorAll('input[type="radio"]').forEach(function(inp){inp.checked=false});
+			card.querySelectorAll('label').forEach(function(lbl){lbl.classList.remove('ok','no')});
+			});
+			examResult.classList.remove('show');
+			examScore.textContent='';
+			examFeedback.textContent='';
+			};
 			})();
 		</script>
 	  <script src="../chatbot.js"></script>
