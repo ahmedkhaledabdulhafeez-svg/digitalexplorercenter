@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المستكشف الرقمي | الدرس الثاني: الحضارات القديمة في الأمريكتين</title>
+    <!-- مكتبة Tailwind CSS للتصميم المتجاوب -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- خطوط عربية واضحة ومريحة للطلاب (Cairo للعناوين و Tajawal للنصوص) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- مكتبة FontAwesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'cairo': ['Cairo', 'sans-serif'],
+                        'tajawal': ['Tajawal', 'sans-serif'],
+                    },
+                    colors: {
+                        'heritage-obsidian': '#1a1612',
+                        'heritage-bronze': '#b45309',
+                        'heritage-gold': '#d97706',
+                        'heritage-jade': '#0f766e',
+                        'heritage-sand': '#f7f3eb',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f7f3eb;
+            /* خلفية أثرية جغرافية دافئة مستوحاة من الحضارات القديمة ونقوش المعابد */
+            background-image:
+                radial-gradient(circle at 10% 15%, rgba(180, 83, 9, 0.09) 0%, transparent 30%),
+                radial-gradient(circle at 90% 85%, rgba(15, 118, 110, 0.09) 0%, transparent 34%),
+                linear-gradient(45deg, rgba(180, 83, 9, 0.03) 25%, transparent 25%),
+                linear-gradient(-45deg, rgba(180, 83, 9, 0.03) 25%, transparent 25%);
+            background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Cairo', sans-serif;
+        }
+
+        /* حركة انتقال الشرائح */
+        .slide {
+            display: none;
+            animation: fadeSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .slide.active {
+            display: block;
+        }
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px) scale(0.99);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* حركة لطيفة للعناصر البصرية */
+        .float-slow {
+            animation: floatSlow 5s ease-in-out infinite;
+        }
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-7px); }
+        }
+
+        /* بطاقات الإنفوجرافيك والصور */
+        .civil-card {
+            transition: all 0.3s ease;
+        }
+        .civil-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 26px -6px rgba(26, 22, 18, 0.14);
+        }
+
+        .photo-box {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.25rem;
+            box-shadow: 0 10px 24px -6px rgba(26, 22, 18, 0.22);
+        }
+        .photo-box img {
+            transition: transform 0.6s ease;
+        }
+        .photo-box:hover img {
+            transform: scale(1.05);
+        }
+
+        /* تخصيص شريط التمرير */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #efe8da;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #92400e;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between text-stone-800 select-none">
+
+    <!-- الشريط العلوي لمنصة المستكشف الرقمي -->
+    <header class="bg-white/95 backdrop-blur-md shadow-sm border-b border-amber-200/80 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            <!-- هوية المنصة والدرس -->
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#292018] to-[#92400e] flex items-center justify-center text-amber-300 shadow-md border border-amber-400/30">
+                    <i class="fa-solid fa-monument text-xl"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span class="font-heading font-black text-sm sm:text-base text-[#1a1612]">منصة المستكشف الرقمي</span>
+                        <span class="text-xs font-bold text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300">الصف الثالث الإعدادي</span>
+                    </div>
+                    <h1 class="text-xs sm:text-sm font-bold text-amber-800 mt-0.5">الوحدة الأولى • الدرس الثاني: الحضارات القديمة في الأمريكتين</h1>
+                </div>
+            </div>
+
+            <!-- مؤشر الشرائح وأدوات التحكم -->
+            <div class="flex items-center gap-3">
+                <div class="hidden lg:flex items-center gap-1.5" id="slide-dots">
+                    <!-- يتم توليد النقاط تلقائياً -->
+                </div>
+                <div class="bg-[#f7f3eb] px-3.5 py-1.5 rounded-xl font-heading font-bold text-sm text-[#1a1612] border border-amber-300">
+                    شريحة <span id="current-slide-num" class="text-amber-700 text-base">1</span> من <span id="total-slides-num">9</span>
+                </div>
+                <button onclick="toggleFullscreen()" title="ملء الشاشة" class="p-2.5 text-[#1a1612] hover:text-amber-700 hover:bg-amber-50 rounded-xl border border-stone-200 transition">
+                    <i class="fa-solid fa-expand text-base"></i>
+                </button>
+            </div>
+        </div>
+        <!-- شريط التقدم العلوي -->
+        <div class="w-full h-1.5 bg-stone-200">
+            <div id="progress-bar" class="h-full bg-gradient-to-l from-amber-600 via-teal-600 to-[#292018] transition-all duration-300" style="width: 11%;"></div>
+        </div>
+    </header>
+
+    <!-- الحاوية الرئيسية للشرائح -->
+    <main class="flex-grow flex items-center justify-center p-3 sm:p-6">
+        <div class="w-full max-w-6xl bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-amber-200/80 overflow-hidden min-h-[560px] flex flex-col justify-between relative">
+
+            <!-- ================= الشريحة 1: الغلاف الترحيبي ================= -->
+            <section class="slide active p-6 sm:p-12 bg-gradient-to-bl from-[#241c15] via-[#3a2818] to-[#17120e] text-white relative overflow-hidden" data-title="مقدمة الدرس">
+                <!-- نمط زخرفي خفيف -->
+                <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#f59e0b 1.5px, transparent 1.5px); background-size: 26px 26px;"></div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex items-center gap-2 bg-amber-500/20 border border-amber-400/40 text-amber-300 px-4 py-1.5 rounded-full font-bold text-sm">
+                            <i class="fa-solid fa-scroll"></i>
+                            <span>المستكشف الرقمي • الدراسات الاجتماعية (الفصل الدراسي الأول)</span>
+                        </div>
+                        <h2 class="text-3xl sm:text-5xl font-black leading-tight text-white">
+                            الدرس الثاني: <br>
+                            <span class="text-amber-400">الحضارات القديمة في الأمريكتين</span>
+                        </h2>
+                        <p class="text-base sm:text-lg text-stone-200 leading-relaxed font-medium">
+                            رحلة تاريخية وحضارية مشوقة لاكتشاف أقدم حضارات العالم الجديد قبل وصول الأوروبيين، والتعرف عن قرب على 
+                            <strong class="text-amber-300">(حضارة المايا وحضارة الإنكا)</strong> وأوجه التشابه بينها وبين الحضارة المصرية القديمة!
+                        </p>
+
+                        <!-- بطاقات سريعة لمحاور الدرس -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                            <div class="bg-white/10 backdrop-blur-md border border-white/15 p-3.5 rounded-2xl flex items-center gap-3">
+                                <i class="fa-solid fa-archway text-amber-400 text-2xl"></i>
+                                <div>
+                                    <div class="font-bold text-sm text-white">حضارة المايا</div>
+                                    <div class="text-xs text-stone-300">جنوب أمريكا الشمالية</div>
+                                </div>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-md border border-white/15 p-3.5 rounded-2xl flex items-center gap-3">
+                                <i class="fa-solid fa-mountain-city text-teal-300 text-2xl"></i>
+                                <div>
+                                    <div class="font-bold text-sm text-white">حضارة الإنكا</div>
+                                    <div class="text-xs text-stone-300">غرب أمريكا الجنوبية</div>
+                                </div>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-md border border-white/15 p-3.5 rounded-2xl flex items-center gap-3">
+                                <i class="fa-solid fa-ankh text-amber-300 text-2xl"></i>
+                                <div>
+                                    <div class="font-bold text-sm text-white">مقارنة حضارية</div>
+                                    <div class="text-xs text-stone-300">مع مصر القديمة</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- صورة حقيقية لهرم كوكولكان بالمكسيك في الغلاف -->
+                    <div class="lg:col-span-5 flex flex-col items-center">
+                        <div class="photo-box w-full h-64 sm:h-72 float-slow border-2 border-amber-400/40 bg-stone-800">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Chichen_Itza_3.jpg/1280px-Chichen_Itza_3.jpg"
+                                 onerror="this.src='https://placehold.co/600x400/292018/f59e0b?text=هرم+كوكولكان+-+المكسيك'"
+                                 alt="هرم كوكولكان في حضارة المايا بالمكسيك"
+                                 class="w-full h-full object-cover">
+                            <span class="absolute bottom-3 right-3 bg-black/75 backdrop-blur-sm text-amber-300 text-xs font-bold px-3 py-1 rounded-full">
+                                <i class="fa-solid fa-landmark ml-1"></i> هرم كوكولكان بالمكسيك (حضارة المايا)
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 2: أهداف الدرس وتأمل واكتشف ================= -->
+            <section class="slide p-6 sm:p-10" data-title="أهداف الدرس">
+                <div class="text-center max-w-2xl mx-auto mb-7">
+                    <span class="bg-amber-100 text-amber-900 font-bold text-xs px-3 py-1 rounded-full border border-amber-300">خريطة التعلم</span>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold text-[#1a1612] mt-2">أهداف الدرس</h2>
+                    <p class="text-stone-600 mt-1 text-sm sm:text-base">في نهاية هذا الدرس على منصة المستكشف الرقمي، ستكون قادراً على أن:</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="civil-card bg-[#f7f3eb] p-5 rounded-2xl border border-amber-200 flex items-start gap-4">
+                        <div class="w-12 h-12 shrink-0 rounded-xl bg-[#292018] text-amber-400 flex items-center justify-center text-xl shadow">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-base text-[#1a1612]">1. تحديد مواقع الحضارات على الخريطة</h3>
+                            <p class="text-stone-600 text-sm mt-1 leading-relaxed">تُحدد على الخريطة مواقع بعض الحضارات القديمة في الأمريكتين (المايا والإنكا).</p>
+                        </div>
+                    </div>
+
+                    <div class="civil-card bg-[#f7f3eb] p-5 rounded-2xl border border-amber-200 flex items-start gap-4">
+                        <div class="w-12 h-12 shrink-0 rounded-xl bg-amber-700 text-white flex items-center justify-center text-xl shadow">
+                            <i class="fa-solid fa-building-columns"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-base text-[#1a1612]">2. وصف ملامح الحياة الحضارية</h3>
+                            <p class="text-stone-600 text-sm mt-1 leading-relaxed">تصف أبرز ملامح الحياة السياسية والاقتصادية والدينية والثقافية والمعمارية لحضارات الأمريكتين.</p>
+                        </div>
+                    </div>
+
+                    <div class="civil-card bg-[#f7f3eb] p-5 rounded-2xl border border-amber-200 flex items-start gap-4">
+                        <div class="w-12 h-12 shrink-0 rounded-xl bg-teal-700 text-white flex items-center justify-center text-xl shadow">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-base text-[#1a1612]">3. المقارنة مع الحضارة المصرية القديمة</h3>
+                            <p class="text-stone-600 text-sm mt-1 leading-relaxed">تُحدد أوجه التشابه والاختلاف بين الحضارات القديمة في الأمريكتين والحضارة المصرية القديمة.</p>
+                        </div>
+                    </div>
+
+                    <div class="civil-card bg-amber-50 p-5 rounded-2xl border border-amber-300 flex items-start gap-4">
+                        <div class="w-12 h-12 shrink-0 rounded-xl bg-amber-500 text-white flex items-center justify-center text-xl shadow">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-base text-[#1a1612]">4. تقدير قيمة التراث الثقافي</h3>
+                            <p class="text-stone-600 text-sm mt-1 leading-relaxed">تُعبّر عن تقديرك لأهمية الحفاظ على التراث الثقافي للشعوب وصموده عبر العصور.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- صندوق تأمل واكتشف -->
+                <div class="mt-6 bg-gradient-to-l from-amber-100/80 to-[#f7f3eb] border-r-4 border-amber-600 p-4 rounded-2xl text-sm text-stone-700">
+                    <strong class="text-[#1a1612] font-heading"><i class="fa-solid fa-sparkles text-amber-700 ml-1"></i> تأمل واكتشف:</strong>
+                    نشأت عديد من الحضارات القديمة في الأمريكتين قبل وصول الأوروبيين بعدة قرون في بيئات طبيعية متنوعة؛ مما ساعد على تنوع أنشطتها الاقتصادية وأساليب حياتها. فمن أشهر هذه الحضارات؟
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 3: أولاً - خريطة مواقع بعض الحضارات القديمة في الأمريكتين ================= -->
+            <section class="slide p-6 sm:p-10" data-title="أولاً: مواقع الحضارات">
+                <div class="mb-5">
+                    <span class="bg-[#292018] text-amber-300 font-bold px-3 py-1 rounded-lg text-xs">أولاً: بعض حضارات الأمريكتين</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1a1612] mt-1">مواقع أشهر الحضارات القديمة في الأمريكتين</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center bg-[#f7f3eb] p-6 rounded-3xl border border-amber-200">
+                    <!-- إنفوجرافيك توزيع الحضارات على خريطة الأمريكتين SVG -->
+                    <div class="lg:col-span-6 flex flex-col items-center">
+                        <svg viewBox="0 0 360 400" class="w-full max-w-sm bg-sky-50 rounded-2xl border-2 border-amber-200 shadow-inner">
+                            <!-- شبكة خطوط الطول والعرض -->
+                            <line x1="0" y1="115" x2="360" y2="115" stroke="#f59e0b" stroke-width="1.2" stroke-dasharray="5,5"/>
+                            <text x="12" y="110" font-family="Cairo" font-size="10" fill="#b45309" font-weight="bold">مدار السرطان</text>
+
+                            <line x1="0" y1="210" x2="360" y2="210" stroke="#0284c7" stroke-width="1.5" stroke-dasharray="4,4"/>
+                            <text x="12" y="205" font-family="Cairo" font-size="10" fill="#0369a1" font-weight="bold">دائرة الاستواء</text>
+
+                            <line x1="0" y1="285" x2="360" y2="285" stroke="#d97706" stroke-width="1.2" stroke-dasharray="5,5"/>
+                            <text x="12" y="280" font-family="Cairo" font-size="10" fill="#b45309" font-weight="bold">مدار الجدي</text>
+
+                            <!-- أمريكا الشمالية المبسطة -->
+                            <path d="M55,35 Q125,20 195,45 L215,95 L165,145 L130,130 L90,85 Z" fill="#fde68a" stroke="#b45309" stroke-width="2"/>
+                            <text x="130" y="78" text-anchor="middle" font-family="Cairo" font-size="13" font-weight="bold" fill="#292018">أمريكا الشمالية</text>
+
+                            <!-- أمريكا الجنوبية المبسطة -->
+                            <path d="M160,175 Q220,170 255,215 L220,335 L190,365 L168,265 Z" fill="#bbf7d0" stroke="#0f766e" stroke-width="2"/>
+                            <text x="208" y="255" text-anchor="middle" font-family="Cairo" font-size="13" font-weight="bold" fill="#134e4a">أمريكا الجنوبية</text>
+
+                            <!-- موقع حضارة المايا (أقصى جنوب أمريكا الشمالية) -->
+                            <circle cx="145" cy="138" r="11" fill="#dc2626" stroke="#ffffff" stroke-width="2.5"/>
+                            <line x1="145" y1="138" x2="235" y2="138" stroke="#dc2626" stroke-width="2"/>
+                            <rect x="225" y="122" width="122" height="32" rx="10" fill="#292018" stroke="#f59e0b" stroke-width="1.5"/>
+                            <text x="286" y="142" text-anchor="middle" font-family="Cairo" font-size="12" font-weight="bold" fill="#fbbf24">حضارة المايا</text>
+
+                            <!-- موقع حضارة الإنكا (غرب أمريكا الجنوبية) -->
+                            <circle cx="176" cy="245" r="11" fill="#0f766e" stroke="#ffffff" stroke-width="2.5"/>
+                            <line x1="176" y1="245" x2="95" y2="245" stroke="#0f766e" stroke-width="2"/>
+                            <rect x="12" y="229" width="122" height="32" rx="10" fill="#0f766e" stroke="#99f6e4" stroke-width="1.5"/>
+                            <text x="73" y="249" text-anchor="middle" font-family="Cairo" font-size="12" font-weight="bold" fill="#ffffff">حضارة الإنكا</text>
+                        </svg>
+                        <span class="text-xs text-stone-600 mt-2 font-bold">خريطة توضيحية لمواقع أبرز حضارتين في الأمريكتين</span>
+                    </div>
+
+                    <!-- بطاقات الوصف الجغرافي للحضارتين -->
+                    <div class="lg:col-span-6 space-y-4">
+                        <div class="civil-card bg-white p-5 rounded-2xl border-r-4 border-amber-600 shadow-sm">
+                            <h3 class="font-extrabold text-lg text-[#1a1612] flex items-center gap-2">
+                                <i class="fa-solid fa-location-pin text-amber-600"></i>
+                                <span>1. حضارة المايا</span>
+                            </h3>
+                            <p class="text-stone-700 text-sm mt-1.5 leading-relaxed">
+                                نشأت في <strong>أقصى جنوب قارة أمريكا الشمالية</strong> (مثل المكسيك وأمريكا الوسطى)، وتميزت بتعدد مدنها المستقلة وتقدمها في الفلك والعمارة والكتابة التصويرية.
+                            </p>
+                        </div>
+
+                        <div class="civil-card bg-white p-5 rounded-2xl border-r-4 border-teal-700 shadow-sm">
+                            <h3 class="font-extrabold text-lg text-[#1a1612] flex items-center gap-2">
+                                <i class="fa-solid fa-location-pin text-teal-700"></i>
+                                <span>2. حضارة الإنكا</span>
+                            </h3>
+                            <p class="text-stone-700 text-sm mt-1.5 leading-relaxed">
+                                نشأت في <strong>غرب قارة أمريكا الجنوبية</strong> (في جبال الإنديز ومنها دولة بيرو)، وتُعد من أعرق وأقوى الإمبراطوريات بفضل حكمها المركزي وهندستها الجبلية الفريدة.
+                            </p>
+                        </div>
+
+                        <div class="bg-amber-50 p-4 rounded-2xl border border-amber-200 text-xs text-stone-700 font-medium">
+                            <strong class="text-amber-900"><i class="fa-solid fa-circle-info ml-1"></i> معلومة مهمة:</strong>
+                            سنتعرف في الشرائح التالية على ملامح كل حضارة بالتفصيل بنفس ترتيب الكتاب المدرسي (السياسية، الاقتصادية، الدينية، الثقافية والعلمية، والعمارة والفنون).
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 4: حضارة المايا (1/2) - السياسية والاقتصادية والدينية + صورة هرم كوكولكان ================= -->
+            <section class="slide p-6 sm:p-10" data-title="حضارة المايا (السياسة والاقتصاد والدين)">
+                <div class="mb-5">
+                    <span class="bg-amber-700 text-white font-bold px-3 py-1 rounded-lg text-xs">حضارة المايا • أقصى جنوب أمريكا الشمالية</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1a1612] mt-1">حضارة المايا: الحياة السياسية والاقتصادية والدينية</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <!-- صورة حقيقية لهرم كوكولكان بالمكسيك -->
+                    <div class="lg:col-span-5 space-y-3">
+                        <div class="photo-box h-64 sm:h-72 w-full bg-stone-200">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Chichen_Itza_3.jpg/1280px-Chichen_Itza_3.jpg"
+                                 onerror="this.src='https://placehold.co/600x400/92400e/ffffff?text=هرم+كوكولكان+-+حضارة+المايا'"
+                                 alt="هرم كوكولكان في المكسيك"
+                                 class="w-full h-full object-cover">
+                            <span class="absolute bottom-3 right-3 bg-[#1a1612]/90 text-amber-300 text-xs font-bold px-3 py-1 rounded-full">
+                                <i class="fa-solid fa-camera ml-1"></i> هرم كوكولكان بالمكسيك
+                            </span>
+                        </div>
+                        <div class="bg-[#f7f3eb] p-3 rounded-2xl border border-amber-200 text-xs text-stone-700 text-center font-medium">
+                            كان الملوك والكهنة يُدفنون عند وفاتهم في أهرامات مع مجوهراتهم وأدواتهم للحياة الأخرى.
+                        </div>
+                    </div>
+
+                    <!-- النقاط الثلاث: السياسية والاقتصادية والدينية -->
+                    <div class="lg:col-span-7 space-y-4">
+                        <!-- (أ) الحياة السياسية -->
+                        <div class="civil-card bg-[#f7f3eb] p-4 rounded-2xl border border-amber-200">
+                            <h3 class="font-extrabold text-base text-[#1a1612] flex items-center gap-2 mb-1.5">
+                                <span class="w-6 h-6 rounded-lg bg-[#292018] text-amber-300 text-xs flex items-center justify-center">أ</span> الحياة السياسية
+                            </h3>
+                            <p class="text-sm text-stone-700 leading-relaxed">
+                                تكونت من <strong>مدن مستقلة</strong> تتحالف عند الحاجة، ولكل مدينة جيشها الخاص وملك يجمع بين <strong>السلطتين السياسية والدينية</strong> (ممثل الآلهة على الأرض)، والحكم <strong>وراثي</strong> يساعده مجلس من النبلاء والكهنة والقادة العسكريين.
+                            </p>
+                        </div>
+
+                        <!-- (ب) الحياة الاقتصادية -->
+                        <div class="civil-card bg-amber-50/70 p-4 rounded-2xl border border-amber-200">
+                            <h3 class="font-extrabold text-base text-[#1a1612] flex items-center gap-2 mb-1.5">
+                                <span class="w-6 h-6 rounded-lg bg-amber-700 text-white text-xs flex items-center justify-center">ب</span> الحياة الاقتصادية
+                            </h3>
+                            <p class="text-sm text-stone-700 leading-relaxed">
+                                بدأت بالزراعة المتنقلة ثم <strong>الزراعة المستقرة</strong> فظهرت القرى، واهتموا بالتجارة فأنشأوا <strong>طرقاً وسط الغابات وقنوات مائية</strong>، ومارسوا حرفاً يدوية مثل <strong>الفخار والنسيج</strong>.
+                            </p>
+                        </div>
+
+                        <!-- (ج) الحياة الدينية -->
+                        <div class="civil-card bg-teal-50/70 p-4 rounded-2xl border border-teal-200">
+                            <h3 class="font-extrabold text-base text-[#1a1612] flex items-center gap-2 mb-1.5">
+                                <span class="w-6 h-6 rounded-lg bg-teal-700 text-white text-xs flex items-center justify-center">ج</span> الحياة الدينية
+                            </h3>
+                            <p class="text-sm text-stone-700 leading-relaxed">
+                                اتسمت بـ <strong>تعدد الآلهة</strong> (مثل إله المطر وإله الشمس)، واعتقدوا في <strong>الحياة الأخرى</strong>؛ فدفنوا الملوك والكهنة في أهرامات، وعامة الناس تحت منازلهم.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 5: حضارة المايا (2/2) - الثقافية والعلمية والعمارة والفنون ================= -->
+            <section class="slide p-6 sm:p-10" data-title="حضارة المايا (الثقافة والعمارة)">
+                <div class="mb-5">
+                    <span class="bg-amber-700 text-white font-bold px-3 py-1 rounded-lg text-xs">تابع حضارة المايا</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1a1612] mt-1">الحياة الثقافية والعلمية والعمارة والفنون عند المايا</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- (د) الحياة الثقافية والعلمية -->
+                    <div class="civil-card bg-white p-6 rounded-2xl border-2 border-amber-200 shadow-sm space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-11 h-11 rounded-xl bg-[#292018] text-amber-400 flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-star-and-crescent"></i>
+                            </div>
+                            <h3 class="font-extrabold text-lg text-[#1a1612]">(د) الحياة الثقافية والعلمية</h3>
+                        </div>
+                        <ul class="space-y-3 text-sm text-stone-700 leading-relaxed">
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-pen-nib text-amber-700 mt-1"></i>
+                                <span><strong>الكتابة التصويرية:</strong> استخدموا رموزاً تشبه الهيروغليفية المصرية القديمة، ودوّنوا الأحداث على جدران المعابد.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-calendar-days text-teal-700 mt-1"></i>
+                                <span><strong>الفلك والتقويم:</strong> رصدوا النجوم والكواكب وطوروا تقويماً دقيقاً قسموا فيه السنة إلى <strong>365 يوماً</strong>.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- (هـ) العمارة والفنون -->
+                    <div class="civil-card bg-white p-6 rounded-2xl border-2 border-teal-200 shadow-sm space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-11 h-11 rounded-xl bg-teal-700 text-white flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-archway"></i>
+                            </div>
+                            <h3 class="font-extrabold text-lg text-[#1a1612]">(هـ) العمارة والفنون</h3>
+                        </div>
+                        <ul class="space-y-3 text-sm text-stone-700 leading-relaxed">
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-landmark text-amber-700 mt-1"></i>
+                                <span><strong>الأهرامات والقصور والمراصد:</strong> شيدوا أهرامات ضخمة (أقل ضخامة ودقة من الأهرامات المصرية) وبنوا فوقها المعابد، بالإضافة للقصور والمراصد الفلكية.</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-sculpture text-teal-700 mt-1"></i>
+                                <span><strong>النحت والزخرفة:</strong> برعوا في النقش والنحت من الحجر والطين، ومن آثارهم الباقية <strong>هرم كوكولكان بالمكسيك</strong>.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- سؤال تذكر وناقش من الكتاب -->
+                <div class="mt-6 bg-amber-50 border border-amber-300 p-4 rounded-2xl flex items-start gap-3">
+                    <i class="fa-solid fa-comments text-amber-700 text-xl mt-0.5"></i>
+                    <div class="text-sm text-stone-700">
+                        <strong class="text-[#1a1612] font-heading">تذكر وناقش:</strong>
+                        تشابهت حضارة المايا مع الحضارة المصرية القديمة في بناء الأهرامات واستخدام الكتابة التصويرية الرمزية والاهتمام بعلم الفلك.
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 6: حضارة الإنكا (1/2) - السياسية والاقتصادية والدينية + الكيبو ================= -->
+            <section class="slide p-6 sm:p-10" data-title="حضارة الإنكا (السياسة والاقتصاد والدين)">
+                <div class="mb-5">
+                    <span class="bg-teal-800 text-white font-bold px-3 py-1 rounded-lg text-xs">حضارة الإنكا • غرب قارة أمريكا الجنوبية</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1a1612] mt-1">حضارة الإنكا: الحكم والزراعة والعقيدة والعلوم</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- (أ) الحياة السياسية -->
+                    <div class="civil-card bg-[#f7f3eb] p-4 rounded-2xl border border-amber-200">
+                        <h3 class="font-extrabold text-base text-[#1a1612] mb-2 flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-lg bg-[#292018] text-amber-300 text-xs flex items-center justify-center">أ</span> السياسية
+                        </h3>
+                        <p class="text-xs sm:text-sm text-stone-700 leading-relaxed">
+                            نظام <strong>حكم مركزي قوي</strong> حقق الاستقرار والتوسع وجعلها أقوى إمبراطوريات أمريكا الجنوبية، والحكم <strong>وراثي</strong> داخل الأسرة الحاكمة.
+                        </p>
+                    </div>
+
+                    <!-- (ب) الحياة الاقتصادية -->
+                    <div class="civil-card bg-amber-50/70 p-4 rounded-2xl border border-amber-200">
+                        <h3 class="font-extrabold text-base text-[#1a1612] mb-2 flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-lg bg-amber-700 text-white text-xs flex items-center justify-center">ب</span> الاقتصادية
+                        </h3>
+                        <p class="text-xs sm:text-sm text-stone-700 leading-relaxed">
+                            برعوا في <strong>زراعة المدرجات</strong> الجبلية، وبنوا مخازن للحبوب وقنوات للري وجسوراً معلقة، وربوا <strong>اللاما</strong> للنقل، وأبدعوا في الذهب والنحاس والفخار والقطن، واعتمدوا <strong>المقايضة</strong>.
+                        </p>
+                    </div>
+
+                    <!-- (ج) الحياة الدينية -->
+                    <div class="civil-card bg-teal-50/70 p-4 rounded-2xl border border-teal-200">
+                        <h3 class="font-extrabold text-base text-[#1a1612] mb-2 flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-lg bg-teal-700 text-white text-xs flex items-center justify-center">ج</span> الدينية
+                        </h3>
+                        <p class="text-xs sm:text-sm text-stone-700 leading-relaxed">
+                            تعدد الآلهة المرتبطة بالطبيعة وأهمها <strong>إله الشمس</strong> (عدّ الحكام أنفسهم أبناءه)، ومارسوا <strong>التحنيط</strong> لإيمانهم بالحياة بعد الموت (لكن بدرجة أقل براعة من المصريين القدماء).
+                        </p>
+                    </div>
+
+                    <!-- (د) الثقافية والعلمية -->
+                    <div class="civil-card bg-stone-50 p-4 rounded-2xl border border-stone-300">
+                        <h3 class="font-extrabold text-base text-[#1a1612] mb-2 flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-lg bg-amber-600 text-white text-xs flex items-center justify-center">د</span> الثقافة والعلوم
+                        </h3>
+                        <p class="text-xs sm:text-sm text-stone-700 leading-relaxed">
+                            لم يعرفوا الكتابة التقليدية وتحدثوا لغة <strong>الكيتشوا</strong> شفهياً، وبرعوا في الرياضيات مستخدمين <strong>«الكيبو»</strong>، وراقبوا الشمس والقمر والنجوم لتحديد مواعيد الزراعة والطقوس.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- معلومة إثرائية: الكيبو -->
+                <div class="mt-5 bg-gradient-to-l from-teal-50 to-white border border-teal-200 p-4 rounded-2xl flex items-start gap-3">
+                    <div class="w-10 h-10 shrink-0 rounded-xl bg-teal-700 text-white flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-knot"></i>
+                    </div>
+                    <div class="text-xs sm:text-sm text-stone-700 leading-relaxed">
+                        <strong class="text-teal-900 font-heading">معلومة إثرائية — «الكيبو»:</strong>
+                        وسيلة استخدمها شعب الإنكا للتسجيل والعد قبل معرفة الكتابة، وتتكون من حبال ملونة معقودة بطرق مختلفة؛ حيث يدل عدد العقد وموضعها على قيمة الرقم.
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 7: عمارة الإنكا ومدينة ماتشو بيتشو ================= -->
+            <section class="slide p-6 sm:p-10" data-title="(هـ) عمارة الإنكا وماتشو بيتشو">
+                <div class="mb-5">
+                    <span class="bg-amber-700 text-white font-bold px-3 py-1 rounded-lg text-xs">تابع حضارة الإنكا • (هـ) العمارة والفنون</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1a1612] mt-1">براعة العمارة في حضارة الإنكا ومدينة ماتشو بيتشو</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <!-- صورة حقيقية لمدينة ماتشو بيتشو الأثرية -->
+                    <div class="lg:col-span-6">
+                        <div class="photo-box h-64 sm:h-72 w-full bg-stone-200">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Machu_Picchu%2C_Peru.jpg/1280px-Machu_Picchu%2C_Peru.jpg"
+                                 onerror="this.src='https://placehold.co/700x450/0f766e/ffffff?text=مدينة+ماتشو+بيتشو+-+بيرو'"
+                                 alt="مدينة ماتشو بيتشو الأثرية في بيرو"
+                                 class="w-full h-full object-cover">
+                            <span class="absolute bottom-3 right-3 bg-[#1a1612]/90 text-amber-300 text-xs font-bold px-3 py-1 rounded-full">
+                                <i class="fa-solid fa-mountain-sun ml-1"></i> مدينة ماتشو بيتشو الأثرية بدولة بيرو
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- شرح العمارة والنص الإثرائي عن ماتشو بيتشو -->
+                    <div class="lg:col-span-6 space-y-4">
+                        <div class="bg-[#f7f3eb] p-4 rounded-2xl border border-amber-200">
+                            <h3 class="font-extrabold text-base text-[#1a1612] mb-1">
+                                <i class="fa-solid fa-hammer text-amber-700 ml-1"></i> براعة العمارة والطرق والجسور
+                            </h3>
+                            <p class="text-sm text-stone-700 leading-relaxed">
+                                شيدوا معابد وقصوراً من <strong>كتل ضخمة من الحجارة المنحوتة بدقة</strong> مثل <strong>مدينة ماتشو بيتشو في بيرو</strong>، واهتموا ببناء الجسور وشق الطرق وتسويتها لربط أجزاء الإمبراطورية.
+                            </p>
+                        </div>
+
+                        <div class="bg-teal-50/80 p-4 rounded-2xl border border-teal-200">
+                            <h3 class="font-extrabold text-base text-teal-950 mb-1">
+                                <i class="fa-solid fa-globe text-teal-700 ml-1"></i> نص إثرائي: ماتشو بيتشو والتراث العالمي
+                            </h3>
+                            <p class="text-xs sm:text-sm text-stone-700 leading-relaxed">
+                                تقع فوق قمة جبلية شديدة الانحدار محاطة بالأودية لحمايتها، وبُنيت من حجارة متداخلة بدقة <strong>دون استخدام الأسمنت</strong>؛ مما جعلها مقاومة للزلازل وصامدة لمئات السنين، وأُدرجت في <strong>قائمة التراث العالمي لليونسكو عام 1983م</strong>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 8: ثانياً - أوجه التشابه مع الحضارة المصرية القديمة ================= -->
+            <section class="slide p-6 sm:p-10" data-title="ثانياً: التشابه مع مصر القديمة">
+                <div class="mb-5">
+                    <span class="bg-[#292018] text-amber-300 font-bold px-3 py-1 rounded-lg text-xs">ثانياً: مقارنة حضارية</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1a1612] mt-1">أوجه التشابه بين حضارات الأمريكتين والحضارة المصرية القديمة</h2>
+                </div>
+
+                <p class="text-sm sm:text-base text-stone-600 mb-5">
+                    رغم المسافات الشاسعة واختلاف البيئات، وصلت هذه الحضارات إلى مستوى متقدم بوسائل متقاربة في أربعة مجالات رئيسية:
+                </p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <!-- (أ) العمارة الضخمة -->
+                    <div class="civil-card bg-white p-5 rounded-2xl border-2 border-amber-200 shadow-sm">
+                        <div class="w-11 h-11 rounded-xl bg-amber-700 text-white flex items-center justify-center text-xl mb-3">
+                            <i class="fa-solid fa-pyramid"></i>
+                        </div>
+                        <h3 class="font-extrabold text-base text-[#1a1612] mb-1.5">(أ) العمارة الضخمة</h3>
+                        <p class="text-xs sm:text-sm text-stone-700 leading-relaxed">
+                            براعة بناء المنشآت الضخمة مثل الأهرامات والمعابد وإتقان الهندسة المعمارية.
+                        </p>
+                    </div>
+
+                    <!-- (ب) المعتقدات الدينية -->
+                    <div class="civil-card bg-white p-5 rounded-2xl border-2 border-teal-200 shadow-sm">
+                        <div class="w-11 h-11 rounded-xl bg-teal-700 text-white flex items-center justify-center text-xl mb-3">
+                            <i class="fa-solid fa-sun"></i>
+                        </div>
+                        <h3 class="font-extrabold text-base text-[#1a1612] mb-1.5">(ب) المعتقدات الدينية</h3>
+                        <p class="text-xs sm:text-sm text-stone-700 leading-relaxed">
+                            تعدد الآلهة المرتبطة بالطبيعة وتقديس الشمس، واعتبار الحاكم وسيطاً مقدساً، والبعث والخلود والتحنيط (مصر والإنكا).
+                        </p>
+                    </div>
+
+                    <!-- (ج) الكتابة التصويرية -->
+                    <div class="civil-card bg-white p-5 rounded-2xl border-2 border-amber-200 shadow-sm">
+                        <div class="w-11 h-11 rounded-xl bg-[#292018] text-amber-400 flex items-center justify-center text-xl mb-3">
+                            <i class="fa-solid fa-feather-pointed"></i>
+                        </div>
+                        <h3 class="font-extrabold text-base text-[#1a1612] mb-1.5">(ج) الكتابة التصويرية</h3>
+                        <p class="text-xs sm:text-sm text-stone-700 leading-relaxed">
+                            استخدام الرموز والصور لتسجيل التاريخ والعلوم كما في مصر القديمة وحضارة المايا.
+                        </p>
+                    </div>
+
+                    <!-- (د) الاهتمام بعلم الفلك -->
+                    <div class="civil-card bg-white p-5 rounded-2xl border-2 border-teal-200 shadow-sm">
+                        <div class="w-11 h-11 rounded-xl bg-amber-500 text-white flex items-center justify-center text-xl mb-3">
+                            <i class="fa-solid fa-moon"></i>
+                        </div>
+                        <h3 class="font-extrabold text-base text-[#1a1612] mb-1.5">(د) الاهتمام بعلم الفلك</h3>
+                        <p class="text-xs sm:text-sm text-stone-700 leading-relaxed">
+                            وضع تقاويم وحسابات فلكية لتنظيم الزراعة والاحتفالات الدينية.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- إضاءة إضافية من النص الإثرائي (الأزتك والسكان الأصليون في أستراليا) -->
+                <div class="mt-6 bg-[#f7f3eb] p-4 rounded-2xl border border-amber-200 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs sm:text-sm text-stone-700">
+                    <div>
+                        <strong class="text-[#1a1612]"><i class="fa-solid fa-crown text-amber-700 ml-1"></i> حضارة الأزتك (نص إثرائي):</strong>
+                        ظهرت في جنوب أمريكا الشمالية، وتميزت بتنظيم سياسي وعسكري قوي وحكم إمبراطوري مركزي واقتصاد زراعي.
+                    </div>
+                    <div>
+                        <strong class="text-teal-900"><i class="fa-solid fa-people-group text-teal-700 ml-1"></i> السكان الأصليون في أستراليا (نص إثرائي):</strong>
+                        من أقدم الحضارات في العالم، جاءوا في هجرات قديمة من جنوب شرق آسيا عبر العصر الجليدي وبنوا حضارة مستقلة.
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 9: اختبر معلوماتك (مهارات التفكير) ================= -->
+            <section class="slide p-6 sm:p-10" data-title="اختبر معلوماتك">
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-3">
+                    <div>
+                        <span class="bg-amber-100 text-amber-900 font-bold px-3 py-1 rounded-lg text-xs border border-amber-300">مهارات التفكير • المستكشف الرقمي</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1a1612] mt-1">اختبر نفسك: أبطال الحضارات القديمة</h2>
+                    </div>
+                    <div id="quiz-score-badge" class="bg-[#292018] text-white px-4 py-2 rounded-xl font-bold text-sm shadow">
+                        النتيجة: <span id="score-val" class="text-amber-400">0</span> / 4
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="quiz-container">
+                    <!-- سؤال 1 -->
+                    <div class="bg-[#f7f3eb] p-4 rounded-2xl border border-amber-200 space-y-2.5" data-answered="false">
+                        <p class="font-bold text-[#1a1612] text-sm">1. نشأت حضارة المايا في ...................</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="checkAnswer(this, true)" class="quiz-btn bg-white hover:bg-amber-50 border border-stone-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">أقصى جنوب أمريكا الشمالية</button>
+                            <button onclick="checkAnswer(this, false)" class="quiz-btn bg-white hover:bg-amber-50 border border-stone-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">غرب أمريكا الجنوبية</button>
+                        </div>
+                    </div>
+
+                    <!-- سؤال 2 -->
+                    <div class="bg-[#f7f3eb] p-4 rounded-2xl border border-amber-200 space-y-2.5" data-answered="false">
+                        <p class="font-bold text-[#1a1612] text-sm">2. استخدم شعب الإنكا نظاماً رياضياً للعد والتسجيل يُعرف بـ ...................</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="checkAnswer(this, true)" class="quiz-btn bg-white hover:bg-amber-50 border border-stone-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">الكيبو</button>
+                            <button onclick="checkAnswer(this, false)" class="quiz-btn bg-white hover:bg-amber-50 border border-stone-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">الهيروغليفية</button>
+                        </div>
+                    </div>
+
+                    <!-- سؤال 3 -->
+                    <div class="bg-[#f7f3eb] p-4 rounded-2xl border border-amber-200 space-y-2.5" data-answered="false">
+                        <p class="font-bold text-[#1a1612] text-sm">3. تقع مدينة ماتشو بيتشو الأثرية في دولة ...................</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="checkAnswer(this, false)" class="quiz-btn bg-white hover:bg-amber-50 border border-stone-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">المكسيك</button>
+                            <button onclick="checkAnswer(this, true)" class="quiz-btn bg-white hover:bg-amber-50 border border-stone-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">بيرو</button>
+                        </div>
+                    </div>
+
+                    <!-- سؤال 4 -->
+                    <div class="bg-[#f7f3eb] p-4 rounded-2xl border border-amber-200 space-y-2.5" data-answered="false">
+                        <p class="font-bold text-[#1a1612] text-sm">4. اشتركت الحضارة المصرية القديمة وحضارة المايا في ...................</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="checkAnswer(this, true)" class="quiz-btn bg-white hover:bg-amber-50 border border-stone-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">الكتابة التصويرية والاهتمام بالفلك</button>
+                            <button onclick="checkAnswer(this, false)" class="quiz-btn bg-white hover:bg-amber-50 border border-stone-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">اعتماد نظام المقايضة فقط</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- رسالة التقييم وإعادة المحاولة -->
+                <div class="mt-5 flex flex-wrap items-center justify-between bg-amber-50 border border-amber-200 p-4 rounded-2xl gap-3">
+                    <div id="quiz-feedback" class="text-sm font-bold text-[#1a1612]">
+                        اختر الإجابة الصحيحة لكل سؤال لاختبار معلوماتك يا بطل المستكشف الرقمي!
+                    </div>
+                    <button onclick="resetQuiz()" class="bg-white hover:bg-stone-100 text-[#1a1612] border border-stone-300 px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm">
+                        <i class="fa-solid fa-rotate-right ml-1"></i> إعادة الأسئلة
+                    </button>
+                </div>
+            </section>
+
+            <!-- شريط التنقل السفلي داخل العرض -->
+            <div class="bg-[#f7f3eb] border-t border-amber-200/80 px-6 py-4 flex items-center justify-between gap-2">
+                <button id="prev-btn" onclick="changeSlide(-1)" class="flex items-center gap-2 bg-white hover:bg-stone-100 disabled:opacity-40 disabled:pointer-events-none text-[#1a1612] font-bold px-5 py-2.5 rounded-xl border border-stone-300 shadow-sm transition">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <span>السابق</span>
+                </button>
+
+                <!-- قائمة منسدلة للتنقل السريع -->
+                <select id="slide-selector" onchange="goToSlide(parseInt(this.value))" class="bg-white border border-amber-300 text-[#1a1612] text-xs sm:text-sm font-bold rounded-xl px-3 sm:px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-500 max-w-[200px] sm:max-w-none">
+                    <!-- يتم ملؤها تلقائياً -->
+                </select>
+
+                <button id="next-btn" onclick="changeSlide(1)" class="flex items-center gap-2 bg-[#292018] hover:bg-amber-900 disabled:opacity-40 disabled:pointer-events-none text-white font-bold px-6 py-2.5 rounded-xl shadow-md transition">
+                    <span>التالي</span>
+                    <i class="fa-solid fa-arrow-left text-amber-400"></i>
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- تذييل الصفحة -->
+    <footer class="text-center py-3 text-xs text-[#1a1612]/80 font-bold">
+        منصة المستكشف الرقمي • الدراسات الاجتماعية للصف الثالث الإعدادي • استخدم أسهم لوحة المفاتيح للتنقل بين الشرائح
+    </footer>
+
+    <script>
+        // إدارة الشرائح والتنقل
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const currentSlideNum = document.getElementById('current-slide-num');
+        const totalSlidesNum = document.getElementById('total-slides-num');
+        const progressBar = document.getElementById('progress-bar');
+        const slideDotsContainer = document.getElementById('slide-dots');
+        const slideSelector = document.getElementById('slide-selector');
+
+        function initPresentation() {
+            totalSlidesNum.textContent = totalSlides;
+
+            slides.forEach((slide, index) => {
+                const dot = document.createElement('button');
+                dot.className = `h-2.5 rounded-full transition-all duration-300 ${index === 0 ? 'w-7 bg-amber-700' : 'w-2.5 bg-stone-300 hover:bg-amber-500'}`;
+                dot.title = slide.getAttribute('data-title');
+                dot.onclick = () => goToSlide(index);
+                slideDotsContainer.appendChild(dot);
+
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${index + 1}. ${slide.getAttribute('data-title')}`;
+                slideSelector.appendChild(option);
+            });
+
+            updateUI();
+        }
+
+        function goToSlide(index) {
+            if (index < 0 || index >= totalSlides) return;
+            slides[currentSlide].classList.remove('active');
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+            updateUI();
+        }
+
+        function changeSlide(step) {
+            goToSlide(currentSlide + step);
+        }
+
+        function updateUI() {
+            currentSlideNum.textContent = currentSlide + 1;
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+            slideSelector.value = currentSlide;
+
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            const dots = slideDotsContainer.children;
+            for (let i = 0; i < dots.length; i++) {
+                if (i === currentSlide) {
+                    dots[i].className = 'h-2.5 w-7 bg-amber-700 rounded-full transition-all duration-300';
+                } else {
+                    dots[i].className = 'h-2.5 w-2.5 bg-stone-300 hover:bg-amber-500 rounded-full transition-all duration-300';
+                }
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                changeSlide(1);
+            } else if (e.key === 'ArrowRight') {
+                changeSlide(-1);
+            }
+        });
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // منطق الأسئلة التفاعلية
+        let score = 0;
+        let answeredCount = 0;
+
+        function checkAnswer(btn, isCorrect) {
+            const card = btn.closest('[data-answered]');
+            if (card.getAttribute('data-answered') === 'true') return;
+
+            card.setAttribute('data-answered', 'true');
+            answeredCount++;
+
+            const buttons = card.querySelectorAll('.quiz-btn');
+            buttons.forEach(b => b.disabled = true);
+
+            if (isCorrect) {
+                score++;
+                btn.classList.remove('bg-white', 'border-stone-300');
+                btn.classList.add('bg-emerald-600', 'text-white', 'border-emerald-700');
+                btn.innerHTML += ' <i class="fa-solid fa-check mr-1"></i>';
+            } else {
+                btn.classList.remove('bg-white', 'border-stone-300');
+                btn.classList.add('bg-rose-600', 'text-white', 'border-rose-700');
+                btn.innerHTML += ' <i class="fa-solid fa-xmark mr-1"></i>';
+            }
+
+            document.getElementById('score-val').textContent = score;
+
+            if (answeredCount === 4) {
+                const feedback = document.getElementById('quiz-feedback');
+                if (score === 4) {
+                    feedback.innerHTML = '🎉 ممتاز يا بطل المستكشف الرقمي! حصلت على الدرجة النهائية (4/4).';
+                    feedback.className = 'text-sm font-extrabold text-emerald-700';
+                } else {
+                    feedback.innerHTML = `أحسنت المحاولة! نتيجتك ${score} من 4. راجع الشرائح وحاول مرة أخرى.`;
+                    feedback.className = 'text-sm font-bold text-amber-900';
+                }
+            }
+        }
+
+        function resetQuiz() {
+            score = 0;
+            answeredCount = 0;
+            document.getElementById('score-val').textContent = '0';
+            document.getElementById('quiz-feedback').textContent = 'اختر الإجابة الصحيحة لكل سؤال لاختبار معلوماتك يا بطل المستكشف الرقمي!';
+            document.getElementById('quiz-feedback').className = 'text-sm font-bold text-[#1a1612]';
+
+            const cards = document.querySelectorAll('#quiz-container [data-answered]');
+            cards.forEach(card => {
+                card.setAttribute('data-answered', 'false');
+                const buttons = card.querySelectorAll('.quiz-btn');
+                buttons.forEach(b => {
+                    b.disabled = false;
+                    b.className = 'quiz-btn bg-white hover:bg-amber-50 border border-stone-300 py-2.5 px-3 rounded-xl text-xs font-bold transition';
+                    b.innerHTML = b.textContent.trim();
+                });
+            });
+        }
+
+        initPresentation();
+    </script>
+</body>
+</html>

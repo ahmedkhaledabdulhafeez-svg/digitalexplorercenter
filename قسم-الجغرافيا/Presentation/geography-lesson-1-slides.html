@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المستكشف الرقمي | الدرس الأول: موقع ومظاهر سطح قارات العالم الجديد</title>
+    <!-- استدعاء مكتبة Tailwind CSS للتصميم المتجاوب -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- استدعاء خطوط Google Fonts المناسبة للطلاب (Cairo للعناوين و Tajawal للنصوص) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- استدعاء مكتبة FontAwesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'cairo': ['Cairo', 'sans-serif'],
+                        'tajawal': ['Tajawal', 'sans-serif'],
+                    },
+                    colors: {
+                        'explorer-navy': '#0d3d4d',
+                        'explorer-teal': '#0f766e',
+                        'explorer-amber': '#d97706',
+                        'explorer-gold': '#f59e0b',
+                        'explorer-bg': '#f3f7f5',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f3f7f5;
+            /* خلفية جغرافية هادئة بشبكة إحداثيات وتدرجات محيطية وقارية */
+            background-image:
+                radial-gradient(circle at 8% 12%, rgba(217, 119, 6, 0.08) 0%, transparent 28%),
+                radial-gradient(circle at 92% 88%, rgba(13, 61, 77, 0.10) 0%, transparent 32%),
+                radial-gradient(rgba(13, 61, 77, 0.12) 1.5px, transparent 1.5px);
+            background-size: 100% 100%, 100% 100%, 34px 34px;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        /* حركات انتقال الشرائح */
+        .slide {
+            display: none;
+            animation: slideFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .slide.active {
+            display: block;
+        }
+        @keyframes slideFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(14px) scale(0.99);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* تأثير الطفو للرسومات */
+        .float-anim {
+            animation: float 4.5s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* تأثيرات بطاقات الإنفوجرافيك والصور */
+        .info-card {
+            transition: all 0.3s ease;
+        }
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 28px -6px rgba(13, 61, 77, 0.14);
+        }
+
+        .photo-frame {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.25rem;
+            box-shadow: 0 10px 25px -5px rgba(13, 61, 77, 0.18);
+        }
+        .photo-frame img {
+            transition: transform 0.6s ease;
+        }
+        .photo-frame:hover img {
+            transform: scale(1.05);
+        }
+
+        /* تخصيص شريط التمرير */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e4efe9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0d3d4d;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between text-slate-800 select-none">
+
+    <!-- الشريط العلوي لمنصة المستكشف الرقمي -->
+    <header class="bg-white/95 backdrop-blur-md shadow-sm border-b border-teal-100 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            <!-- هوية منصة المستكشف الرقمي -->
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#0d3d4d] to-[#0f766e] flex items-center justify-center text-amber-400 shadow-md border border-amber-400/30">
+                    <i class="fa-solid fa-compass text-2xl"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span class="font-heading font-black text-sm sm:text-base text-[#0d3d4d]">منصة المستكشف الرقمي</span>
+                        <span class="text-xs font-bold text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-200">الصف الثالث الإعدادي</span>
+                    </div>
+                    <h1 class="text-xs sm:text-sm font-bold text-teal-700 mt-0.5">الوحدة الأولى • الدرس الأول: موقع ومظاهر سطح قارات العالم الجديد</h1>
+                </div>
+            </div>
+
+            <!-- مؤشر التقدم ورقم الشريحة وأدوات التحكم -->
+            <div class="flex items-center gap-3">
+                <div class="hidden lg:flex items-center gap-1.5" id="slide-dots">
+                    <!-- يتم توليد النقاط تلقائياً بالجافاسكريبت -->
+                </div>
+                <div class="bg-[#f3f7f5] px-3.5 py-1.5 rounded-xl font-heading font-bold text-sm text-[#0d3d4d] border border-teal-200">
+                    شريحة <span id="current-slide-num" class="text-amber-600 text-base">1</span> من <span id="total-slides-num">11</span>
+                </div>
+                <button onclick="toggleFullscreen()" title="ملء الشاشة" class="p-2.5 text-[#0d3d4d] hover:text-amber-600 hover:bg-amber-50 rounded-xl border border-slate-200 transition">
+                    <i class="fa-solid fa-expand text-base"></i>
+                </button>
+            </div>
+        </div>
+        <!-- شريط التقدم العلوي -->
+        <div class="w-full h-1.5 bg-slate-200">
+            <div id="progress-bar" class="h-full bg-gradient-to-l from-amber-500 via-teal-500 to-[#0d3d4d] transition-all duration-300" style="width: 9%;"></div>
+        </div>
+    </header>
+
+    <!-- الحاوية الرئيسية للشرائح -->
+    <main class="flex-grow flex items-center justify-center p-3 sm:p-6">
+        <div class="w-full max-w-6xl bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-teal-100/80 overflow-hidden min-h-[560px] flex flex-col justify-between relative">
+
+            <!-- ================= الشريحة 1: الغلاف الترحيبي ================= -->
+            <section class="slide active p-6 sm:p-12 bg-gradient-to-bl from-[#0d3d4d] via-[#114b5f] to-[#0a2e3a] text-white relative overflow-hidden" data-title="مقدمة الدرس">
+                <!-- زخرفة خطوط طول وعرض خفيفة في الخلفية -->
+                <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#f59e0b 1.5px, transparent 1.5px); background-size: 28px 28px;"></div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex items-center gap-2 bg-amber-500/20 border border-amber-400/40 text-amber-300 px-4 py-1.5 rounded-full font-bold text-sm">
+                            <i class="fa-solid fa-earth-americas"></i>
+                            <span>المستكشف الرقمي • الدراسات الاجتماعية (الفصل الدراسي الأول)</span>
+                        </div>
+                        <h2 class="text-3xl sm:text-5xl font-black leading-tight text-white">
+                            الدرس الأول: <br>
+                            <span class="text-amber-400">موقع ومظاهر سطح قارات العالم الجديد</span>
+                        </h2>
+                        <p class="text-base sm:text-lg text-slate-200 leading-relaxed font-medium">
+                            انطلق معنا في رحلة تفاعلية لاستكشاف قارات العالم الجديد الأربع: 
+                            <strong class="text-amber-300">(أمريكا الشمالية، أمريكا الجنوبية، أستراليا، والقارة القطبية الجنوبية)</strong>، والتعرف على موقعها الفلكي والجغرافي وتضاريسها الساحرة بالصور والخرائط!
+                        </p>
+                        
+                        <!-- بطاقات سريعة لقارات العالم الجديد -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                            <div class="bg-white/10 backdrop-blur-md border border-white/15 p-3.5 rounded-2xl text-center hover:bg-white/20 transition">
+                                <i class="fa-solid fa-mountain-sun text-amber-400 text-2xl mb-1.5"></i>
+                                <div class="font-bold text-sm text-white">أمريكا الشمالية</div>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-md border border-white/15 p-3.5 rounded-2xl text-center hover:bg-white/20 transition">
+                                <i class="fa-solid fa-tree text-emerald-400 text-2xl mb-1.5"></i>
+                                <div class="font-bold text-sm text-white">أمريكا الجنوبية</div>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-md border border-white/15 p-3.5 rounded-2xl text-center hover:bg-white/20 transition">
+                                <i class="fa-solid fa-island-tropical text-sky-300 text-2xl mb-1.5"></i>
+                                <div class="font-bold text-sm text-white">قارة أستراليا</div>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-md border border-white/15 p-3.5 rounded-2xl text-center hover:bg-white/20 transition">
+                                <i class="fa-solid fa-snowflake text-cyan-200 text-2xl mb-1.5"></i>
+                                <div class="font-bold text-sm text-white">أنتاركتيكا</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- رسم توضيحي SVG تفاعلي للكرة الأرضية -->
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="relative w-72 h-72 sm:w-80 sm:h-80 float-anim">
+                            <svg viewBox="0 0 300 300" class="w-full h-full drop-shadow-2xl">
+                                <defs>
+                                    <radialGradient id="oceanGrad" cx="40%" cy="40%" r="60%">
+                                        <stop offset="0%" stop-color="#38bdf8"/>
+                                        <stop offset="100%" stop-color="#0284c7"/>
+                                    </radialGradient>
+                                </defs>
+                                <circle cx="150" cy="150" r="130" fill="url(#oceanGrad)" stroke="#f59e0b" stroke-width="4"/>
+                                <ellipse cx="150" cy="150" rx="60" ry="130" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.5"/>
+                                <ellipse cx="150" cy="150" rx="110" ry="130" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.5"/>
+                                <line x1="20" y1="150" x2="280" y2="150" stroke="#fde047" stroke-width="2" stroke-dasharray="5,5"/>
+                                <line x1="35" y1="95" x2="265" y2="95" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+                                <line x1="35" y1="205" x2="265" y2="205" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+                                
+                                <!-- أمريكا الشمالية -->
+                                <path d="M70,65 Q95,50 120,65 L130,95 L105,125 L85,115 L65,85 Z" fill="#4ade80" stroke="#166534" stroke-width="2"/>
+                                <!-- أمريكا الجنوبية -->
+                                <path d="M115,140 Q140,145 150,170 L135,225 L120,235 L110,180 Z" fill="#a3e635" stroke="#3f6212" stroke-width="2"/>
+                                <!-- أستراليا -->
+                                <path d="M210,180 Q240,175 245,195 L235,215 L205,210 Z" fill="#fbbf24" stroke="#92400e" stroke-width="2"/>
+                                <!-- أنتاركتيكا -->
+                                <path d="M75,255 Q150,240 225,255 Q190,278 150,280 Q110,278 75,255 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+                                
+                                <!-- شارة المستكشف -->
+                                <g transform="translate(160, 42)">
+                                    <rect x="0" y="0" width="115" height="32" rx="16" fill="#0d3d4d" stroke="#f59e0b" stroke-width="2"/>
+                                    <text x="57" y="21" text-anchor="middle" font-family="Cairo" font-weight="bold" font-size="12" fill="#fbbf24">العالم الجديد</text>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 2: أهداف الدرس ================= -->
+            <section class="slide p-6 sm:p-10" data-title="أهداف الدرس">
+                <div class="text-center max-w-2xl mx-auto mb-8">
+                    <span class="bg-amber-100 text-amber-800 font-bold text-xs px-3 py-1 rounded-full">خريطة التعلم</span>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold text-[#0d3d4d] mt-2">أهداف الدرس</h2>
+                    <p class="text-slate-600 mt-1 text-sm sm:text-base">في نهاية هذا الدرس على منصة المستكشف الرقمي، ستكون قادراً على أن:</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <div class="info-card bg-gradient-to-br from-[#f3f7f5] to-white p-6 rounded-2xl border border-teal-200">
+                        <div class="w-12 h-12 rounded-xl bg-[#0d3d4d] text-amber-400 flex items-center justify-center text-xl mb-4 shadow-md">
+                            <i class="fa-solid fa-compass"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-[#0d3d4d] mb-2">1. المقارنة الجغرافية والفلكية</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">تقارن بين الموقع الجغرافي والفلكي لقارات العالم الجديد وتحدد حدودها على الخريطة.</p>
+                    </div>
+
+                    <div class="info-card bg-gradient-to-br from-[#f3f7f5] to-white p-6 rounded-2xl border border-teal-200">
+                        <div class="w-12 h-12 rounded-xl bg-teal-700 text-white flex items-center justify-center text-xl mb-4 shadow-md">
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-[#0d3d4d] mb-2">2. تفسير أهمية الموقع</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">تفسر الأهمية الإستراتيجية والاقتصادية والحضارية لموقع قارات العالم الجديد.</p>
+                    </div>
+
+                    <div class="info-card bg-gradient-to-br from-[#f3f7f5] to-white p-6 rounded-2xl border border-teal-200">
+                        <div class="w-12 h-12 rounded-xl bg-amber-600 text-white flex items-center justify-center text-xl mb-4 shadow-md">
+                            <i class="fa-solid fa-mountain"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-[#0d3d4d] mb-2">3. وصف مظاهر السطح</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">تُوظف الأدوات الجغرافية في وصف الجبال والهضاب والسهول والجزر من حيث الموقع والخصائص.</p>
+                    </div>
+
+                    <div class="info-card bg-gradient-to-br from-[#f3f7f5] to-white p-6 rounded-2xl border border-teal-200">
+                        <div class="w-12 h-12 rounded-xl bg-[#0d3d4d] text-white flex items-center justify-center text-xl mb-4 shadow-md">
+                            <i class="fa-solid fa-coins"></i>
+                        </div>
+                        <h3 class="font-bold text-lg text-[#0d3d4d] mb-2">4. الأهمية الاقتصادية للتضاريس</h3>
+                        <p class="text-slate-600 text-sm leading-relaxed">تشرح الأهمية الاقتصادية لمظاهر السطح (المعادن، الطاقة الكهرومائية، والسياحة).</p>
+                    </div>
+
+                    <div class="info-card bg-gradient-to-br from-amber-50 to-white p-6 rounded-2xl border border-amber-200 md:col-span-2 lg:col-span-2 flex flex-col sm:flex-row items-center gap-4">
+                        <div class="w-14 h-14 shrink-0 rounded-2xl bg-amber-500 text-white flex items-center justify-center text-2xl shadow-md">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg text-[#0d3d4d] mb-1">5. تقدير عظمة الله عز وجل</h3>
+                            <p class="text-slate-600 text-sm leading-relaxed">تُعبّر عن تقديرك لعظمة الخالق في تنوع مظاهر سطح قارات العالم الجديد وما وهبها من موارد طبيعية.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 3: أولاً - مساحة قارات العالم الجديد (إنفوجرافيك) ================= -->
+            <section class="slide p-6 sm:p-10" data-title="أولاً: مساحة القارات">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-2">
+                    <div>
+                        <span class="bg-[#0d3d4d] text-amber-400 font-bold px-3 py-1 rounded-lg text-xs">أولاً: موقع ومساحة قارات العالم الجديد</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0d3d4d] mt-2">الترتيب التنازلي لقارات العالم الجديد حسب المساحة</h2>
+                    </div>
+                    <div class="bg-amber-50 border border-amber-300 px-4 py-2 rounded-xl text-sm font-bold text-amber-900">
+                        <i class="fa-solid fa-lightbulb text-amber-600 ml-1"></i> أمريكا الشمالية ثالث قارات العالم مساحة!
+                    </div>
+                </div>
+
+                <!-- إنفوجرافيك الأعمدة المقارنة للمساحات -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center bg-[#f3f7f5] p-6 rounded-3xl border border-teal-200">
+                    <div class="lg:col-span-7 space-y-5">
+                        <!-- أمريكا الشمالية -->
+                        <div>
+                            <div class="flex justify-between font-bold mb-1.5">
+                                <span class="text-[#0d3d4d] flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-[#0d3d4d] text-white text-xs flex items-center justify-center">1</span> قارة أمريكا الشمالية (الـ 3 عالمياً)</span>
+                                <span class="text-amber-700 font-extrabold">24.2 مليون كم²</span>
+                            </div>
+                            <div class="w-full bg-slate-200 h-6 rounded-full overflow-hidden p-0.5">
+                                <div class="bg-gradient-to-l from-[#0d3d4d] to-teal-700 h-full rounded-full flex items-center justify-end px-3 text-[11px] text-white font-bold" style="width: 100%;">الأكبر في العالم الجديد</div>
+                            </div>
+                        </div>
+
+                        <!-- أمريكا الجنوبية -->
+                        <div>
+                            <div class="flex justify-between font-bold mb-1.5">
+                                <span class="text-[#0d3d4d] flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-teal-700 text-white text-xs flex items-center justify-center">2</span> قارة أمريكا الجنوبية (الـ 4 عالمياً)</span>
+                                <span class="text-teal-800 font-extrabold">17.8 مليون كم²</span>
+                            </div>
+                            <div class="w-full bg-slate-200 h-6 rounded-full overflow-hidden p-0.5">
+                                <div class="bg-gradient-to-l from-teal-600 to-teal-500 h-full rounded-full" style="width: 73.5%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- القارة القطبية الجنوبية -->
+                        <div>
+                            <div class="flex justify-between font-bold mb-1.5">
+                                <span class="text-[#0d3d4d] flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-sky-700 text-white text-xs flex items-center justify-center">3</span> القارة القطبية الجنوبية (أنتاركتيكا - الـ 5 عالمياً)</span>
+                                <span class="text-sky-800 font-extrabold">12.3 مليون كم²</span>
+                            </div>
+                            <div class="w-full bg-slate-200 h-6 rounded-full overflow-hidden p-0.5">
+                                <div class="bg-gradient-to-l from-sky-600 to-sky-500 h-full rounded-full" style="width: 50.8%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- أستراليا -->
+                        <div>
+                            <div class="flex justify-between font-bold mb-1.5">
+                                <span class="text-[#0d3d4d] flex items-center gap-2"><span class="w-6 h-6 rounded-full bg-amber-600 text-white text-xs flex items-center justify-center">4</span> قارة أستراليا (أصغر قارات العالم - الـ 7 عالمياً)</span>
+                                <span class="text-amber-700 font-extrabold">7.8 مليون كم²</span>
+                            </div>
+                            <div class="w-full bg-slate-200 h-6 rounded-full overflow-hidden p-0.5">
+                                <div class="bg-gradient-to-l from-amber-500 to-amber-600 h-full rounded-full" style="width: 32.2%;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- بطاقة ملخص بصري -->
+                    <div class="lg:col-span-5 bg-white p-6 rounded-2xl shadow-sm border border-teal-100 space-y-4">
+                        <h3 class="font-extrabold text-lg text-[#0d3d4d] border-b border-slate-100 pb-2.5 flex items-center gap-2">
+                            <i class="fa-solid fa-ranking-star text-amber-500"></i>
+                            <span>استنتاجات هامة من الخريطة</span>
+                        </h3>
+                        <ul class="space-y-3 text-sm text-slate-700">
+                            <li class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-circle-check text-[#0d3d4d] mt-1"></i>
+                                <span>تُعد <strong>أمريكا الشمالية</strong> ثالث قارات العالم مساحةً بعد قارتي العالم القديم (آسيا وإفريقيا).</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-circle-check text-amber-600 mt-1"></i>
+                                <span>تُعد <strong>قارة أستراليا</strong> أصغر قارات العالم مساحةً على الإطلاق، وتظهر كجزيرة كبيرة تحيط بها المياه من كل الجهات.</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <i class="fa-solid fa-circle-check text-teal-600 mt-1"></i>
+                                <span>تقع <strong>القارة القطبية الجنوبية (أنتاركتيكا)</strong> في أقصى جنوب الكرة الأرضية متجمدة وغير مأهولة بالسكان.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 4: الموقع الجغرافي والفلكي ================= -->
+            <section class="slide p-6 sm:p-10" data-title="الموقع الجغرافي والفلكي">
+                <div class="mb-6">
+                    <span class="bg-teal-100 text-teal-800 font-bold px-3 py-1 rounded-lg text-xs">تابع أولاً: الإحداثيات والحدود</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0d3d4d] mt-2">الموقع الفلكي والجغرافي لقارات العالم الجديد</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- بطاقة أمريكا الشمالية -->
+                    <div class="info-card bg-white rounded-2xl border-2 border-[#0d3d4d]/15 overflow-hidden shadow-sm">
+                        <div class="bg-[#0d3d4d] text-white p-4 flex items-center justify-between">
+                            <h3 class="font-extrabold text-lg">أمريكا الشمالية</h3>
+                            <i class="fa-solid fa-compass text-2xl text-amber-400"></i>
+                        </div>
+                        <div class="p-5 space-y-4 text-sm">
+                            <div class="bg-[#f3f7f5] p-3.5 rounded-xl border border-teal-100">
+                                <div class="font-bold text-[#0d3d4d] mb-1"><i class="fa-solid fa-globe text-amber-600 ml-1"></i> الموقع الفلكي:</div>
+                                <p class="text-slate-700">• العرض: <strong>7°30' شمالاً</strong> إلى <strong>83° شمالاً</strong> (بالكامل في النصف الشمالي).</p>
+                                <p class="text-slate-700">• الطول: <strong>10° غرباً</strong> إلى <strong>168° غرباً</strong> (بالكامل في النصف الغربي).</p>
+                            </div>
+                            <div>
+                                <div class="font-bold text-[#0d3d4d] mb-1.5"><i class="fa-solid fa-water text-teal-600 ml-1"></i> الموقع الجغرافي:</div>
+                                <ul class="space-y-1 text-slate-600">
+                                    <li><strong>شمالاً:</strong> المحيط القطبي الشمالي.</li>
+                                    <li><strong>شرقاً:</strong> المحيط الأطلنطي (يفصلها عن أوروبا).</li>
+                                    <li><strong>غرباً:</strong> المحيط الهادي (يفصلها عن آسيا بمضيق بيرنج).</li>
+                                    <li><strong>جنوباً شرقياً:</strong> خليج المكسيك والبحر الكاريبي.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- بطاقة أمريكا الجنوبية -->
+                    <div class="info-card bg-white rounded-2xl border-2 border-teal-600/20 overflow-hidden shadow-sm">
+                        <div class="bg-teal-700 text-white p-4 flex items-center justify-between">
+                            <h3 class="font-extrabold text-lg">أمريكا الجنوبية</h3>
+                            <i class="fa-solid fa-earth-americas text-2xl text-amber-300"></i>
+                        </div>
+                        <div class="p-5 space-y-4 text-sm">
+                            <div class="bg-teal-50/70 p-3.5 rounded-xl border border-teal-100">
+                                <div class="font-bold text-teal-900 mb-1"><i class="fa-solid fa-globe text-teal-600 ml-1"></i> الموقع الفلكي:</div>
+                                <p class="text-slate-700">• العرض: <strong>12° شمالاً</strong> إلى <strong>56° جنوباً</strong> (معظمها في النصف الجنوبي).</p>
+                                <p class="text-slate-700">• الطول: <strong>35° غرباً</strong> إلى <strong>81° غرباً</strong> (بالكامل في النصف الغربي).</p>
+                            </div>
+                            <div>
+                                <div class="font-bold text-[#0d3d4d] mb-1.5"><i class="fa-solid fa-water text-teal-600 ml-1"></i> الموقع الجغرافي (شكل مثلث):</div>
+                                <ul class="space-y-1 text-slate-600">
+                                    <li><strong>شمالاً:</strong> البحر الكاريبي.</li>
+                                    <li><strong>شرقاً:</strong> المحيط الأطلنطي (يفصلها عن إفريقيا).</li>
+                                    <li><strong>غرباً:</strong> المحيط الهادي.</li>
+                                    <li class="text-teal-800 font-bold pt-1 bg-teal-50 px-2 py-1 rounded">تتشابه الأمريكتان في الحدود الشرقية والغربية!</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- بطاقة قارة أستراليا -->
+                    <div class="info-card bg-white rounded-2xl border-2 border-amber-500/25 overflow-hidden shadow-sm">
+                        <div class="bg-amber-600 text-white p-4 flex items-center justify-between">
+                            <h3 class="font-extrabold text-lg">قارة أستراليا</h3>
+                            <i class="fa-solid fa-island-tropical text-2xl text-white"></i>
+                        </div>
+                        <div class="p-5 space-y-4 text-sm">
+                            <div class="bg-amber-50/80 p-3.5 rounded-xl border border-amber-200">
+                                <div class="font-bold text-amber-900 mb-1"><i class="fa-solid fa-globe text-amber-600 ml-1"></i> الموقع الفلكي:</div>
+                                <p class="text-slate-700">• العرض: <strong>10° جنوباً</strong> إلى <strong>44° جنوباً</strong> (بالكامل في النصف الجنوبي).</p>
+                                <p class="text-slate-700">• الطول: <strong>113° شرقاً</strong> إلى <strong>178° شرقاً</strong> (بالكامل في النصف الشرقي).</p>
+                            </div>
+                            <div>
+                                <div class="font-bold text-[#0d3d4d] mb-1.5"><i class="fa-solid fa-water text-amber-600 ml-1"></i> الموقع الجغرافي (جزيرة كبيرة):</div>
+                                <ul class="space-y-1 text-slate-600">
+                                    <li><strong>شمالاً:</strong> بحرا آرافورا وتيمور (يفصلانها عن جزر إندونيسيا).</li>
+                                    <li><strong>شرقاً:</strong> المحيط الهادي.</li>
+                                    <li><strong>الجنوب والغرب:</strong> المحيط الهندي.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 5: ثانياً - أهمية موقع قارات العالم الجديد + صورة قناة بنما ================= -->
+            <section class="slide p-6 sm:p-10" data-title="ثانياً: أهمية الموقع">
+                <div class="mb-5">
+                    <span class="bg-amber-100 text-amber-800 font-bold px-3 py-1 rounded-lg text-xs">ثانياً: أهمية الموقع الجغرافي والفلكي</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0d3d4d] mt-1">الأهمية الإستراتيجية والاقتصادية والحضارية</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                    <!-- البطاقات الثلاث للأهمية -->
+                    <div class="lg:col-span-7 flex flex-col gap-4 justify-between">
+                        <!-- الأهمية الإستراتيجية -->
+                        <div class="info-card bg-white p-4 rounded-2xl border border-teal-200 shadow-sm flex items-start gap-4">
+                            <div class="w-12 h-12 shrink-0 rounded-xl bg-[#0d3d4d] text-amber-400 flex items-center justify-center text-xl shadow">
+                                <i class="fa-solid fa-ship"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-extrabold text-[#0d3d4d]">1. الأهمية الإستراتيجية (قناة بنما)</h3>
+                                <p class="text-slate-600 text-sm leading-relaxed mt-1">
+                                    تيسير التجارة العالمية عبر <strong>قناة بنما</strong> التي تربط المحيطين الأطلنطي والهادي؛ مما اختصر آلاف الكيلومترات بدلاً من الدوران حول أمريكا الجنوبية.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- الأهمية الاقتصادية -->
+                        <div class="info-card bg-white p-4 rounded-2xl border border-teal-200 shadow-sm flex items-start gap-4">
+                            <div class="w-12 h-12 shrink-0 rounded-xl bg-teal-700 text-white flex items-center justify-center text-xl shadow">
+                                <i class="fa-solid fa-gem"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-extrabold text-[#0d3d4d]">2. الأهمية الاقتصادية</h3>
+                                <p class="text-slate-600 text-sm leading-relaxed mt-1">
+                                    • <strong>تنوع النظم البيئية</strong> بالأمريكتين لاتساع الامتداد الفلكي.<br>
+                                    • <strong>ثروات معدنية:</strong> كاليورانيوم والحديد بأستراليا، والطاقة الأحفورية والأراضي الزراعية الواسعة بالأمريكتين.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- الأهمية الحضارية -->
+                        <div class="info-card bg-white p-4 rounded-2xl border border-teal-200 shadow-sm flex items-start gap-4">
+                            <div class="w-12 h-12 shrink-0 rounded-xl bg-amber-600 text-white flex items-center justify-center text-xl shadow">
+                                <i class="fa-solid fa-landmark"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-extrabold text-[#0d3d4d]">3. الأهمية الحضارية</h3>
+                                <p class="text-slate-600 text-sm leading-relaxed mt-1">
+                                    مهد حضارات عريقة مثل <strong>المايا والإنكا</strong> في الأمريكتين، ومركز لالتقاء الثقافات الأوروبية والإفريقية والآسيوية بسبب الهجرات.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- بطاقة صورة حقيقية لقناة بنما (نص إثرائي) -->
+                    <div class="lg:col-span-5 bg-[#f3f7f5] p-4 rounded-3xl border border-teal-200 flex flex-col justify-between">
+                        <div class="photo-frame h-56 sm:h-64 w-full bg-slate-200">
+                            <img src="https://thenomadicphotographer.com/wp-content/uploads/2025/02/JDK-D4-120713-6168.jpg" 
+                                 onerror="this.src='https://placehold.co/600x400/0d3d4d/f59e0b?text=قناة+بنما+الإستراتيجية'"
+                                 alt="صورة جوية حقيقية لقناة بنما ومرور السفن" 
+                                 class="w-full h-full object-cover">
+                            <span class="absolute bottom-3 right-3 bg-[#0d3d4d]/90 backdrop-blur-sm text-amber-300 text-xs font-bold px-3 py-1 rounded-full">
+                                <i class="fa-solid fa-camera ml-1"></i> قناة بنما - جنوب أمريكا الشمالية
+                            </span>
+                        </div>
+                        <div class="mt-4 bg-white p-4 rounded-2xl border border-teal-100">
+                            <h4 class="font-extrabold text-sm text-[#0d3d4d] mb-1 flex items-center gap-1.5">
+                                <i class="fa-solid fa-book-open text-amber-600"></i> نص إثرائي: قناة بنما
+                            </h4>
+                            <p class="text-xs text-slate-600 leading-relaxed">
+                                حفرتها الولايات المتحدة الأمريكية وافتتحت عام <strong>1914م</strong> لربط ساحليها الشرقي والغربي، وتُعد مع <strong>قناة السويس</strong> أهم ممرين مائيين اصطناعيين في العالم.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 6: ثالثاً - مظاهر سطح أمريكا الشمالية (مع صورة جبال روكي) ================= -->
+            <section class="slide p-6 sm:p-10" data-title="تضاريس أمريكا الشمالية">
+                <div class="mb-5">
+                    <span class="bg-[#0d3d4d] text-amber-400 font-bold px-3 py-1 rounded-lg text-xs">ثالثاً: مظاهر السطح (1/3)</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0d3d4d] mt-1">مظاهر سطح قارة أمريكا الشمالية</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <!-- صورة حقيقية لجبال روكي -->
+                    <div class="lg:col-span-5 space-y-3">
+                        <div class="photo-frame h-64 sm:h-72 w-full bg-slate-200">
+                            <img src="https://danielkordan.com/wp-content/uploads/2015/08/43_2.jpg" 
+                                 onerror="this.src='https://placehold.co/600x400/0d3d4d/ffffff?text=جبال+روكي+-+أمريكا+الشمالية'"
+                                 alt="سلاسل جبال روكي في غرب أمريكا الشمالية" 
+                                 class="w-full h-full object-cover">
+                            <span class="absolute bottom-3 right-3 bg-[#0d3d4d]/90 text-white text-xs font-bold px-3 py-1 rounded-full">
+                                <i class="fa-solid fa-mountain text-amber-400 ml-1"></i> سلاسل جبال روكي (غرب القارة)
+                            </span>
+                        </div>
+                        <div class="bg-[#f3f7f5] p-3 rounded-2xl border border-teal-200 text-xs text-slate-700 font-medium text-center">
+                            تشتهر جبال روكي والأبلاش بغناهما بالمعادن وأنهما مركزان للسياحة!
+                        </div>
+                    </div>
+
+                    <!-- تفاصيل التضاريس بنفس ترتيب الكتاب -->
+                    <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- (أ) الجبال -->
+                        <div class="info-card bg-amber-50/70 p-4 rounded-2xl border border-amber-200">
+                            <h3 class="font-extrabold text-[#0d3d4d] flex items-center gap-2 mb-2">
+                                <span class="w-6 h-6 rounded-lg bg-amber-600 text-white text-xs flex items-center justify-center">أ</span> الجبال
+                            </h3>
+                            <ul class="text-sm text-slate-700 space-y-1.5">
+                                <li>• <strong>جبال الأبلاش:</strong> في شرق القارة.</li>
+                                <li>• <strong>سلاسل جبال روكي:</strong> تمتد في غرب القارة (أعلى جبالها).</li>
+                            </ul>
+                        </div>
+
+                        <!-- (ب) الهضاب -->
+                        <div class="info-card bg-teal-50/70 p-4 rounded-2xl border border-teal-200">
+                            <h3 class="font-extrabold text-[#0d3d4d] flex items-center gap-2 mb-2">
+                                <span class="w-6 h-6 rounded-lg bg-teal-700 text-white text-xs flex items-center justify-center">ب</span> الهضاب
+                            </h3>
+                            <p class="text-sm text-slate-700">
+                                • <strong>هضبة لبرادور:</strong> تقع في شمال شرق القارة، تجري بها أنهار صغيرة كثيرة الشلالات فتُستخدم في <strong>توليد الطاقة الكهرومائية</strong>.
+                            </p>
+                        </div>
+
+                        <!-- (ج) السهول الفيضية -->
+                        <div class="info-card bg-[#f3f7f5] p-4 rounded-2xl border border-teal-200">
+                            <h3 class="font-extrabold text-[#0d3d4d] flex items-center gap-2 mb-2">
+                                <span class="w-6 h-6 rounded-lg bg-[#0d3d4d] text-white text-xs flex items-center justify-center">ج</span> السهول الفيضية
+                            </h3>
+                            <p class="text-sm text-slate-700">
+                                • <strong>السهول الوسطى:</strong> تمتد بين الأبلاش شرقاً وروكي غرباً، ويجري بها <strong>نهر المسيسبي</strong> وروافده ويصب في <strong>خليج المكسيك</strong>.
+                            </p>
+                        </div>
+
+                        <!-- (د) السهول الساحلية والجزر -->
+                        <div class="info-card bg-sky-50/70 p-4 rounded-2xl border border-sky-200">
+                            <h3 class="font-extrabold text-[#0d3d4d] flex items-center gap-2 mb-2">
+                                <span class="w-6 h-6 rounded-lg bg-sky-700 text-white text-xs flex items-center justify-center">د</span> الساحلية والجزر
+                            </h3>
+                            <ul class="text-xs text-slate-700 space-y-1">
+                                <li>• <strong>سهول المحيط الهادي (غرباً):</strong> ضيقة لاقتراب الجبال من الساحل.</li>
+                                <li>• <strong>سهول الأطلنطي (شرقاً):</strong> متسعة وكثيرة الخلجان (موانئ طبيعية).</li>
+                                <li>• <strong>أكبر الجزر:</strong> جزيرة <strong>جرينلاند</strong>.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 7: مظاهر سطح أمريكا الجنوبية (مع صورة جبال الإنديز) ================= -->
+            <section class="slide p-6 sm:p-10" data-title="تضاريس أمريكا الجنوبية">
+                <div class="mb-5">
+                    <span class="bg-teal-700 text-white font-bold px-3 py-1 rounded-lg text-xs">ثالثاً: مظاهر السطح (2/3)</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0d3d4d] mt-1">مظاهر سطح قارة أمريكا الجنوبية</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <!-- تفاصيل التضاريس -->
+                    <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- (أ) الجبال -->
+                        <div class="info-card bg-amber-50/70 p-4 rounded-2xl border border-amber-200">
+                            <h3 class="font-extrabold text-[#0d3d4d] flex items-center gap-2 mb-2">
+                                <span class="w-6 h-6 rounded-lg bg-amber-600 text-white text-xs flex items-center justify-center">أ</span> الجبال
+                            </h3>
+                            <p class="text-sm text-slate-700">
+                                • <strong>سلاسل جبال الإنديز:</strong> تمتد في غرب القارة، وهي <strong>أطول سلسلة جبلية في العالم</strong>، وتُعد مخزناً عالمياً <strong>للنحاس والقصدير</strong>.
+                            </p>
+                        </div>
+
+                        <!-- (ب) الهضاب -->
+                        <div class="info-card bg-teal-50/70 p-4 rounded-2xl border border-teal-200">
+                            <h3 class="font-extrabold text-[#0d3d4d] flex items-center gap-2 mb-2">
+                                <span class="w-6 h-6 rounded-lg bg-teal-700 text-white text-xs flex items-center justify-center">ب</span> الهضاب
+                            </h3>
+                            <ul class="text-sm text-slate-700 space-y-1">
+                                <li>• <strong>هضبة البرازيل (شرقاً):</strong> أكبر هضاب القارة، ومصدر رئيسي للثروات المعدنية.</li>
+                                <li>• كما توجد <strong>هضبة جيانا</strong> في الشمال، و<strong>هضبة بتاجونيا</strong> في الجنوب.</li>
+                            </ul>
+                        </div>
+
+                        <!-- (ج) السهول الفيضية -->
+                        <div class="info-card bg-[#f3f7f5] p-4 rounded-2xl border border-teal-200">
+                            <h3 class="font-extrabold text-[#0d3d4d] flex items-center gap-2 mb-2">
+                                <span class="w-6 h-6 rounded-lg bg-[#0d3d4d] text-white text-xs flex items-center justify-center">ج</span> السهول الفيضية
+                            </h3>
+                            <ul class="text-xs text-slate-700 space-y-1.5">
+                                <li>• <strong>سهول الأمازون:</strong> أوسع سهول فيضية في العالم (غابات مطيرة ومستنقعات).</li>
+                                <li>• <strong>سهول البمباس (لابلاتا):</strong> يجري بها أنهار بارانا وباراجواي ولابلاتا.</li>
+                            </ul>
+                        </div>
+
+                        <!-- (د) السهول الساحلية والجزر -->
+                        <div class="info-card bg-sky-50/70 p-4 rounded-2xl border border-sky-200">
+                            <h3 class="font-extrabold text-[#0d3d4d] flex items-center gap-2 mb-2">
+                                <span class="w-6 h-6 rounded-lg bg-sky-700 text-white text-xs flex items-center justify-center">د</span> الساحلية والجزر
+                            </h3>
+                            <ul class="text-xs text-slate-700 space-y-1">
+                                <li>• <strong>ساحل الهادي (غرباً):</strong> شديدة الضيق لاقتراب جبال الإنديز من الساحل.</li>
+                                <li>• <strong>ساحل الأطلنطي (شرقاً):</strong> متسعة ومنبسطة وتكثر بها الموانئ الطبيعية.</li>
+                                <li>• <strong>أشهر الجزر:</strong> <strong>جزر فوكلاند</strong> في المحيط الأطلنطي.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- صورة حقيقية لجبال الإنديز -->
+                    <div class="lg:col-span-5 space-y-3">
+                        <div class="photo-frame h-64 sm:h-72 w-full bg-slate-200">
+                            <img src="https://www.andes.org.uk/expeditions-and-explorations/aconcagua-sunrise.jpg" 
+                                 onerror="this.src='https://placehold.co/600x400/0f766e/ffffff?text=جبال+الإنديز+-+أمريكا+الجنوبية'"
+                                 alt="قمم جبال الإنديز في أمريكا الجنوبية" 
+                                 class="w-full h-full object-cover">
+                            <span class="absolute bottom-3 right-3 bg-[#0d3d4d]/90 text-white text-xs font-bold px-3 py-1 rounded-full">
+                                <i class="fa-solid fa-mountain text-amber-400 ml-1"></i> سلاسل جبال الإنديز (أطول سلسلة جبلية)
+                            </span>
+                        </div>
+                        <div class="bg-[#f3f7f5] p-3 rounded-2xl border border-teal-200 text-xs text-slate-700 font-medium text-center">
+                            تمتد جبال الإنديز من الشمال للجنوب غرب القارة وتُعد مخزناً للنحاس والقصدير!
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 8: إضاءة جغرافية - سهول حوض نهر الأمازون ================= -->
+            <section class="slide p-6 sm:p-10" data-title="سهول نهر الأمازون">
+                <div class="mb-5">
+                    <span class="bg-emerald-100 text-emerald-800 font-bold px-3 py-1 rounded-lg text-xs">إضاءة جغرافية • أمريكا الجنوبية</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0d3d4d] mt-1">سهول حوض نهر الأمازون</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-7">
+                        <div class="photo-frame h-72 sm:h-80 w-full bg-slate-200">
+                            <img src="https://media.istockphoto.com/id/935746242/photo/mata-atlantica-atlantic-forest-in-brazil.jpg?s=612x612&w=0&k=20&c=NqE6m2Q8J2w6M7x7Pi8VxnMzLzq-HJQvCt5EMuvMU5o=" 
+                                 onerror="this.src='https://placehold.co/800x500/0f766e/ffffff?text=نهر+الأمازون+والغابات+المطيرة'"
+                                 alt="مشهد جوي لنهر الأمازون والغابات المدارية المطيرة" 
+                                 class="w-full h-full object-cover">
+                            <span class="absolute bottom-3 right-3 bg-[#0d3d4d]/90 text-amber-300 text-xs font-bold px-3 py-1.5 rounded-full">
+                                <i class="fa-solid fa-water ml-1"></i> نهر الأمازون والغابات المدارية المطيرة
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 space-y-4">
+                        <div class="bg-[#f3f7f5] p-5 rounded-3xl border border-teal-200 space-y-3">
+                            <h3 class="text-xl font-extrabold text-[#0d3d4d]">أوسع السهول الفيضية في العالم</h3>
+                            <ul class="space-y-2.5 text-sm text-slate-700">
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-location-dot text-amber-600 mt-1"></i>
+                                    <span><strong>المنبع والمصب:</strong> ينبع نهر الأمازون من جبال الإنديز غرباً، ويصب في المحيط الأطلنطي شرقاً.</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <i class="fa-solid fa-tree text-emerald-600 mt-1"></i>
+                                    <span><strong>الغطاء النباتي:</strong> تغطيها مساحات شاسعة من الغابات المدارية المطيرة وتكثر بها المستنقعات والبرك.</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-amber-50 border border-amber-200 p-4 rounded-2xl">
+                            <div class="font-extrabold text-sm text-amber-900 mb-1">
+                                <i class="fa-solid fa-brain text-amber-600 ml-1"></i> سؤال تفكير للطلاب:
+                            </div>
+                            <p class="text-xs text-slate-700 leading-relaxed">
+                                كيف أثرت كثافة الغابات والمستنقعات في سهول الأمازون على استغلال الإنسان لها؟ <br>
+                                <strong class="text-[#0d3d4d]">الإجابة:</strong> أدت إلى قلة التركز السكاني وصعوبة استغلالها الزراعي في أجزاء واسعة منها.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 9: مظاهر سطح قارة أستراليا (مع صورة جزيرة تسمانيا) ================= -->
+            <section class="slide p-6 sm:p-10" data-title="تضاريس قارة أستراليا">
+                <div class="mb-5">
+                    <span class="bg-amber-600 text-white font-bold px-3 py-1 rounded-lg text-xs">ثالثاً: مظاهر السطح (3/3)</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0d3d4d] mt-1">مظاهر سطح قارة أستراليا (القارة الجزيرة)</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <!-- صورة حقيقية لجزيرة تسمانيا في أستراليا -->
+                    <div class="lg:col-span-5 space-y-3">
+                        <div class="photo-frame h-64 sm:h-72 w-full bg-slate-200">
+                            <img src="https://media.istockphoto.com/id/490944950/photo/the-magic-cradle-mountain.jpg?s=612x612&w=0&k=20&c=bXR_gOqSsNb0iVPv2APth37t5e9o6KShyOIbDdLHnYM=" 
+                                 onerror="this.src='https://placehold.co/600x400/d97706/ffffff?text=جزيرة+تسمانيا+-+أستراليا'"
+                                 alt="الطبيعة الخلابة في جزيرة تسمانيا بأستراليا" 
+                                 class="w-full h-full object-cover">
+                            <span class="absolute bottom-3 right-3 bg-[#0d3d4d]/90 text-white text-xs font-bold px-3 py-1 rounded-full">
+                                <i class="fa-solid fa-island-tropical text-amber-400 ml-1"></i> جزيرة تسمانيا (جنوب شرق أستراليا)
+                            </span>
+                        </div>
+                        <div class="bg-[#f3f7f5] p-3 rounded-2xl border border-teal-200 text-xs text-slate-700 font-medium text-center">
+                            تُعد جزيرة تسمانيا من أشهر جزر أستراليا وتتميز بجمالها الطبيعي وتنوع تضاريسها!
+                        </div>
+                    </div>
+
+                    <!-- بطاقات تضاريس أستراليا -->
+                    <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <!-- (أ) الجبال -->
+                        <div class="info-card bg-emerald-50/70 p-4 rounded-2xl border border-emerald-200">
+                            <h3 class="font-extrabold text-[#0d3d4d] flex items-center gap-2 mb-2">
+                                <span class="w-6 h-6 rounded-lg bg-emerald-700 text-white text-xs flex items-center justify-center">أ</span> الجبال
+                            </h3>
+                            <p class="text-sm text-slate-700">
+                                • <strong>جبال الحاجز الكبير (شرقاً):</strong> تكسوها الغابات وتسقط عليها الأمطار فتنبع منها الأنهار الكبرى، وتُعد منطقة جذب سياحي للتزلج والتسلق.
+                            </p>
+                        </div>
+
+                        <!-- (ب) الهضاب -->
+                        <div class="info-card bg-amber-50/70 p-4 rounded-2xl border border-amber-200">
+                            <h3 class="font-extrabold text-[#0d3d4d] flex items-center gap-2 mb-2">
+                                <span class="w-6 h-6 rounded-lg bg-amber-600 text-white text-xs flex items-center justify-center">ب</span> الهضاب
+                            </h3>
+                            <p class="text-sm text-slate-700">
+                                • <strong>هضبة غرب أستراليا:</strong> تشغل نحو <strong>ثلثي (2/3) مساحة القارة</strong>، ويغلب عليها الطابع الصحراوي.
+                            </p>
+                        </div>
+
+                        <!-- (ج) السهول الفيضية -->
+                        <div class="info-card bg-[#f3f7f5] p-4 rounded-2xl border border-teal-200">
+                            <h3 class="font-extrabold text-[#0d3d4d] flex items-center gap-2 mb-2">
+                                <span class="w-6 h-6 rounded-lg bg-[#0d3d4d] text-white text-xs flex items-center justify-center">ج</span> السهول الفيضية
+                            </h3>
+                            <p class="text-sm text-slate-700">
+                                • محدودة لقلة الأنهار الدائمة؛ وأهمها <strong>نهرا مري ودارلنج</strong> ويصبان معاً في <strong>الخليج الأسترالي الكبير</strong>.
+                            </p>
+                        </div>
+
+                        <!-- (د) السهول الساحلية والجزر -->
+                        <div class="info-card bg-sky-50/70 p-4 rounded-2xl border border-sky-200">
+                            <h3 class="font-extrabold text-[#0d3d4d] flex items-center gap-2 mb-2">
+                                <span class="w-6 h-6 rounded-lg bg-sky-700 text-white text-xs flex items-center justify-center">د</span> الساحلية والجزر
+                            </h3>
+                            <ul class="text-xs text-slate-700 space-y-1">
+                                <li>• <strong>السهول الساحلية:</strong> تمتد بشكل شريطي وتضيق شرقاً لاقتراب جبال الحاجز الكبير من المحيط الهادي.</li>
+                                <li>• <strong>أشهر الجزر:</strong> <strong>جزيرة تسمانيا</strong> ونيوزيلندا.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 10: التنمية المستدامة + جدول المقارنة السريع ================= -->
+            <section class="slide p-6 sm:p-10" data-title="التنمية المستدامة والملخص">
+                <div class="mb-5">
+                    <span class="bg-teal-100 text-teal-800 font-bold px-3 py-1 rounded-lg text-xs">نص إثرائي • استثمار الموارد</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0d3d4d] mt-1">التنمية المستدامة وملخص تضاريس القارات</h2>
+                </div>
+
+                <!-- 3 بطاقات للتنمية المستدامة -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-[#f3f7f5] p-4 rounded-2xl border border-teal-200 flex items-start gap-3">
+                        <div class="w-10 h-10 shrink-0 rounded-xl bg-[#0d3d4d] text-amber-400 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-sm text-[#0d3d4d]">الطاقة الكهرومائية</h3>
+                            <p class="text-xs text-slate-600 mt-1">توفر الشلالات في <strong>البرازيل وكندا</strong> نحو <strong>ثلثي</strong> احتياجاتهما من الكهرباء النظيفة.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#f3f7f5] p-4 rounded-2xl border border-teal-200 flex items-start gap-3">
+                        <div class="w-10 h-10 shrink-0 rounded-xl bg-teal-700 text-white flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-leaf"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-sm text-[#0d3d4d]">التعدين الأخضر</h3>
+                            <p class="text-xs text-slate-600 mt-1">استخراج المعادن بطاقة متجددة وتقليل الانبعاثات الكربونية لدعم <strong>الاقتصاد الأخضر</strong>.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#f3f7f5] p-4 rounded-2xl border border-teal-200 flex items-start gap-3">
+                        <div class="w-10 h-10 shrink-0 rounded-xl bg-amber-600 text-white flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-water"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-sm text-[#0d3d4d]">الاقتصاد الأزرق</h3>
+                            <p class="text-xs text-slate-600 mt-1">الاستخدام المستدام للموارد البحرية والمحيطات مع حماية النظم البيئية الساحلية.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- جدول مقارنة سريع للطلاب -->
+                <div class="overflow-x-auto rounded-2xl border border-teal-200 shadow-sm">
+                    <table class="w-full text-right border-collapse bg-white text-xs sm:text-sm">
+                        <thead>
+                            <tr class="bg-[#0d3d4d] text-white font-heading">
+                                <th class="p-3">القارة</th>
+                                <th class="p-3">أهم الجبال</th>
+                                <th class="p-3">أهم الهضاب</th>
+                                <th class="p-3">أهم الأنهار والسهول</th>
+                                <th class="p-3">أشهر الجزر</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr>
+                                <td class="p-3 font-extrabold text-[#0d3d4d]">أمريكا الشمالية</td>
+                                <td class="p-3">روكي (غرباً)، الأبلاش (شرقاً)</td>
+                                <td class="p-3">لبرادور (شمال شرق)</td>
+                                <td class="p-3">السهول الوسطى (نهر المسيسبي)</td>
+                                <td class="p-3">جرينلاند</td>
+                            </tr>
+                            <tr class="bg-[#f3f7f5]/60">
+                                <td class="p-3 font-extrabold text-teal-800">أمريكا الجنوبية</td>
+                                <td class="p-3">الإنديز (غرباً)</td>
+                                <td class="p-3">البرازيل، جيانا، بتاجونيا</td>
+                                <td class="p-3">الأمازون، البمباس (لابلاتا)</td>
+                                <td class="p-3">فوكلاند</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-extrabold text-amber-800">أستراليا</td>
+                                <td class="p-3">الحاجز الكبير (شرقاً)</td>
+                                <td class="p-3">هضبة غرب أستراليا (2/3)</td>
+                                <td class="p-3">نهرا مري ودارلنج</td>
+                                <td class="p-3">تسمانيا</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 11: اختبر معلوماتك (تحدي المستكشف الرقمي) ================= -->
+            <section class="slide p-6 sm:p-10" data-title="اختبر معلوماتك">
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-3">
+                    <div>
+                        <span class="bg-amber-100 text-amber-800 font-bold px-3 py-1 rounded-lg text-xs">تقييم تفاعلي • المستكشف الرقمي</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0d3d4d] mt-1">تحدي الأبطال: اختبر فهمك للدرس!</h2>
+                    </div>
+                    <div id="quiz-score-badge" class="bg-[#0d3d4d] text-white px-4 py-2 rounded-xl font-bold text-sm shadow">
+                        النتيجة: <span id="score-val" class="text-amber-400">0</span> / 4
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="quiz-container">
+                    <!-- سؤال 1 -->
+                    <div class="bg-[#f3f7f5] p-4 rounded-2xl border border-teal-200 space-y-2.5" data-answered="false">
+                        <p class="font-bold text-[#0d3d4d] text-sm">1. تُعد قارة ................... ثالث قارات العالم من حيث المساحة.</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="checkAnswer(this, true)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">أمريكا الشمالية</button>
+                            <button onclick="checkAnswer(this, false)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">أستراليا</button>
+                        </div>
+                    </div>
+
+                    <!-- سؤال 2 -->
+                    <div class="bg-[#f3f7f5] p-4 rounded-2xl border border-teal-200 space-y-2.5" data-answered="false">
+                        <p class="font-bold text-[#0d3d4d] text-sm">2. تقع هضبة ................... في شمال شرق قارة أمريكا الشمالية.</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="checkAnswer(this, false)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">البرازيل</button>
+                            <button onclick="checkAnswer(this, true)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">لبرادور</button>
+                        </div>
+                    </div>
+
+                    <!-- سؤال 3 -->
+                    <div class="bg-[#f3f7f5] p-4 rounded-2xl border border-teal-200 space-y-2.5" data-answered="false">
+                        <p class="font-bold text-[#0d3d4d] text-sm">3. يصب نهر المسيسبي في ................... جنوب أمريكا الشمالية.</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="checkAnswer(this, true)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">خليج المكسيك</button>
+                            <button onclick="checkAnswer(this, false)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">المحيط الهادي</button>
+                        </div>
+                    </div>
+
+                    <!-- سؤال 4 -->
+                    <div class="bg-[#f3f7f5] p-4 rounded-2xl border border-teal-200 space-y-2.5" data-answered="false">
+                        <p class="font-bold text-[#0d3d4d] text-sm">4. تمتد جبال ................... على طول الساحل الشرقي لقارة أستراليا.</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="checkAnswer(this, false)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">الإنديز</button>
+                            <button onclick="checkAnswer(this, true)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">الحاجز الكبير</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- رسالة التهنئة وإعادة المحاولة -->
+                <div class="mt-5 flex flex-wrap items-center justify-between bg-amber-50 border border-amber-200 p-4 rounded-2xl gap-3">
+                    <div id="quiz-feedback" class="text-sm font-bold text-[#0d3d4d]">
+                        اختر الإجابة الصحيحة لكل سؤال لاختبار معلوماتك يا بطل المستكشف الرقمي!
+                    </div>
+                    <button onclick="resetQuiz()" class="bg-white hover:bg-slate-100 text-[#0d3d4d] border border-slate-300 px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm">
+                        <i class="fa-solid fa-rotate-right ml-1"></i> إعادة الأسئلة
+                    </button>
+                </div>
+            </section>
+
+            <!-- شريط التنقل السفلي داخل البطاقة -->
+            <div class="bg-[#f3f7f5] border-t border-teal-100 px-6 py-4 flex items-center justify-between gap-2">
+                <button id="prev-btn" onclick="changeSlide(-1)" class="flex items-center gap-2 bg-white hover:bg-slate-100 disabled:opacity-40 disabled:pointer-events-none text-[#0d3d4d] font-bold px-5 py-2.5 rounded-xl border border-slate-300 shadow-sm transition">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <span>السابق</span>
+                </button>
+
+                <!-- قائمة منسدلة للتنقل السريع بين الشرائح -->
+                <select id="slide-selector" onchange="goToSlide(parseInt(this.value))" class="bg-white border border-teal-300 text-[#0d3d4d] text-xs sm:text-sm font-bold rounded-xl px-3 sm:px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-500 max-w-[200px] sm:max-w-none">
+                    <!-- يتم ملؤها تلقائياً بالجافاسكريبت -->
+                </select>
+
+                <button id="next-btn" onclick="changeSlide(1)" class="flex items-center gap-2 bg-[#0d3d4d] hover:bg-teal-900 disabled:opacity-40 disabled:pointer-events-none text-white font-bold px-6 py-2.5 rounded-xl shadow-md transition">
+                    <span>التالي</span>
+                    <i class="fa-solid fa-arrow-left text-amber-400"></i>
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- تذييل منصة المستكشف الرقمي -->
+    <footer class="text-center py-3 text-xs text-[#0d3d4d]/80 font-bold">
+        منصة المستكشف الرقمي • الدراسات الاجتماعية للصف الثالث الإعدادي • استخدم أسهم لوحة المفاتيح للتنقل بين الشرائح
+    </footer>
+
+    <script>
+        // إدارة حالة الشرائح
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const currentSlideNum = document.getElementById('current-slide-num');
+        const totalSlidesNum = document.getElementById('total-slides-num');
+        const progressBar = document.getElementById('progress-bar');
+        const slideDotsContainer = document.getElementById('slide-dots');
+        const slideSelector = document.getElementById('slide-selector');
+
+        // تهيئة العرض التقديمي عند التحميل
+        function initPresentation() {
+            totalSlidesNum.textContent = totalSlides;
+            
+            slides.forEach((slide, index) => {
+                // نقاط التنقل العلوية
+                const dot = document.createElement('button');
+                dot.className = `h-2.5 rounded-full transition-all duration-300 ${index === 0 ? 'w-7 bg-[#0d3d4d]' : 'w-2.5 bg-slate-300 hover:bg-amber-500'}`;
+                dot.title = slide.getAttribute('data-title');
+                dot.onclick = () => goToSlide(index);
+                slideDotsContainer.appendChild(dot);
+
+                // القائمة المنسدلة
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${index + 1}. ${slide.getAttribute('data-title')}`;
+                slideSelector.appendChild(option);
+            });
+
+            updateUI();
+        }
+
+        // الانتقال لشريحة محددة
+        function goToSlide(index) {
+            if (index < 0 || index >= totalSlides) return;
+            slides[currentSlide].classList.remove('active');
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+            updateUI();
+        }
+
+        // تغيير الشريحة بمقدار (+1 أو -1)
+        function changeSlide(step) {
+            goToSlide(currentSlide + step);
+        }
+
+        // تحديث واجهة المستخدم
+        function updateUI() {
+            currentSlideNum.textContent = currentSlide + 1;
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+            slideSelector.value = currentSlide;
+
+            // تحديث شريط التقدم
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            // تحديث النقاط
+            const dots = slideDotsContainer.children;
+            for (let i = 0; i < dots.length; i++) {
+                if (i === currentSlide) {
+                    dots[i].className = 'h-2.5 w-7 bg-[#0d3d4d] rounded-full transition-all duration-300';
+                } else {
+                    dots[i].className = 'h-2.5 w-2.5 bg-slate-300 hover:bg-amber-500 rounded-full transition-all duration-300';
+                }
+            }
+        }
+
+        // دعم التنقل عبر لوحة المفاتيح
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                changeSlide(1);
+            } else if (e.key === 'ArrowRight') {
+                changeSlide(-1);
+            }
+        });
+
+        // وضع ملء الشاشة
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // منطق الأسئلة التفاعلية
+        let score = 0;
+        let answeredCount = 0;
+
+        function checkAnswer(btn, isCorrect) {
+            const card = btn.closest('[data-answered]');
+            if (card.getAttribute('data-answered') === 'true') return;
+            
+            card.setAttribute('data-answered', 'true');
+            answeredCount++;
+
+            const buttons = card.querySelectorAll('.quiz-btn');
+            buttons.forEach(b => b.disabled = true);
+
+            if (isCorrect) {
+                score++;
+                btn.classList.remove('bg-white', 'border-slate-300');
+                btn.classList.add('bg-emerald-600', 'text-white', 'border-emerald-700');
+                btn.innerHTML += ' <i class="fa-solid fa-check mr-1"></i>';
+            } else {
+                btn.classList.remove('bg-white', 'border-slate-300');
+                btn.classList.add('bg-rose-600', 'text-white', 'border-rose-700');
+                btn.innerHTML += ' <i class="fa-solid fa-xmark mr-1"></i>';
+            }
+
+            document.getElementById('score-val').textContent = score;
+
+            if (answeredCount === 4) {
+                const feedback = document.getElementById('quiz-feedback');
+                if (score === 4) {
+                    feedback.innerHTML = '🎉 ممتاز يا بطل المستكشف الرقمي! حصلت على الدرجة النهائية (4/4).';
+                    feedback.className = 'text-sm font-extrabold text-emerald-700';
+                } else {
+                    feedback.innerHTML = `أحسنت المحاولة! نتيجتك ${score} من 4. راجع الشرائح وحاول مرة أخرى.`;
+                    feedback.className = 'text-sm font-bold text-amber-800';
+                }
+            }
+        }
+
+        function resetQuiz() {
+            score = 0;
+            answeredCount = 0;
+            document.getElementById('score-val').textContent = '0';
+            document.getElementById('quiz-feedback').textContent = 'اختر الإجابة الصحيحة لكل سؤال لاختبار معلوماتك يا بطل المستكشف الرقمي!';
+            document.getElementById('quiz-feedback').className = 'text-sm font-bold text-[#0d3d4d]';
+
+            const cards = document.querySelectorAll('#quiz-container [data-answered]');
+            cards.forEach(card => {
+                card.setAttribute('data-answered', 'false');
+                const buttons = card.querySelectorAll('.quiz-btn');
+                buttons.forEach(b => {
+                    b.disabled = false;
+                    b.className = 'quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition';
+                    b.innerHTML = b.textContent.trim();
+                });
+            });
+        }
+
+        // تشغيل التهيئة
+        initPresentation();
+    </script>
+</body>
+</html>

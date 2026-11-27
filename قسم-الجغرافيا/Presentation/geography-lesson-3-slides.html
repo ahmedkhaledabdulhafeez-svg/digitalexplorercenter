@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المستكشف الرقمي | الدرس الثالث: الكشوف الجغرافية لقارات العالم الجديد</title>
+    <!-- مكتبة Tailwind CSS للتصميم المتجاوب -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- خطوط عربية واضحة ومريحة للطلاب (Cairo للعناوين و Tajawal للنصوص) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- مكتبة FontAwesome للأيقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'cairo': ['Cairo', 'sans-serif'],
+                        'tajawal': ['Tajawal', 'sans-serif'],
+                    },
+                    colors: {
+                        'voyage-navy': '#0f2942',
+                        'voyage-sea': '#0e5a6d',
+                        'voyage-brass': '#c27803',
+                        'voyage-gold': '#eab308',
+                        'voyage-parchment': '#f6f3ec',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f6f3ec;
+            /* خلفية ملاحية بحرية هادئة مستوحاة من خرائط الكشوف والبوصلة */
+            background-image:
+                radial-gradient(circle at 12% 14%, rgba(194, 120, 3, 0.08) 0%, transparent 28%),
+                radial-gradient(circle at 88% 86%, rgba(14, 90, 109, 0.10) 0%, transparent 32%),
+                radial-gradient(rgba(15, 41, 66, 0.10) 1.5px, transparent 1.5px);
+            background-size: 100% 100%, 100% 100%, 34px 34px;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Cairo', sans-serif;
+        }
+
+        /* حركة انتقال الشرائح */
+        .slide {
+            display: none;
+            animation: fadeSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .slide.active {
+            display: block;
+        }
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(14px) scale(0.99);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* حركة لطيفة للعناصر البصرية */
+        .float-slow {
+            animation: floatSlow 5s ease-in-out infinite;
+        }
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-7px); }
+        }
+
+        /* بطاقات الإنفوجرافيك والصور */
+        .voyage-card {
+            transition: all 0.3s ease;
+        }
+        .voyage-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 26px -6px rgba(15, 41, 66, 0.14);
+        }
+
+        .photo-box {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1.25rem;
+            box-shadow: 0 10px 24px -6px rgba(15, 41, 66, 0.22);
+        }
+        .photo-box img {
+            transition: transform 0.6s ease;
+        }
+        .photo-box:hover img {
+            transform: scale(1.05);
+        }
+
+        /* تخصيص شريط التمرير */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #eae4d7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #0f2942;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between text-slate-800 select-none">
+
+    <!-- الشريط العلوي لمنصة المستكشف الرقمي -->
+    <header class="bg-white/95 backdrop-blur-md shadow-sm border-b border-amber-200/80 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            <!-- هوية المنصة والدرس -->
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#0f2942] to-[#0e5a6d] flex items-center justify-center text-amber-400 shadow-md border border-amber-400/30">
+                    <i class="fa-solid fa-compass text-xl"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span class="font-heading font-black text-sm sm:text-base text-[#0f2942]">منصة المستكشف الرقمي</span>
+                        <span class="text-xs font-bold text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded-full border border-amber-300">الصف الثالث الإعدادي</span>
+                    </div>
+                    <h1 class="text-xs sm:text-sm font-bold text-[#0e5a6d] mt-0.5">الوحدة الأولى • الدرس الثالث: الكشوف الجغرافية لقارات العالم الجديد</h1>
+                </div>
+            </div>
+
+            <!-- مؤشر الشرائح وأدوات التحكم -->
+            <div class="flex items-center gap-3">
+                <div class="hidden lg:flex items-center gap-1.5" id="slide-dots">
+                    <!-- يتم توليد النقاط تلقائياً -->
+                </div>
+                <div class="bg-[#f6f3ec] px-3.5 py-1.5 rounded-xl font-heading font-bold text-sm text-[#0f2942] border border-amber-300">
+                    شريحة <span id="current-slide-num" class="text-amber-700 text-base">1</span> من <span id="total-slides-num">10</span>
+                </div>
+                <button onclick="toggleFullscreen()" title="ملء الشاشة" class="p-2.5 text-[#0f2942] hover:text-amber-700 hover:bg-amber-50 rounded-xl border border-slate-200 transition">
+                    <i class="fa-solid fa-expand text-base"></i>
+                </button>
+            </div>
+        </div>
+        <!-- شريط التقدم العلوي -->
+        <div class="w-full h-1.5 bg-slate-200">
+            <div id="progress-bar" class="h-full bg-gradient-to-l from-amber-500 via-[#0e5a6d] to-[#0f2942] transition-all duration-300" style="width: 10%;"></div>
+        </div>
+    </header>
+
+    <!-- الحاوية الرئيسية للشرائح -->
+    <main class="flex-grow flex items-center justify-center p-3 sm:p-6">
+        <div class="w-full max-w-6xl bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl border border-amber-200/80 overflow-hidden min-h-[560px] flex flex-col justify-between relative">
+
+            <!-- ================= الشريحة 1: الغلاف الترحيبي ================= -->
+            <section class="slide active p-6 sm:p-12 bg-gradient-to-bl from-[#0f2942] via-[#133b5c] to-[#091b2c] text-white relative overflow-hidden" data-title="مقدمة الدرس">
+                <!-- نمط خطوط إحداثيات خفيف -->
+                <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#eab308 1.5px, transparent 1.5px); background-size: 26px 26px;"></div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+                    <div class="lg:col-span-7 space-y-6">
+                        <div class="inline-flex items-center gap-2 bg-amber-500/20 border border-amber-400/40 text-amber-300 px-4 py-1.5 rounded-full font-bold text-sm">
+                            <i class="fa-solid fa-ship"></i>
+                            <span>المستكشف الرقمي • الدراسات الاجتماعية (الفصل الدراسي الأول)</span>
+                        </div>
+                        <h2 class="text-3xl sm:text-5xl font-black leading-tight text-white">
+                            الدرس الثالث: <br>
+                            <span class="text-amber-400">الكشوف الجغرافية لقارات العالم الجديد</span>
+                        </h2>
+                        <p class="text-base sm:text-lg text-slate-200 leading-relaxed font-medium">
+                            رحلة بحرية تاريخية بدأت في القرن الخامس عشر الميلادي؛ لنتعرف على دوافع الكشوف الجغرافية، ورحلات المستكشفين، وإسهامات العلماء المسلمين، ونتائجها وتأثيرها على السكان الأصليين وتجارة الرقيق.
+                        </p>
+
+                        <!-- بطاقات سريعة لمحاور الدرس -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+                            <div class="bg-white/10 backdrop-blur-md border border-white/15 p-3 rounded-2xl text-center">
+                                <i class="fa-solid fa-compass text-amber-400 text-xl mb-1"></i>
+                                <div class="font-bold text-xs sm:text-sm text-white">دوافع الكشوف</div>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-md border border-white/15 p-3 rounded-2xl text-center">
+                                <i class="fa-solid fa-route text-cyan-300 text-xl mb-1"></i>
+                                <div class="font-bold text-xs sm:text-sm text-white">المستكشفون</div>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-md border border-white/15 p-3 rounded-2xl text-center">
+                                <i class="fa-solid fa-star text-amber-300 text-xl mb-1"></i>
+                                <div class="font-bold text-xs sm:text-sm text-white">العلماء المسلمون</div>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur-md border border-white/15 p-3 rounded-2xl text-center">
+                                <i class="fa-solid fa-scale-balanced text-rose-300 text-xl mb-1"></i>
+                                <div class="font-bold text-xs sm:text-sm text-white">النتائج والتأثير</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- صورة حقيقية للبوصلة البحرية في الغلاف -->
+                    <div class="lg:col-span-5 flex flex-col items-center">
+                        <div class="photo-box w-full h-64 sm:h-72 float-slow border-2 border-amber-400/40 bg-slate-800 flex items-center justify-center relative">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Compass_rose.jpg"
+                                 onerror="this.style.display='none'; document.getElementById('compass-fallback').classList.remove('hidden');"
+                                 alt="البوصلة وأدوات الملاحة البحرية في عصر الكشوف الجغرافية"
+                                 class="w-full h-full object-cover">
+                            <!-- بديل بصري مضمون يظهر تلقائياً إذا تعذر تحميل الصورة الخارجية -->
+                            <div id="compass-fallback" class="hidden w-full h-full bg-gradient-to-br from-[#0a1f33] to-[#123c56] flex flex-col items-center justify-center p-4 text-center">
+                                <svg viewBox="0 0 180 180" class="w-40 h-40">
+                                    <circle cx="90" cy="90" r="80" fill="rgba(234,179,8,0.08)" stroke="#eab308" stroke-width="3"/>
+                                    <circle cx="90" cy="90" r="64" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="4,4"/>
+                                    <polygon points="90,18 102,82 90,90 78,82" fill="#ef4444"/>
+                                    <polygon points="90,162 102,98 90,90 78,98" fill="#f8fafc"/>
+                                    <polygon points="162,90 98,102 90,90 98,78" fill="#eab308"/>
+                                    <polygon points="18,90 82,102 90,90 82,78" fill="#eab308"/>
+                                    <circle cx="90" cy="90" r="8" fill="#eab308" stroke="#0f2942" stroke-width="2"/>
+                                    <text x="90" y="14" text-anchor="middle" fill="#fbbf24" font-family="Cairo" font-size="11" font-weight="bold">ش</text>
+                                </svg>
+                                <span class="text-amber-300 font-bold text-xs mt-1">وردة البوصلة والملاحة البحرية</span>
+                            </div>
+                            <span class="absolute bottom-3 right-3 bg-black/75 backdrop-blur-sm text-amber-300 text-xs font-bold px-3 py-1 rounded-full">
+                                <i class="fa-solid fa-compass ml-1"></i> البوصلة وأدوات الملاحة البحرية
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 2: أهداف الدرس وتأمل واكتشف ================= -->
+            <section class="slide p-6 sm:p-10" data-title="أهداف الدرس">
+                <div class="text-center max-w-2xl mx-auto mb-6">
+                    <span class="bg-amber-100 text-amber-900 font-bold text-xs px-3 py-1 rounded-full border border-amber-300">خريطة التعلم</span>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold text-[#0f2942] mt-2">أهداف الدرس</h2>
+                    <p class="text-slate-600 mt-1 text-sm sm:text-base">في نهاية هذا الدرس على منصة المستكشف الرقمي، ستكون قادراً على أن:</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="voyage-card bg-[#f6f3ec] p-4 rounded-2xl border border-amber-200 flex items-start gap-3.5">
+                        <div class="w-11 h-11 shrink-0 rounded-xl bg-[#0f2942] text-amber-400 flex items-center justify-center text-lg shadow">
+                            <i class="fa-solid fa-flag"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-sm sm:text-base text-[#0f2942]">1. شرح دوافع الكشوف</h3>
+                            <p class="text-slate-600 text-xs sm:text-sm mt-1 leading-relaxed">تشرح دوافع الدول الأوروبية السياسية والاقتصادية للقيام بالكشوف الجغرافية.</p>
+                        </div>
+                    </div>
+
+                    <div class="voyage-card bg-[#f6f3ec] p-4 rounded-2xl border border-amber-200 flex items-start gap-3.5">
+                        <div class="w-11 h-11 shrink-0 rounded-xl bg-[#0e5a6d] text-white flex items-center justify-center text-lg shadow">
+                            <i class="fa-solid fa-scale-balanced"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-sm sm:text-base text-[#0f2942]">2. التمييز بين النتائج</h3>
+                            <p class="text-slate-600 text-xs sm:text-sm mt-1 leading-relaxed">تميز بين النتائج الإيجابية والسلبية للكشوف الجغرافية للعالم الجديد.</p>
+                        </div>
+                    </div>
+
+                    <div class="voyage-card bg-[#f6f3ec] p-4 rounded-2xl border border-amber-200 flex items-start gap-3.5">
+                        <div class="w-11 h-11 shrink-0 rounded-xl bg-amber-600 text-white flex items-center justify-center text-lg shadow">
+                            <i class="fa-solid fa-user-astronaut"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-sm sm:text-base text-[#0f2942]">3. تلخيص دور المستكشفين</h3>
+                            <p class="text-slate-600 text-xs sm:text-sm mt-1 leading-relaxed">تلخص دور بعض المستكشفين والرحالة (كولومبوس، فسبوتشي، ماجلان، جيمس كوك).</p>
+                        </div>
+                    </div>
+
+                    <div class="voyage-card bg-[#f6f3ec] p-4 rounded-2xl border border-amber-200 flex items-start gap-3.5">
+                        <div class="w-11 h-11 shrink-0 rounded-xl bg-[#0e5a6d] text-white flex items-center justify-center text-lg shadow">
+                            <i class="fa-solid fa-mosque"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-sm sm:text-base text-[#0f2942]">4. تقدير العلماء المسلمين</h3>
+                            <p class="text-slate-600 text-xs sm:text-sm mt-1 leading-relaxed">تعبر عن تقديرك لدور العلماء المسلمين في الكشوف الجغرافية للعالم الجديد.</p>
+                        </div>
+                    </div>
+
+                    <div class="voyage-card bg-amber-50 p-4 rounded-2xl border border-amber-300 flex items-start gap-3.5 md:col-span-2">
+                        <div class="w-11 h-11 shrink-0 rounded-xl bg-amber-500 text-white flex items-center justify-center text-lg shadow">
+                            <i class="fa-solid fa-users-viewfinder"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-sm sm:text-base text-[#0f2942]">5. تحليل تأثير الكشوف على السكان الأصليين</h3>
+                            <p class="text-slate-600 text-xs sm:text-sm mt-1 leading-relaxed">تحلل تأثير الكشوف الجغرافية وتجارة الرقيق على السكان الأصليين وإفريقيا.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- صندوق تأمل واكتشف ومفهوم الكشوف الجغرافية -->
+                <div class="mt-5 bg-gradient-to-l from-amber-100/80 to-[#f6f3ec] border-r-4 border-amber-600 p-4 rounded-2xl text-xs sm:text-sm text-slate-700 leading-relaxed">
+                    <strong class="text-[#0f2942] font-heading"><i class="fa-solid fa-book-bookmark text-amber-700 ml-1"></i> مفهوم أتعلمها — الكشوف الجغرافية:</strong>
+                    رحلات بحرية قام بها الأوروبيون بدأت في <strong>القرن الخامس عشر الميلادي</strong>؛ لاكتشاف طرق بحرية جديدة ومناطق كانت مجهولة لهم من العالم.
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 3: أولاً - دوافع الكشوف الجغرافية ================= -->
+            <section class="slide p-6 sm:p-10" data-title="أولاً: دوافع الكشوف الجغرافية">
+                <div class="mb-5">
+                    <span class="bg-[#0f2942] text-amber-300 font-bold px-3 py-1 rounded-lg text-xs">أولاً: دوافع الكشوف الجغرافية</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0f2942] mt-1">لماذا قامت أوروبا بحركة الكشوف الجغرافية؟</h2>
+                </div>
+
+                <div class="bg-teal-50/80 border border-teal-200 p-3.5 rounded-2xl text-xs sm:text-sm text-slate-700 mb-5 flex items-center gap-3">
+                    <i class="fa-solid fa-gears text-[#0e5a6d] text-xl"></i>
+                    <span><strong>عوامل ساعدت على نجاحها:</strong> التقدم في علوم الرياضيات والفلك والجغرافيا، وتطور السفن والأدوات الملاحية لتحديد الاتجاهات والمواقع بدقة.</span>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+                    <!-- الدوافع السياسية -->
+                    <div class="voyage-card bg-white p-5 rounded-2xl border-2 border-[#0f2942]/20 shadow-sm space-y-2.5">
+                        <div class="w-11 h-11 rounded-xl bg-[#0f2942] text-amber-400 flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-crown"></i>
+                        </div>
+                        <h3 class="font-extrabold text-lg text-[#0f2942]">1. الدوافع السياسية</h3>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            تنافست دول مثل <strong>البرتغال وإسبانيا</strong> للتوسع وفرض النفوذ وتكوين <strong>إمبراطوريات استعمارية</strong>؛ حيث أصبحت قوة الدولة مرتبطة بما تملكه من مستعمرات خارج حدودها.
+                        </p>
+                    </div>
+
+                    <!-- الدوافع الاقتصادية: طرق التجارة -->
+                    <div class="voyage-card bg-white p-5 rounded-2xl border-2 border-amber-300 shadow-sm space-y-2.5">
+                        <div class="w-11 h-11 rounded-xl bg-amber-600 text-white flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-route"></i>
+                        </div>
+                        <h3 class="font-extrabold text-lg text-[#0f2942]">2. الدوافع الاقتصادية (طرق التجارة)</h3>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            البحث عن <strong>طرق تجارية جديدة</strong> للوصول إلى الهند وشرق آسيا دون المرور عبر طريق الحرير البري أو أراضي <strong>العثمانيين والمماليك</strong>؛ لتجنب دفع رسوم مرور التجارة.
+                        </p>
+                    </div>
+
+                    <!-- الدوافع الاقتصادية: المعادن والسلع الثمينة -->
+                    <div class="voyage-card bg-white p-5 rounded-2xl border-2 border-[#0e5a6d]/25 shadow-sm space-y-2.5">
+                        <div class="w-11 h-11 rounded-xl bg-[#0e5a6d] text-white flex items-center justify-center text-xl">
+                            <i class="fa-solid fa-coins"></i>
+                        </div>
+                        <h3 class="font-extrabold text-lg text-[#0f2942]">3. البحث عن المعادن والسلع الثمينة</h3>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            زيادة الثروات من المعادن النفيسة خاصةً <strong>الذهب والفضة</strong> (لسك النقود)، والحصول على السلع الثمينة مثل <strong>التوابل والحرير</strong>.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 4: ثانياً - اكتشاف العالم الجديد (كولومبوس وفسبوتشي) ================= -->
+            <section class="slide p-6 sm:p-10" data-title="ثانياً: كولومبوس وفسبوتشي">
+                <div class="mb-5">
+                    <span class="bg-[#0e5a6d] text-white font-bold px-3 py-1 rounded-lg text-xs">ثانياً: اكتشاف العالم الجديد (1/2)</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0f2942] mt-1">كريستوفر كولومبوس وأميريجو فسبوتشي</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <!-- صورة لسفينة استكشاف بحرية قديمة -->
+                    <div class="lg:col-span-5 space-y-3">
+                        <div class="photo-box h-64 sm:h-72 w-full bg-slate-200 relative">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Santa_Maria_ship.jpg"
+                                 onerror="this.style.display='none'; document.getElementById('ship-fallback').classList.remove('hidden');"
+                                 alt="سفينة شراعية قديمة من عصر الكشوف الجغرافية"
+                                 class="w-full h-full object-cover">
+                            <!-- بديل بصري لسفينة الكشوف البحرية -->
+                            <div id="ship-fallback" class="hidden w-full h-full bg-gradient-to-b from-sky-900 via-[#0e5a6d] to-[#0f2942] flex flex-col items-center justify-center p-4 text-white">
+                                <svg viewBox="0 0 240 140" class="w-56 h-32">
+                                    <path d="M0,115 Q60,108 120,115 T240,115 L240,140 L0,140 Z" fill="#0284c7" opacity="0.65"/>
+                                    <path d="M55,95 L185,95 L168,118 L72,118 Z" fill="#92400e" stroke="#fbbf24" stroke-width="2"/>
+                                    <line x1="120" y1="22" x2="120" y2="95" stroke="#fef3c7" stroke-width="3"/>
+                                    <path d="M122,28 Q168,52 122,82 Z" fill="#f8fafc" opacity="0.92"/>
+                                    <path d="M118,36 Q82,58 118,84 Z" fill="#fde68a" opacity="0.9"/>
+                                    <polygon points="120,14 142,20 120,26" fill="#ef4444"/>
+                                </svg>
+                                <span class="text-amber-300 font-bold text-xs mt-1">رحلات الكشف عبر المحيط الأطلنطي</span>
+                            </div>
+                            <span class="absolute bottom-3 right-3 bg-[#0f2942]/90 text-amber-300 text-xs font-bold px-3 py-1 rounded-full">
+                                <i class="fa-solid fa-anchor ml-1"></i> السفن الشراعية في رحلات الكشف
+                            </span>
+                        </div>
+                        <div class="bg-[#f6f3ec] p-3 rounded-2xl border border-amber-200 text-xs text-slate-700 text-center font-medium">
+                            انطلقت هذه الرحلات من أوروبا عبر المحيط الأطلنطي في أواخر القرن 15م وبداية القرن 16م.
+                        </div>
+                    </div>
+
+                    <!-- بطاقتا كولومبوس وفسبوتشي -->
+                    <div class="lg:col-span-7 space-y-4">
+                        <div class="voyage-card bg-[#f6f3ec] p-5 rounded-2xl border-r-4 border-[#0f2942] shadow-sm">
+                            <h3 class="font-extrabold text-lg text-[#0f2942] mb-1.5">
+                                <i class="fa-solid fa-ship text-amber-600 ml-1"></i> (أ) كريستوفر كولومبوس (1492 – 1493م)
+                            </h3>
+                            <p class="text-sm text-slate-700 leading-relaxed">
+                                مستكشف إيطالي انطلق من فكرة <strong>كروية الأرض</strong> وأن الإبحار غرباً يؤدي إلى آسيا أسرع، وموّله ملوك إسبانيا. وصل إلى <strong>جزر البهاما</strong> قرب جنوب شرق أمريكا الشمالية والبحر الكاريبي، واعتقد أنها جزء من آسيا دون أن يدرك أنها قارة جديدة.
+                            </p>
+                        </div>
+
+                        <div class="voyage-card bg-amber-50/80 p-5 rounded-2xl border-r-4 border-amber-600 shadow-sm">
+                            <h3 class="font-extrabold text-lg text-[#0f2942] mb-1.5">
+                                <i class="fa-solid fa-map text-amber-700 ml-1"></i> (ب) أميريجو فسبوتشي (1501 – 1502م)
+                            </h3>
+                            <p class="text-sm text-slate-700 leading-relaxed">
+                                مستكشف إيطالي شارك في رحلات إلى السواحل الشرقية لأمريكا الجنوبية وأجزاء من أمريكا الشمالية، وتوصل إلى أن الأراضي المكتشفة ليست جزءاً من آسيا بل <strong>عالم جديد وقارة مستقلة</strong>، فأطلق الجغرافيون الأوروبيون اسم <strong>«أمريكا»</strong> على القارتين نسبة إليه.
+                            </p>
+                        </div>
+
+                        <!-- إنفوجرافيك مبسط لخريطة رحلات المستكشفين -->
+                        <div class="bg-white p-3.5 rounded-2xl border border-teal-200 flex flex-col sm:flex-row items-center gap-3">
+                            <svg viewBox="0 0 260 115" class="w-full sm:w-52 h-24 shrink-0 bg-sky-50 rounded-xl border border-sky-200">
+                                <rect x="10" y="18" width="52" height="55" rx="8" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/>
+                                <text x="36" y="48" text-anchor="middle" font-family="Cairo" font-size="10" font-weight="bold" fill="#0f2942">أوروبا</text>
+
+                                <path d="M135,22 Q165,20 182,42 L162,68 L142,58 Z" fill="#86efac" stroke="#166534" stroke-width="1.5"/>
+                                <text x="158" y="45" text-anchor="middle" font-family="Cairo" font-size="9" font-weight="bold" fill="#14532d">أ. الشمالية</text>
+
+                                <path d="M165,70 Q192,72 205,92 L185,112 L170,95 Z" fill="#bef264" stroke="#3f6212" stroke-width="1.5"/>
+                                <text x="186" y="94" text-anchor="middle" font-family="Cairo" font-size="9" font-weight="bold" fill="#365314">أ. الجنوبية</text>
+
+                                <!-- مسار كولومبوس عبر الأطلنطي -->
+                                <path d="M62,42 Q105,32 142,48" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="4,3"/>
+                                <circle cx="142" cy="48" r="3.5" fill="#dc2626"/>
+                            </svg>
+                            <div class="text-xs text-slate-700 leading-relaxed">
+                                <strong class="text-[#0f2942] block mb-0.5"><i class="fa-solid fa-compass text-amber-600 ml-1"></i> لاحظ وأجب (خريطة الرحلات):</strong>
+                                انطلقت الرحلات من <strong>أوروبا</strong>، وعبر كولومبوس <strong>المحيط الأطلنطي</strong>، بينما قاد <strong>ماجلان</strong> أول رحلة بحرية حول العالم.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 5: ثانياً - ماجلان واكتشاف أستراليا ================= -->
+            <section class="slide p-6 sm:p-10" data-title="ثانياً: ماجلان وأستراليا">
+                <div class="mb-5">
+                    <span class="bg-[#0e5a6d] text-white font-bold px-3 py-1 rounded-lg text-xs">ثانياً: اكتشاف العالم الجديد (2/2)</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0f2942] mt-1">رحلة ماجلان واكتشاف قارة أستراليا</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- (ج) ماجلان -->
+                    <div class="voyage-card bg-white p-6 rounded-2xl border-2 border-[#0f2942]/20 shadow-sm space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-11 h-11 rounded-xl bg-[#0f2942] text-amber-400 flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-earth-americas"></i>
+                            </div>
+                            <h3 class="font-extrabold text-lg text-[#0f2942]">(ج) ماجلان (1519 – 1522م)</h3>
+                        </div>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            مستكشف برتغالي بتمويل من إسبانيا؛ عبر الأطلنطي ووصل إلى مضيق أقصى جنوب أمريكا الجنوبية (<strong>مضيق ماجلان</strong>) ومنه إلى <strong>المحيط الهادي</strong> (وسُمي بذلك لهدوء أمواجه مقارنة بالأطلنطي)، ثم وصل إلى الفلبين. وبعد وفاته أكمل رفاقه الرحلة وعادوا إلى إسبانيا عام <strong>1522م</strong> محققين <strong>أول رحلة بحرية حول العالم</strong> وقدمت دليلاً عملياً على <strong>كروية الأرض</strong>.
+                        </p>
+                    </div>
+
+                    <!-- اكتشاف أستراليا -->
+                    <div class="voyage-card bg-white p-6 rounded-2xl border-2 border-amber-300 shadow-sm space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-11 h-11 rounded-xl bg-amber-600 text-white flex items-center justify-center text-xl">
+                                <i class="fa-solid fa-island-tropical"></i>
+                            </div>
+                            <h3 class="font-extrabold text-lg text-[#0f2942]">اكتشاف قارة أستراليا</h3>
+                        </div>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            تعود أولى الرحلات الأوروبية الموثقة إلى أستراليا في <strong>القرن السابع عشر الميلادي</strong> إلى <strong>البحارة الهولنديين</strong>، ثم توالت الرحلات وأهمها رحلة المستكشف البريطاني <strong>جيمس كوك (1768 – 1771م)</strong> الذي وصل إلى الساحل الشرقي لأستراليا عام <strong>1770م</strong>، ورسم خرائط تفصيلية، وأعلن تبعيتها لبريطانيا؛ مما مهد لبدء الاستيطان الأوروبي بها.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 6: ثالثاً - دور العلماء المسلمين في الكشوف الجغرافية ================= -->
+            <section class="slide p-6 sm:p-10" data-title="ثالثاً: العلماء المسلمون">
+                <div class="mb-5">
+                    <span class="bg-emerald-800 text-white font-bold px-3 py-1 rounded-lg text-xs">ثالثاً: دور العلماء المسلمين</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0f2942] mt-1">إسهامات العلماء المسلمين في الكشوف الجغرافية</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
+                    <div class="voyage-card bg-[#f6f3ec] p-5 rounded-2xl border border-teal-200 space-y-2">
+                        <div class="w-10 h-10 rounded-xl bg-[#0e5a6d] text-white flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-book"></i>
+                        </div>
+                        <h3 class="font-extrabold text-base text-[#0f2942]">مؤلفات الجغرافيا والفلك والملاحة</h3>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            استفاد الأوروبيون من مؤلفات الجغرافيين والرحالة المسلمين في الجغرافيا والفلك والملاحة البحرية.
+                        </p>
+                    </div>
+
+                    <div class="voyage-card bg-[#f6f3ec] p-5 rounded-2xl border border-teal-200 space-y-2">
+                        <div class="w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-globe"></i>
+                        </div>
+                        <h3 class="font-extrabold text-base text-[#0f2942]">تأكيد كروية الأرض</h3>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            استفاد الأوروبيون من تأكيد العلماء المسلمين كروية الأرض؛ مما شجع كولومبوس على التفكير في الوصول للهند غرباً.
+                        </p>
+                    </div>
+
+                    <div class="voyage-card bg-[#f6f3ec] p-5 rounded-2xl border border-teal-200 space-y-2">
+                        <div class="w-10 h-10 rounded-xl bg-[#0f2942] text-amber-400 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-compass"></i>
+                        </div>
+                        <h3 class="font-extrabold text-base text-[#0f2942]">الخرائط وأدوات الملاحة</h3>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            طوّر العلماء المسلمون الخرائط وأدوات الملاحة مثل <strong>البوصلة والأسطرلاب</strong>؛ فتمكن الأوروبيون من عبور المحيطات.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- معلومة إثرائية: أحمد بن ماجد -->
+                <div class="bg-gradient-to-l from-amber-100/80 to-white border border-amber-300 p-4 rounded-2xl flex items-start gap-3">
+                    <div class="w-10 h-10 shrink-0 rounded-xl bg-[#0f2942] text-amber-400 flex items-center justify-center text-lg">
+                        <i class="fa-solid fa-anchor"></i>
+                    </div>
+                    <div class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        <strong class="text-[#0f2942] font-heading">معلومة إثرائية — أحمد بن ماجد:</strong>
+                        يُعد من أشهر الملاحين العرب المسلمين، حيث وضع قواعد دقيقة للملاحة اعتمدت على <strong>النجوم والرياح والتيارات البحرية</strong>، وألف كتباً عديدة أسهمت في تقدم الملاحة البحرية.
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 7: رابعاً - نتائج الكشوف الجغرافية ================= -->
+            <section class="slide p-6 sm:p-10" data-title="رابعاً: نتائج الكشوف الجغرافية">
+                <div class="mb-5">
+                    <span class="bg-[#0f2942] text-amber-300 font-bold px-3 py-1 rounded-lg text-xs">رابعاً: نتائج الكشوف الجغرافية</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0f2942] mt-1">النتائج السياسية والاقتصادية والعلمية والاجتماعية</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <!-- نتائج سياسية -->
+                    <div class="voyage-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                        <h3 class="font-extrabold text-base text-[#0f2942] mb-1.5 flex items-center gap-2">
+                            <span class="w-7 h-7 rounded-lg bg-[#0f2942] text-amber-400 text-xs flex items-center justify-center"><i class="fa-solid fa-landmark-flag"></i></span>
+                            النتائج السياسية
+                        </h3>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            تنافس الدول الأوروبية للسيطرة وتكوين المستعمرات في الأمريكتين؛ مما تسبب في <strong>حروب عديدة</strong> خاصة بين إنجلترا وإسبانيا وفرنسا.
+                        </p>
+                    </div>
+
+                    <!-- نتائج اقتصادية -->
+                    <div class="voyage-card bg-white p-5 rounded-2xl border border-amber-200 shadow-sm">
+                        <h3 class="font-extrabold text-base text-[#0f2942] mb-1.5 flex items-center gap-2">
+                            <span class="w-7 h-7 rounded-lg bg-amber-600 text-white text-xs flex items-center justify-center"><i class="fa-solid fa-coins"></i></span>
+                            النتائج الاقتصادية
+                        </h3>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            تحول <strong>المحيط الأطلنطي</strong> إلى طريق رئيسي للتجارة العالمية، وتدفق <strong>الذهب والفضة</strong> إلى أوروبا، وأصبحت الأمريكتان مصدراً للمواد الخام (القطن والسكر) وسوقاً للمنتجات الأوروبية.
+                        </p>
+                    </div>
+
+                    <!-- نتائج علمية -->
+                    <div class="voyage-card bg-white p-5 rounded-2xl border border-teal-200 shadow-sm">
+                        <h3 class="font-extrabold text-base text-[#0f2942] mb-1.5 flex items-center gap-2">
+                            <span class="w-7 h-7 rounded-lg bg-[#0e5a6d] text-white text-xs flex items-center justify-center"><i class="fa-solid fa-microscope"></i></span>
+                            النتائج العلمية
+                        </h3>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            تطور علم الجغرافيا بتقديم أدلة عملية على <strong>كروية الأرض</strong>، ورسم خرائط أدق، وتعرف نباتات وحيوانات جديدة، ودراسة البيئات والشعوب.
+                        </p>
+                    </div>
+
+                    <!-- نتائج اجتماعية -->
+                    <div class="voyage-card bg-white p-5 rounded-2xl border border-rose-200 shadow-sm">
+                        <h3 class="font-extrabold text-base text-[#0f2942] mb-1.5 flex items-center gap-2">
+                            <span class="w-7 h-7 rounded-lg bg-rose-700 text-white text-xs flex items-center justify-center"><i class="fa-solid fa-people-group"></i></span>
+                            النتائج الاجتماعية
+                        </h3>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            هجرات كبيرة من أوروبا إلى العالم الجديد ونقل ثقافاتهم وأنماط حياتهم، وفي المقابل ظهرت <strong>آثار سلبية</strong> على الأفارقة والسكان الأصليين.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 8: خامساً - الكشوف الجغرافية وتجارة الرقيق ================= -->
+            <section class="slide p-6 sm:p-10" data-title="خامساً: تجارة الرقيق">
+                <div class="mb-5">
+                    <span class="bg-rose-800 text-white font-bold px-3 py-1 rounded-lg text-xs">خامساً: الكشوف الجغرافية وتجارة الرقيق</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0f2942] mt-1">تجارة الرقيق وأثرها القاسي على القارة الإفريقية</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                    <div class="lg:col-span-7 space-y-4">
+                        <div class="bg-[#f6f3ec] p-5 rounded-2xl border border-amber-200 space-y-2.5 text-sm text-slate-700 leading-relaxed">
+                            <p>
+                                بعد اكتشاف الأمريكتين أصبح <strong>الرقيق الإفريقي</strong> السلعة الأهم للعمل قسراً في <strong>المزارع والمناجم</strong> بالمستعمرات الأوروبية.
+                            </p>
+                            <p>
+                                استغلت القوى الأوروبية الصراعات والانقسامات الداخلية في إفريقيا ومنعت قيام وحدات سياسية قوية لضمان استمرار العمالة الرخيصة؛ مما سبب <strong>دماراً اقتصادياً واجتماعياً</strong> لإفريقيا.
+                            </p>
+                        </div>
+
+                        <div class="bg-rose-50 border border-rose-200 p-4 rounded-2xl text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            <strong class="text-rose-900 font-heading"><i class="fa-solid fa-circle-exclamation ml-1"></i> تذكر أن — تجارة الرقيق:</strong>
+                            عملية بيع وشراء البشر كعبيد، واستغلالهم في العمل الإجباري، وحرمانهم من حريتهم وحقوقهم.
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-5 bg-amber-50/90 p-5 rounded-2xl border-2 border-amber-300 space-y-3">
+                        <h3 class="font-extrabold text-base text-[#0f2942] flex items-center gap-2">
+                            <i class="fa-solid fa-file-lines text-amber-700"></i>
+                            <span>نص إثرائي: تأثير تجارة الرقيق على إفريقيا</span>
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            فقدت إفريقيا ملايين السكان وخاصةً <strong>الشباب والنساء الأقوياء</strong>؛ فتراجع النشاط الاقتصادي ونما العنف بين القبائل بسبب الاختطاف والغارات، ونُقلوا في ظروف مأساوية غير آدمية (وهو ما يتعارض مع مبادئ الإعلان العالمي لحقوق الإنسان عام 1948م).
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 9: سادساً - تأثير الكشوف على السكان الأصليين ================= -->
+            <section class="slide p-6 sm:p-10" data-title="سادساً: السكان الأصليون">
+                <div class="mb-5">
+                    <span class="bg-[#0f2942] text-amber-300 font-bold px-3 py-1 rounded-lg text-xs">سادساً: تأثير الكشوف على السكان الأصليين</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0f2942] mt-1">الآثار السلبية على السكان الأصليين وقضية مابو</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                    <div class="lg:col-span-7 bg-[#f6f3ec] p-5 rounded-2xl border border-amber-200 space-y-2.5 text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        <h3 class="font-extrabold text-base text-[#0f2942] mb-1">أبرز الآثار السلبية عند وصول الأوروبيين للأمريكتين وأستراليا:</h3>
+                        <p>• <strong>الإبادة:</strong> مثلما فعل الأوروبيون ضد <strong>الهنود الحمر</strong> في أمريكا الشمالية.</p>
+                        <p>• <strong>الأمراض والأوبئة الوافدة:</strong> وفاة أعداد كبيرة بسبب <strong>الجدري والإنفلونزا</strong> لعدم وجود مناعة طبيعية لديهم.</p>
+                        <p>• <strong>احتلال الأراضي وتهجيرهم:</strong> وتراجع حضاراتهم لأن الأوروبيين رأوها أدنى منهم.</p>
+                        <p>• <strong>التمييز والاستغلال:</strong> العمل الشاق في المزارع والمناجم.</p>
+                        <p>• <strong>تأثر الثقافات والعادات المحلية:</strong> بانتشار الثقافة الأوروبية.</p>
+                    </div>
+
+                    <div class="lg:col-span-5 bg-teal-50/80 p-5 rounded-2xl border-2 border-teal-200 space-y-3">
+                        <h3 class="font-extrabold text-base text-[#0f2942] flex items-center gap-2">
+                            <i class="fa-solid fa-gavel text-[#0e5a6d]"></i>
+                            <span>نص إثرائي: قضية «مابو» في أستراليا (1992م)</span>
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                            رغم تهجير السكان الأصليين ومحاولة طمس هويتهم، رفع <strong>«إيدي مابو»</strong> دعوى قضائية ضد الحكومة الأسترالية؛ فأقرت المحكمة عام <strong>1992م</strong> بحقوقهم التاريخية في أراضيهم، وأصبحت مثالاً عالمياً لتصحيح الظلم التاريخي وتحقيق العدالة الاجتماعية.
+                        </p>
+                        <div class="bg-white/90 p-3 rounded-xl border border-teal-200 text-xs text-slate-700">
+                            <strong class="text-[#0f2942]"><i class="fa-solid fa-scale-balanced text-amber-600 ml-1"></i> الكشوف الجغرافية سلاح ذو حدين:</strong>
+                            حققت مكاسب ومعلومات جغرافية واقتصادية لأوروبا، لكنها تسببت في معاناة واستغلال السكان الأصليين وتجارة الرقيق في إفريقيا.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ================= الشريحة 10: اختبر معلوماتك (مهارات التفكير) ================= -->
+            <section class="slide p-6 sm:p-10" data-title="اختبر معلوماتك">
+                <div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-3">
+                    <div>
+                        <span class="bg-amber-100 text-amber-900 font-bold px-3 py-1 rounded-lg text-xs border border-amber-300">مهارات التفكير • المستكشف الرقمي</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-[#0f2942] mt-1">اختبر نفسك: رحالة الكشوف الجغرافية</h2>
+                    </div>
+                    <div id="quiz-score-badge" class="bg-[#0f2942] text-white px-4 py-2 rounded-xl font-bold text-sm shadow">
+                        النتيجة: <span id="score-val" class="text-amber-400">0</span> / 4
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="quiz-container">
+                    <!-- سؤال 1 -->
+                    <div class="bg-[#f6f3ec] p-4 rounded-2xl border border-amber-200 space-y-2.5" data-answered="false">
+                        <p class="font-bold text-[#0f2942] text-sm">1. يرجع اكتشاف قارة أستراليا في البداية إلى البحارة ...................</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="checkAnswer(this, true)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">الهولنديين</button>
+                            <button onclick="checkAnswer(this, false)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">الإسبان</button>
+                        </div>
+                    </div>
+
+                    <!-- سؤال 2 -->
+                    <div class="bg-[#f6f3ec] p-4 rounded-2xl border border-amber-200 space-y-2.5" data-answered="false">
+                        <p class="font-bold text-[#0f2942] text-sm">2. اعتقد كريستوفر كولومبوس أنه يمكنه الوصول إلى آسيا بالإبحار جهة ...................</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="checkAnswer(this, true)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">الغرب</button>
+                            <button onclick="checkAnswer(this, false)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">الجنوب</button>
+                        </div>
+                    </div>
+
+                    <!-- سؤال 3 -->
+                    <div class="bg-[#f6f3ec] p-4 rounded-2xl border border-amber-200 space-y-2.5" data-answered="false">
+                        <p class="font-bold text-[#0f2942] text-sm">3. قدمت رحلة ................... دليلاً عملياً على كروية الأرض وحققت أول رحلة حول العالم.</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="checkAnswer(this, false)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">جيمس كوك</button>
+                            <button onclick="checkAnswer(this, true)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">ماجلان</button>
+                        </div>
+                    </div>
+
+                    <!-- سؤال 4 -->
+                    <div class="bg-[#f6f3ec] p-4 rounded-2xl border border-amber-200 space-y-2.5" data-answered="false">
+                        <p class="font-bold text-[#0f2942] text-sm">4. هلكت أعداد كبيرة من السكان الأصليين للعالم الجديد نتيجة انتشار ...................</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="checkAnswer(this, true)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">الأمراض والأوبئة الوافدة</button>
+                            <button onclick="checkAnswer(this, false)" class="quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition">التجارة البحرية</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- رسالة التقييم وإعادة المحاولة -->
+                <div class="mt-5 flex flex-wrap items-center justify-between bg-amber-50 border border-amber-200 p-4 rounded-2xl gap-3">
+                    <div id="quiz-feedback" class="text-sm font-bold text-[#0f2942]">
+                        اختر الإجابة الصحيحة لكل سؤال لاختبار معلوماتك يا بطل المستكشف الرقمي!
+                    </div>
+                    <button onclick="resetQuiz()" class="bg-white hover:bg-slate-100 text-[#0f2942] border border-slate-300 px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm">
+                        <i class="fa-solid fa-rotate-right ml-1"></i> إعادة الأسئلة
+                    </button>
+                </div>
+            </section>
+
+            <!-- شريط التنقل السفلي داخل العرض -->
+            <div class="bg-[#f6f3ec] border-t border-amber-200/80 px-6 py-4 flex items-center justify-between gap-2">
+                <button id="prev-btn" onclick="changeSlide(-1)" class="flex items-center gap-2 bg-white hover:bg-slate-100 disabled:opacity-40 disabled:pointer-events-none text-[#0f2942] font-bold px-5 py-2.5 rounded-xl border border-slate-300 shadow-sm transition">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    <span>السابق</span>
+                </button>
+
+                <!-- قائمة منسدلة للتنقل السريع -->
+                <select id="slide-selector" onchange="goToSlide(parseInt(this.value))" class="bg-white border border-amber-300 text-[#0f2942] text-xs sm:text-sm font-bold rounded-xl px-3 sm:px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-amber-500 max-w-[200px] sm:max-w-none">
+                    <!-- يتم ملؤها تلقائياً -->
+                </select>
+
+                <button id="next-btn" onclick="changeSlide(1)" class="flex items-center gap-2 bg-[#0f2942] hover:bg-[#0e5a6d] disabled:opacity-40 disabled:pointer-events-none text-white font-bold px-6 py-2.5 rounded-xl shadow-md transition">
+                    <span>التالي</span>
+                    <i class="fa-solid fa-arrow-left text-amber-400"></i>
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- تذييل الصفحة -->
+    <footer class="text-center py-3 text-xs text-[#0f2942]/80 font-bold">
+        منصة المستكشف الرقمي • الدراسات الاجتماعية للصف الثالث الإعدادي • استخدم أسهم لوحة المفاتيح للتنقل بين الشرائح
+    </footer>
+
+    <script>
+        // إدارة الشرائح والتنقل
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const currentSlideNum = document.getElementById('current-slide-num');
+        const totalSlidesNum = document.getElementById('total-slides-num');
+        const progressBar = document.getElementById('progress-bar');
+        const slideDotsContainer = document.getElementById('slide-dots');
+        const slideSelector = document.getElementById('slide-selector');
+
+        function initPresentation() {
+            totalSlidesNum.textContent = totalSlides;
+
+            slides.forEach((slide, index) => {
+                const dot = document.createElement('button');
+                dot.className = `h-2.5 rounded-full transition-all duration-300 ${index === 0 ? 'w-7 bg-[#0f2942]' : 'w-2.5 bg-slate-300 hover:bg-amber-500'}`;
+                dot.title = slide.getAttribute('data-title');
+                dot.onclick = () => goToSlide(index);
+                slideDotsContainer.appendChild(dot);
+
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${index + 1}. ${slide.getAttribute('data-title')}`;
+                slideSelector.appendChild(option);
+            });
+
+            updateUI();
+        }
+
+        function goToSlide(index) {
+            if (index < 0 || index >= totalSlides) return;
+            slides[currentSlide].classList.remove('active');
+            currentSlide = index;
+            slides[currentSlide].classList.add('active');
+            updateUI();
+        }
+
+        function changeSlide(step) {
+            goToSlide(currentSlide + step);
+        }
+
+        function updateUI() {
+            currentSlideNum.textContent = currentSlide + 1;
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+            slideSelector.value = currentSlide;
+
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            const dots = slideDotsContainer.children;
+            for (let i = 0; i < dots.length; i++) {
+                if (i === currentSlide) {
+                    dots[i].className = 'h-2.5 w-7 bg-[#0f2942] rounded-full transition-all duration-300';
+                } else {
+                    dots[i].className = 'h-2.5 w-2.5 bg-slate-300 hover:bg-amber-500 rounded-full transition-all duration-300';
+                }
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                changeSlide(1);
+            } else if (e.key === 'ArrowRight') {
+                changeSlide(-1);
+            }
+        });
+
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // منطق الأسئلة التفاعلية
+        let score = 0;
+        let answeredCount = 0;
+
+        function checkAnswer(btn, isCorrect) {
+            const card = btn.closest('[data-answered]');
+            if (card.getAttribute('data-answered') === 'true') return;
+
+            card.setAttribute('data-answered', 'true');
+            answeredCount++;
+
+            const buttons = card.querySelectorAll('.quiz-btn');
+            buttons.forEach(b => b.disabled = true);
+
+            if (isCorrect) {
+                score++;
+                btn.classList.remove('bg-white', 'border-slate-300');
+                btn.classList.add('bg-emerald-600', 'text-white', 'border-emerald-700');
+                btn.innerHTML += ' <i class="fa-solid fa-check mr-1"></i>';
+            } else {
+                btn.classList.remove('bg-white', 'border-slate-300');
+                btn.classList.add('bg-rose-600', 'text-white', 'border-rose-700');
+                btn.innerHTML += ' <i class="fa-solid fa-xmark mr-1"></i>';
+            }
+
+            document.getElementById('score-val').textContent = score;
+
+            if (answeredCount === 4) {
+                const feedback = document.getElementById('quiz-feedback');
+                if (score === 4) {
+                    feedback.innerHTML = '🎉 ممتاز يا بطل المستكشف الرقمي! حصلت على الدرجة النهائية (4/4).';
+                    feedback.className = 'text-sm font-extrabold text-emerald-700';
+                } else {
+                    feedback.innerHTML = `أحسنت المحاولة! نتيجتك ${score} من 4. راجع الشرائح وحاول مرة أخرى.`;
+                    feedback.className = 'text-sm font-bold text-amber-900';
+                }
+            }
+        }
+
+        function resetQuiz() {
+            score = 0;
+            answeredCount = 0;
+            document.getElementById('score-val').textContent = '0';
+            document.getElementById('quiz-feedback').textContent = 'اختر الإجابة الصحيحة لكل سؤال لاختبار معلوماتك يا بطل المستكشف الرقمي!';
+            document.getElementById('quiz-feedback').className = 'text-sm font-bold text-[#0f2942]';
+
+            const cards = document.querySelectorAll('#quiz-container [data-answered]');
+            cards.forEach(card => {
+                card.setAttribute('data-answered', 'false');
+                const buttons = card.querySelectorAll('.quiz-btn');
+                buttons.forEach(b => {
+                    b.disabled = false;
+                    b.className = 'quiz-btn bg-white hover:bg-amber-50 border border-slate-300 py-2.5 px-3 rounded-xl text-xs font-bold transition';
+                    b.innerHTML = b.textContent.trim();
+                });
+            });
+        }
+
+        initPresentation();
+    </script>
+</body>
+</html>
