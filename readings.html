@@ -38,6 +38,28 @@
 			.no-scrollbar::-webkit-scrollbar { display: none; }
 			.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+			/* ===== الهيدر (مطابق للصفحة الرئيسية) ===== */
+			header.site-header { position: sticky; top: 0; z-index: 50; background: rgba(46, 26, 16, .88); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+			.bar { max-width: 1240px; margin: auto; padding: 8px 20px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+			.bar img { width: 50px; height: 50px; object-fit: contain; border-radius: 50%; background: #fff; padding: 3px; flex-shrink: 0; }
+			.brand { text-align: center; font-size: 16px; line-height: 1.8; }
+			.brand b { font-family: 'Reem Kufi', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--sand); display: block; line-height: 1.4; }
+			.brand small { color: var(--gold); font-weight: 600; font-size: .8rem; }
+
+			header.site-header nav { display: block; background: var(--bg2); border-bottom: 1px solid var(--line); }
+			header.site-header nav .in { max-width: 1240px; margin: auto; display: flex; align-items: center; justify-content: center; position: relative; padding: 0 20px; }
+			.nav-links { display: flex; justify-content: center; gap: 4px; }
+			.nav-links button { display: flex; align-items: center; gap: 6px; padding: 6px 22px; margin: 6px 0; border: 0; border-radius: 14px; background: none; font-family: inherit; font-size: .88rem; font-weight: 600; line-height: 1.8; color: var(--mute); cursor: pointer; transition: .25s; white-space: nowrap; flex-shrink: 0; }
+			.nav-links button:hover { color: var(--sand); }
+			.nav-links button.on { background: var(--copper); color: #2a150b; }
+
+			@media (max-width: 759px) {
+			header.site-header nav .in { justify-content: flex-start; padding: 0 10px; gap: 6px; overflow: visible; }
+			.nav-links { justify-content: flex-start; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; flex: 1; min-width: 0; }
+			.nav-links::-webkit-scrollbar { display: none; }
+			.nav-links button { padding: 5px 14px; margin: 5px 0; font-size: .82rem; }
+			}
+
 			.sun-glow { animation: pulseGlow 5s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
 			.bird-flight { animation: flyAcross 22s linear infinite; }
 			.orb-float { animation: floatOrb 6s ease-in-out infinite; }
@@ -143,43 +165,27 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 	</head>
 	<body class="min-h-screen flex flex-col">
 
-		<!-- الشريط العلوي المتطابق مع التحديثات -->
-		<header class="sticky top-0 z-50 bg-[#2e1a10]/90 backdrop-blur-md border-b border-[rgba(224,160,110,0.22)]">
-			<div class="max-w-[1240px] mx-auto px-4 sm:px-5 py-2 grid grid-cols-[50px_1fr_50px] items-center gap-3">
-				<div class="flex items-center justify-start shrink-0">
-					<div class="w-[46px] h-[46px] sm:w-[50px] sm:h-[50px] rounded-full bg-white p-[3px] flex items-center justify-center overflow-hidden shadow-sm shrink-0">
-						<img
-						  src="https://upload.wikimedia.org/wikipedia/ar/f/f7/%D8%AC%D8%A7%D9%85%D8%B9%D8%A9_%D8%A3%D8%B3%D9%88%D8%A7%D9%86.png?utm_source=ar.wikipedia.org&utm_campaign=index&utm_content=original"
-						  alt="شعار جامعة أسوان"
-						  referrerpolicy="no-referrer"
-						  class="w-full h-full object-contain rounded-full"
-          />
-					</div>
+		<!-- الشريط العلوي (مطابق للصفحة الرئيسية) -->
+		<header class="site-header">
+			<div class="bar">
+				<img
+				  src="https://upload.wikimedia.org/wikipedia/ar/f/f7/%D8%AC%D8%A7%D9%85%D8%B9%D8%A9_%D8%A3%D8%B3%D9%88%D8%A7%D9%86.png?utm_source=ar.wikipedia.org&utm_campaign=index&utm_content=original"
+				  alt="شعار جامعة أسوان"
+				  referrerpolicy="no-referrer">
+				<div class="brand">
+					<b>مركز المستكشف الرقمي</b>
+					<small>قسم الخرائط التفاعلية - الصف الثالث الإعدادي</small>
 				</div>
-
-				<div class="text-center min-w-0 px-1">
-					<span class="font-kufi text-[1.08rem] sm:text-[1.25rem] font-bold text-[#f3dcb8] block leading-[1.35] truncate">
-						مركز المستكشف الرقمي
-					</span>
-					<small class="text-[#f0b44c] font-semibold text-[0.72rem] sm:text-[0.82rem] block truncate">
-						قسم الخرائط التفاعلية - الصف الثالث الإعدادي
-					</small>
-				</div>
-
-				<div class="flex items-center justify-end shrink-0">
-					<div class="w-[46px] h-[46px] sm:w-[50px] sm:h-[50px] rounded-full bg-white p-[3px] flex items-center justify-center overflow-hidden shadow-sm shrink-0">
-						<img
-						  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEzagK-_Zmqbzw25mmC78SZwqlNOLOK24tSfODSl1WydvvBxkharGt-Mmz&s=10"
-						  alt="شعار كلية التربية النوعية وقسم تكنولوجيا التعليم"
-						  referrerpolicy="no-referrer"
-						  class="w-full h-full object-contain rounded-full"
-          />
-					</div>
-				</div>
+				<img
+				  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEzagK-_Zmqbzw25mmC78SZwqlNOLOK24tSfODSl1WydvvBxkharGt-Mmz&s=10"
+				  alt="شعار كلية التربية النوعية وقسم تكنولوجيا التعليم"
+				  referrerpolicy="no-referrer">
 			</div>
 
-			<nav aria-label="أقسام الخرائط التفاعلية" class="hidden md:block bg-[#42251a] border-t border-[rgba(224,160,110,0.22)]">
-				<div id="header-nav-tabs" class="max-w-[1240px] mx-auto flex items-center justify-center gap-1 px-5"></div>
+			<nav aria-label="أقسام الخرائط التفاعلية">
+				<div class="in">
+					<div class="nav-links" id="header-nav-tabs"></div>
+				</div>
 			</nav>
 		</header>
 
@@ -996,7 +1002,7 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 
     function renderNavigationAndToolbars() {
       document.getElementById('header-nav-tabs').innerHTML = TAB_ITEMS.map((t) => `
-        <button type="button" onclick="selectTab('${t.id}')" class="px-4 sm:px-5 py-1.5 my-1.5 rounded-[14px] text-[0.84rem] sm:text-[0.88rem] font-semibold transition-all whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1.5 ${currentTab === t.id ? 'bg-[#c8825a] text-[#2a150b] font-bold shadow-sm' : 'text-[#c9ae94] hover:text-[#f3dcb8]'}">
+        <button type="button" onclick="selectTab('${t.id}')" class="${currentTab === t.id ? 'on' : ''}">
 				<span>${t.emoji}</span>
 				<span>${t.label}</span>
 			</button>
@@ -1352,6 +1358,7 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 			.then((world) => { initStaticSvgLayers(world); renderPinsAndLayers(); })
 			.catch((err) => console.error('تعذر تحميل بيانات الخريطة:', err));
 		</script>
-	   <script src="chatbot.js"></script>
+		<script src="./account-ui.js"></script>
+		<script src="chatbot.js"></script>
 	</body>
 </html>
