@@ -20,9 +20,22 @@
 								.bar{max-width:1240px;margin:auto;padding:8px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 								.bar img{width:50px;height:50px;object-fit:contain;border-radius:50%;background:#fff;padding:3px}
 								.brand{text-align:center;flex:1}
-								.brand h1{font-family:'Reem Kufi',sans-serif;font-size:1.3rem;color:var(--sand);line-height:1.4}
-								.brand p{color:var(--gold);font-weight:600;font-size:.78rem}
-								.back{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:14px;border:1.5px solid var(--copper);color:var(--copper);font-weight:700;font-size:.85rem;transition:.3s}
+								.brand h1{font-family:'Reem Kufi',sans-serif;font-size:1.25rem;color:var(--sand);line-height:1.4}
+								.brand p{color:var(--gold);font-weight:600;font-size:.8rem;line-height:1.4}
+								nav{display:block;background:var(--bg2);border-bottom:1px solid var(--line)}
+								nav .in{max-width:1240px;margin:auto;display:flex;align-items:center;justify-content:center;position:relative;padding:0 20px}
+								.nav-links{display:flex;justify-content:center;gap:4px}
+								nav a{padding:6px 22px;margin:6px 0;border-radius:14px;font-size:.88rem;font-weight:600;color:var(--mute);transition:.25s;white-space:nowrap;flex-shrink:0}
+								nav a:hover{color:var(--sand)}
+								nav a.on{background:var(--copper);color:#2a150b}
+								@media(max-width:759px){
+								nav .in{justify-content:flex-start;padding:0 10px;gap:6px;overflow:visible}
+								.nav-links{justify-content:flex-start;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;flex:1;min-width:0}
+								.nav-links::-webkit-scrollbar{display:none}
+								nav a{padding:5px 14px;margin:5px 0;font-size:.82rem}
+								}
+								.hero-top-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+								.back{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:99px;border:1.5px solid var(--copper);background:rgba(46,26,16,.55);color:var(--sand);font-weight:700;font-size:.82rem;transition:.3s}
 								.back:hover{background:var(--copper);color:#2a150b;transform:translateY(-2px)}
 
 								/* hero */
@@ -31,7 +44,7 @@
 								.hero .glow{position:absolute;z-index:-1;left:-6%;top:50%;width:520px;height:520px;transform:translateY(-50%);border-radius:50%;background:radial-gradient(circle,#fffbe6 0%,#ffe08a 22%,rgba(244,169,58,0) 68%);animation:pulse 5s ease-in-out infinite}
 								.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(270deg,var(--bg) 0%,rgba(46,26,16,.95) 45%,rgba(46,26,16,.3) 80%,rgba(46,26,16,.1) 100%),linear-gradient(0deg,var(--bg),rgba(46,26,16,0) 30%)}
 								.hero .in{max-width:1240px;margin:auto;width:100%;padding:56px 24px 64px}
-								.tag{display:inline-block;border:1px solid var(--copper);color:var(--gold);padding:3px 18px;border-radius:99px;font-size:.8rem;font-weight:700;margin-bottom:14px;background:rgba(200,130,90,.12)}
+								.tag{display:inline-block;border:1px solid var(--copper);color:var(--gold);padding:3px 18px;border-radius:99px;font-size:.8rem;font-weight:700;margin-bottom:0;background:rgba(200,130,90,.12)}
 								.hero h2{font-family:'Reem Kufi',sans-serif;font-weight:700;font-size:clamp(1.9rem,4.6vw,3.2rem);line-height:1.5;color:var(--copper);max-width:640px;text-shadow:0 4px 30px rgba(240,180,76,.25)}
 								.hero p{color:var(--mute);max-width:520px;margin-top:10px}
 								@keyframes pulse{50%{opacity:.7;transform:translateY(-50%) scale(1.08)}}
@@ -84,7 +97,6 @@
 								.art{position:relative;inset:auto;width:100%;height:220px}
 								.art::after{background:linear-gradient(0deg,#3a2116 0%,rgba(58,33,22,.5) 45%,rgba(58,33,22,0) 100%)}
 								.tx{width:100%;min-height:0;padding:10px 26px 30px}
-								.back span:first-child{display:none}
 								}
 								@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 							</style>
@@ -105,16 +117,20 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 
 		<header>
 			<div class="bar">
-				<img src="https://i.postimg.cc/ZnF2Hzfs/almstkshf-alrqmy.png" alt="شعار جامعة أسوان">
+				<img src="https://upload.wikimedia.org/wikipedia/ar/f/f7/%D8%AC%D8%A7%D9%85%D8%B9%D8%A9_%D8%A3%D8%B3%D9%88%D8%A7%D9%86.png?utm_source=ar.wikipedia.org&utm_campaign=index&utm_content=original" alt="شعار جامعة أسوان">
 					<div class="brand">
 						<h1>قسم الجغرافيا</h1>
 						<p>مركز المستكشف الرقمي - الصف الثالث الإعدادي</p>
 					</div>
-					<a href="../الصفحة-الرئيسية.html" class="back">
-						<span>الرئيسية</span>
-						<span>🏠</span>
-					</a>
+					<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEzagK-_Zmqbzw25mmC78SZwqlNOLOK24tSfODSl1WydvvBxkharGt-Mmz&s=10" alt="شعار كلية التربية النوعية وقسم تكنولوجيا التعليم">
 				</div>
+			<nav><div class="in">
+				<div class="nav-links">
+					<a href="#lesson-1" class="on">الدرس الأول</a>
+					<a href="#lesson-2">الدرس الثاني</a>
+					<a href="#lesson-3">الدرس الثالث</a>
+				</div>
+			</div></nav>
 		</header>
 
 		<section class="hero">
@@ -179,7 +195,13 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 				</svg>
 			</div>
 			<div class="in">
-				<span class="tag">🌍 منهج الجغرافيا الكامل</span>
+				<div class="hero-top-actions">
+					<a href="../الصفحة-الرئيسية.html" class="back">
+						<span>🏠</span>
+						<span>الرئيسية</span>
+					</a>
+					<span class="tag">🌍 منهج الجغرافيا الكامل</span>
+				</div>
 				<h2>استكشف العالم، القارات، والحضارات</h2>
 				<p>اختر الدرس للوصول إلى الشروحات والأنشطة التفاعلية والخرائط.</p>
 			</div>
@@ -189,7 +211,7 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 			<div class="list">
 
 				<!-- الدرس الأول -->
-				<a href="درس-قارات العالم-الموقع-والمساحة.html" class="lc rv">
+				<a id="lesson-1" href="درس-قارات العالم-الموقع-والمساحة.html" class="lc rv">
 					<div class="art" aria-hidden="true">
 						<svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
 							<defs>
@@ -234,7 +256,7 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 				</a>
 
 				<!-- الدرس الثاني -->
-				<a href="الدرس-الثاني-الحضارات-لقديمة-في-الأمريكتين.html" target="_top" class="lc rv">
+				<a id="lesson-2" href="الدرس-الثاني-الحضارات-لقديمة-في-الأمريكتين.html" target="_top" class="lc rv">
 					<div class="art" aria-hidden="true">
 						<svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
 							<defs>
@@ -287,7 +309,7 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 				</a>
 
 				<!-- الدرس الثالث -->
-				<a href="الدرس-الثالث-الكشوف-الجغرافية-لقارات-العالم-الجديد.html" target="_top" class="lc rv">
+				<a id="lesson-3" href="الدرس-الثالث-الكشوف-الجغرافية-لقارات-العالم-الجديد.html" target="_top" class="lc rv">
 					<div class="art" aria-hidden="true">
 						<svg viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
 							<defs>
@@ -352,7 +374,35 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
 		<script>
 			var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}})},{threshold:.1});
 			document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+
+			(function(){
+				var links = Array.prototype.slice.call(document.querySelectorAll('nav a[href^="#"]'));
+				var items = links.map(function(a){
+					return { a: a, el: document.getElementById(a.getAttribute('href').slice(1)) };
+				}).filter(function(x){ return x.el; });
+				var ticking = false;
+
+				function update(){
+					ticking = false;
+					var header = document.querySelector('header');
+					var offset = (header ? header.offsetHeight : 0) + 140;
+					var current = items[0];
+					items.forEach(function(x){
+						if (x.el.getBoundingClientRect().top <= offset) current = x;
+					});
+					if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+						current = items[items.length - 1];
+					}
+					items.forEach(function(x){ x.a.classList.toggle('on', x === current); });
+				}
+				window.addEventListener('scroll', function(){
+					if (!ticking) { ticking = true; requestAnimationFrame(update); }
+				}, { passive: true });
+				window.addEventListener('resize', update);
+				update();
+			})();
 		</script>
+	  <script src="../account-ui.js"></script>
 	  <script src="../chatbot.js"></script>
 	</body>
 </html>
