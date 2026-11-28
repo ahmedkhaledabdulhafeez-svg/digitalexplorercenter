@@ -95,14 +95,18 @@
   /* حقول الإدخال (قائمة الحساب وغيرها): خلفية بيضاء ونص غامق واضح */
   '[data-theme="light"] input,[data-theme="light"] select,[data-theme="light"] textarea{background:#fff!important;color:#3a2116!important;-webkit-text-fill-color:#3a2116!important;border:1px solid rgba(140,80,40,.38)!important;opacity:1!important}' +
   '[data-theme="light"] input::placeholder,[data-theme="light"] textarea::placeholder{color:#a08670!important;-webkit-text-fill-color:#a08670!important;opacity:1!important}' +
+  /* نافذة الشات والرسالة المنبثقة في الوضع النهاري: قلب الألوان مع الحفاظ على الدرجات */
+  'html[data-theme="light"] [data-explorer-chat]{filter:invert(1) hue-rotate(180deg)}' +
+  'html[data-theme="light"] [data-explorer-chat] input,html[data-theme="light"] [data-explorer-chat] textarea{background:#3a2116!important;color:#f3dcb8!important;-webkit-text-fill-color:#f3dcb8!important;border:1px solid rgba(224,160,110,.3)!important}' +
+  'html[data-theme="light"] [data-explorer-chat] input::placeholder,html[data-theme="light"] [data-explorer-chat] textarea::placeholder{color:#c9ae94!important;-webkit-text-fill-color:#c9ae94!important}' +
   '[data-theme="light"] input:focus,[data-theme="light"] select:focus,[data-theme="light"] textarea:focus{border-color:#b5653a!important;outline:2px solid rgba(181,101,58,.25)}' +
   '[data-theme="light"] footer div,[data-theme="light"] footer small,[data-theme="light"] footer b,[data-theme="light"] footer strong{color:#5a3a28!important;opacity:1!important}' +
   '[data-theme="light"] footer button{color:#8a4f1a!important;border-color:#b5653a!important;opacity:1!important}' +
 
   /* زر التبديل */
-  '#themeToggle{position:fixed;right:37px;bottom:106px;z-index:9998;width:46px;height:46px;border-radius:50%;' +
+  '#themeToggle{position:fixed;right:37px;bottom:112px;z-index:9998;width:46px;height:46px;border-radius:50%;' +
     'border:1.5px solid var(--copper);background:var(--bg2);color:var(--text);font-size:1.3rem;cursor:pointer;' +
-    'display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.3);transition:transform .25s,background .3s}' +
+    'display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.3);transition:transform .25s,background .3s,bottom .35s ease,opacity .25s}' +
   '#themeToggle:hover{transform:scale(1.1) rotate(15deg)}';
 
   var st = document.createElement('style');
@@ -132,6 +136,55 @@
       if (!saved() && DEFAULT_MODE !== 'dark') apply(systemTheme());
     });
   }
+
+  // ---------- يتحرك الزرار فوق الشات بوت (الأيقونة / النافذة / الرسالة المنبثقة) ----------
+  var GAP = 12;          // المسافة بين الزرار وأعلى عنصر تحته
+  var DEFAULT_BOTTOM = 112;
+  function scanChat() {
+    var btn = document.getElementById('themeToggle');
+    if (!btn || document.hidden || !document.body) return;
+    var W = root.clientWidth, H = window.innerHeight;
+    var els = document.body.querySelectorAll('body > *, body > * > *, body > * > * > *');
+    var cands = [], covered = false, i, el, r, cs;
+    for (i = 0; i < els.length; i++) {
+      el = els[i];
+      if (el === btn) continue;
+      r = el.getBoundingClientRect();
+      if (r.width < 30 || r.height < 30) continue;
+      // عنصر ثابت يغطي الشاشة تقريباً (شات ملء الشاشة على الموبايل / شاشة التحميل)
+      if (r.width >= W * 0.9 && r.height >= H * 0.6) {
+        cs = getComputedStyle(el);
+        if (cs.position === 'fixed' && cs.display !== 'none' && cs.visibility !== 'hidden' && parseFloat(cs.opacity) > 0.05) covered = true;
+        continue;
+      }
+      if (r.right < W - 100 || r.left < W * 0.35 || r.bottom > H + 5 || r.top < 0 || r.bottom < H * 0.5) continue;
+      cs = getComputedStyle(el);
+      if (cs.position !== 'fixed' && cs.position !== 'absolute') continue;
+      if (cs.display === 'none' || cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.05) continue;
+      cands.push({ el: el, top: r.top, w: r.width });
+    }
+    var bottom = DEFAULT_BOTTOM;
+    if (cands.length) {
+      var minTop = H;
+      cands.forEach(function (c) { if (c.top < minTop) minTop = c.top; });
+      bottom = Math.round(H - minTop + GAP);
+    }
+    var hide = covered || bottom > H - 80;
+    btn.style.bottom = bottom + 'px';
+    btn.style.opacity = hide ? '0' : '1';
+    btn.style.pointerEvents = hide ? 'none' : 'auto';
+
+    // وسم نافذة الشات والرسالة المنبثقة (العناصر الأكبر من الأيقونة) لتغيير ألوانها في الوضع النهاري
+    var tagged = cands.filter(function (c) {
+      return c.w > 150 && !cands.some(function (o) { return o.el !== c.el && o.el.contains(c.el); });
+    }).map(function (c) { return c.el; });
+    document.querySelectorAll('[data-explorer-chat]').forEach(function (n) {
+      if (tagged.indexOf(n) === -1) n.removeAttribute('data-explorer-chat');
+    });
+    tagged.forEach(function (n) { n.setAttribute('data-explorer-chat', ''); });
+  }
+  setInterval(scanChat, 120);
+  window.addEventListener('resize', scanChat);
 
   // للصفحات الأخرى: تقدر تسمع للحدث ده لو عندك عناصر بتحتاج تحديث
   window.getExplorerTheme = function () { return root.getAttribute('data-theme'); };
