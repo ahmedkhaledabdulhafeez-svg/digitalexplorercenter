@@ -28,16 +28,16 @@ header{position:sticky;top:0;z-index:50;background:rgba(46,26,16,.88);backdrop-f
 .brand small{color:var(--gold);font-weight:600;font-size:.8rem}
 nav{display:block;background:var(--bg2);border-bottom:1px solid var(--line)}
 nav .in{max-width:1240px;margin:auto;display:flex;align-items:center;justify-content:center;position:relative;padding:0 20px}
-.nav-links{display:flex;justify-content:center;gap:4px}
-nav a{padding:6px 22px;margin:6px 0;border-radius:14px;font-size:.88rem;font-weight:600;color:var(--mute);transition:.25s;white-space:nowrap;flex-shrink:0}
+.nav-links{display:flex;justify-content:center;gap:4px;scroll-behavior:smooth}
+nav a{padding:6px 22px;margin:6px 0;border-radius:14px;font-size:.88rem;font-weight:600;color:var(--mute);transition:.25s;white-space:nowrap;flex-shrink:0;text-align:center}
 nav a:hover{color:var(--sand)}
 nav a.on{background:var(--copper);color:#2a150b}
 
 @media(max-width:759px){
   nav .in{justify-content:flex-start;padding:0 10px;gap:6px;overflow:visible}
-  .nav-links{justify-content:flex-start;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;flex:1;min-width:0}
+  .nav-links{justify-content:flex-start;gap:8px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;flex:1;min-width:0;scroll-snap-type:x mandatory}
   .nav-links::-webkit-scrollbar{display:none}
-  nav a{padding:5px 14px;margin:5px 0;font-size:.82rem}
+  nav a{flex:0 0 calc((100% - 16px) / 3);min-width:0;padding:5px 6px;margin:5px 0;font-size:.8rem;scroll-snap-align:center;overflow:hidden;text-overflow:ellipsis}
 }
 
 /* ===== Hero ===== */
@@ -192,7 +192,7 @@ if(sessionStorage.getItem("explorerSessionVerified")!=="true"){
     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEzagK-_Zmqbzw25mmC78SZwqlNOLOK24tSfODSl1WydvvBxkharGt-Mmz&s=10" alt="شعار كلية التربية النوعية وقسم تكنولوجيا التعليم">
   </div>
   <nav><div class="in">
-    <div class="nav-links">
+    <div class="nav-links" id="navLinks">
       <a href="#top" class="on">الرئيسية</a>
       <a href="#lessons">المسارات التعليمية</a>
       <a href="#tools">الذكاء الاصطناعي والخرائط</a>
@@ -387,13 +387,21 @@ document.querySelectorAll('nav a[href^="#"]').forEach(function(a){
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}})},{threshold:.12});
 document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
 
-// تمييز القسم الحالي في شريط التنقل أثناء السكرول (تمييز فقط)
+// تمييز القسم الحالي في شريط التنقل وتحريك السلايدر تلقائياً على الموبايل
 (function(){
+  var navLinksEl = document.getElementById('navLinks');
   var links = Array.prototype.slice.call(document.querySelectorAll('nav a[href^="#"]'));
   var items = links.map(function(a){
     return { a: a, el: document.getElementById(a.getAttribute('href').slice(1)) };
   }).filter(function(x){ return x.el; });
   var ticking = false;
+  var lastActive = null;
+
+  function centerActiveLink(linkEl){
+    if (!navLinksEl || !linkEl || window.innerWidth > 759) return;
+    var targetLeft = linkEl.offsetLeft - (navLinksEl.clientWidth / 2) + (linkEl.offsetWidth / 2);
+    navLinksEl.scrollTo({ left: targetLeft, behavior: 'smooth' });
+  }
 
   function update(){
     ticking = false;
@@ -407,11 +415,18 @@ document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
       current = items[items.length - 1];
     }
     items.forEach(function(x){ x.a.classList.toggle('on', x === current); });
+    if (current && current.a !== lastActive) {
+      lastActive = current.a;
+      centerActiveLink(current.a);
+    }
   }
   window.addEventListener('scroll', function(){
     if (!ticking) { ticking = true; requestAnimationFrame(update); }
   }, { passive: true });
-  window.addEventListener('resize', update);
+  window.addEventListener('resize', function(){
+    update();
+    if (lastActive) centerActiveLink(lastActive);
+  });
   update();
 })();
 
