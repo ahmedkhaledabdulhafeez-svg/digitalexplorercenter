@@ -92,6 +92,10 @@
   '[data-theme="light"] footer h1,[data-theme="light"] footer h2,[data-theme="light"] footer h3,[data-theme="light"] footer h4{color:#8a4f1a!important}' +
   '[data-theme="light"] footer p,[data-theme="light"] footer li,[data-theme="light"] footer a,[data-theme="light"] footer span{color:#5a3a28!important;opacity:1!important}' +
   '[data-theme="light"] footer a:hover{color:#b5653a!important}' +
+  /* حقول الإدخال (قائمة الحساب وغيرها): خلفية بيضاء ونص غامق واضح */
+  '[data-theme="light"] input,[data-theme="light"] select,[data-theme="light"] textarea{background:#fff!important;color:#3a2116!important;-webkit-text-fill-color:#3a2116!important;border:1px solid rgba(140,80,40,.38)!important;opacity:1!important}' +
+  '[data-theme="light"] input::placeholder,[data-theme="light"] textarea::placeholder{color:#a08670!important;-webkit-text-fill-color:#a08670!important;opacity:1!important}' +
+  '[data-theme="light"] input:focus,[data-theme="light"] select:focus,[data-theme="light"] textarea:focus{border-color:#b5653a!important;outline:2px solid rgba(181,101,58,.25)}' +
   '[data-theme="light"] footer div,[data-theme="light"] footer small,[data-theme="light"] footer b,[data-theme="light"] footer strong{color:#5a3a28!important;opacity:1!important}' +
   '[data-theme="light"] footer button{color:#8a4f1a!important;border-color:#b5653a!important;opacity:1!important}' +
 
