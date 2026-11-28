@@ -193,6 +193,9 @@ section.blk{padding:70px 0 10px}
 
 .strip{border-radius:99px;height:10px;margin-top:60px;background:repeating-linear-gradient(90deg,var(--copper) 0 18px,transparent 18px 26px,var(--gold) 26px 34px,transparent 34px 42px);opacity:.7}
 footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);font-weight:600;font-size:.88rem;border-top:1px solid var(--line)}
+.footer-privacy{margin-top:8px;font-size:.86rem}
+.footer-privacy a{color:var(--gold);text-decoration:underline;text-underline-offset:4px}
+.footer-privacy a:hover{color:var(--sand)}
 .rv{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}.rv.show{opacity:1;transform:none}
 
 /* ===== نافذة الدخول ===== */
@@ -211,18 +214,22 @@ footer{background:#24130b;text-align:center;padding:26px 16px;color:var(--mute);
 .tabs button.on{background:var(--copper);color:#2a150b}
 .box h3{font-family:'Reem Kufi',sans-serif;font-size:1.6rem;color:var(--copper);text-align:center;line-height:1.4}
 .box .s{text-align:center;color:var(--mute);font-size:.86rem;margin:2px 0 16px}
-form{display:flex;flex-direction:column;gap:13px}
+form{display:flex;flex-direction:column;gap:12px}
 label{display:block;font-weight:700;font-size:.85rem;color:var(--sand);margin-bottom:4px}
 input{width:100%;padding:12px 16px;border-radius:18px;font-size:.94rem;font-family:inherit;color:var(--text);background:rgba(0,0,0,.25);border:1.5px solid var(--line);outline:none;transition:.3s}
 input::placeholder{color:rgba(201,174,148,.55)}
 input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(240,180,76,.15);background:rgba(0,0,0,.35)}
 .submit{width:100%;justify-content:center;padding:13px;font-size:1rem;margin-top:2px;border-radius:18px}
-.submit:disabled,.btn-google:disabled{opacity:.65;cursor:not-allowed;transform:none}
+.submit:disabled,.btn-social:disabled{opacity:.65;cursor:not-allowed;transform:none}
 .auth-err{color:#ff8a80;font-size:.84rem;font-weight:700;text-align:center;min-height:18px;margin-top:-2px}
 .divider{display:flex;align-items:center;gap:10px;color:var(--mute);font-size:.82rem;margin:0}
 .divider::before,.divider::after{content:"";flex:1;height:1px;background:var(--line)}
-.btn-google{width:100%;justify-content:center;padding:12px;font-size:.95rem;border-radius:18px;background:rgba(255,255,255,.06);color:var(--sand);border:1.5px solid var(--line)}
-.btn-google:hover{background:rgba(240,180,76,.14);border-color:var(--gold);color:#fff;transform:translateY(-2px);box-shadow:none}
+.social-btns{display:flex;flex-direction:column;gap:9px}
+.btn-social{width:100%;justify-content:center;padding:11px 16px;font-size:.92rem;border-radius:18px;background:rgba(255,255,255,.06);color:var(--sand);border:1.5px solid var(--line)}
+.btn-social:hover{background:rgba(240,180,76,.14);border-color:var(--gold);color:#fff;transform:translateY(-2px);box-shadow:none}
+.modal-privacy{margin-top:4px;font-size:.78rem;color:var(--mute);text-align:center;line-height:1.6}
+.modal-privacy a{color:var(--gold);text-decoration:underline;text-underline-offset:3px}
+.modal-privacy a:hover{color:var(--sand)}
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 
@@ -418,6 +425,7 @@ img {
 <footer>
   <p style="margin: 0 0 6px;">تصميم وإعداد: طلاب الفرقة الرابعة - قسم تكنولوجيا التعليم | جامعة أسوان</p>
   <p style="margin: 0; font-size: 0.8rem; opacity: 0.75;">جميع الحقوق محفوظة © مركز المستكشف الرقمي</p>
+  <p class="footer-privacy"><a href="privacy.html">سياسة الخصوصية وحماية البيانات</a></p>
 </footer>
 
 
@@ -447,15 +455,38 @@ img {
 
       <div class="divider">أو</div>
 
-      <button type="button" class="btn btn-google" id="googleBtn">
-        <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
-          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-          <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-        </svg>
-        <span>المتابعة بحساب Google</span>
-      </button>
+      <div class="social-btns">
+        <button type="button" class="btn btn-social" id="googleBtn">
+          <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+          </svg>
+          <span>المتابعة بحساب Google</span>
+        </button>
+
+        <button type="button" class="btn btn-social" id="microsoftBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#F25022" d="M2 2h9.5v9.5H2z"/>
+            <path fill="#7FBA00" d="M12.5 2H22v9.5h-9.5z"/>
+            <path fill="#00A4EF" d="M2 12.5h9.5V22H2z"/>
+            <path fill="#FFB900" d="M12.5 12.5H22V22h-9.5z"/>
+          </svg>
+          <span>المتابعة بحساب Microsoft</span>
+        </button>
+
+        <button type="button" class="btn btn-social" id="facebookBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill="#1877F2" d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/>
+          </svg>
+          <span>المتابعة بحساب Facebook</span>
+        </button>
+      </div>
+
+      <p class="modal-privacy">
+        بمتابعتك تسجيل الدخول، فإنك توافق على <a href="privacy.html" target="_blank" rel="noopener noreferrer">سياسة الخصوصية</a> الخاصة بالمنصة.
+      </p>
     </form>
   </div>
 </div>
@@ -542,6 +573,8 @@ document.addEventListener('dragstart', function(e) {
     createUserWithEmailAndPassword,
     updateProfile,
     GoogleAuthProvider,
+    FacebookAuthProvider,
+    OAuthProvider,
     signInWithPopup
   } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
@@ -550,7 +583,12 @@ document.addEventListener('dragstart', function(e) {
   const errEl = document.getElementById("authError");
   const submitBtn = document.getElementById("sb");
   const googleBtn = document.getElementById("googleBtn");
+  const microsoftBtn = document.getElementById("microsoftBtn");
+  const facebookBtn = document.getElementById("facebookBtn");
+
   const googleProvider = new GoogleAuthProvider();
+  const microsoftProvider = new OAuthProvider("microsoft.com");
+  const facebookProvider = new FacebookAuthProvider();
 
   function saveUserData(user, fallbackName) {
     const resolvedName = (user && user.displayName) || fallbackName || (user && user.email ? user.email.split("@")[0] : "");
@@ -568,7 +606,7 @@ document.addEventListener('dragstart', function(e) {
     } catch (_) {}
   }
 
-  function getArabicError(code) {
+  function getArabicError(code, providerLabel) {
     switch (code) {
       case "auth/invalid-email":
         return "صيغة البريد الإلكتروني غير صحيحة.";
@@ -578,16 +616,36 @@ document.addEventListener('dragstart', function(e) {
         return "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
       case "auth/email-already-in-use":
         return "هذا البريد مسجل بالفعل، انتقل لتبويب تسجيل الدخول.";
+      case "auth/account-exists-with-different-credential":
+        return "يوجد حساب مسجل مسبقاً بهذا البريد عبر مزود تسجيل دخول آخر.";
       case "auth/weak-password":
         return "كلمة المرور يجب أن تكون 6 أحرف على الأقل.";
       case "auth/popup-closed-by-user":
-        return "تم إغلاق نافذة تسجيل الدخول بحساب Google.";
+        return providerLabel ? `تم إغلاق نافذة تسجيل الدخول بحساب ${providerLabel}.` : "تم إغلاق نافذة تسجيل الدخول.";
       case "auth/too-many-requests":
         return "تم حظر المحاولات مؤقتاً لكثرة التكرار، حاول بعد قليل.";
       case "auth/network-request-failed":
         return "تأكد من اتصالك بالإنترنت وحاول مرة أخرى.";
       default:
         return "حدث خطأ أثناء العملية، حاول مرة أخرى.";
+    }
+  }
+
+  async function handlePopupSignIn(provider, buttonEl, providerLabel) {
+    errEl.textContent = "";
+    googleBtn.disabled = true;
+    microsoftBtn.disabled = true;
+    facebookBtn.disabled = true;
+    try {
+      const result = await signInWithPopup(auth, provider);
+      saveUserData(result.user, result.user.email ? result.user.email.split("@")[0] : "");
+      window.location.replace(HOME_PAGE);
+    } catch (error) {
+      errEl.textContent = getArabicError(error.code, providerLabel);
+      googleBtn.disabled = false;
+      microsoftBtn.disabled = false;
+      facebookBtn.disabled = false;
+      if (buttonEl) buttonEl.blur();
     }
   }
 
@@ -626,18 +684,9 @@ document.addEventListener('dragstart', function(e) {
     }
   });
 
-  googleBtn.addEventListener("click", async () => {
-    errEl.textContent = "";
-    googleBtn.disabled = true;
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      saveUserData(result.user, result.user.email ? result.user.email.split("@")[0] : "");
-      window.location.replace(HOME_PAGE);
-    } catch (error) {
-      errEl.textContent = getArabicError(error.code);
-      googleBtn.disabled = false;
-    }
-  });
+  googleBtn.addEventListener("click", () => handlePopupSignIn(googleProvider, googleBtn, "Google"));
+  microsoftBtn.addEventListener("click", () => handlePopupSignIn(microsoftProvider, microsoftBtn, "Microsoft"));
+  facebookBtn.addEventListener("click", () => handlePopupSignIn(facebookProvider, facebookBtn, "Facebook"));
 </script>
 </body>
 </html>
