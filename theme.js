@@ -35,10 +35,10 @@
 
   // ---------- ألوان الوضع النهاري ----------
   var css = '' +
-  '[data-theme="light"]{' +
+  'html[data-theme="light"]{' +
     '--bg:#fbf3e6;--bg2:#f3e4cc;--panel:#fff8ec;--line:rgba(140,80,40,.25);' +
-    '--copper:#b5653a;--gold:#c98a1a;--sand:#5a3318;--text:#3a2116;--mute:#7a5a44;color-scheme:light}' +
-  '[data-theme="dark"]{color-scheme:dark}' +
+    '--copper:#b5653a;--gold:#b87a10;--sand:#5a3318;--text:#3a2116;--mute:#7a5a44;color-scheme:light}' +
+  'html[data-theme="dark"]{color-scheme:dark}' +
   'body{transition:background-color .3s,color .3s}' +
 
   /* ألوان مكتوبة مباشرة في الصفحة الرئيسية */
