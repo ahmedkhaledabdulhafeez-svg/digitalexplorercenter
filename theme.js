@@ -69,14 +69,31 @@
   '[data-theme="light"] .about .bot,[data-theme="light"] .tip .bulb{box-shadow:0 4px 14px rgba(181,101,58,.4)}' +
   '[data-theme="light"] .term-def{color:var(--text)}' +
   /* مشهد الهيرو: سماء أعمق وأهرامات أوضح */
-  '[data-theme="light"] .scene{background:linear-gradient(180deg,#fff1d2 0%,#f6d7a0 55%,#e9b97a 100%)}' +
-  '[data-theme="light"] .scene svg{filter:brightness(.8) saturate(1.25)}' +
+  '[data-theme="light"] .scene{background:linear-gradient(180deg,#fdf6ea 0%,#f9ecd6 100%)}' +
+  '[data-theme="light"] .scene svg{filter:none}' +
+  /* الغطاء الأبيض يغطي منطقة النص فقط، فلا يضبّب الهرم */
+  '@media(min-width:901px){html[data-theme="light"] .hero::after{background:linear-gradient(270deg,var(--bg) 0%,rgba(251,243,230,.92) 28%,rgba(251,243,230,0) 52%),linear-gradient(0deg,var(--bg) 0%,rgba(251,243,230,0) 14%)}}' +
+  /* ألوان المشهد: درجات رملية هادئة متناسقة */
+  '[data-theme="light"] #pyL stop:first-child{stop-color:#ecc9a0}' +
+  '[data-theme="light"] #pyL stop:last-child{stop-color:#d9a574}' +
+  '[data-theme="light"] #pyR stop:first-child{stop-color:#c48a5c}' +
+  '[data-theme="light"] #pyR stop:last-child{stop-color:#a8703f}' +
+  '[data-theme="light"] #dune1 stop:first-child{stop-color:#ecd2a8}' +
+  '[data-theme="light"] #dune1 stop:last-child{stop-color:#e2bf8e}' +
+  '[data-theme="light"] #dune2 stop:first-child{stop-color:#dcb583}' +
+  '[data-theme="light"] #dune2 stop:last-child{stop-color:#cf9f6a}' +
+  '[data-theme="light"] #raGlow stop:first-child{stop-color:#f6c566;stop-opacity:.55}' +
+  '[data-theme="light"] #raGlow stop:nth-child(2){stop-color:#f2b77a;stop-opacity:.25}' +
+  '[data-theme="light"] .trail{stroke:#b5653a;opacity:.6}' +
+  '[data-theme="light"] .scene svg g[fill="#8a5230"]{fill:#b98258}' +
   '[data-theme="light"] .logo-orb .core{background:#fff;border-color:var(--copper);box-shadow:0 10px 40px rgba(181,101,58,.35)}' +
   /* الفوتر (من footer.js): نصوص داكنة وواضحة */
   '[data-theme="light"] footer{background:#f1dfc3;border-top:1px solid var(--line)}' +
   '[data-theme="light"] footer h1,[data-theme="light"] footer h2,[data-theme="light"] footer h3,[data-theme="light"] footer h4{color:#8a4f1a!important}' +
   '[data-theme="light"] footer p,[data-theme="light"] footer li,[data-theme="light"] footer a,[data-theme="light"] footer span{color:#5a3a28!important;opacity:1!important}' +
   '[data-theme="light"] footer a:hover{color:#b5653a!important}' +
+  '[data-theme="light"] footer div,[data-theme="light"] footer small,[data-theme="light"] footer b,[data-theme="light"] footer strong{color:#5a3a28!important;opacity:1!important}' +
+  '[data-theme="light"] footer button{color:#8a4f1a!important;border-color:#b5653a!important;opacity:1!important}' +
 
   /* زر التبديل */
   '#themeToggle{position:fixed;left:16px;bottom:16px;z-index:9998;width:46px;height:46px;border-radius:50%;' +
