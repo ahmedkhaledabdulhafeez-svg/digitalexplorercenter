@@ -2,9 +2,10 @@
   function initUnifiedFooter() {
     if (document.getElementById("u-unified-footer-wrap")) return;
 
-    var decodedPath = decodeURIComponent(window.location.pathname);
-    var isSub = decodedPath.indexOf("/قسم-") !== -1 || decodedPath.indexOf("/الشخصيات-") !== -1;
-    var base = isSub ? "../" : "./";
+var decodedPath = decodeURIComponent(window.location.pathname).replace(/^\/+|\/+$/g, "");
+var segments = decodedPath ? decodedPath.split("/") : [];
+var depth = Math.max(0, segments.length - 1);
+var base = depth > 0 ? "../".repeat(depth) : "./";
 
     // 1. حقن التنسيقات + حماية الصور
     var style = document.createElement("style");
