@@ -100,7 +100,7 @@
   '[data-theme="light"] footer button{color:#8a4f1a!important;border-color:#b5653a!important;opacity:1!important}' +
 
   /* زر التبديل */
-  '#themeToggle{position:fixed;left:16px;bottom:16px;z-index:9998;width:46px;height:46px;border-radius:50%;' +
+  '#themeToggle{position:fixed;right:37px;bottom:106px;z-index:9998;width:46px;height:46px;border-radius:50%;' +
     'border:1.5px solid var(--copper);background:var(--bg2);color:var(--text);font-size:1.3rem;cursor:pointer;' +
     'display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.3);transition:transform .25s,background .3s}' +
   '#themeToggle:hover{transform:scale(1.1) rotate(15deg)}';
