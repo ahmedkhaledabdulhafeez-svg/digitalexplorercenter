@@ -57,6 +57,27 @@
   '[data-theme="light"] .card:hover{box-shadow:0 20px 40px rgba(120,70,30,.22),0 0 40px -10px var(--c)}' +
   '[data-theme="light"] .term-box:hover{box-shadow:0 12px 28px rgba(120,70,30,.2)}' +
 
+  /* ===== تحسين التباين والتناسق في الوضع النهاري ===== */
+  'html[data-theme="light"]{--line:rgba(140,80,40,.32)}' +
+  /* الأرقام في خطوات الاستخدام */
+  '[data-theme="light"] .step{background:#fff;border:1px solid var(--line);box-shadow:0 6px 18px rgba(120,70,30,.1)}' +
+  '[data-theme="light"] .step .n{background:var(--copper);color:#fff;box-shadow:0 4px 10px rgba(181,101,58,.35)}' +
+  '[data-theme="light"] .step:hover{border-color:var(--copper)}' +
+  /* الكروت */
+  '[data-theme="light"] .card,[data-theme="light"] .term-box{background:#fff;box-shadow:0 8px 24px rgba(120,70,30,.12)}' +
+  '[data-theme="light"] .tip{background:rgba(181,101,58,.08);border-color:var(--copper)}' +
+  '[data-theme="light"] .about .bot,[data-theme="light"] .tip .bulb{box-shadow:0 4px 14px rgba(181,101,58,.4)}' +
+  '[data-theme="light"] .term-def{color:var(--text)}' +
+  /* مشهد الهيرو: سماء أعمق وأهرامات أوضح */
+  '[data-theme="light"] .scene{background:linear-gradient(180deg,#fff1d2 0%,#f6d7a0 55%,#e9b97a 100%)}' +
+  '[data-theme="light"] .scene svg{filter:brightness(.8) saturate(1.25)}' +
+  '[data-theme="light"] .logo-orb .core{background:#fff;border-color:var(--copper);box-shadow:0 10px 40px rgba(181,101,58,.35)}' +
+  /* الفوتر (من footer.js): نصوص داكنة وواضحة */
+  '[data-theme="light"] footer{background:#f1dfc3;border-top:1px solid var(--line)}' +
+  '[data-theme="light"] footer h1,[data-theme="light"] footer h2,[data-theme="light"] footer h3,[data-theme="light"] footer h4{color:#8a4f1a!important}' +
+  '[data-theme="light"] footer p,[data-theme="light"] footer li,[data-theme="light"] footer a,[data-theme="light"] footer span{color:#5a3a28!important;opacity:1!important}' +
+  '[data-theme="light"] footer a:hover{color:#b5653a!important}' +
+
   /* زر التبديل */
   '#themeToggle{position:fixed;left:16px;bottom:16px;z-index:9998;width:46px;height:46px;border-radius:50%;' +
     'border:1.5px solid var(--copper);background:var(--bg2);color:var(--text);font-size:1.3rem;cursor:pointer;' +
